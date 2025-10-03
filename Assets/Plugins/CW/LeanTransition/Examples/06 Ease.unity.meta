@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b500ee9e919332f4491f23973d2c000e
+timeCreated: 1552649941
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Examples/06 Ease.unity
+  uploadId: 653659

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4604e008323063349a5321d5f6f4e534
+timeCreated: 1552649941
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Examples/02 Animation From Button.unity
+  uploadId: 653659

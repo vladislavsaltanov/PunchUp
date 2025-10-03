@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: da042763c527f7d4291135aba6d29c82
+timeCreated: 1552649941
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Examples/05 Multiple.unity
+  uploadId: 653659

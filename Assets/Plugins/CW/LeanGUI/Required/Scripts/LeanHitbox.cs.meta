@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: adaafae7dd8b068499f146136f283183
+timeCreated: 1552361716
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Required/Scripts/LeanHitbox.cs
+  uploadId: 653659

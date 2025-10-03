@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6f53974e672823e47a7b83f4d2e8d8d1
+timeCreated: 1480498784
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Examples/09    Handle.unity
+  uploadId: 653659

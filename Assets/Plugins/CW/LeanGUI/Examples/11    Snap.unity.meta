@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f18b4127bb546e7409742d62cb0870a8
+timeCreated: 1480498784
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Examples/11    Snap.unity
+  uploadId: 653659

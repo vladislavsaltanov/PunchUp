@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: dbf9e69020890af4aada5ea4a80cf7f3
+timeCreated: 1552651369
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Extras/Scripts/LeanManualAnimation.cs
+  uploadId: 653659

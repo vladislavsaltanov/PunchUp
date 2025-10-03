@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a594876431832f1468812560a677920a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Required/Editor/Templates/Color.asset
+  uploadId: 653659

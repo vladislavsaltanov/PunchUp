@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 74dddfc029dde974eb250cefd67af1ef
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Required/Methods/RectTransform/UnityEngine.RectTransform.asset
+  uploadId: 653659

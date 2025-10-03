@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f062dbbd1c6df6f4fb135c5e3a75f517
+timeCreated: 1552396204
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Required/Methods/Material/LeanMaterialFloat.cs
+  uploadId: 653659

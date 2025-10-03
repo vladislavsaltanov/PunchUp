@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 28e815f433438124582ba8fd3c6ecf83
+timeCreated: 1480498784
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Examples/12    Edge.unity
+  uploadId: 653659

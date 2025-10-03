@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8934cbcc365de014494bbe66a28e376c
+timeCreated: 1480498784
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Examples/29 Swipe Screens.unity
+  uploadId: 653659

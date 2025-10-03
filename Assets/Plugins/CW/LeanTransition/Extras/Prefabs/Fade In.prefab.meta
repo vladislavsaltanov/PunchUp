@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8c614b2a58c4e2540b396e03fbec3861
+timeCreated: 1552975009
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Extras/Prefabs/Fade In.prefab
+  uploadId: 653659

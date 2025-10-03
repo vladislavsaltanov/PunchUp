@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bcbfff2835c3c314a89c5d011f367f99
+timeCreated: 1548119655
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanGUI/Examples/20 Hover.unity
+  uploadId: 653659

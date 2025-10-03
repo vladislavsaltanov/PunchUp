@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e0534a5aad89fed498e778f82dc8ebe4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 72138
+  packageName: Lean GUI
+  packageVersion: 2.1.0
+  assetPath: Assets/Plugins/CW/LeanTransition/Required/Methods/Image/UnityEngine.UI.Image.asset
+  uploadId: 653659
