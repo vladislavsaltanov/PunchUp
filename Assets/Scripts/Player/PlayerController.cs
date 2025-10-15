@@ -11,14 +11,17 @@ public class PlayerController : MonoBehaviour, IPlayerActions
         }
     #endregion
 
-    public bool isGrounded;
-
     [HideInInspector]
         public float currentTime, lastGroundedTime;
 
     void Start()
     {
         isGroundedHandler.Instance.hasGrounded += hasGroundedEventHandler;
+    }
+
+    void OnDisable()
+    {
+        isGroundedHandler.Instance.hasGrounded -= hasGroundedEventHandler;
     }
 
     private void hasGroundedEventHandler(bool hasGrounded, float time)

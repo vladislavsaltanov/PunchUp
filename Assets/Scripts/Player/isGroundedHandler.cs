@@ -16,7 +16,6 @@ public class isGroundedHandler : MonoBehaviour
         {
             hasGrounded?.Invoke(true, PlayerController.instance.currentTime);
             isGrounded = true;
-
         }
     }
 
