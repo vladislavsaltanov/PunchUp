@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
-    List<GameObject> currentRoom;
+    List<GameObject> currentRooms = new List<GameObject>();
     public List<Transform> placeholders;
     public List<GameObject> roomPrefabs;
     List<GameObject> _roomPrefabs;
@@ -28,8 +28,8 @@ public class FloorManager : MonoBehaviour
     {
         int randomIndex = Random.Range(0, _roomPrefabs.Count);
         GameObject selectedRoom = _roomPrefabs[randomIndex];
-        
-        Instantiate(selectedRoom, placeholders[i]);
+
+        currentRooms.Add(Instantiate(selectedRoom, placeholders[i]));
         _roomPrefabs.RemoveAt(randomIndex);
     }
 
