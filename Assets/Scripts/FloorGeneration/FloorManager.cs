@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+    List<GameObject> currentRoom;
     public List<Transform> placeholders;
-    public List<GameObject> roomprefabs;
-    List<int> roomlist = new List<int>();
+    public List<GameObject> roomPrefabs;
+    List<GameObject> _roomPrefabs;
+    public List<Transform> pathwaysPlaceholders;
+    public List<Transform> blockPlaceholders;
+    public List<GameObject> pathwaysPrefabs;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        for(int i = 0; i < 9; i++)
-        {
-            roomlist.Add(GenerateRoom(i));
-        }
+        StartGenerating();
     }
 
     // Update is called once per frame
@@ -23,17 +24,36 @@ public class FloorManager : MonoBehaviour
         
     }
 
-    int GenerateRoom(int i)
+    void GenerateRoom(int i)
     {
-        int randomIndex = Random.Range(0, roomprefabs.Count);
-        while (roomlist.Contains(randomIndex))
-        {
-            randomIndex = Random.Range(0, roomprefabs.Count);
-        }
-        GameObject selectedRoom = roomprefabs[randomIndex];
-
+        int randomIndex = Random.Range(0, _roomPrefabs.Count);
+        GameObject selectedRoom = _roomPrefabs[randomIndex];
+        
         Instantiate(selectedRoom, placeholders[i]);
-        Debug.Log($"Ќа место номер {i+1} установена комната ноиер {randomIndex+1}");
-        return randomIndex;
+        _roomPrefabs.RemoveAt(randomIndex);
+    }
+
+    void GeneratePathways()
+    {
+        for (int i = 0; i < 23; i += 2)
+        {
+            int randomIndex = Random.Range(0,2);
+            Instantiate(pathwaysPrefabs[1], pathwaysPlaceholders[i + randomIndex]);
+            Instantiate(pathwaysPrefabs[0], pathwaysPlaceholders[i + 1 - randomIndex]);
+        }
+    }
+
+    void StartGenerating()
+    {
+        _roomPrefabs = new List<GameObject>(roomPrefabs);
+        for (int i = 0; i < 9; i++)
+        {
+            GenerateRoom(i);
+        }
+        for (int i = 0; i < 24; i++)
+        {
+            Instantiate(pathwaysPrefabs[0], blockPlaceholders[i]);
+        }
+        GeneratePathways();
     }
 }
