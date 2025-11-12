@@ -18,8 +18,7 @@ public class GlobalEventHandler : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (actionEventPairs.Count == 0)
-            LoadEventsFromJson();
+        LoadEventsFromJson();
     }
     #endregion
     #region Saving and restoring events
@@ -34,8 +33,8 @@ public class GlobalEventHandler : MonoBehaviour
 
         try
         {
-            System.IO.File.WriteAllText(Application.persistentDataPath + eventsFilePath, json);
-            Debug.Log("Events saved to JSON successfully.\n" + Application.persistentDataPath + eventsFilePath);
+            System.IO.File.WriteAllText(Application.streamingAssetsPath + eventsFilePath, json);
+            Debug.Log("Events saved to JSON successfully.\n" + Application.streamingAssetsPath + eventsFilePath);
         }
         catch (Exception e)
         {
@@ -49,9 +48,9 @@ public class GlobalEventHandler : MonoBehaviour
     {
         try
         {
-            if (System.IO.File.Exists(Application.persistentDataPath + eventsFilePath))
+            if (System.IO.File.Exists(Application.streamingAssetsPath + eventsFilePath))
             {
-                string json = System.IO.File.ReadAllText(Application.persistentDataPath + eventsFilePath);
+                string json = System.IO.File.ReadAllText(Application.streamingAssetsPath + eventsFilePath);
                 actionEventPairs = JsonConvert.DeserializeObject<List<ActionEventPair>>(json);
                 Debug.Log("Events loaded from JSON successfully.");
             }
