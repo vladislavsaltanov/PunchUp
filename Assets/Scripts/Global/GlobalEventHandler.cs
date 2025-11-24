@@ -69,7 +69,18 @@ public class GlobalEventHandler : MonoBehaviour
 
     public List<ActionEventPair> actionEventPairs = new List<ActionEventPair>();
 
-    public Action GetActionByName(string actionName) => actionEventPairs.Find(pair => pair.actionName == actionName).action;
+    public Action GetActionByName(string actionName)
+    {
+        Action action = actionEventPairs.Find(pair => pair.actionName == actionName).action;
+        if (action == null)
+        {
+            ActionEventPair newAction = new ActionEventPair(actionName);
+            actionEventPairs.Add(newAction);
+            return newAction.action;
+        }
+        else 
+            return action;
+    }
 }
 
 [Serializable]
@@ -80,4 +91,10 @@ public struct ActionEventPair
 
     [JsonIgnore]
     public Action action;
+
+    public ActionEventPair(string name)
+    {
+        actionName = name;
+        action = null;
+    }
 }

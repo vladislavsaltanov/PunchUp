@@ -150,7 +150,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlobalEventHandler
   eventsFilePath: /globalEventsNames.json
   actionEventPairs:
-  - actionName: test
+  - actionName: gameStarted
+  - actionName: enterElevator
+  - actionName: nextFloorGenerationEnded
+  - actionName: playerLowHP
+  - actionName: playerComboFight
+  - actionName: zoomInOnPlayer
+  - actionName: zoomOut
+  - actionName: playerDied
+  - actionName: playerPickedUpGoldenKey
+  - actionName: bossMusic
 --- !u!4 &1817039234
 Transform:
   m_ObjectHideFlags: 0
