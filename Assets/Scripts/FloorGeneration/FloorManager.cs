@@ -52,7 +52,7 @@ public class FloorManager : MonoBehaviour
         }
         for (int i = 0; i < 24; i++)
         {
-            Instantiate(pathwaysPrefabs[0], blockPlaceholders[i]);
+            Instantiate(pathwaysPrefabs[2], blockPlaceholders[i]);
         }
         GeneratePathways();
     }
