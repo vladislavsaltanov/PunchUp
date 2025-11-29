@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    int roomID;
-    Transform elevatorPlaceholder;
-    GameObject elevator;
-    Transform playerSpawnPosition;
-    List<Transform> roomObjectsPlaceholders;
-    List<Transform> enemyPositions;
+    public int roomID;
+    public Transform elevatorPlaceholder;
+    public List<GameObject> elevators;
+    public Transform playerSpawnPosition;
+    public List<Transform> roomObjectsPlaceholders;
+    public List<Transform> enemyPositions;
     // Audio bank
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,8 +23,8 @@ public class RoomManager : MonoBehaviour
         
     }
 
-    void InitializeElevator()
+    public void InitializeElevator(int i)
     {
-        Instantiate(elevator, elevatorPlaceholder);
+        Instantiate(elevators[i], elevatorPlaceholder);
     }
 }

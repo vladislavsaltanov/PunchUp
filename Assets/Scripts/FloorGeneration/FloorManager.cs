@@ -30,6 +30,7 @@ public class FloorManager : MonoBehaviour
         GameObject selectedRoom = _roomPrefabs[randomIndex];
 
         currentRooms.Add(Instantiate(selectedRoom, placeholders[i]));
+        //currentRooms[i].GetComponent<RoomManager>().roomID = i;
         _roomPrefabs.RemoveAt(randomIndex);
     }
 
@@ -46,14 +47,24 @@ public class FloorManager : MonoBehaviour
     void StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
+        int EnterInd = Random.Range(0, 3);
+        int ExitInd = Random.Range(3, 9);
+
+        //Генерация комнат
         for (int i = 0; i < 9; i++)
         {
             GenerateRoom(i);
         }
+        //Спавн лифтов
+        currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
+        currentRooms[ExitInd].GetComponent<RoomManager>().InitializeElevator(1);
+
+        //Спавн "Блоков" на границах уровня
         for (int i = 0; i < 24; i++)
         {
             Instantiate(pathwaysPrefabs[2], blockPlaceholders[i]);
         }
+        //Генерация проходов
         GeneratePathways();
     }
 }
