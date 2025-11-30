@@ -9,14 +9,16 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineCamera defaultCamera;
     [SerializeField] private List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
-    [Header("Zoom Settings")]
-    [SerializeField] private float minZoom = 5f;
-    [SerializeField] private float maxZoom = 15f;
-
     public static CameraManager Instance { get; private set; }
 
     private CinemachineCamera currentCamera;
     private CinemachinePositionComposer composer;
+    private Quaternion startRotation;
+    private Quaternion targetRotation;
+    private float rotationProgress;
+    private float currentRotationDuration;
+    private bool isrotating;
+    private Coroutine rotationCoroutine;
 
     private void Awake()
     {
@@ -30,42 +32,96 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        if (currentCamera == null)
+        {
+            SwitchToCamera(defaultCamera);
+        }
+        //GlobalEventHandler.Instance.GetActionByName()
     }
 
-    private void ChangeZoom(float zoomValue)
+    public void ChangeZoom(float zoomValue)
     {
-        float clampedZoom = Mathf.Clamp(zoomValue, minZoom, maxZoom);
-
-        if (composer != null)
+        if (currentCamera != null)
         {
-            composer.CameraDistance = clampedZoom;
+            currentCamera.Lens.OrthographicSize = zoomValue;
         }
     }
 
     public void SwitchToCamera(CinemachineCamera targetCamera)
     {
-
-        if (!allCameras.Contains(targetCamera))
-        {
-            allCameras.Add(targetCamera);
-        }
+        if (targetCamera == null) return;
 
         foreach (var camera in allCameras)
         {
-            camera.Priority = 0;
+            if (camera != null)
+            {
+                camera.gameObject.SetActive(false);
+                camera.Priority = 0;
+            }
         }
 
+        targetCamera.gameObject.SetActive(true);
         targetCamera.Priority = 100;
         currentCamera = targetCamera;
+
+        composer = targetCamera.GetComponent<CinemachinePositionComposer>();
     }
 
-    public void SwitchToCamera(string cameraName)
+    public void ResetCameraRotation()
     {
-        CinemachineCamera targetCamera = allCameras.Find(cam => cam.name == cameraName);
+        if (currentCamera == null) return;
 
-        if (targetCamera != null)
+        targetRotation = Quaternion.identity;
+        currentCamera.transform.rotation = targetRotation;
+        isrotating = false;
+    }
+
+    public void RotateCamera(float angle, float duration = -1f)
+    {
+        if (currentCamera == null || isrotating) return;
+
+        if (duration <= 0f)
         {
-            SwitchToCamera(targetCamera);
+            StopCameraRotation();
+            currentCamera.transform.rotation *= Quaternion.Euler(0, 0, angle);
+        }
+        else
+        {
+            isrotating = true;
+            StartCoroutine(RotationCoroutine(currentCamera.transform.rotation * Quaternion.Euler(0, 0, angle), duration));
+        }
+    }
+
+    private IEnumerator RotationCoroutine(Quaternion target, float duration)
+    {
+        startRotation = currentCamera.transform.rotation;
+        targetRotation = target;
+        rotationProgress = 0f;
+        currentRotationDuration = duration;
+
+        while (rotationProgress < 1f)
+        {
+            if (currentCamera == null) yield break;
+
+            rotationProgress += Time.deltaTime / duration;
+            currentCamera.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationProgress);
+            yield return null;
+        }
+
+        if (currentCamera != null)
+        {
+            currentCamera.transform.rotation = targetRotation;
+        }
+        rotationCoroutine = null;
+    }
+
+    public void StopCameraRotation()
+    {
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
         }
     }
 }
