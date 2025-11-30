@@ -7,14 +7,15 @@ TagManager:
   - Ground
   - Bouncy
   - Testing
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
