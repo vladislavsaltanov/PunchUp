@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4271882815879948705}
   - component: {fileID: 5458977792756842916}
   - component: {fileID: 5982878323733367875}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: isGroundedHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 8616078483978293247}
   - component: {fileID: 3450894756909812398}
   - component: {fileID: 758176366677849531}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15de4f98dc094c4896833d7bd57ac1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  maxHealth: 30
   currentTime: 0
   lastGroundedTime: 0
 --- !u!114 &758176366677849531
@@ -228,7 +229,7 @@ GameObject:
   - component: {fileID: 4848405734436866732}
   - component: {fileID: 1037472663058153170}
   - component: {fileID: 7923158709754533670}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

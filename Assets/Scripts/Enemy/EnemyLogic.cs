@@ -2,31 +2,90 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyLogic : MonoBehaviour
+public class EnemyLogic : BaseEntity
 {
-    [SerializeField] EnemyMovementBaseSO movementLogic;
-    public Rigidbody2D rb;
+    #region Modules
+    [Header("Modules")]
+    [SerializeField] EnemyMovementBaseSO movement;
+    [SerializeField] EnemyCombatLogicSO combat;
+    //[SerializeField] EnemyAbilitySO abilityModule; // может быть null
+    [SerializeField] EnemyPlayerDetectionSO detection;
+    #endregion
+    #region Movement
+    [Space(20)]
+    [Header("Movement")]
+    public Collider2D leftSideTrigger;
+    public Collider2D rightSideTrigger;
+    #endregion
+    #region State
+    [Space(10)]
+    [Header("State")]
     public EnemyState currentState;
+    public EnemyContextState context = new EnemyContextState();
+    #endregion
+    #region Cached
+    PlayerController playerController;
+    GameObject player => playerController?.gameObject ?? this.gameObject;
+    #endregion
 
-    [SerializeField] Collider2D leftSideTrigger, rightSideTrigger;
-    public bool nearLeftWallOrEdge, nearRightWallOrEdge;
-    public EnemyBaseMovementState movementState = new EnemyBaseMovementState();
-
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         StartCoroutine(WaitFor(UnityEngine.Random.Range(1f, 3f), () => currentState = EnemyState.Walking));
-        movementState.direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
+        direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
+
+        playerController = PlayerController.instance;
     }
 
     private void Update()
     {
-        // checking for walls or edges
-        nearLeftWallOrEdge = leftSideTrigger.IsTouchingLayers(LayerMask.GetMask("Wall")) || !leftSideTrigger.IsTouchingLayers(LayerMask.GetMask("Ground"));
-        nearRightWallOrEdge = rightSideTrigger.IsTouchingLayers(LayerMask.GetMask("Wall")) || !rightSideTrigger.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        // calculating distance to player (only x axis)
+        context.playerDistance = Mathf.Abs(player.transform.position.x - gameObject.transform.position.x);
 
-        // execute movement logic
-        if (currentState == EnemyState.Walking)
-            movementLogic.Movement(this, movementState);
+        if (!isWaiting)
+            CycleStates();
+        else
+            return;
+
+        switch (currentState)
+        {
+            case EnemyState.Walking:
+                movement.Movement(this, context);
+
+            break;
+
+
+            case EnemyState.WalkingTowardsPlayer:
+                movement.MovementTowardsPlayer(this, context, detection, direction);
+            break;
+
+
+            case EnemyState.Combat:
+
+            break;
+
+
+            case EnemyState.UsingAbility:
+
+            break;
+        }
+    }
+
+    // Checks and cycles through states
+    void CycleStates()
+    {
+        sbyte direction = detection.IsPlayerDetected(this, out context.playerDistance);
+
+        if (direction != 0)
+        {
+            this.direction = direction;
+            currentState = EnemyState.WalkingTowardsPlayer;
+        }
+        else if (currentState == EnemyState.WalkingTowardsPlayer)
+            currentState = EnemyState.Walking;
+
+
     }
 
     public IEnumerator WaitFor(float time, Action action)
@@ -35,10 +94,25 @@ public class EnemyLogic : MonoBehaviour
         action?.Invoke();
     }
 
+
+
+    #region Base Entity Implementation
+    protected override void OnDamageReceived(ushort amount, Transform atacker = null)
+    {
+    }
+
+    protected override void OnDeath()
+    {
+    }
+    #endregion
+
 }
-public class EnemyBaseMovementState
+public class EnemyContextState
 {
-    public bool isWaiting = false;
-    public sbyte direction = 0;
+    public bool isPlayerDetected = false;
+    public float playerDistance = Mathf.Infinity;
     public Coroutine currentCoroutine = null;
+}
+public class EnemyCombatState
+{
 }

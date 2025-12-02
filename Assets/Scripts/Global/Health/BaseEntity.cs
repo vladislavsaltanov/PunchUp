@@ -1,12 +1,25 @@
+using UnityEditor.Animations;
 using UnityEngine;
 
 public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Health")]
     [SerializeField] protected ushort maxHealth = 100;
-
     public ushort CurrentHealth { get; protected set; }
-     
+
+    [Space(20)]
+    [Header("Movement")]
+    public sbyte direction;
+
+    [Space(20)]
+    [Header("Components")]
+    public Rigidbody2D rb;
+    public AnimatorController animations;
+
+    [Space(20)]
+    [Header("States")]
+    public bool isWaiting;
+
     protected virtual void Awake()
     {
         CurrentHealth = maxHealth;
