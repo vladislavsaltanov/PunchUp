@@ -1,14 +1,15 @@
 using UnityEngine;
 using System;
 
-public class PlayerController : MonoBehaviour, IPlayerActions
+public class PlayerController : BaseEntity, IPlayerActions
 {
     #region Singleton
         public static PlayerController instance {  get; private set; }
-    private void Awake()
-        {
-            instance = this;
-        }
+    protected override void Awake()
+    {
+        base.Awake();
+        instance = this;
+    }
     #endregion
 
     [HideInInspector]
