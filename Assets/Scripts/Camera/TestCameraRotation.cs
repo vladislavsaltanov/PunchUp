@@ -4,13 +4,13 @@ public class CameraRotationZone2D : MonoBehaviour
 {
     private void OnTriggerExit2D(Collider2D other)
     {
-        CameraManager.Instance.ResetCameraRotation();
-        CameraManager.Instance.ChangeZoom(10f);
+        CameraManager.Instance.RotateCamera(-8f, 0.5f);
+        CameraManager.Instance.ChangeZoom(10f, 0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        CameraManager.Instance.RotateCamera(60f, 6f);
-        CameraManager.Instance.ChangeZoom(5f);
+        CameraManager.Instance.RotateCamera(8f, 0.05f);
+        CameraManager.Instance.ChangeZoom(9f, 0.05f);
     }
 }

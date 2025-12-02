@@ -20,6 +20,12 @@ public class CameraManager : MonoBehaviour
     private bool isrotating;
     private Coroutine rotationCoroutine;
 
+    private float targetZoom;
+    private float startZoom;
+    private float zoomProgress;
+    private float currentZoomDuration;
+    private Coroutine zoomCoroutine;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,14 +44,6 @@ public class CameraManager : MonoBehaviour
             SwitchToCamera(defaultCamera);
         }
         //GlobalEventHandler.Instance.GetActionByName()
-    }
-
-    public void ChangeZoom(float zoomValue)
-    {
-        if (currentCamera != null)
-        {
-            currentCamera.Lens.OrthographicSize = zoomValue;
-        }
     }
 
     public void SwitchToCamera(CinemachineCamera targetCamera)
@@ -83,7 +81,6 @@ public class CameraManager : MonoBehaviour
 
         if (duration <= 0f)
         {
-            StopCameraRotation();
             currentCamera.transform.rotation *= Quaternion.Euler(0, 0, angle);
         }
         else
@@ -113,7 +110,59 @@ public class CameraManager : MonoBehaviour
         {
             currentCamera.transform.rotation = targetRotation;
         }
+        isrotating = false;
         rotationCoroutine = null;
+    }
+
+    public void ChangeZoom(float zoomValue, float time = -1f)
+    {
+        if (currentCamera == null) return;
+
+        StopZoomChange();
+
+        if (time <= 0f)
+        {
+            currentCamera.Lens.OrthographicSize = zoomValue;
+        }
+        else
+        {
+            StartSmoothZoomChange(zoomValue, time);
+        }
+    }
+
+    private void StartSmoothZoomChange(float targetZoomValue, float duration)
+    {
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+        }
+
+        zoomCoroutine = StartCoroutine(SmoothZoomCoroutine(targetZoomValue, duration));
+    }
+
+    private IEnumerator SmoothZoomCoroutine(float targetZoomValue, float duration)
+    {
+        startZoom = currentCamera.Lens.OrthographicSize;
+        targetZoom = targetZoomValue;
+        zoomProgress = 0f;
+        currentZoomDuration = duration;
+
+        while (zoomProgress < 1f)
+        {
+            if (currentCamera == null) yield break;
+
+            zoomProgress += Time.deltaTime / duration;
+            float currentZoom = Mathf.Lerp(startZoom, targetZoom, zoomProgress);
+            currentCamera.Lens.OrthographicSize = currentZoom;
+            yield return null;
+        }
+
+        if (currentCamera != null)
+        {
+            currentCamera.Lens.OrthographicSize = targetZoom;
+        }
+
+        zoomCoroutine = null;
     }
 
     public void StopCameraRotation()
@@ -122,6 +171,15 @@ public class CameraManager : MonoBehaviour
         {
             StopCoroutine(rotationCoroutine);
             rotationCoroutine = null;
+        }
+    }
+
+    public void StopZoomChange()
+    {
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+            zoomCoroutine = null;
         }
     }
 }
