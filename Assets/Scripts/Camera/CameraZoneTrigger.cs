@@ -8,8 +8,6 @@ public class CameraZone : MonoBehaviour
     public Transform Room = null;
     private void OnTriggerEnter2D(Collider2D tr)
     {
-        //Room = FloorManager.Instance.pathwaysPlaceholders[FloorManager.Instance.EnterInd];
-        //Camera = CameraManager.Instance.GetCamera();
         var _rb = tr.GetComponentInParent<PlayerMovement>().rb;
         _rb.AddForce(_rb.linearVelocity * 2f, ForceMode2D.Impulse);
     }
