@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3cb292a9f52efd428904407d217f95d, type: 3}
   m_Name: ScientistMovement_2
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseMovement
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 264
   movementSpeed: 1.5
   rotationDelay: 2
-  isWaiting: 0
+  movementTowardsPlayerSpeedMultiplier: 1.5

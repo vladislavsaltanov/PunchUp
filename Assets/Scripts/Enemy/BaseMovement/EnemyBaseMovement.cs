@@ -9,29 +9,19 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
 
     public override void Movement(EnemyLogic logic, EnemyContextState state)
     {
-/*        if (logic.nearLeftWallOrEdge && logic.direction == -1 && !logic.isWaiting)
+        if (IsBlocked(logic, logic.direction) && !logic.isWaiting)
         {
-            logic.direction = 1;
+            logic.direction *= -1;
             logic.isWaiting = true;
             logic.rb.linearVelocityX = 0;
+            //logic.currentState = EnemyState.Waiting;
 
             if (state.currentCoroutine != null)
                 logic.StopCoroutine(state.currentCoroutine);
 
             state.currentCoroutine = logic.StartCoroutine(logic.WaitFor(rotationDelay, () => logic.isWaiting = false));
         }
-        else if (logic.nearRightWallOrEdge && logic.direction == 1 && !logic.isWaiting)
-        {
-            logic.direction = -1;
-            logic.isWaiting = true;
-            logic.rb.linearVelocityX = 0;
 
-            if (state.currentCoroutine != null)
-                logic.StopCoroutine(state.currentCoroutine);
-
-            state.currentCoroutine = logic.StartCoroutine(logic.WaitFor(rotationDelay, () => logic.isWaiting = false));
-        }
-*/
         if (!logic.isWaiting)
             logic.rb.linearVelocityX = logic.direction * movementSpeed;
     }
