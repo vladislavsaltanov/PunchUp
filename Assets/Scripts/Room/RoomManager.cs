@@ -27,4 +27,9 @@ public class RoomManager : MonoBehaviour
     {
         Instantiate(elevators[i], elevatorPlaceholder);
     }
+
+    public void SetRoomID(int i)
+    {
+        roomID = i;
+    }
 }

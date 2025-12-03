@@ -30,7 +30,7 @@ public class FloorManager : MonoBehaviour
         GameObject selectedRoom = _roomPrefabs[randomIndex];
 
         currentRooms.Add(Instantiate(selectedRoom, placeholders[i]));
-        //currentRooms[i].GetComponent<RoomManager>().roomID = i;
+        currentRooms[i].GetComponent<RoomManager>().SetRoomID(i);
         _roomPrefabs.RemoveAt(randomIndex);
     }
 
