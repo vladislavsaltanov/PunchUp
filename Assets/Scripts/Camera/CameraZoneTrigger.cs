@@ -6,21 +6,20 @@ public class CameraZone : MonoBehaviour
     [Header("Camera Settings")]
     [SerializeField] private CinemachineCamera Camera;
     public Transform Room = null;
+    private void OnTriggerEnter2D(Collider2D tr)
+    {
+        //Room = FloorManager.Instance.pathwaysPlaceholders[FloorManager.Instance.EnterInd];
+        //Camera = CameraManager.Instance.GetCamera();
+        var _rb = tr.GetComponentInParent<PlayerMovement>().rb;
+        _rb.AddForce(_rb.linearVelocity * 2f, ForceMode2D.Impulse);
+    }
+
     private void OnTriggerExit2D(Collider2D tr)
     {
-        Room = FloorManager.Instance.pathwaysPlaceholders[FloorManager.Instance.EnterInd];
-        Camera = CameraManager.Instance.GetCamera();
-        float Xpos = tr.transform.position.x - Room.position.x;
-        float Ypos = tr.transform.position.y - Room.position.y;
-        if (Mathf.Abs(Xpos) > 28)
+        var _rb = tr.GetComponentInParent<PlayerMovement>().rb;
+        if (_rb.linearVelocityX > 0)
         {
-            //GetComponent<CameraManager>().MoveCameraTarget(Room.position.x + 40, Room.position.y);
-            FloorManager.Instance.currentRoom.position.Set(Room.position.x + 40, Room.position.y, Room.position.z);
-        }
-        else
-        {
-            //GetComponent<CameraManager>().MoveCameraTarget(Room.position.x, Room.position.y + 20);
-            FloorManager.Instance.currentRoom.position.Set(Room.position.x, Room.position.y + 20, Room.position.z);
+
         }
     }
 

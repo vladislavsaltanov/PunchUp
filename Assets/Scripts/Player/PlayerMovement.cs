@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Space(20)]
 
-    [SerializeField]
-        Rigidbody2D rb;
+    public Rigidbody2D rb;
     [SerializeField]
         isGroundedHandler isGroundedHandler;
     [SerializeField]
