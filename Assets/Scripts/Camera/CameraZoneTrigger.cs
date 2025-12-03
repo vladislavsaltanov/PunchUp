@@ -14,12 +14,12 @@ public class CameraZone : MonoBehaviour
         float Ypos = tr.transform.position.y - Room.position.y;
         if (Mathf.Abs(Xpos) > 28)
         {
-            GetComponent<CameraManager>().MoveCameraTarget(Room.position.x + 40, Room.position.y);
+            //GetComponent<CameraManager>().MoveCameraTarget(Room.position.x + 40, Room.position.y);
             FloorManager.Instance.currentRoom.position.Set(Room.position.x + 40, Room.position.y, Room.position.z);
         }
         else
         {
-            GetComponent<CameraManager>().MoveCameraTarget(Room.position.x, Room.position.y + 20);
+            //GetComponent<CameraManager>().MoveCameraTarget(Room.position.x, Room.position.y + 20);
             FloorManager.Instance.currentRoom.position.Set(Room.position.x, Room.position.y + 20, Room.position.z);
         }
     }

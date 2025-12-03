@@ -9,9 +9,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineCamera defaultCamera;
     [SerializeField] private List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
-    [Header("Camera Target Settings")]
-    [SerializeField] private Transform cameraTarget;
-
     public static CameraManager Instance { get; private set; }
 
     private CinemachineCamera currentCamera;
@@ -46,16 +43,6 @@ public class CameraManager : MonoBehaviour
         {
             currentCamera = defaultCamera;
         }
-    }
-
-    public void MoveCameraTarget(float x, float y)
-    {
-        if (cameraTarget == null) return;
-
-        Vector3 newPosition = cameraTarget.position;
-        newPosition.x = x;
-        newPosition.y = y;
-        cameraTarget.position = newPosition;
     }
 
     public void ResetCameraRotation()
