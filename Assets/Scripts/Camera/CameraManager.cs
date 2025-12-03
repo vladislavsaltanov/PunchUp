@@ -9,6 +9,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineCamera defaultCamera;
     [SerializeField] private List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
+    [Header("Camera Target Settings")]
+    [SerializeField] private Transform cameraTarget;
+
     public static CameraManager Instance { get; private set; }
 
     private CinemachineCamera currentCamera;
@@ -41,29 +44,19 @@ public class CameraManager : MonoBehaviour
 
         if (currentCamera == null)
         {
-            SwitchToCamera(defaultCamera);
+            currentCamera = defaultCamera;
         }
-        //GlobalEventHandler.Instance.GetActionByName()
+
     }
 
-    public void SwitchToCamera(CinemachineCamera targetCamera)
+    public void MoveCameraTarget(float x, float y)
     {
-        if (targetCamera == null) return;
+        if (cameraTarget == null) return;
 
-        foreach (var camera in allCameras)
-        {
-            if (camera != null)
-            {
-                camera.gameObject.SetActive(false);
-                camera.Priority = 0;
-            }
-        }
-
-        targetCamera.gameObject.SetActive(true);
-        targetCamera.Priority = 100;
-        currentCamera = targetCamera;
-
-        composer = targetCamera.GetComponent<CinemachinePositionComposer>();
+        Vector3 newPosition = cameraTarget.position;
+        newPosition.x = x;
+        newPosition.y = y;
+        cameraTarget.position = newPosition;
     }
 
     public void ResetCameraRotation()
