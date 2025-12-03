@@ -46,7 +46,6 @@ public class CameraManager : MonoBehaviour
         {
             currentCamera = defaultCamera;
         }
-
     }
 
     public void MoveCameraTarget(float x, float y)
@@ -174,5 +173,11 @@ public class CameraManager : MonoBehaviour
             StopCoroutine(zoomCoroutine);
             zoomCoroutine = null;
         }
+    }
+
+    //Геттер камеры
+    public CinemachineCamera GetCamera()
+    {
+        return currentCamera;
     }
 }
