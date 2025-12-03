@@ -15,6 +15,7 @@ public class FloorManager : MonoBehaviour
     public List<Transform> blockPlaceholders;
     public List<GameObject> pathwaysPrefabs;
     public Transform currentRoom = null;
+    public Transform cameraBounds;
 
     public int EnterInd;
     public int ExitInd;
@@ -64,6 +65,7 @@ public class FloorManager : MonoBehaviour
         EnterInd = 0;
         ExitInd = Random.Range(3, 9);
 
+        cameraBounds.position = placeholders[EnterInd].position;
         currentRoom = placeholders[EnterInd].transform;
         //Генерация комнат
         for (int i = 0; i < 9; i++)
