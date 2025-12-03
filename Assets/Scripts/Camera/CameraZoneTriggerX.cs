@@ -9,6 +9,7 @@ public class CameraZone : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+
         float exitDirection = other.transform.position.x - transform.position.x;
         CinemachineCamera targetCamera = exitDirection > 0 ? rightExitCamera : leftExitCamera;
 
