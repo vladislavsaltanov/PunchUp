@@ -9,29 +9,39 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
 
     public override void Movement(EnemyLogic logic, EnemyContextState state)
     {
-        if (IsBlocked(logic, logic.direction) && !logic.isWaiting)
+        if (IsBlocked(logic, logic.direction) && logic.currentState != EnemyState.Waiting)
         {
             logic.direction *= -1;
             logic.isWaiting = true;
             logic.rb.linearVelocityX = 0;
-            //logic.currentState = EnemyState.Waiting;
+            logic.currentState = EnemyState.Waiting;
 
             if (state.currentCoroutine != null)
                 logic.StopCoroutine(state.currentCoroutine);
 
-            state.currentCoroutine = logic.StartCoroutine(logic.WaitFor(rotationDelay, () => logic.isWaiting = false));
+            state.currentCoroutine = logic.StartCoroutine(logic.WaitFor(rotationDelay, () =>
+            {
+                logic.currentState = EnemyState.Idle;
+                state.currentCoroutine = null;
+                logic.isWaiting = false;
+            }
+            ));
         }
 
-        if (!logic.isWaiting)
+        if (logic.currentState != EnemyState.Waiting)
             logic.rb.linearVelocityX = logic.direction * movementSpeed;
     }
 
     // Movement towards player
-    public override void MovementTowardsPlayer(EnemyLogic logic, EnemyContextState state, EnemyPlayerDetectionSO playerDetection, float playerDirection)
+    public override void MovementTowardsPlayer(EnemyLogic logic, EnemyContextState context, EnemyPlayerDetectionSO playerDetection, float playerDirection)
     {
-        logic.direction = (sbyte)playerDirection;
+        if (IsBlocked(logic, context.directionToPlayer))
+        {
+            logic.rb.linearVelocityX = 0;
+            return;
+        }
 
-        if (logic.currentState == EnemyState.WalkingTowardsPlayer && Mathf.Abs(logic.transform.position.x - PlayerController.instance.transform.position.x) > playerDetection.minimalDistanceToPlayer)
-            logic.rb.linearVelocityX = logic.direction * movementSpeed * movementTowardsPlayerSpeedMultiplier;
+        if (!playerDetection.isPlayerTooClose(context.playerDistance))
+            logic.rb.linearVelocityX = context.directionToPlayer * movementSpeed * movementTowardsPlayerSpeedMultiplier;
     }
 }

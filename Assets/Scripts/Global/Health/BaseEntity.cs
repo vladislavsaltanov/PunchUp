@@ -49,7 +49,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             CurrentHealth = maxHealth;
     }
 
-    protected virtual void OnDamageReceived(ushort amount, Transform atacker = null) { }
+    protected virtual void OnDamageReceived(ushort amount, Transform attacker = null) { }
 
     protected virtual void OnDeath()
     {

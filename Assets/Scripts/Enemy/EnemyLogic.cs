@@ -32,7 +32,9 @@ public class EnemyLogic : BaseEntity
     {
         base.Awake();
 
-        StartCoroutine(WaitFor(UnityEngine.Random.Range(1f, 3f), () => currentState = EnemyState.Walking));
+        currentState = EnemyState.Waiting;
+
+        StartCoroutine(WaitFor(UnityEngine.Random.Range(2f, 4f), () => currentState = EnemyState.Walking));
         direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
 
         playerController = PlayerController.instance;
@@ -40,19 +42,48 @@ public class EnemyLogic : BaseEntity
 
     private void Update()
     {
-        // calculating distance to player (only x axis)
-        context.playerDistance = Mathf.Abs(player.transform.position.x - gameObject.transform.position.x);
+        // checking if we see the player
+        context.directionToPlayer = detection.IsPlayerDetected(this, out context.playerDistance);
+        context.isPlayerDetected = context.directionToPlayer != 0;
 
-        if (!isWaiting)
-            CycleStates();
+        // if we were hit recently, walk towards the player
+        if (context.wasHit && !combat.HitTimeout(context.lastHitTime))
+        {
+            currentState = EnemyState.WalkingTowardsPlayer;
+        }
+        else if (context.wasHit && combat.HitTimeout(context.lastHitTime) && currentState == EnemyState.WalkingTowardsPlayer)
+        {
+            context.wasHit = false;
+            currentState = EnemyState.Idle;
+            StartCoroutine(WaitFor(UnityEngine.Random.Range(0.5f, 2f), () => currentState = EnemyState.Walking));
+        }
         else
-            return;
+        // if we see the player, check for transitions to other states
+        if (context.isPlayerDetected)
+        {
+            // if the player is close enough, enter combat
+            if (combat.IsPlayerCloseEnough(context.playerDistance))
+                currentState = EnemyState.Combat;
+
+            // if the player is not out of range, walk towards them
+            else if (!detection.isPlayerOutOfRange(context.playerDistance))
+                currentState = EnemyState.WalkingTowardsPlayer;
+
+            // if the player is too far, go back to walking
+            else
+                currentState = EnemyState.Walking;
+        }
+        else
+        {
+            // if we don't see the player, go back to walking
+            if (currentState != EnemyState.Waiting)
+                currentState = EnemyState.Walking;
+        }
 
         switch (currentState)
         {
             case EnemyState.Walking:
                 movement.Movement(this, context);
-
             break;
 
 
@@ -62,8 +93,8 @@ public class EnemyLogic : BaseEntity
 
 
             case EnemyState.Combat:
-
-            break;
+                combat.Execute(this, context, player);
+                break;
 
 
             case EnemyState.UsingAbility:
@@ -72,33 +103,33 @@ public class EnemyLogic : BaseEntity
         }
     }
 
-    // Checks and cycles through states
-    void CycleStates()
-    {
-        sbyte direction = detection.IsPlayerDetected(this, out context.playerDistance);
-
-        if (direction != 0)
-        {
-            this.direction = direction;
-            currentState = EnemyState.WalkingTowardsPlayer;
-        }
-        else if (currentState == EnemyState.WalkingTowardsPlayer)
-            currentState = EnemyState.Walking;
-
-
-    }
-
     public IEnumerator WaitFor(float time, Action action)
     {
         yield return new WaitForSeconds(time);
         action?.Invoke();
     }
 
-
+    public void EnterWait(float duration)
+    {
+        currentState = EnemyState.Waiting;
+        movement.Stop(this);
+        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Walking));
+    }
 
     #region Base Entity Implementation
-    protected override void OnDamageReceived(ushort amount, Transform atacker = null)
+    protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
+        if (attacker != null && ((1 << attacker.gameObject.layer) & detection.playerLayer.value) != 0)
+        {
+            context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
+            context.lastHitTime = Time.time;
+            context.wasHit = true;
+
+            if (currentState != EnemyState.Combat && currentState != EnemyState.UsingAbility)
+            {
+                currentState = EnemyState.Combat;
+            }
+        }
     }
 
     protected override void OnDeath()
@@ -109,8 +140,9 @@ public class EnemyLogic : BaseEntity
 }
 public class EnemyContextState
 {
-    public bool isPlayerDetected = false;
-    public float playerDistance = Mathf.Infinity;
+    public bool isPlayerDetected = false, wasHit = false;
+    public float playerDistance = Mathf.Infinity, lastHitTime = 0f;
+    public sbyte directionToPlayer = 0;
     public Coroutine currentCoroutine = null;
 }
 public class EnemyCombatState
