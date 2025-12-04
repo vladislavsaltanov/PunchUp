@@ -53,6 +53,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     protected virtual void OnDeath()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

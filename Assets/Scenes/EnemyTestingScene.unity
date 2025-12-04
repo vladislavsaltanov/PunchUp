@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5410891}
   - component: {fileID: 5410892}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 338696158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 437121367}
   - component: {fileID: 437121368}
   - component: {fileID: 437121369}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scientist
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 443605932}
   - component: {fileID: 443605931}
   - component: {fileID: 443605930}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scientist (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -640,7 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 694050306}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,7 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 815321011}
   - component: {fileID: 815321012}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 875470121}
   - component: {fileID: 875470123}
   - component: {fileID: 875470122}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 886107675}
   - component: {fileID: 886107677}
   - component: {fileID: 886107676}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1026,7 +1026,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1062152345}
   - component: {fileID: 1062152346}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1104,7 +1104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065029089}
   - component: {fileID: 1065029090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 1293991888}
   - component: {fileID: 1293991889}
   - component: {fileID: 1293991890}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1868,7 +1868,7 @@ GameObject:
   - component: {fileID: 1604320237}
   - component: {fileID: 1604320236}
   - component: {fileID: 1604320235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scientist (2)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1951,7 +1951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1646850803}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1985,7 +1985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934559904}
   - component: {fileID: 1934559903}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2063,7 +2063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2004707650}
   - component: {fileID: 2004707649}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightWallTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

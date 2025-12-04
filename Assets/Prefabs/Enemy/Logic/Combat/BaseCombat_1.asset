@@ -15,7 +15,7 @@ MonoBehaviour:
   hitTimeout: 5
   attackRange: 1.5
   attackDuration: 0.5
-  attackCooldown: 1
+  attackCooldown: 3
   damage: 10
   hitboxSize: {x: 1, y: 1}
   hitboxOffset: {x: 0.8, y: 0}

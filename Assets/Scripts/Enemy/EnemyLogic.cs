@@ -24,7 +24,7 @@ public class EnemyLogic : BaseEntity
     public EnemyContextState context = new EnemyContextState();
     #endregion
     #region Cached
-    PlayerController playerController;
+    PlayerController playerController = PlayerController.instance ?? null;
     GameObject player => playerController?.gameObject ?? this.gameObject;
     #endregion
 

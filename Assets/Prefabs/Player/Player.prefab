@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   maxHealth: 30
   direction: 0
-  rb: {fileID: 7678324957575243347}
+  rb: {fileID: 0}
   animations: {fileID: 0}
   isWaiting: 0
   currentTime: 0
