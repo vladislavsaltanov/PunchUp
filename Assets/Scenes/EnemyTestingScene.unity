@@ -514,7 +514,7 @@ MonoBehaviour:
   animations: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
-  combat: {fileID: 0}
+  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 5410892}
   rightSideTrigger: {fileID: 1062152346}
@@ -609,7 +609,7 @@ MonoBehaviour:
   animations: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
-  combat: {fileID: 0}
+  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 815321012}
   rightSideTrigger: {fileID: 2004707649}
@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 875470121}
   - component: {fileID: 875470123}
   - component: {fileID: 875470122}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 886107675}
   - component: {fileID: 886107677}
   - component: {fileID: 886107676}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 1293991888}
   - component: {fileID: 1293991889}
   - component: {fileID: 1293991890}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1920,7 +1920,7 @@ MonoBehaviour:
   animations: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
-  combat: {fileID: 0}
+  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 1065029090}
   rightSideTrigger: {fileID: 1934559903}
