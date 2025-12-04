@@ -46,6 +46,9 @@ public class EnemyLogic : BaseEntity
         context.directionToPlayer = detection.IsPlayerDetected(this, out context.playerDistance);
         context.isPlayerDetected = context.directionToPlayer != 0;
 
+        if (currentState == EnemyState.Waiting)
+            return;
+
         // if we were hit recently, walk towards the player
         if (context.wasHit && !combat.HitTimeout(context.lastHitTime))
         {
@@ -113,7 +116,7 @@ public class EnemyLogic : BaseEntity
     {
         currentState = EnemyState.Waiting;
         movement.Stop(this);
-        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Walking));
+        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Idle));
     }
 
     #region Base Entity Implementation

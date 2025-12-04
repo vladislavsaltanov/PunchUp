@@ -7,8 +7,8 @@ public class EnemyBaseCombat : EnemyCombatLogicSO
 {
     [Header("Attack Settings")]
     public float attackRange = 1.5f;
-    public float attackDuration = 0.5f;
-    public float attackCooldown = 1f;
+    public float attackDuration = 1f;
+    public float attackCooldown = 3f;
     public ushort damage = 10;
 
     [Header("Hitbox")]
@@ -23,16 +23,13 @@ public class EnemyBaseCombat : EnemyCombatLogicSO
 
     public override void Execute(EnemyLogic enemy, EnemyContextState context, GameObject player)
     { 
-        if (enemy.currentState != EnemyState.Attacking)
+        if (enemy.currentState != EnemyState.Attacking && enemy.currentState != EnemyState.Waiting)
             enemy.StartCoroutine(AttackRoutine(enemy, context));
     }
 
     IEnumerator AttackRoutine(EnemyLogic enemy, EnemyContextState context)
     {
         enemy.currentState = EnemyState.Attacking;
-
-        // Замах
-        yield return new WaitForSeconds(attackDuration * 0.4f);
 
         // Удар
         Vector2 center = (Vector2)enemy.transform.position +
@@ -48,10 +45,12 @@ public class EnemyBaseCombat : EnemyCombatLogicSO
                 hitted.TakeDamage(damage, enemy.transform);
         }
 
-        // Восстановление
-        yield return new WaitForSeconds(attackDuration * 0.6f);
-
         // Кулдаун и возврат к оценке
-        enemy.EnterWait(attackCooldown);
+        //enemy.EnterWait(attackCooldown);
+        enemy.currentState = EnemyState.Waiting;
+        // Восстановление
+        yield return new WaitForSeconds(attackCooldown);
+        enemy.currentState = EnemyState.Idle;
+
     }
 }
