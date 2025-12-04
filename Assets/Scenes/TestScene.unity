@@ -546,7 +546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8b90b864fb328419344f03f7dc91eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraZone
-  targetConfiner: {fileID: 6970893141397693697}
+  gridWidth: 40
+  gridHeight: 20
 --- !u!61 &385664972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -608,11 +609,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 81952717}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &386505640 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-  m_PrefabInstance: {fileID: 278640350835996689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &478706898
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,9 +3149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2d69e2a5bdc564499ee05f7f9703b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  defaultCamera: {fileID: 0}
+  defaultCamera: {fileID: 9207281251608561146}
   allCameras:
-  - {fileID: 0}
+  - {fileID: 9207281251608561146}
 --- !u!1 &4889178778362845574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3339,7 +3335,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 386505640}
+    TrackingTarget: {fileID: 0}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:

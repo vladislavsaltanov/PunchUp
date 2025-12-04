@@ -45,6 +45,16 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null && currentCamera != null)
+        {
+            currentCamera.Follow = player.transform;
+            currentCamera.LookAt = player.transform;
+        }
+    }
+
     public void ResetCameraRotation()
     {
         if (currentCamera == null) return;
