@@ -14,7 +14,7 @@ public class RoomManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,5 +31,14 @@ public class RoomManager : MonoBehaviour
     public void SetRoomID(int i)
     {
         roomID = i;
+    }
+
+    public void SpawnRoomEnemy(List<GameObject> Enemys)
+    {
+        
+        for( int i = 0; i < enemyPositions.Count; i++)
+        {
+            Instantiate(Enemys[Random.Range(0,Enemys.Count)], enemyPositions[i]);
+        }
     }
 }

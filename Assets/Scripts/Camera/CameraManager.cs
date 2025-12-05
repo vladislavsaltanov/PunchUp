@@ -41,29 +41,18 @@ public class CameraManager : MonoBehaviour
 
         if (currentCamera == null)
         {
-            SwitchToCamera(defaultCamera);
+            currentCamera = defaultCamera;
         }
-        //GlobalEventHandler.Instance.GetActionByName()
     }
 
-    public void SwitchToCamera(CinemachineCamera targetCamera)
+    private void Start()
     {
-        if (targetCamera == null) return;
-
-        foreach (var camera in allCameras)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null && currentCamera != null)
         {
-            if (camera != null)
-            {
-                camera.gameObject.SetActive(false);
-                camera.Priority = 0;
-            }
+            currentCamera.Follow = player.transform;
+            currentCamera.LookAt = player.transform;
         }
-
-        targetCamera.gameObject.SetActive(true);
-        targetCamera.Priority = 100;
-        currentCamera = targetCamera;
-
-        composer = targetCamera.GetComponent<CinemachinePositionComposer>();
     }
 
     public void ResetCameraRotation()
@@ -181,5 +170,11 @@ public class CameraManager : MonoBehaviour
             StopCoroutine(zoomCoroutine);
             zoomCoroutine = null;
         }
+    }
+
+    //Геттер камеры
+    public CinemachineCamera GetCamera()
+    {
+        return currentCamera;
     }
 }

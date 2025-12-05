@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,6 +14,20 @@ public class FloorManager : MonoBehaviour
     public List<Transform> pathwaysPlaceholders;
     public List<Transform> blockPlaceholders;
     public List<GameObject> pathwaysPrefabs;
+    public Transform currentRoom = null;
+    public Transform cameraBounds;
+
+    public List<GameObject> enemyPrefabs;
+
+    public int EnterInd;
+    public int ExitInd;
+
+    static public FloorManager Instance { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,9 +63,11 @@ public class FloorManager : MonoBehaviour
     void StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
-        int EnterInd = Random.Range(0, 3);
-        int ExitInd = Random.Range(3, 9);
+        EnterInd = Random.Range(0, 3);
+        ExitInd = Random.Range(3, 9);
 
+        cameraBounds.position = placeholders[EnterInd].position;
+        currentRoom = placeholders[EnterInd].transform;
         //Генерация комнат
         for (int i = 0; i < 9; i++)
         {
@@ -67,4 +85,16 @@ public class FloorManager : MonoBehaviour
         //Генерация проходов
         GeneratePathways();
     }
+
+    public void SpawnAllEnemys()
+    {
+        if (enemyPrefabs == null) 
+            return;
+
+        for (int i = 0;i < 9; i++)
+        {
+            currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
+        }
+    }
+
 }
