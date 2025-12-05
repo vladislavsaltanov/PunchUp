@@ -17,6 +17,8 @@ public class FloorManager : MonoBehaviour
     public Transform currentRoom = null;
     public Transform cameraBounds;
 
+    public List<GameObject> enemyPrefabs;
+
     public int EnterInd;
     public int ExitInd;
 
@@ -61,29 +63,38 @@ public class FloorManager : MonoBehaviour
     void StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
-        //EnterInd = Random.Range(0, 3);
-        EnterInd = 0;
+        EnterInd = Random.Range(0, 3);
         ExitInd = Random.Range(3, 9);
 
         cameraBounds.position = placeholders[EnterInd].position;
         currentRoom = placeholders[EnterInd].transform;
-        //Генерация комнат
+        //ГѓГҐГ­ГҐГ°Г Г¶ГЁГї ГЄГ®Г¬Г­Г ГІ
         for (int i = 0; i < 9; i++)
         {
             GenerateRoom(i);
         }
-        //Спавн лифтов
+        //Г‘ГЇГ ГўГ­ Г«ГЁГґГІГ®Гў
         currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
         currentRooms[ExitInd].GetComponent<RoomManager>().InitializeElevator(1);
 
-        //Спавн "Блоков" на границах уровня
+        //Г‘ГЇГ ГўГ­ "ГЃГ«Г®ГЄГ®Гў" Г­Г  ГЈГ°Г Г­ГЁГ¶Г Гµ ГіГ°Г®ГўГ­Гї
         for (int i = 0; i < 24; i++)
         {
             Instantiate(pathwaysPrefabs[2], blockPlaceholders[i]);
         }
-        //Генерация проходов
+        //ГѓГҐГ­ГҐГ°Г Г¶ГЁГї ГЇГ°Г®ГµГ®Г¤Г®Гў
         GeneratePathways();
     }
 
+    public void SpawnAllEnemys()
+    {
+        if (enemyPrefabs == null) 
+            return;
+
+        for (int i = 0;i < 9; i++)
+        {
+            currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
+        }
+    }
 
 }

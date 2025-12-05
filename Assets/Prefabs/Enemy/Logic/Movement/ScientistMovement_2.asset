@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3cb292a9f52efd428904407d217f95d, type: 3}
+  m_Name: ScientistMovement_2
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseMovement
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 264
+  movementSpeed: 1.5
+  rotationDelay: 2
+  movementTowardsPlayerSpeedMultiplier: 1.5
