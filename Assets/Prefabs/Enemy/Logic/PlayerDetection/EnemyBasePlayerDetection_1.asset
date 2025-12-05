@@ -20,5 +20,5 @@ MonoBehaviour:
     m_Bits: 128
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   rayOffset: {x: -0.5, y: 0.5}

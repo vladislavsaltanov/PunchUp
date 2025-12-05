@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Space(20)]
 
-    [SerializeField]
-        Rigidbody2D rb;
+    Rigidbody2D rb;
+
     [SerializeField]
         isGroundedHandler isGroundedHandler;
     [SerializeField]
@@ -24,8 +24,12 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
         float movementDirection;
 
+    
+
     private void Start()
     {
+        rb = PlayerController.instance.rb;
+
         inputManager.jumpAction.action.performed += JumpAction;
         coyoteTimeTimerCurrent = chars.coyoteTime;
     }
@@ -39,6 +43,14 @@ public class PlayerMovement : MonoBehaviour
     {
         // -1 if going left, 1 if going right
         movementDirection = inputManager.moveAction.action.ReadValue<Vector2>().x == 0f ? 0 : inputManager.moveAction.action.ReadValue<Vector2>().x > 0.15f ? 1 : inputManager.moveAction.action.ReadValue<Vector2>().x <= 0.15f ? -1 : 0;
+
+        float targetSpeed = movementDirection * controller.Stats["speed"];
+
+        // Если есть override — используем его
+        if (controller.overrideVelocityX.HasValue)
+            targetSpeed = controller.overrideVelocityX.Value;
+
+        rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 
         rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, movementDirection * chars.speed, chars.resetSpeedTime * Time.deltaTime);
 

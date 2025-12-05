@@ -8,7 +8,7 @@ public class EnemyLogic : BaseEntity
     [Header("Modules")]
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyCombatLogicSO combat;
-    //[SerializeField] EnemyAbilitySO abilityModule; // может быть null
+    [SerializeField] ActionSO abilityModule; // может быть null
     [SerializeField] EnemyPlayerDetectionSO detection;
     #endregion
     #region Movement

@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 3450894756909812398}
   - component: {fileID: 758176366677849531}
   - component: {fileID: 5044149940470653903}
+  - component: {fileID: 2633023578081427226}
+  - component: {fileID: 7017996865065010984}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,7 +91,6 @@ MonoBehaviour:
     bufferedJumpTimer: 0.15
     jumpCooldown: 0.25
     maxJumps: 1
-  rb: {fileID: 7678324957575243347}
   isGroundedHandler: {fileID: 5044149940470653903}
   controller: {fileID: 3450894756909812398}
   inputManager: {fileID: 758176366677849531}
@@ -105,13 +106,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15de4f98dc094c4896833d7bd57ac1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  stats:
+    speed: 10
+    attackPower: 1
+    defense: 0
+    maxHealth: 30
   maxHealth: 30
   direction: 0
-  rb: {fileID: 0}
-  animations: {fileID: 0}
+  attack: {fileID: 11400000, guid: 6bdb88946c14143438b02286f2077a59, type: 2}
+  ability: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
+  rb: {fileID: 7678324957575243347}
+  animator: {fileID: 0}
   isWaiting: 0
   currentTime: 0
   lastGroundedTime: 0
+  combatHandler: {fileID: 7017996865065010984}
 --- !u!114 &758176366677849531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +136,7 @@ MonoBehaviour:
   actionScenario: 0
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   attackAction: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  specialAbilityAction: {fileID: 0}
+  specialAbilityAction: {fileID: 6439146289783607942, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   jumpAction: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &5044149940470653903
@@ -147,6 +156,35 @@ MonoBehaviour:
     m_Bits: 64
   _collider: {fileID: 7923158709754533670}
   checkDistance: 0.05
+--- !u!114 &2633023578081427226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c117c13db40b243b148d00227913b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  owner: {fileID: 3450894756909812398}
+  items: []
+--- !u!114 &7017996865065010984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7195ca2885605b04ba7c0d12692af1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
+  owner: {fileID: 3450894756909812398}
+  attack: {fileID: 11400000, guid: 6bdb88946c14143438b02286f2077a59, type: 2}
+  ability: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
 --- !u!1 &8887219085180420117
 GameObject:
   m_ObjectHideFlags: 0

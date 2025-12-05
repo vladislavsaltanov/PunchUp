@@ -391,6 +391,52 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &215568189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 215568190}
+  - component: {fileID: 215568191}
+  m_Layer: 0
+  m_Name: InventoryTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &215568190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215568189}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &215568191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215568189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a57d2f37cc064f041b76e56581a603e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryDebug
+  inventory: {fileID: 699506090}
+  testItem: {fileID: 11400000, guid: a28ad94f79e00a34f947702758df01a1, type: 2}
 --- !u!1 &281972426
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,13 +554,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dad24c32d6df7449a27929c4a4722f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
+  stats:
+    speed: 5
+    attackPower: 1
+    defense: 0
+    maxHealth: 100
   maxHealth: 8
   direction: 0
+  attack: {fileID: 0}
+  ability: {fileID: 0}
   rb: {fileID: 437121369}
-  animations: {fileID: 0}
+  animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
+  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 5410892}
   rightSideTrigger: {fileID: 1062152346}
@@ -603,13 +657,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dad24c32d6df7449a27929c4a4722f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
+  stats:
+    speed: 5
+    attackPower: 1
+    defense: 0
+    maxHealth: 100
   maxHealth: 12
   direction: 0
+  attack: {fileID: 0}
+  ability: {fileID: 0}
   rb: {fileID: 443605930}
-  animations: {fileID: 0}
+  animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
   combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
+  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 815321012}
   rightSideTrigger: {fileID: 2004707649}
@@ -664,6 +726,17 @@ Transform:
   - {fileID: 2004707650}
   m_Father: {fileID: 443605932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &699506090 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2633023578081427226, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+  m_PrefabInstance: {fileID: 73164831}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c117c13db40b243b148d00227913b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
 --- !u!1 &815321010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1914,13 +1987,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dad24c32d6df7449a27929c4a4722f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
+  stats:
+    speed: 5
+    attackPower: 1
+    defense: 0
+    maxHealth: 100
   maxHealth: 10
   direction: 0
+  attack: {fileID: 0}
+  ability: {fileID: 0}
   rb: {fileID: 1604320235}
-  animations: {fileID: 0}
+  animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
   combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
+  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   leftSideTrigger: {fileID: 1065029090}
   rightSideTrigger: {fileID: 1934559903}
@@ -2415,3 +2496,4 @@ SceneRoots:
   - {fileID: 443605932}
   - {fileID: 73164831}
   - {fileID: 281972427}
+  - {fileID: 215568190}

@@ -2,13 +2,16 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy/Combat/Base")]
-public class EnemyBaseCombat : EnemyCombatLogicSO
+[CreateAssetMenu(menuName = "Enemy/Combat/Melee")]
+public class EnemyMeleeAttack : EnemyCombatLogicSO
 {
     [Header("Attack Settings")]
     public float attackRange = 1.5f;
     public float attackDuration = 1f;
+    public float windupTime = 0.1f;
     public float attackCooldown = 3f;
+    public float knockbackForce = 3f;
+    public float knockbackDuration = 0.5f;
     public ushort damage = 10;
 
     [Header("Hitbox")]
@@ -31,7 +34,10 @@ public class EnemyBaseCombat : EnemyCombatLogicSO
     {
         enemy.currentState = EnemyState.Attacking;
 
-        // Удар
+        // Замах
+        yield return new WaitForSeconds(windupTime);
+
+        // Hitbox
         Vector2 center = (Vector2)enemy.transform.position +
                          new Vector2(hitboxOffset.x * enemy.direction, hitboxOffset.y);
 
@@ -39,18 +45,27 @@ public class EnemyBaseCombat : EnemyCombatLogicSO
 
         foreach (var hit in hits)
         {
-            var hitted = hit.GetComponentInParent<IHealth>();
-            
-            if (hitted != null)
-                hitted.TakeDamage(damage, enemy.transform);
+            if (hit.transform == enemy.transform) continue;
+
+            var entity = hit.GetComponentInParent<BaseEntity>();
+            if (entity == null) continue;
+            if (entity == enemy) continue;
+
+            // Урон
+            entity.TakeDamage(damage, enemy.transform);
+
+            // Нокбэк — направление ОТ врага К цели
+            float dirX = Mathf.Sign(entity.transform.position.x - enemy.transform.position.x);
+            Vector2 knockback = new Vector2(dirX * knockbackForce, knockbackForce * 0.3f);
+            entity.ApplyVelocityOverride(knockback, knockbackDuration);
         }
 
-        // Кулдаун и возврат к оценке
-        //enemy.EnterWait(attackCooldown);
+        // Восстановление после удара
+        yield return new WaitForSeconds(attackDuration - windupTime);
+
+        // Кулдаун
         enemy.currentState = EnemyState.Waiting;
-        // Восстановление
         yield return new WaitForSeconds(attackCooldown);
         enemy.currentState = EnemyState.Idle;
-
     }
 }
