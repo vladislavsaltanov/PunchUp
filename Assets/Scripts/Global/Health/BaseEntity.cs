@@ -113,8 +113,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     IEnumerator VelocityOverrideRoutine(Vector2 velocity, float duration)
     {
-        Debug.Log($"{gameObject.name} override START: {velocity}, duration: {duration}");
-
         overrideVelocityX = velocity.x;
         overrideVelocityY = velocity.y;
         rb.linearVelocity = velocity;
@@ -124,8 +122,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         overrideVelocityX = null;
         overrideVelocityY = null;
         velocityOverrideCoroutine = null;
-
-        Debug.Log($"{gameObject.name} override END");
     }
     #endregion
 
