@@ -17,6 +17,8 @@ public class FloorManager : MonoBehaviour
     public Transform currentRoom = null;
     public Transform cameraBounds;
 
+    public List<GameObject> enemyPrefabs;
+
     public int EnterInd;
     public int ExitInd;
 
@@ -61,8 +63,7 @@ public class FloorManager : MonoBehaviour
     void StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
-        //EnterInd = Random.Range(0, 3);
-        EnterInd = 0;
+        EnterInd = Random.Range(0, 3);
         ExitInd = Random.Range(3, 9);
 
         cameraBounds.position = placeholders[EnterInd].position;
@@ -85,5 +86,15 @@ public class FloorManager : MonoBehaviour
         GeneratePathways();
     }
 
+    public void SpawnAllEnemys()
+    {
+        if (enemyPrefabs == null) 
+            return;
+
+        for (int i = 0;i < 9; i++)
+        {
+            currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
+        }
+    }
 
 }

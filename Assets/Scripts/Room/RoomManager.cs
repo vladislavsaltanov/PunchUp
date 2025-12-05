@@ -32,4 +32,13 @@ public class RoomManager : MonoBehaviour
     {
         roomID = i;
     }
+
+    public void SpawnRoomEnemy(List<GameObject> Enemys)
+    {
+        
+        for( int i = 0; i < enemyPositions.Count; i++)
+        {
+            Instantiate(Enemys[Random.Range(0,Enemys.Count)], enemyPositions[i]);
+        }
+    }
 }
