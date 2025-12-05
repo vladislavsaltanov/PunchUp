@@ -1,19 +1,27 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     public BaseEntity owner;
-    [SerializeField] List<ItemSO> items = new List<ItemSO>();
+    [SerializeField] List<ItemData> items = new List<ItemData>();
 
-    public bool AddItem(ItemSO item)
+    public bool AddItem(ItemData item)
     {
-        foreach (var mod in item.modifiers)
+        if (item is StatItemData statItem)
         {
-            if (!owner.Stats.AddModifier(mod.statName, mod.flat, mod.percent))
+            foreach (var mod in statItem.modifiers)
             {
-                Debug.LogWarning($"[Inventory] Item '{item.itemName}' ignored");
-                return false;
+                if (!owner.Stats.AddModifier(mod.statName, mod.flat, mod.percent))
+                    return false;
+            }
+        }
+        else if (item is AbilityItemData abilityItem)
+        {
+            if (abilityItem.ability != null)
+            {
+                owner.SetSpecialAbility(abilityItem.ability);
             }
         }
 
@@ -21,12 +29,19 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    public void RemoveItem(ItemSO item)
+    public void RemoveItem(ItemData item)
     {
         if (!items.Remove(item)) return;
 
-        foreach (var mod in item.modifiers)
-            owner.Stats.RemoveModifier(mod.statName, mod.flat, mod.percent);
+        if (item is StatItemData statItem)
+        {
+            foreach (var mod in statItem.modifiers)
+            {
+                owner.Stats.RemoveModifier(mod.statName, mod.flat, mod.percent);
+            }
+        }
+        else owner.SetSpecialAbility(null);
+
     }
     public void Clear()
     {

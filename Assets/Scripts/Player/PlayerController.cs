@@ -30,9 +30,11 @@ public class PlayerController : BaseEntity
     #region Cached
     InputManager inputManager;
     #endregion
+    IInteractable activeInteractable;
 
     void Start()
     {
+        Time.timeScale = 1f;
         inputManager = InputManager.Instance;
 
         if (inputManager != null)
@@ -48,8 +50,37 @@ public class PlayerController : BaseEntity
         }
 
         if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
+
+        inputManager.interactAction.action.performed += OnInteract;
+    }
+    void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        Debug.Log("E pressed!");
+        if (activeInteractable != null)
+        {
+            Debug.Log($"Interacting with {activeInteractable}");
+            activeInteractable.Interact(this);
+        }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            activeInteractable = interactable;
+            activeInteractable.ShowPrompt(true);
+        }
     }
 
+    void OnTriggerExit2D(Collider2D other)
+    {
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null && activeInteractable == interactable)
+        {
+            activeInteractable.ShowPrompt(false);
+            activeInteractable = null;
+        }
+    }
     void OnDestroy()
     {
         if (instance == this) instance = null;
@@ -64,6 +95,8 @@ public class PlayerController : BaseEntity
         {
             groundedHandler.hasGrounded -= hasGroundedEventHandler;
         }
+
+        inputManager.interactAction.action.performed -= OnInteract;
     }
 
     void Update()
