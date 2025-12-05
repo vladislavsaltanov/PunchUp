@@ -527,6 +527,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 745355620039435397, guid: 53107ee21e714a246b725493efcb60b9, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745355620039435397, guid: 53107ee21e714a246b725493efcb60b9, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441293323319038924, guid: 53107ee21e714a246b725493efcb60b9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
     - target: {fileID: 8062557332028143852, guid: 53107ee21e714a246b725493efcb60b9, type: 3}
       propertyPath: m_Name
       value: Floor
