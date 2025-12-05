@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691736182824294526}
   - component: {fileID: 5611146894305568054}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: box2_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 3115554577822263437}
   - component: {fileID: 4031389088124987565}
   - component: {fileID: 8899840511868075639}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BigSquare
   m_TagString: Ground
   m_Icon: {fileID: 0}

@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public abstract class BaseEntity : MonoBehaviour, IHealth
@@ -96,7 +95,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         if (velocityOverrideCoroutine != null)
             StopCoroutine(velocityOverrideCoroutine);
 
-        velocityOverrideCoroutine = StartCoroutine(VelocityOverrideRoutine(velocity, duration));
+        if (CurrentHealth != 0)
+            velocityOverrideCoroutine = StartCoroutine(VelocityOverrideRoutine(velocity, duration));
     }
 
     public void ClearVelocityOverride()
@@ -113,8 +113,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     IEnumerator VelocityOverrideRoutine(Vector2 velocity, float duration)
     {
-        Debug.Log($"{gameObject.name} override START: {velocity}, duration: {duration}");
-
         overrideVelocityX = velocity.x;
         overrideVelocityY = velocity.y;
         rb.linearVelocity = velocity;
@@ -124,8 +122,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         overrideVelocityX = null;
         overrideVelocityY = null;
         velocityOverrideCoroutine = null;
-
-        Debug.Log($"{gameObject.name} override END");
     }
     #endregion
 
@@ -140,7 +136,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * direction;
-        //transform.localScale = scale;
+        transform.localScale = scale;
     }
     #endregion
 }

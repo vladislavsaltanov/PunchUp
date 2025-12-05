@@ -52,6 +52,8 @@ public class EnemyLogic : BaseEntity
     private void Update()
     {
         if (CurrentHealth <= 0) return;
+
+        UpdateVisualDirection();
         if (HasVelocityOverride) return;
 
         UpdateDetection();
@@ -218,6 +220,14 @@ public class EnemyLogic : BaseEntity
                 currentState = EnemyState.Walking;
             }
         }
+    }
+    protected override void OnDeath()
+    {
+        movement.Stop(this);
+        StopAllCoroutines();
+        //currentState = EnemyState.Dead;
+        gameObject.SetActive(false);
+        // Дополнительная логика смерти (анимация, дроп и т.д.) может быть добавлена здесь
     }
     #endregion
 }

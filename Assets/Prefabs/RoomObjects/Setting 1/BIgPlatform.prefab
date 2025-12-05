@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 950221113619084427}
   - component: {fileID: 278036382619640298}
   - component: {fileID: 2240873122061279871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BIgPlatform
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1054765716666786009}
   - component: {fileID: 540243035087966486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: panel3_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

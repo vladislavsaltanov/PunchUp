@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4776056036885296663}
   - component: {fileID: 7055406325815556588}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: theBarrierWall1_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3888720005550972004}
   - component: {fileID: 120779770321952469}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: theBarrierWall1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 6381225324736138095}
   - component: {fileID: 2375368563524042116}
   - component: {fileID: 8882110181873173545}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Block
   m_TagString: Ground
   m_Icon: {fileID: 0}

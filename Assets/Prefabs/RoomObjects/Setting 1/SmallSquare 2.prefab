@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9174379797890429221}
   - component: {fileID: 9098464930166601192}
   - component: {fileID: 234835058442127913}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmallSquare 2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600688122566071172}
   - component: {fileID: 2937223327619962881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: box1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

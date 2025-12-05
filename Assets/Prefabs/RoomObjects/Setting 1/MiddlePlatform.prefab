@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 678924161851241722}
   - component: {fileID: 1030489923154745550}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: panel1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 8143595198611731186}
   - component: {fileID: 124068037553730626}
   - component: {fileID: 7302576912978283256}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddlePlatform
   m_TagString: Ground
   m_Icon: {fileID: 0}

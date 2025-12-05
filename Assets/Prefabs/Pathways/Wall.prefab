@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4986005936903648006}
   - component: {fileID: 4300827626834478940}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: theBarrierWall1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2260602713786281867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 5338945083344613178}
   - component: {fileID: 5273234410897362621}
   - component: {fileID: 1914927153041465931}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
