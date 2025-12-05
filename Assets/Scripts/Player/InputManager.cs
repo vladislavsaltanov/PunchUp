@@ -16,5 +16,5 @@ public class InputManager : MonoBehaviour
         actionScenario = (ActionScenario) i;
     #endregion
 
-    public InputActionReference moveAction, attackAction, specialAbilityAction, interactAction, jumpAction;
+    public InputActionReference moveAction, attackAction, specialAbilityAction, interactAction, jumpAction, pauseAction, inventoryAction;
 }

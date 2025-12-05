@@ -462,6 +462,7 @@ MonoBehaviour:
   - {fileID: 4469383118799625817, guid: 9bc8a2e96896cb447b7b1d78d184362d, type: 3}
   EnterInd: 0
   ExitInd: 0
+  playerObject: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
 --- !u!1 &381976794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,14 +1094,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2890118372856980467, guid: eae917eacf88280408dd9c803f3ca933, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 2890118372856980467, guid: eae917eacf88280408dd9c803f3ca933, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2890118372856980467, guid: eae917eacf88280408dd9c803f3ca933, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1191,6 +1184,10 @@ PrefabInstance:
     - target: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1335,6 +1332,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1032633143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210109315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1954829036379185740, guid: d28f58c7f52748941b57be00e260a064, type: 3}
+  m_PrefabInstance: {fileID: 1329071009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
 --- !u!1 &1233816313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7603995595169028261, guid: d28f58c7f52748941b57be00e260a064, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -18.1
+      value: -20.140001
       objectReference: {fileID: 0}
     - target: {fileID: 7603995595169028261, guid: d28f58c7f52748941b57be00e260a064, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1739,8 +1747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2d69e2a5bdc564499ee05f7f9703b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  defaultCamera: {fileID: 0}
+  defaultCamera: {fileID: 1210109315}
   allCameras: []
+  player: {fileID: 0}
 --- !u!4 &1431993691
 Transform:
   m_ObjectHideFlags: 0
@@ -1896,8 +1905,8 @@ Camera:
   m_GameObject: {fileID: 1628677912}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1919,10 +1928,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 5000
+  far clip plane: 25
   field of view: 40
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1947,7 +1956,7 @@ Transform:
   m_GameObject: {fileID: 1628677912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7222214, y: -2.5, z: -10}
+  m_LocalPosition: {x: -8.055557, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -22,6 +22,8 @@ public class FloorManager : MonoBehaviour
     public int EnterInd;
     public int ExitInd;
 
+    [SerializeField] GameObject playerObject;
+
     static public FloorManager Instance { get; private set; }
     private void Awake()
     {
@@ -48,6 +50,7 @@ public class FloorManager : MonoBehaviour
 
         currentRooms.Add(Instantiate(selectedRoom, placeholders[i]));
         currentRooms[i].GetComponent<RoomManager>().SetRoomID(i);
+        currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
         _roomPrefabs.RemoveAt(randomIndex);
     }
 
@@ -75,8 +78,10 @@ public class FloorManager : MonoBehaviour
             GenerateRoom(i);
         }
         //Ñïàâí ëèôòîâ
-        currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
+        Vector2 playerSpawnPosition = currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
         currentRooms[ExitInd].GetComponent<RoomManager>().InitializeElevator(1);
+
+        CameraManager.Instance.SetTrackingTarget(Instantiate(playerObject, playerSpawnPosition, Quaternion.identity).transform);
 
         //Ñïàâí "Áëîêîâ" íà ãðàíèöàõ óðîâíÿ
         for (int i = 0; i < 24; i++)
@@ -86,16 +91,4 @@ public class FloorManager : MonoBehaviour
         //Ãåíåðàöèÿ ïðîõîäîâ
         GeneratePathways();
     }
-
-    public void SpawnAllEnemys()
-    {
-        if (enemyPrefabs == null) 
-            return;
-
-        for (int i = 0;i < 9; i++)
-        {
-            currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
-        }
-    }
-
 }

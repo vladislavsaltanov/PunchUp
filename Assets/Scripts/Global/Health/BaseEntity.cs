@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public abstract class BaseEntity : MonoBehaviour, IHealth

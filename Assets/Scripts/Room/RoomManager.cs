@@ -23,9 +23,9 @@ public class RoomManager : MonoBehaviour
         
     }
 
-    public void InitializeElevator(int i)
+    public Vector2 InitializeElevator(int i)
     {
-        Instantiate(elevators[i], elevatorPlaceholder);
+        return Instantiate(elevators[i], elevatorPlaceholder).transform.position;
     }
 
     public void SetRoomID(int i)

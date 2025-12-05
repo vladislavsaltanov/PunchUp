@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2828257350073990704}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.84076023, y: -3.8059704, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -59,9 +59,9 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 40
-    OrthographicSize: 10
+    OrthographicSize: 7
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 25
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -102,11 +102,11 @@ MonoBehaviour:
       Offset: {x: 0, y: -0.5}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 1, y: 1, z: 1}
+  Damping: {x: 1.3, y: 1.2, z: 1}
   Lookahead:
     Enabled: 1
-    Time: 0.05
-    Smoothing: 1
+    Time: 0.1
+    Smoothing: 1.5
     IgnoreY: 1
 --- !u!114 &4336468100329991497
 MonoBehaviour:
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineConfiner2D
   BoundingShape2D: {fileID: 0}
-  Damping: 0.5
-  SlowingDistance: 5
+  Damping: 0.45
+  SlowingDistance: 60
   OversizeWindow:
     Enabled: 0
     MaxWindowSize: 0

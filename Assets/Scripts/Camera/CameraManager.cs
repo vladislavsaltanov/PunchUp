@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class CameraManager : MonoBehaviour
     private float zoomProgress;
     private float currentZoomDuration;
     private Coroutine zoomCoroutine;
+    public GameObject player;
 
     private void Awake()
     {
@@ -44,15 +46,29 @@ public class CameraManager : MonoBehaviour
             currentCamera = defaultCamera;
         }
     }
-
-    private void Start()
+    private void OnEnable()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null && currentCamera != null)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentCamera = FindFirstObjectByType<CinemachineCamera>();
+    }
+
+    public void SetTrackingTarget(Transform target)
+    {
+        if (currentCamera == null)
         {
-            currentCamera.Follow = player.transform;
-            currentCamera.LookAt = player.transform;
+            currentCamera = FindFirstObjectByType<CinemachineCamera>();
         }
+
+        currentCamera.Follow = target;
     }
 
     public void ResetCameraRotation()
@@ -172,7 +188,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    //Геттер камеры
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     public CinemachineCamera GetCamera()
     {
         return currentCamera;
