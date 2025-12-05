@@ -87,6 +87,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     protected virtual void OnDeath()
     {
+        this.enabled = false;
     }
 
     #region Velocity Override

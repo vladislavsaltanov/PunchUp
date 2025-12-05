@@ -41,14 +41,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // -1 if going left, 1 if going right
-        movementDirection = inputManager.moveAction.action.ReadValue<Vector2>().x == 0f ? 0 : inputManager.moveAction.action.ReadValue<Vector2>().x > 0.15f ? 1 : inputManager.moveAction.action.ReadValue<Vector2>().x <= 0.15f ? -1 : 0;
+
+        if (controller.HasVelocityOverride)
+        {
+            Vector2 overrideVel = new Vector2(
+                controller.overrideVelocityX ?? rb.linearVelocityX,
+                controller.overrideVelocityY ?? rb.linearVelocityY
+            );
+
+            rb.linearVelocity = overrideVel;
+            // need to still handle jump timers while velocity is overridden
+            HandleJumpTimers();
+            return;
+        }
+
+        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+        movementDirection = inputX == 0f ? 0 : inputX > 0.15f ? 1 : -1;
 
         float targetSpeed = movementDirection * controller.Stats["speed"];
-
-        // Если есть override — используем его
-        if (controller.overrideVelocityX.HasValue)
-            targetSpeed = controller.overrideVelocityX.Value;
 
         rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 
@@ -61,6 +71,12 @@ public class PlayerMovement : MonoBehaviour
         if (!controller.overrideVelocityY.HasValue)
             rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, isForcedFalling ? -chars.forcedFallForce : chars.maxVerticalSpeed.x, chars.maxVerticalSpeed.y);
 
+        HandleJumpTimers();
+        if ((coyoteTimeTimerCurrent > 0f && bufferedJumpTimerCurrent > 0f) || (jumpsRemaining > 0 && jumpCooldown > 0 && bufferedJumpTimerCurrent > 0f))
+            Jump();
+    }
+    void HandleJumpTimers()
+    {
         if (isGroundedHandler.IsGrounded)
         {
             jumpsRemaining = chars.maxJumps;
@@ -73,11 +89,7 @@ public class PlayerMovement : MonoBehaviour
             bufferedJumpTimerCurrent -= Time.deltaTime;
 
         jumpCooldown -= Time.deltaTime;
-
-        if ((coyoteTimeTimerCurrent > 0f && bufferedJumpTimerCurrent > 0f) || (jumpsRemaining > 0 && jumpCooldown > 0 && bufferedJumpTimerCurrent > 0f))
-            Jump();
     }
-
     private void FixedUpdate()
     {
         // holding down 's' or stick down makes player slam down (after cooldown)

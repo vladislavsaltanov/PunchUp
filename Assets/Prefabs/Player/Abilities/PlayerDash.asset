@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4668738fb9a09eb4ebfadd800ed91093, type: 3}
   m_Name: PlayerDash
   m_EditorClassIdentifier: Assembly-CSharp::DashSO
-  duration: 0.5
+  duration: 0.1
   cooldown: 5
   animationTrigger: 
-  dashSpeed: 20
+  dashSpeed: 25

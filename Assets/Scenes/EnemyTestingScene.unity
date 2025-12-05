@@ -222,6 +222,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
     - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: specialAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: groundedHandler
       value: 
       objectReference: {fileID: 1811522613}

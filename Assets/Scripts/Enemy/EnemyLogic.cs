@@ -51,6 +51,7 @@ public class EnemyLogic : BaseEntity
 
     private void Update()
     {
+        if (CurrentHealth <= 0) return;
         if (HasVelocityOverride) return;
 
         UpdateDetection();
@@ -118,8 +119,14 @@ public class EnemyLogic : BaseEntity
             currentState = EnemyState.WalkingTowardsPlayer;
             return;
         }
-
+        
         currentState = EnemyState.Walking;
+
+        if (currentState == EnemyState.Walking && direction == 0)
+        {
+            // Пнем его в случайную сторону
+            direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
+        }
     }
 
     // Вспомогательный метод для выбора между ударом и бегом
