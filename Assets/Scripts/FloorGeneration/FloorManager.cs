@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,6 +14,20 @@ public class FloorManager : MonoBehaviour
     public List<Transform> pathwaysPlaceholders;
     public List<Transform> blockPlaceholders;
     public List<GameObject> pathwaysPrefabs;
+    public Transform currentRoom = null;
+    public Transform cameraBounds;
+
+    public List<GameObject> enemyPrefabs;
+
+    public int EnterInd;
+    public int ExitInd;
+
+    static public FloorManager Instance { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,24 +63,38 @@ public class FloorManager : MonoBehaviour
     void StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
-        int EnterInd = Random.Range(0, 3);
-        int ExitInd = Random.Range(3, 9);
+        EnterInd = Random.Range(0, 3);
+        ExitInd = Random.Range(3, 9);
 
-        //Генерация комнат
+        cameraBounds.position = placeholders[EnterInd].position;
+        currentRoom = placeholders[EnterInd].transform;
+        //ГѓГҐГ­ГҐГ°Г Г¶ГЁГї ГЄГ®Г¬Г­Г ГІ
         for (int i = 0; i < 9; i++)
         {
             GenerateRoom(i);
         }
-        //Спавн лифтов
+        //Г‘ГЇГ ГўГ­ Г«ГЁГґГІГ®Гў
         currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
         currentRooms[ExitInd].GetComponent<RoomManager>().InitializeElevator(1);
 
-        //Спавн "Блоков" на границах уровня
+        //Г‘ГЇГ ГўГ­ "ГЃГ«Г®ГЄГ®Гў" Г­Г  ГЈГ°Г Г­ГЁГ¶Г Гµ ГіГ°Г®ГўГ­Гї
         for (int i = 0; i < 24; i++)
         {
             Instantiate(pathwaysPrefabs[2], blockPlaceholders[i]);
         }
-        //Генерация проходов
+        //ГѓГҐГ­ГҐГ°Г Г¶ГЁГї ГЇГ°Г®ГµГ®Г¤Г®Гў
         GeneratePathways();
     }
+
+    public void SpawnAllEnemys()
+    {
+        if (enemyPrefabs == null) 
+            return;
+
+        for (int i = 0;i < 9; i++)
+        {
+            currentRooms[i].GetComponent<RoomManager>().SpawnRoomEnemy(enemyPrefabs);
+        }
+    }
+
 }

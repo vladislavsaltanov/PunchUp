@@ -12,5 +12,6 @@ public class CameraRotationZone2D : MonoBehaviour
     {
         CameraManager.Instance.RotateCamera(8f, 0.05f);
         CameraManager.Instance.ChangeZoom(9f, 0.05f);
+
     }
 }
