@@ -1,20 +1,35 @@
 using UnityEngine;
 using Unity.Cinemachine;
 
-public class CameraZone : MonoBehaviour
+public class CameraZoneTrigger : MonoBehaviour
 {
-    [Header("Camera Settings")]
-    [SerializeField] private CinemachineCamera leftExitCamera;
-    [SerializeField] private CinemachineCamera rightExitCamera;
+    Transform cameraBounds;
 
-    private void OnTriggerExit2D(Collider2D other)
+    public float gridWidth = 40f;
+    public float gridHeight = 20f;
+
+    private void Start()
     {
-        float exitDirection = other.transform.position.x - transform.position.x;
-        CinemachineCamera targetCamera = exitDirection > 0 ? rightExitCamera : leftExitCamera;
+        cameraBounds = GameObject.FindGameObjectWithTag("CameraBounds").transform;
+    }
+    private void OnTriggerEnter2D(Collider2D tr)
+    {
+        if (!tr.CompareTag("Player"))
+            return;
+        var _rb = tr.GetComponentInParent<PlayerMovement>().rb;
+        _rb.AddForce(_rb.linearVelocity * 10f, ForceMode2D.Impulse);
+    }
 
-        if (targetCamera != null)
-        {
-            CameraManager.Instance.SwitchToCamera(targetCamera);
-        }
+    void OnTriggerExit2D(Collider2D tr)
+    {
+        if (!tr.CompareTag("Player"))
+            return;
+
+        float snappedX = Mathf.Round(tr.transform.position.x / gridWidth) * gridWidth;
+        float snappedY = Mathf.Round(tr.transform.position.y / gridHeight) * gridHeight;
+        snappedX = Mathf.Clamp(snappedX, -40f, 40f);
+        snappedY = Mathf.Clamp(snappedY, -20f, 20f);
+
+        cameraBounds.position = new Vector3(snappedX, snappedY, cameraBounds.position.z);
     }
 }

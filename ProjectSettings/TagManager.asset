@@ -7,7 +7,7 @@ TagManager:
   - Ground
   - Bouncy
   - Testing
-  - Enemy
+  - CameraBounds
   layers:
   - Default
   - TransparentFX
