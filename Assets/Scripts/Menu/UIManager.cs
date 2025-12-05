@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
     public void SwitchScene(int id)
     {
         Time.timeScale = 1f;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(id);
+        SceneTransitionManager.SwitchScene(id, 1.5f);
     }
 
     public void Exit()

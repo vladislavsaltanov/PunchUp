@@ -19,16 +19,7 @@ public class Elevator : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        Debug.Log($"[Elevator] Going to scene {sceneBuildIndex}...");
-
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.SwitchScene(sceneBuildIndex);
-        }
-        else
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneBuildIndex);
-        }
+        SceneTransitionManager.SwitchScene(sceneBuildIndex);
     }
 
     public void ShowPrompt(bool show)
