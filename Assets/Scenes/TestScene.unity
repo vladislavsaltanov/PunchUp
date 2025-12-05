@@ -1890,7 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c2425bf3bae2a48bb90ff8f1752b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemData: {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
+  itemData: {fileID: 11400000, guid: 172768a9036f3be4188b16073f709ca1, type: 2}
   promptUI: {fileID: 1070001863}
 --- !u!4 &1018854565
 Transform:

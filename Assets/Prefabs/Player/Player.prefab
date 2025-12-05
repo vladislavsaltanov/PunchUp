@@ -629,7 +629,7 @@ MonoBehaviour:
   maxHealth: 50
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
-  specialAbility: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
+  specialAbility: {fileID: 0}
   rb: {fileID: 7678324957575243347}
   animator: {fileID: 0}
   isWaiting: 0
