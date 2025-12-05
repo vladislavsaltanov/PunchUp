@@ -52,6 +52,8 @@ public class EnemyLogic : BaseEntity
     private void Update()
     {
         if (CurrentHealth <= 0) return;
+
+        UpdateVisualDirection();
         if (HasVelocityOverride) return;
 
         UpdateDetection();
