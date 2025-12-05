@@ -3,7 +3,7 @@ using UnityEngine;
 public class InventoryDebug : MonoBehaviour
 {
     [SerializeField] Inventory inventory;
-    [SerializeField] ItemSO testItem;
+    [SerializeField] ItemData testItem;
 
     [ContextMenu("Add Test Item")]
     void AddTestItem()

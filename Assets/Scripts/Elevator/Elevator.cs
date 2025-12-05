@@ -1,16 +1,30 @@
 using UnityEngine;
 
-public class Elevator : MonoBehaviour
+public class Elevator : MonoBehaviour, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Settings")]
+    [SerializeField] int sceneBuildIndex;
+
+    [Header("Visuals")]
+    [SerializeField] GameObject promptUI;
+
+    private void Start()
     {
-        
+        if (promptUI != null)
+            promptUI.SetActive(false);
+
+        var col = GetComponent<Collider2D>();
+        if (col != null) col.isTrigger = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Interact(PlayerController player)
     {
-        
+        SceneTransitionManager.SwitchScene(sceneBuildIndex);
+    }
+
+    public void ShowPrompt(bool show)
+    {
+        if (promptUI != null)
+            promptUI.SetActive(show);
     }
 }
