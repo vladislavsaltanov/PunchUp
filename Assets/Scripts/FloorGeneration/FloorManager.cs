@@ -31,6 +31,7 @@ public class FloorManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        cameraBounds = GameObject.FindGameObjectWithTag("CameraBounds").transform;
         StartGenerating();
     }
 

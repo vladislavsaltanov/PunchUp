@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8627387682788985821}
   - component: {fileID: 525751405072763118}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: box3_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 1827650541283865788}
   - component: {fileID: 4265014478671208764}
   - component: {fileID: 3658895296319058066}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmallSquare
   m_TagString: Ground
   m_Icon: {fileID: 0}

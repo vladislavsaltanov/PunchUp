@@ -17,7 +17,7 @@ public class CameraZoneTrigger : MonoBehaviour
         if (!tr.CompareTag("Player"))
             return;
         var _rb = tr.GetComponentInParent<BaseEntity>();
-        _rb.ApplyVelocityOverride(_rb.GetComponent<Rigidbody2D>().linearVelocity * 2f, 1f);
+        _rb.ApplyVelocityOverride(_rb.GetComponent<Rigidbody2D>().linearVelocity * 2f, 0.1f);
     }
 
     void OnTriggerExit2D(Collider2D tr)
