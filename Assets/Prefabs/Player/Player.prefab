@@ -110,17 +110,19 @@ MonoBehaviour:
     speed: 10
     attackPower: 1
     defense: 0
-    maxHealth: 30
-  maxHealth: 30
+    maxHealth: 50
+    knockbackMultiplier: 1
+  maxHealth: 50
   direction: 0
-  attack: {fileID: 11400000, guid: 6bdb88946c14143438b02286f2077a59, type: 2}
-  ability: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
+  primaryAttack: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
+  specialAbility: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
   rb: {fileID: 7678324957575243347}
   animator: {fileID: 0}
   isWaiting: 0
   currentTime: 0
   lastGroundedTime: 0
   combatHandler: {fileID: 7017996865065010984}
+  groundedHandler: {fileID: 5044149940470653903}
 --- !u!114 &758176366677849531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +185,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
   owner: {fileID: 3450894756909812398}
-  attack: {fileID: 11400000, guid: 6bdb88946c14143438b02286f2077a59, type: 2}
-  ability: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
 --- !u!1 &8887219085180420117
 GameObject:
   m_ObjectHideFlags: 0
