@@ -7,24 +7,28 @@ public class isGroundedHandler : MonoBehaviour
     private void Awake() =>
         Instance = this;
 
-    public bool isGrounded = false;
     public event Action<bool, float> hasGrounded;
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] Collider2D _collider;
+    public bool IsGrounded { get; private set; }
+    [SerializeField] float checkDistance = 0.05f;
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
-        if (!isGrounded && collision.CompareTag("Ground"))
-        {
-            hasGrounded?.Invoke(true, PlayerController.instance.currentTime);
-            isGrounded = true;
-        }
-    }
+        bool currentGrounded = Physics2D.BoxCast
+        (
+            _collider.bounds.center,
+            _collider.bounds.size,
+            0f,
+            Vector2.down,
+            checkDistance,
+            groundLayer
+        );
 
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (isGrounded && collision.CompareTag("Ground"))
+        if (currentGrounded != IsGrounded)
         {
-            hasGrounded?.Invoke(false, PlayerController.instance.currentTime);
-            isGrounded = false;
+            IsGrounded = currentGrounded;
+            hasGrounded?.Invoke(IsGrounded, PlayerController.instance.currentTime);
         }
     }
 }
