@@ -455,14 +455,11 @@ MonoBehaviour:
   - {fileID: 7637882193979461886, guid: e74d45e230c6f4841952a29c89e332db, type: 3}
   - {fileID: 5213786492103677135, guid: 22abb802dd200cb4e9bbdb8da299fb30, type: 3}
   currentRoom: {fileID: 0}
-  cameraBounds: {fileID: 1472907031}
-  enemyPrefabs:
-  - {fileID: 8116590055214077004, guid: 5120dd2805b361945b6cb06f35b09e23, type: 3}
-  - {fileID: 7593945755005346331, guid: fb0223faaa38bf547aaa2b9ce01f5673, type: 3}
-  - {fileID: 4469383118799625817, guid: 9bc8a2e96896cb447b7b1d78d184362d, type: 3}
+  cameraBounds: {fileID: 0}
+  enemyPrefabs: []
   EnterInd: 0
   ExitInd: 0
-  playerObject: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+  playerObject: {fileID: 0}
 --- !u!1 &381976794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,11 +1731,6 @@ Transform:
 --- !u!61 &1472907030 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 1017334670185015099, guid: eae917eacf88280408dd9c803f3ca933, type: 3}
-  m_PrefabInstance: {fileID: 1077829569}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1472907031 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2890118372856980467, guid: eae917eacf88280408dd9c803f3ca933, type: 3}
   m_PrefabInstance: {fileID: 1077829569}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1499785174
