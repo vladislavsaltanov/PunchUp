@@ -9,6 +9,7 @@ public class EntityStats
     public float attackPower = 1f;
     public float defense = 0f;
     public float maxHealth = 100f;
+    public float knockbackMultiplier = 1f;
 
     // Runtime
     Dictionary<string, float> baseStats;
@@ -104,7 +105,8 @@ public class EntityStats
             ["speed"] = speed,
             ["attackPower"] = attackPower,
             ["defense"] = defense,
-            ["maxHealth"] = maxHealth
+            ["maxHealth"] = maxHealth,
+            ["knockbackMultiplier"] = knockbackMultiplier
         };
 
         initialized = true;

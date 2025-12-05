@@ -7,24 +7,34 @@ public class EnemyLogic : BaseEntity
     #region Modules
     [Header("Modules")]
     [SerializeField] EnemyMovementBaseSO movement;
-    [SerializeField] EnemyCombatLogicSO combat;
-    [SerializeField] ActionSO abilityModule; // может быть null
     [SerializeField] EnemyPlayerDetectionSO detection;
+    [SerializeField] CombatHandler combatHandler;
     #endregion
-    #region Movement
+
+    #region AI Settings
+    [Header("AI Settings")]
+    [SerializeField] float attackRange = 1.5f;
+    [SerializeField] float abilityChance = 0.3f;
+    [SerializeField] float agroTimeout = 5f;
+    [SerializeField] float searchDuration = 2f; 
+    #endregion
+
+    #region Movement Triggers
     [Space(20)]
     [Header("Movement")]
     public Collider2D leftSideTrigger;
     public Collider2D rightSideTrigger;
     #endregion
+
     #region State
     [Space(10)]
     [Header("State")]
     public EnemyState currentState;
     public EnemyContextState context = new EnemyContextState();
     #endregion
+
     #region Cached
-    PlayerController playerController = PlayerController.instance ?? null;
+    PlayerController playerController;
     GameObject player => playerController?.gameObject ?? this.gameObject;
     #endregion
 
@@ -32,91 +42,158 @@ public class EnemyLogic : BaseEntity
     {
         base.Awake();
 
-        currentState = EnemyState.Waiting;
-
-        StartCoroutine(WaitFor(UnityEngine.Random.Range(2f, 4f), () => currentState = EnemyState.Walking));
-        direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
-
+        if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
         playerController = PlayerController.instance;
+
+        direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
+        EnterWait(UnityEngine.Random.Range(1f, 3f));
     }
 
     private void Update()
     {
-        // checking if we see the player
+        if (HasVelocityOverride) return;
+
+        UpdateDetection();
+
+        if (IsStateLocked()) return;
+
+        EvaluateSituation();
+
+        ExecuteState();
+    }
+
+    void UpdateDetection()
+    {
         context.directionToPlayer = detection.IsPlayerDetected(this, out context.playerDistance);
         context.isPlayerDetected = context.directionToPlayer != 0;
 
-        if (currentState == EnemyState.Waiting)
-            return;
+        if (context.isPlayerDetected)
+        {
+            context.lastTimeSeenPlayer = Time.time;
+            context.lastKnownDirection = context.directionToPlayer;
+        }
+    }
 
-        // if we were hit recently, walk towards the player
-        if (context.wasHit && !combat.HitTimeout(context.lastHitTime))
+    bool IsStateLocked()
+    {
+        return currentState == EnemyState.Waiting ||
+               currentState == EnemyState.Attacking ||
+               currentState == EnemyState.UsingAbility;
+    }
+
+    void EvaluateSituation()
+    {
+        if (context.wasHit)
+        {
+            if (Time.time > context.lastHitTime + agroTimeout)
+            {
+                context.wasHit = false;
+            }
+            else
+            {
+                if (!context.isPlayerDetected)
+                {
+                    direction = context.directionToPlayer; 
+                }
+                else
+                {
+                    direction = context.directionToPlayer; 
+                }
+
+                ChooseCombatOrChase();
+                return;
+            }
+        }
+
+        if (context.isPlayerDetected)
+        {
+            direction = context.directionToPlayer;
+            ChooseCombatOrChase();
+            return;
+        }
+
+        if (Time.time < context.lastTimeSeenPlayer + searchDuration)
+        {
+            direction = context.lastKnownDirection;
+            currentState = EnemyState.WalkingTowardsPlayer;
+            return;
+        }
+
+        currentState = EnemyState.Walking;
+    }
+
+    // Вспомогательный метод для выбора между ударом и бегом
+    void ChooseCombatOrChase()
+    {
+        if (context.isPlayerDetected && context.playerDistance <= attackRange)
+        {
+            currentState = EnemyState.Combat;
+        }
+        else
         {
             currentState = EnemyState.WalkingTowardsPlayer;
         }
-        else if (context.wasHit && combat.HitTimeout(context.lastHitTime) && currentState == EnemyState.WalkingTowardsPlayer)
-        {
-            context.wasHit = false;
-            currentState = EnemyState.Idle;
-            StartCoroutine(WaitFor(UnityEngine.Random.Range(0.5f, 2f), () => currentState = EnemyState.Walking));
-        }
-        else
-        // if we see the player, check for transitions to other states
-        if (context.isPlayerDetected)
-        {
-            // if the player is close enough, enter combat
-            if (combat.IsPlayerCloseEnough(context.playerDistance))
-                currentState = EnemyState.Combat;
+    }
 
-            // if the player is not out of range, walk towards them
-            else if (!detection.isPlayerOutOfRange(context.playerDistance))
-                currentState = EnemyState.WalkingTowardsPlayer;
-
-            // if the player is too far, go back to walking
-            else
-                currentState = EnemyState.Walking;
-        }
-        else
-        {
-            // if we don't see the player, go back to walking
-            if (currentState != EnemyState.Waiting)
-                currentState = EnemyState.Walking;
-        }
-
+    void ExecuteState()
+    {
         switch (currentState)
         {
             case EnemyState.Walking:
                 movement.Movement(this, context);
-            break;
-
+                break;
 
             case EnemyState.WalkingTowardsPlayer:
                 movement.MovementTowardsPlayer(this, context, detection, direction);
-            break;
-
-
-            case EnemyState.Combat:
-                combat.Execute(this, context, player);
                 break;
 
-
-            case EnemyState.UsingAbility:
-
-            break;
+            case EnemyState.Combat:
+                HandleCombat();
+                break;
         }
     }
 
-    public IEnumerator WaitFor(float time, Action action)
+    void HandleCombat()
     {
-        yield return new WaitForSeconds(time);
-        action?.Invoke();
+        movement.Stop(this);
+
+        if (specialAbility != null && UnityEngine.Random.value < abilityChance)
+        {
+            if (combatHandler.TrySpecialAbility())
+            {
+                StartCoroutine(PerformActionRoutine(EnemyState.UsingAbility, specialAbility));
+                return;
+            }
+        }
+
+        if (combatHandler.TryPrimaryAttack())
+        {
+            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
+        }
+    }
+
+    IEnumerator PerformActionRoutine(EnemyState actionState, ActionSO action)
+    {
+        currentState = actionState;
+        yield return new WaitForSeconds(action.duration);
+
+        currentState = EnemyState.Waiting;
+        yield return new WaitForSeconds(0.5f);
+
+        currentState = EnemyState.Walking;
     }
 
     public void EnterWait(float duration)
     {
         currentState = EnemyState.Waiting;
         movement.Stop(this);
-        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Idle));
+        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Walking));
+    }
+
+    public IEnumerator WaitFor(float time, Action action)
+    {
+        yield return new WaitForSeconds(time);
+        action?.Invoke();
     }
 
     #region Base Entity Implementation
@@ -128,26 +205,27 @@ public class EnemyLogic : BaseEntity
             context.lastHitTime = Time.time;
             context.wasHit = true;
 
-            if (currentState != EnemyState.Combat && currentState != EnemyState.UsingAbility)
+            if (currentState == EnemyState.Walking || currentState == EnemyState.Waiting)
             {
-                currentState = EnemyState.Combat;
+                StopAllCoroutines();
+                currentState = EnemyState.Walking;
             }
         }
     }
-
-    protected override void OnDeath()
-    {
-    }
     #endregion
-
 }
+
+[System.Serializable]
 public class EnemyContextState
 {
-    public bool isPlayerDetected = false, wasHit = false;
-    public float playerDistance = Mathf.Infinity, lastHitTime = 0f;
+    public bool isPlayerDetected = false;
+    public bool wasHit = false;
+    public float playerDistance = Mathf.Infinity;
+    public float lastHitTime = -100f;
+
+    // Для логики "потерял из виду"
+    public float lastTimeSeenPlayer = -100f;
+    public sbyte lastKnownDirection = 0;
+
     public sbyte directionToPlayer = 0;
-    public Coroutine currentCoroutine = null;
-}
-public class EnemyCombatState
-{
 }

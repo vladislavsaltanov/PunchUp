@@ -209,6 +209,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: attack
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: maxHealth
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: primaryAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: groundedHandler
+      value: 
+      objectReference: {fileID: 1811522613}
+    - target: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: stats.maxHealth
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.4547367
@@ -518,6 +538,7 @@ GameObject:
   - component: {fileID: 437121367}
   - component: {fileID: 437121368}
   - component: {fileID: 437121369}
+  - component: {fileID: 437121370}
   m_Layer: 8
   m_Name: Scientist
   m_TagString: Enemy
@@ -555,24 +576,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   stats:
-    speed: 5
+    speed: 2
     attackPower: 1
     defense: 0
     maxHealth: 100
+    knockbackMultiplier: 1
   maxHealth: 8
   direction: 0
-  attack: {fileID: 0}
-  ability: {fileID: 0}
+  primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
+  specialAbility: {fileID: 0}
   rb: {fileID: 437121369}
   animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
-  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
-  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
+  combatHandler: {fileID: 437121370}
+  attackRange: 1.2
+  abilityChance: 0.3
+  agroTimeout: 5
+  searchDuration: 2
   leftSideTrigger: {fileID: 5410892}
   rightSideTrigger: {fileID: 1062152346}
   currentState: 0
+  context:
+    isPlayerDetected: 0
+    wasHit: 0
+    playerDistance: Infinity
+    lastHitTime: -100
+    lastTimeSeenPlayer: -100
+    lastKnownDirection: 0
+    directionToPlayer: 0
 --- !u!50 &437121369
 Rigidbody2D:
   serializedVersion: 5
@@ -600,6 +633,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &437121370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437121366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7195ca2885605b04ba7c0d12692af1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
+  owner: {fileID: 437121368}
 --- !u!1 &443605929
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +657,7 @@ GameObject:
   - component: {fileID: 443605932}
   - component: {fileID: 443605931}
   - component: {fileID: 443605930}
+  - component: {fileID: 443605933}
   m_Layer: 8
   m_Name: Scientist (1)
   m_TagString: Enemy
@@ -658,24 +705,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   stats:
-    speed: 5
+    speed: 1.5
     attackPower: 1
     defense: 0
     maxHealth: 100
+    knockbackMultiplier: 1
   maxHealth: 12
   direction: 0
-  attack: {fileID: 0}
-  ability: {fileID: 0}
+  primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
+  specialAbility: {fileID: 0}
   rb: {fileID: 443605930}
   animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
-  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
-  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
+  combatHandler: {fileID: 443605933}
+  attackRange: 1.2
+  abilityChance: 0.3
+  agroTimeout: 5
+  searchDuration: 2
   leftSideTrigger: {fileID: 815321012}
   rightSideTrigger: {fileID: 2004707649}
   currentState: 0
+  context:
+    isPlayerDetected: 0
+    wasHit: 0
+    playerDistance: Infinity
+    lastHitTime: -100
+    lastTimeSeenPlayer: -100
+    lastKnownDirection: 0
+    directionToPlayer: 0
 --- !u!4 &443605932
 Transform:
   m_ObjectHideFlags: 0
@@ -693,6 +752,19 @@ Transform:
   - {fileID: 694050306}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &443605933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443605929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7195ca2885605b04ba7c0d12692af1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
+  owner: {fileID: 443605931}
 --- !u!1 &694050305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,6 +2013,7 @@ GameObject:
   - component: {fileID: 1604320237}
   - component: {fileID: 1604320236}
   - component: {fileID: 1604320235}
+  - component: {fileID: 1604320238}
   m_Layer: 8
   m_Name: Scientist (2)
   m_TagString: Enemy
@@ -1988,24 +2061,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   stats:
-    speed: 5
+    speed: 1.2
     attackPower: 1
     defense: 0
     maxHealth: 100
+    knockbackMultiplier: 1
   maxHealth: 10
   direction: 0
-  attack: {fileID: 0}
-  ability: {fileID: 0}
+  primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
+  specialAbility: {fileID: 0}
   rb: {fileID: 1604320235}
   animator: {fileID: 0}
   isWaiting: 0
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
-  combat: {fileID: 11400000, guid: 72cf95ddfae29694b93a2047b675c868, type: 2}
-  abilityModule: {fileID: 0}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
+  combatHandler: {fileID: 1604320238}
+  attackRange: 1.2
+  abilityChance: 0.3
+  agroTimeout: 5
+  searchDuration: 2
   leftSideTrigger: {fileID: 1065029090}
   rightSideTrigger: {fileID: 1934559903}
   currentState: 0
+  context:
+    isPlayerDetected: 0
+    wasHit: 0
+    playerDistance: Infinity
+    lastHitTime: -100
+    lastTimeSeenPlayer: -100
+    lastKnownDirection: 0
+    directionToPlayer: 0
 --- !u!4 &1604320237
 Transform:
   m_ObjectHideFlags: 0
@@ -2023,6 +2108,19 @@ Transform:
   - {fileID: 338696158}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1604320238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604320234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7195ca2885605b04ba7c0d12692af1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
+  owner: {fileID: 1604320236}
 --- !u!1 &1646850802
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,6 +2154,17 @@ Transform:
   - {fileID: 1062152345}
   m_Father: {fileID: 437121367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1811522613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5044149940470653903, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+  m_PrefabInstance: {fileID: 73164831}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97553bd885e613c46b78e44a90ba5002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::isGroundedHandler
 --- !u!1 &1934559902
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,117 +1,71 @@
-// Combat/CombatHandler.cs
 using UnityEngine;
 
 public class CombatHandler : MonoBehaviour
 {
-    [Header("References")]
     [SerializeField] BaseEntity owner;
 
-    [Header("Attack")]
-    [SerializeField] AttackSO attack;
+    float primaryCooldownTimer;
+    float specialCooldownTimer;
 
-    [Header("Ability (Optional)")]
-    [SerializeField] ActionSO ability;
-
-    // Runtime
-    float attackCooldown;
-    float abilityCooldown;
-    bool isAttacking;
-    bool isUsingAbility;
-    Coroutine attackCoroutine;
-    Coroutine abilityCoroutine;
-
-    public bool IsAttacking => isAttacking;
-    public bool IsUsingAbility => isUsingAbility;
-    public bool IsBusy => isAttacking || isUsingAbility;
-
-    public bool HasAbility => ability != null;
-    public bool AttackReady => attack != null && attackCooldown <= 0f && !isAttacking;
-    public bool AbilityReady => ability != null && abilityCooldown <= 0f && !isUsingAbility;
+    public bool IsBusy { get; private set; }
 
     void Awake()
     {
-        if (owner == null)
-            owner = GetComponent<BaseEntity>();
+        if (owner == null) owner = GetComponent<BaseEntity>();
     }
 
     void Update()
     {
-        if (attackCooldown > 0f)
-            attackCooldown -= Time.deltaTime;
-
-        if (abilityCooldown > 0f)
-            abilityCooldown -= Time.deltaTime;
+        if (primaryCooldownTimer > 0) primaryCooldownTimer -= Time.deltaTime;
+        if (specialCooldownTimer > 0) specialCooldownTimer -= Time.deltaTime;
     }
 
-    public bool TryAttack()
+    public bool TryPrimaryAttack()
     {
-        if (!AttackReady || IsBusy || owner.CurrentHealth <= 0)
-            return false;
+        return TryExecute(
+            owner.primaryAttack,
+            primaryCooldownTimer,
+            (newTime) => primaryCooldownTimer = newTime
+        );
+    }
 
-        isAttacking = true;
+    public bool TrySpecialAbility()
+    {
+        return TryExecute(
+            owner.specialAbility,
+            specialCooldownTimer,
+            (newTime) => specialCooldownTimer = newTime
+        );
+    }
 
-        attackCoroutine = owner.StartCoroutine(attack.Execute(owner, () =>
+    bool TryExecute(ActionSO action, float currentTimer, System.Action<float> setCooldownCallback)
+    {
+        if (action == null) return false;
+
+        if (IsBusy || currentTimer > 0 || owner.CurrentHealth <= 0)
         {
-            isAttacking = false;
-            attackCooldown = attack.cooldown;
-            attackCoroutine = null;
-        }));
+            return false;
+        }
 
+        StartCoroutine(ExecuteRoutine(action, setCooldownCallback));
         return true;
     }
 
-    public bool TryUseAbility()
+    System.Collections.IEnumerator ExecuteRoutine(ActionSO action, System.Action<float> setCooldownCallback)
     {
-        if (!AbilityReady || IsBusy || owner.CurrentHealth <= 0)
-            return false;
+        IsBusy = true;
 
-        isUsingAbility = true;
+        yield return action.Execute(owner);
 
-        abilityCoroutine = owner.StartCoroutine(ability.Execute(owner, () =>
-        {
-            isUsingAbility = false;
-            abilityCooldown = ability.cooldown;
-            abilityCoroutine = null;
-        }));
+        IsBusy = false;
 
-        return true;
-    }
-
-    public void SetAbility(ActionSO newAbility)
-    {
-        ability = newAbility;
-        abilityCooldown = 0f;
-    }
-
-    public void ClearAbility()
-    {
-        ability = null;
+        setCooldownCallback?.Invoke(action.cooldown);
     }
 
     public void CancelAll()
     {
-        if (attackCoroutine != null)
-        {
-            owner.StopCoroutine(attackCoroutine);
-            isAttacking = false;
-            attackCoroutine = null;
-        }
-
-        if (abilityCoroutine != null)
-        {
-            owner.StopCoroutine(abilityCoroutine);
-            isUsingAbility = false;
-            abilityCoroutine = null;
-        }
-
+        StopAllCoroutines();
+        IsBusy = false;
         owner.ClearVelocityOverride();
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (owner == null) return;
-
-        Gizmos.color = Color.red;
-        attack?.DrawGizmo(owner.transform, owner.direction);
     }
 }

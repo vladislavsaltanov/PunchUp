@@ -8,7 +8,7 @@ public abstract class EnemyMovementBaseSO : ScriptableObject
     [SerializeField] LayerMask obstacleLayer;
 
     public abstract void Movement(EnemyLogic logic, EnemyContextState state);
-    public abstract void MovementTowardsPlayer(EnemyLogic logic, EnemyContextState state, EnemyPlayerDetectionSO playerDetection, float playerDirection);
+    public abstract void MovementTowardsPlayer(EnemyLogic logic, EnemyContextState context, EnemyPlayerDetectionSO playerDetection, sbyte direction);
 
     public bool IsBlocked(EnemyLogic logic, sbyte direction) =>
                (direction < 0 && (logic.leftSideTrigger.IsTouchingLayers(obstacleLayer) || !logic.leftSideTrigger.IsTouchingLayers(groundLayer))) ||

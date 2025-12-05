@@ -52,16 +52,14 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 
-        rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, movementDirection * chars.speed, chars.resetSpeedTime * Time.deltaTime);
-
         isForcedFalling = inputManager.moveAction.action.ReadValue<Vector2>().y < -0.5f && (controller.currentTime - controller.lastGroundedTime > chars.forcedFallCooldown);
 
         // resetting speed if we stop moving
         if (Mathf.Abs(inputManager.moveAction.action.ReadValue<Vector2>().x) < 0.1f && isGroundedHandler.IsGrounded)
             rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, 0f, chars.resetSpeedTime * Time.deltaTime);
 
-        // clamping velocity so we wont fly too fast
-        rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, isForcedFalling ? -chars.forcedFallForce : chars.maxVerticalSpeed.x, chars.maxVerticalSpeed.y);
+        if (!controller.overrideVelocityY.HasValue)
+            rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, isForcedFalling ? -chars.forcedFallForce : chars.maxVerticalSpeed.x, chars.maxVerticalSpeed.y);
 
         if (isGroundedHandler.IsGrounded)
         {

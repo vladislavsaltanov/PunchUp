@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Stats")]
-    [SerializeField] protected EntityStats stats = new EntityStats();
+    public EntityStats stats = new EntityStats();
 
     [Space(10)]
     [Header("Health")]
@@ -19,9 +19,13 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public sbyte direction;
 
     [Space(10)]
-    [Header("Combat")]
-    [SerializeField] protected ActionSO attack;
-    [SerializeField] protected ActionSO ability; // null пока не открыта
+    [Header("Combat Actions")]
+    public ActionSO primaryAttack;
+    public ActionSO specialAbility;
+
+    // Методы для смены способностей (подбор предметов)
+    public void SetPrimaryAttack(ActionSO action) => primaryAttack = action;
+    public void SetSpecialAbility(ActionSO action) => specialAbility = action;
 
     [Space(10)]
     [Header("Components")]
@@ -39,7 +43,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     protected bool isUsingAbility;
 
     public EntityStats Stats => stats;
-    public bool HasAbility => ability != null;
+    public bool HasAbility => specialAbility != null;
     #endregion 
 
     #region Velocity Override
@@ -108,6 +112,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     IEnumerator VelocityOverrideRoutine(Vector2 velocity, float duration)
     {
+        Debug.Log($"{gameObject.name} override START: {velocity}, duration: {duration}");
+
         overrideVelocityX = velocity.x;
         overrideVelocityY = velocity.y;
         rb.linearVelocity = velocity;
@@ -117,6 +123,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         overrideVelocityX = null;
         overrideVelocityY = null;
         velocityOverrideCoroutine = null;
+
+        Debug.Log($"{gameObject.name} override END");
     }
     #endregion
 
@@ -134,14 +142,4 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         //transform.localScale = scale;
     }
     #endregion
-
-    public void SetAbility(ActionSO newAbility)
-    {
-        ability = newAbility;
-    }
-
-    public void ClearAbility()
-    {
-        ability = null;
-    }
 }

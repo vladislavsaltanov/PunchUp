@@ -53,18 +53,17 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
 
             // Урон
             entity.TakeDamage(damage, enemy.transform);
-
-            // Нокбэк — направление ОТ врага К цели
-            float dirX = Mathf.Sign(entity.transform.position.x - enemy.transform.position.x);
+            float dirX = Mathf.Sign(hit.transform.position.x - enemy.transform.position.x);
             Vector2 knockback = new Vector2(dirX * knockbackForce, knockbackForce * 0.3f);
             entity.ApplyVelocityOverride(knockback, knockbackDuration);
         }
+
+        enemy.currentState = EnemyState.Waiting;
 
         // Восстановление после удара
         yield return new WaitForSeconds(attackDuration - windupTime);
 
         // Кулдаун
-        enemy.currentState = EnemyState.Waiting;
         yield return new WaitForSeconds(attackCooldown);
         enemy.currentState = EnemyState.Idle;
     }
