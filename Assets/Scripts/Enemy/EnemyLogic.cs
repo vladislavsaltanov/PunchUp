@@ -219,6 +219,14 @@ public class EnemyLogic : BaseEntity
             }
         }
     }
+    protected override void OnDeath()
+    {
+        movement.Stop(this);
+        StopAllCoroutines();
+        //currentState = EnemyState.Dead;
+        gameObject.SetActive(false);
+        // Дополнительная логика смерти (анимация, дроп и т.д.) может быть добавлена здесь
+    }
     #endregion
 }
 

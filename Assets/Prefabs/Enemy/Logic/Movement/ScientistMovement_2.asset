@@ -18,6 +18,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 264
-  movementSpeed: 1.5
+  wallCheckDistance: 0.1
+  wallCheckHeight: -0.15
   rotationDelay: 2
   movementTowardsPlayerSpeedMultiplier: 1.5

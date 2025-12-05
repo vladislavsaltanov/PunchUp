@@ -96,7 +96,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         if (velocityOverrideCoroutine != null)
             StopCoroutine(velocityOverrideCoroutine);
 
-        velocityOverrideCoroutine = StartCoroutine(VelocityOverrideRoutine(velocity, duration));
+        if (CurrentHealth != 0)
+            velocityOverrideCoroutine = StartCoroutine(VelocityOverrideRoutine(velocity, duration));
     }
 
     public void ClearVelocityOverride()
@@ -136,7 +137,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * direction;
-        //transform.localScale = scale;
+        transform.localScale = scale;
     }
     #endregion
 }
