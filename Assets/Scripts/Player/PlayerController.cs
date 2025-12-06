@@ -153,8 +153,7 @@ public class PlayerController : BaseEntity
         combatHandler?.CancelAll();
         Debug.Log("[Player] Died. Game Over logic here.");
 
-        this.enabled = false;
-        if (rb != null) rb.linearVelocity = Vector2.zero;
+        SceneTransitionManager.SwitchScene(1);
     }
     #endregion
 }

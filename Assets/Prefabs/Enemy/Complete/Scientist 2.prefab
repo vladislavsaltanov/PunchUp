@@ -392,12 +392,9 @@ MonoBehaviour:
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5979673803110708387}
-  attackRange: 1.2
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
-  leftSideTrigger: {fileID: 1192041650476617926}
-  rightSideTrigger: {fileID: 6724751908758751160}
   currentState: 0
   context:
     isPlayerDetected: 0
@@ -407,6 +404,7 @@ MonoBehaviour:
     lastTimeSeenPlayer: -100
     lastKnownDirection: 0
     directionToPlayer: 0
+    lastXPosition: 0
     stuckTimer: 0
 --- !u!50 &7834036821289183661
 Rigidbody2D:
@@ -431,7 +429,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
