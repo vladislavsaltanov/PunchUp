@@ -199,7 +199,60 @@ MonoBehaviour:
   m_FreeGlyphRects:
   - m_X: 0
     m_Y: 0
-    m_Width: 511
+    m_Width: 68
+    m_Height: 78
+  - m_X: 0
+    m_Y: 78
+    m_Width: 64
+    m_Height: 66
+  - m_X: 0
+    m_Y: 144
+    m_Width: 77
+    m_Height: 64
+  - m_X: 64
+    m_Y: 78
+    m_Width: 68
+    m_Height: 64
+  - m_X: 68
+    m_Y: 0
+    m_Width: 57
+    m_Height: 64
+  - m_X: 125
+    m_Y: 0
+    m_Width: 56
+    m_Height: 64
+  - m_X: 0
+    m_Y: 208
+    m_Width: 61
+    m_Height: 66
+  - m_X: 0
+    m_Y: 274
+    m_Width: 69
+    m_Height: 78
+  - m_X: 0
+    m_Y: 352
+    m_Width: 62
+    m_Height: 82
+  - m_X: 61
+    m_Y: 208
+    m_Width: 54
+    m_Height: 66
+  m_FreeGlyphRects:
+  - m_X: 64
+    m_Y: 142
+    m_Width: 447
+    m_Height: 2
+  - m_X: 68
+    m_Y: 64
+    m_Width: 443
+    m_Height: 14
+  - m_X: 132
+    m_Y: 64
+    m_Width: 379
+    m_Height: 447
+  - m_X: 181
+    m_Y: 0
+    m_Width: 330
     m_Height: 511
   m_fontInfo:
     Name: Liberation Sans
