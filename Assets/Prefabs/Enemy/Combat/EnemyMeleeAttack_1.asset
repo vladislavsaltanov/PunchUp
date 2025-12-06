@@ -15,6 +15,7 @@ MonoBehaviour:
   duration: 0.8
   cooldown: 2
   animationTrigger: 
+  range: 1
   baseDamage: 4
   windupTime: 0.15
   knockbackForce: {x: 8, y: 4}

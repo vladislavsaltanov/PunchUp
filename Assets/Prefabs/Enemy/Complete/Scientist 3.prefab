@@ -275,6 +275,8 @@ MonoBehaviour:
   specialAbility: {fileID: 0}
   rb: {fileID: 2811402759415501307}
   animator: {fileID: 0}
+  spriteRenderer: {fileID: 2483328308904730475}
+  entityCollider: {fileID: 9080053592874354569}
   isWaiting: 0
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
@@ -294,6 +296,7 @@ MonoBehaviour:
     lastTimeSeenPlayer: -100
     lastKnownDirection: 0
     directionToPlayer: 0
+    stuckTimer: 0
 --- !u!50 &2811402759415501307
 Rigidbody2D:
   serializedVersion: 5

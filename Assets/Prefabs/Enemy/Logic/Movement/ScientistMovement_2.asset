@@ -18,7 +18,10 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 264
-  wallCheckDistance: 0.1
-  wallCheckHeight: -0.15
+  wallCheckDistance: 0.14
+  ledgeLookAhead: 0.6
+  ledgeRayLength: 0.2
   rotationDelay: 2
   movementTowardsPlayerSpeedMultiplier: 1.5
+  moveThreshold: 0.001
+  stuckTimeThreshold: 0.2

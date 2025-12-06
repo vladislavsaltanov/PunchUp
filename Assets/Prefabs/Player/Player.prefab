@@ -632,6 +632,8 @@ MonoBehaviour:
   specialAbility: {fileID: 0}
   rb: {fileID: 7678324957575243347}
   animator: {fileID: 0}
+  spriteRenderer: {fileID: 1037472663058153170}
+  entityCollider: {fileID: 7923158709754533670}
   isWaiting: 0
   currentTime: 0
   lastGroundedTime: 0

@@ -11,5 +11,7 @@ public abstract class ActionSO : ScriptableObject
     [Header("Animation")]
     public string animationTrigger;
 
+    [Tooltip("Дистанция, с которой можно применить эту атаку")]
+    public float range = 1.5f;
     public abstract IEnumerator Execute(BaseEntity owner, Action onComplete = null);
 }

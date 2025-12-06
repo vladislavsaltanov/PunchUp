@@ -30,6 +30,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Header("Components")]
     public Rigidbody2D rb;
     public Animator animator;
+    public SpriteRenderer spriteRenderer;
+    public Collider2D entityCollider;
 
     [Space(10)]
     [Header("States")]
@@ -134,9 +136,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     public virtual void UpdateVisualDirection()
     {
-        Vector3 scale = transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * direction;
-        transform.localScale = scale;
+        if (spriteRenderer != null && direction != 0)
+            spriteRenderer.flipX = (direction < 0);
     }
     #endregion
 }

@@ -1,52 +1,52 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
 {
-    #region Modules
     [Header("Modules")]
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
     [SerializeField] CombatHandler combatHandler;
-    #endregion
 
-    #region AI Settings
     [Header("AI Settings")]
-    [SerializeField] float attackRange = 1.5f;
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
-    [SerializeField] float searchDuration = 2f; 
-    #endregion
+    [SerializeField] float searchDuration = 2f;
 
-    #region Movement Triggers
-    [Space(20)]
-    [Header("Movement")]
-    public Collider2D leftSideTrigger;
-    public Collider2D rightSideTrigger;
-    #endregion
+    // --- НОВОЕ СВОЙСТВО ---
+    // Считает реальную дистанцию удара: от центра врага до кончика меча
+    public float EffectiveAttackReach
+    {
+        get
+        {
+            float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
 
-    #region State
-    [Space(10)]
-    [Header("State")]
+            // Если есть коллайдер, добавляем его половину ширины (extents.x)
+            if (entityCollider != null)
+            {
+                return entityCollider.bounds.extents.x + weaponRange;
+            }
+
+            return weaponRange;
+        }
+    }
+
     public EnemyState currentState;
     public EnemyContextState context = new EnemyContextState();
-    #endregion
 
-    #region Cached
     PlayerController playerController;
     GameObject player => playerController?.gameObject ?? this.gameObject;
-    #endregion
 
     protected override void Awake()
     {
         base.Awake();
-
         if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
         playerController = PlayerController.instance;
 
+        if (entityCollider == null) entityCollider = GetComponent<Collider2D>();
+
         direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
-        EnterWait(UnityEngine.Random.Range(1f, 3f));
+        EnterWait(1f);
     }
 
     private void Update()
@@ -54,19 +54,9 @@ public class EnemyLogic : BaseEntity
         if (CurrentHealth <= 0) return;
 
         UpdateVisualDirection();
+
         if (HasVelocityOverride) return;
 
-        UpdateDetection();
-
-        if (IsStateLocked()) return;
-
-        EvaluateSituation();
-
-        ExecuteState();
-    }
-
-    void UpdateDetection()
-    {
         context.directionToPlayer = detection.IsPlayerDetected(this, out context.playerDistance);
         context.isPlayerDetected = context.directionToPlayer != 0;
 
@@ -75,13 +65,12 @@ public class EnemyLogic : BaseEntity
             context.lastTimeSeenPlayer = Time.time;
             context.lastKnownDirection = context.directionToPlayer;
         }
-    }
 
-    bool IsStateLocked()
-    {
-        return currentState == EnemyState.Waiting ||
-               currentState == EnemyState.Attacking ||
-               currentState == EnemyState.UsingAbility;
+        if (currentState == EnemyState.Attacking || currentState == EnemyState.UsingAbility)
+            return;
+
+        EvaluateSituation();
+        ExecuteState();
     }
 
     void EvaluateSituation()
@@ -94,15 +83,7 @@ public class EnemyLogic : BaseEntity
             }
             else
             {
-                if (!context.isPlayerDetected)
-                {
-                    direction = context.directionToPlayer; 
-                }
-                else
-                {
-                    direction = context.directionToPlayer; 
-                }
-
+                if (context.directionToPlayer != 0) direction = context.directionToPlayer;
                 ChooseCombatOrChase();
                 return;
             }
@@ -117,24 +98,24 @@ public class EnemyLogic : BaseEntity
 
         if (Time.time < context.lastTimeSeenPlayer + searchDuration)
         {
-            direction = context.lastKnownDirection;
-            currentState = EnemyState.WalkingTowardsPlayer;
+            if (currentState != EnemyState.Waiting)
+            {
+                direction = context.lastKnownDirection;
+                currentState = EnemyState.WalkingTowardsPlayer;
+            }
             return;
         }
-        
-        currentState = EnemyState.Walking;
 
-        if (currentState == EnemyState.Walking && direction == 0)
+        if (currentState != EnemyState.Waiting)
         {
-            // Пнем его в случайную сторону
-            direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
+            currentState = EnemyState.Walking;
         }
     }
 
-    // Вспомогательный метод для выбора между ударом и бегом
     void ChooseCombatOrChase()
     {
-        if (context.isPlayerDetected && context.playerDistance <= attackRange)
+        // ИСПОЛЬЗУЕМ EffectiveAttackReach (Ширина + Оружие)
+        if (context.playerDistance <= EffectiveAttackReach)
         {
             currentState = EnemyState.Combat;
         }
@@ -151,13 +132,14 @@ public class EnemyLogic : BaseEntity
             case EnemyState.Walking:
                 movement.Movement(this, context);
                 break;
-
             case EnemyState.WalkingTowardsPlayer:
                 movement.MovementTowardsPlayer(this, context, detection, direction);
                 break;
-
             case EnemyState.Combat:
                 HandleCombat();
+                break;
+            case EnemyState.Waiting:
+                movement.Stop(this);
                 break;
         }
     }
@@ -168,6 +150,20 @@ public class EnemyLogic : BaseEntity
         {
             float dirToPlayer = player.transform.position.x - transform.position.x;
             if (Mathf.Abs(dirToPlayer) > 0.1f) direction = (sbyte)Mathf.Sign(dirToPlayer);
+        }
+
+        movement.Stop(this);
+
+        // Также учитываем размеры коллайдера при выходе из боя
+        // Умножаем на 1.2 только саму дальность оружия, а не ширину тела, чтобы было точнее
+        float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
+        float bodySize = (entityCollider != null) ? entityCollider.bounds.extents.x : 0f;
+
+        float exitDistance = bodySize + (weaponRange * 1.2f);
+
+        if (context.playerDistance > exitDistance)
+        {
+            return;
         }
 
         bool actionStarted = false;
@@ -181,81 +177,76 @@ public class EnemyLogic : BaseEntity
             }
         }
 
-        if (!actionStarted)
+        if (!actionStarted && combatHandler.TryPrimaryAttack())
         {
-            if (combatHandler.TryPrimaryAttack())
-            {
-                StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
-                actionStarted = true;
-            }
-        }
-
-        if (!actionStarted)
-        {
-            if (context.playerDistance > 1.0f)
-            {
-                movement.MovementTowardsPlayer(this, context, detection, direction);
-            }
-            else
-            {
-                movement.Stop(this);
-            }
-        }
-        else
-        {
-            movement.Stop(this); 
+            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
+            actionStarted = true;
         }
     }
 
-    IEnumerator PerformActionRoutine(EnemyState actionState, ActionSO action)
+    IEnumerator PerformActionRoutine(EnemyState state, ActionSO action)
     {
-        currentState = actionState;
+        currentState = state;
         yield return new WaitForSeconds(action.duration);
-
         currentState = EnemyState.Waiting;
         yield return new WaitForSeconds(0.5f);
-
         currentState = EnemyState.Walking;
     }
 
     public void EnterWait(float duration)
     {
+        if (context.isPlayerDetected || context.wasHit) return;
+        if (currentState == EnemyState.Waiting) return;
+
         currentState = EnemyState.Waiting;
         movement.Stop(this);
-        StartCoroutine(WaitFor(duration, () => currentState = EnemyState.Walking));
+        StartCoroutine(WaitFor(duration));
     }
 
-    public IEnumerator WaitFor(float time, Action action)
+    public IEnumerator WaitFor(float time)
     {
         yield return new WaitForSeconds(time);
-        action?.Invoke();
+        currentState = EnemyState.Walking;
     }
 
-    #region Base Entity Implementation
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
         if (attacker != null && ((1 << attacker.gameObject.layer) & detection.playerLayer.value) != 0)
         {
+            StopAllCoroutines();
+
             context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
+            direction = context.directionToPlayer;
+
             context.lastHitTime = Time.time;
             context.wasHit = true;
 
-            if (currentState == EnemyState.Walking || currentState == EnemyState.Waiting)
-            {
-                StopAllCoroutines();
-                currentState = EnemyState.Walking;
-            }
+            currentState = EnemyState.WalkingTowardsPlayer;
         }
     }
+
     protected override void OnDeath()
     {
-        combatHandler?.CancelAll();
+        combatHandler.CancelAll();
         StopAllCoroutines();
 
-        Destroy(gameObject);
-        this.enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+        entityCollider.enabled = false; 
+
+        Destroy(gameObject, 0.1f);
     }
-    #endregion
+
+    // --- ОТЛАДКА ---
+    // Рисуем радиус атаки в редакторе, когда враг выделен
+    private void OnDrawGizmosSelected()
+    {
+        if (primaryAttack == null && entityCollider == null) return;
+
+        Gizmos.color = Color.cyan;
+        // Рисуем проволочную сферу радиусом равным эффективной дистанции атаки
+        Gizmos.DrawWireSphere(transform.position, EffectiveAttackReach);
+    }
 }
 
 [System.Serializable]
@@ -271,4 +262,6 @@ public class EnemyContextState
     public sbyte lastKnownDirection = 0;
 
     public sbyte directionToPlayer = 0;
+    public float lastXPosition = 0f;
+    public float stuckTimer = 0f;
 }

@@ -4,47 +4,19 @@ public abstract class EnemyMovementBaseSO : ScriptableObject
 {
     [Space(10)]
     [Header("Detection")]
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] LayerMask obstacleLayer;
+    public LayerMask groundLayer;
+    public LayerMask obstacleLayer;
 
     [Header("Wall Detection")]
-    [SerializeField] float wallCheckDistance = 0.15f; 
-    [SerializeField] float wallCheckHeight = 0.15f;
+    public float wallCheckDistance = 0.5f; // Длина луча от "лица" врага
+
+    [Header("Ledge Detection")]
+    public float ledgeLookAhead = 0.5f; // Насколько далеко ОТ КРАЯ коллайдера проверять пол
+    public float ledgeRayLength = 1.0f; // Длина луча вниз
 
     public abstract void Movement(EnemyLogic logic, EnemyContextState state);
     public abstract void MovementTowardsPlayer(EnemyLogic logic, EnemyContextState context, EnemyPlayerDetectionSO playerDetection, sbyte direction);
-
-    public bool IsBlocked(EnemyLogic logic, sbyte direction)
-    {
-        Collider2D groundSensor = direction < 0 ? logic.leftSideTrigger : logic.rightSideTrigger;
-
-        if (groundSensor != null)
-            if (!groundSensor.IsTouchingLayers(groundLayer | obstacleLayer))
-                return true; 
-
-        Collider2D bodyCollider = logic.GetComponentInChildren<Collider2D>();
-        if (bodyCollider == null) return false; 
-
-        Bounds b = bodyCollider.bounds;
-
-        float frontX = direction > 0 ? b.max.x : b.min.x;
-
-        frontX += direction * 0.05f;
-
-        Vector2 origin = new Vector2(frontX, logic.transform.position.y + wallCheckHeight);
-        Vector2 dir = Vector2.right * direction;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, dir, wallCheckDistance, obstacleLayer | groundLayer);
-
-        if (hit.collider != null)
-        {
-            if (hit.transform.root == logic.transform.root) return false;
-
-            return true; 
-        }
-
-        return false;
-    }
+    public abstract bool IsBlocked(EnemyLogic logic, sbyte direction);
 
     public virtual void Stop(EnemyLogic enemy)
     {
