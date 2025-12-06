@@ -164,20 +164,46 @@ public class EnemyLogic : BaseEntity
 
     void HandleCombat()
     {
-        movement.Stop(this);
+        if (context.isPlayerDetected)
+        {
+            float dirToPlayer = player.transform.position.x - transform.position.x;
+            if (Mathf.Abs(dirToPlayer) > 0.1f) direction = (sbyte)Mathf.Sign(dirToPlayer);
+        }
+
+        bool actionStarted = false;
 
         if (specialAbility != null && UnityEngine.Random.value < abilityChance)
         {
             if (combatHandler.TrySpecialAbility())
             {
                 StartCoroutine(PerformActionRoutine(EnemyState.UsingAbility, specialAbility));
-                return;
+                actionStarted = true;
             }
         }
 
-        if (combatHandler.TryPrimaryAttack())
+        if (!actionStarted)
         {
-            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
+            if (combatHandler.TryPrimaryAttack())
+            {
+                StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
+                actionStarted = true;
+            }
+        }
+
+        if (!actionStarted)
+        {
+            if (context.playerDistance > 1.0f)
+            {
+                movement.MovementTowardsPlayer(this, context, detection, direction);
+            }
+            else
+            {
+                movement.Stop(this);
+            }
+        }
+        else
+        {
+            movement.Stop(this); 
         }
     }
 
@@ -223,11 +249,11 @@ public class EnemyLogic : BaseEntity
     }
     protected override void OnDeath()
     {
-        movement.Stop(this);
+        combatHandler?.CancelAll();
         StopAllCoroutines();
-        //currentState = EnemyState.Dead;
-        gameObject.SetActive(false);
-        // Дополнительная логика смерти (анимация, дроп и т.д.) может быть добавлена здесь
+
+        Destroy(gameObject);
+        this.enabled = false;
     }
     #endregion
 }
