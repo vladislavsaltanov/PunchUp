@@ -32,7 +32,7 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
         if (IsBlocked(logic, direction))
         {
             logic.rb.linearVelocityX = 0;
-            return; 
+            return;
         }
 
         if (!playerDetection.isPlayerTooClose(context.playerDistance))

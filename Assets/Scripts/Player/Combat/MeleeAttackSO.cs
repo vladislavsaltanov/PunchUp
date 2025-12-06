@@ -34,7 +34,7 @@ public class MeleeAttackSO : AttackSO
 
         foreach (var hit in hits)
         {
-            if (hit.transform == owner.transform || hit.transform.IsChildOf(owner.transform)) continue;
+            if (hit.transform == owner.transform || hit.transform.IsChildOf(owner.transform) || hit.isTrigger) continue;
 
             var target = hit.GetComponentInParent<BaseEntity>();
             if (target != null && target != owner)

@@ -20,9 +20,11 @@ public abstract class EnemyMovementBaseSO : ScriptableObject
 
         if (groundSensor != null)
             if (!groundSensor.IsTouchingLayers(groundLayer | obstacleLayer))
-                return true;
+                return true; 
 
         Collider2D bodyCollider = logic.GetComponentInChildren<Collider2D>();
+        if (bodyCollider == null) return false; 
+
         Bounds b = bodyCollider.bounds;
 
         float frontX = direction > 0 ? b.max.x : b.min.x;
@@ -32,11 +34,14 @@ public abstract class EnemyMovementBaseSO : ScriptableObject
         Vector2 origin = new Vector2(frontX, logic.transform.position.y + wallCheckHeight);
         Vector2 dir = Vector2.right * direction;
 
-
         RaycastHit2D hit = Physics2D.Raycast(origin, dir, wallCheckDistance, obstacleLayer | groundLayer);
 
         if (hit.collider != null)
-            return true;
+        {
+            if (hit.transform.root == logic.transform.root) return false;
+
+            return true; 
+        }
 
         return false;
     }
