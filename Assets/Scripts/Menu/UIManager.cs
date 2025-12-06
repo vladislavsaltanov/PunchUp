@@ -82,7 +82,20 @@ public class UIManager : MonoBehaviour
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
-        pauseMenu.SetActive(isPaused);
+
+        if (pauseMenu != null)
+            pauseMenu.SetActive(isPaused);
+
+        if (!isPaused)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void OnDisable()

@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c2425bf3bae2a48bb90ff8f1752b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemData: {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
+  itemData: {fileID: 0}
   promptUI: {fileID: 421054911}
 --- !u!58 &272354501
 CircleCollider2D:
@@ -632,8 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8b90b864fb328419344f03f7dc91eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraZone
-  leftExitCamera: {fileID: 9190079088896753911}
-  rightExitCamera: {fileID: 6329992692364379203}
+  gridWidth: 40
+  gridHeight: 20
 --- !u!61 &385664972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -922,8 +922,8 @@ Transform:
   m_GameObject: {fileID: 478706898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.53, y: 5.12, z: 0}
-  m_LocalScale: {x: 3.3705, y: 1, z: 1}
+  m_LocalPosition: {x: -15.8416, y: 5.12, z: 0}
+  m_LocalScale: {x: 2.7472947, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1105337485}
@@ -1112,7 +1112,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.2688679, b: 0.2688679, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1890,7 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c2425bf3bae2a48bb90ff8f1752b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemData: {fileID: 11400000, guid: 172768a9036f3be4188b16073f709ca1, type: 2}
+  itemData: {fileID: 0}
   promptUI: {fileID: 1070001863}
 --- !u!4 &1018854565
 Transform:
@@ -2857,7 +2857,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7865164, g: 0.9811321, b: 0.5229619, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3083,7 +3083,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7865164, g: 0.9811321, b: 0.5229619, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3120,8 +3120,8 @@ Transform:
   m_GameObject: {fileID: 1526947062}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.08, y: 6.6, z: 0}
-  m_LocalScale: {x: 10.588426, y: 1, z: 1}
+  m_LocalPosition: {x: -4.1352, y: 6.6, z: 0}
+  m_LocalScale: {x: 8.698392, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1105337485}
@@ -4298,7 +4298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c2425bf3bae2a48bb90ff8f1752b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemData: {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
+  itemData: {fileID: 0}
   promptUI: {fileID: 1816033002}
 --- !u!4 &2094719915
 Transform:

@@ -456,10 +456,13 @@ MonoBehaviour:
   - {fileID: 5213786492103677135, guid: 22abb802dd200cb4e9bbdb8da299fb30, type: 3}
   currentRoom: {fileID: 0}
   cameraBounds: {fileID: 0}
-  enemyPrefabs: []
+  enemyPrefabs:
+  - {fileID: 8116590055214077004, guid: 5120dd2805b361945b6cb06f35b09e23, type: 3}
+  - {fileID: 7593945755005346331, guid: fb0223faaa38bf547aaa2b9ce01f5673, type: 3}
+  - {fileID: 4469383118799625817, guid: 9bc8a2e96896cb447b7b1d78d184362d, type: 3}
   EnterInd: 0
   ExitInd: 0
-  playerObject: {fileID: 0}
+  playerObject: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
 --- !u!1 &381976794
 GameObject:
   m_ObjectHideFlags: 0
