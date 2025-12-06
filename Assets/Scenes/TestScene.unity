@@ -632,8 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8b90b864fb328419344f03f7dc91eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraZone
-  gridWidth: 40
-  gridHeight: 20
+  leftExitCamera: {fileID: 9190079088896753911}
+  rightExitCamera: {fileID: 6329992692364379203}
 --- !u!61 &385664972
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -55,10 +55,8 @@ public class PlayerController : BaseEntity
     }
     void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        Debug.Log("E pressed!");
         if (activeInteractable != null)
         {
-            Debug.Log($"Interacting with {activeInteractable}");
             activeInteractable.Interact(this);
         }
     }
