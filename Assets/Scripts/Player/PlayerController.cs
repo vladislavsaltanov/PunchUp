@@ -1,44 +1,159 @@
-using UnityEngine;
 using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, IPlayerActions
+public class PlayerController : BaseEntity
 {
     #region Singleton
-        public static PlayerController instance {  get; private set; }
-    private void Awake()
-        {
+    public static PlayerController instance { get; private set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (instance == null)
             instance = this;
-        }
+        else
+            Destroy(gameObject);
+    }
     #endregion
 
     [HideInInspector]
-        public float currentTime, lastGroundedTime;
+    public float currentTime, lastGroundedTime;
+
+    #region Modules
+    [Header("Modules")]
+    [SerializeField] CombatHandler combatHandler;
+    [SerializeField] isGroundedHandler groundedHandler; 
+    #endregion
+    public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
+
+    #region Cached
+    InputManager inputManager;
+    #endregion
+    IInteractable activeInteractable;
 
     void Start()
     {
-        isGroundedHandler.Instance.hasGrounded += hasGroundedEventHandler;
+        Time.timeScale = 1f;
+        inputManager = InputManager.Instance;
+
+        if (inputManager != null)
+        {
+            inputManager.attackAction.action.performed += OnAttack;
+            inputManager.specialAbilityAction.action.performed += OnAbility;
+        }
+
+        if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
+        if (groundedHandler != null)
+        {
+            groundedHandler.hasGrounded += hasGroundedEventHandler;
+        }
+
+        if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
+
+        inputManager.interactAction.action.performed += OnInteract;
+    }
+    void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        if (activeInteractable != null)
+        {
+            activeInteractable.Interact(this);
+        }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            activeInteractable = interactable;
+            activeInteractable.ShowPrompt(true);
+        }
     }
 
-    void OnDisable()
+    void OnTriggerExit2D(Collider2D other)
     {
-        isGroundedHandler.Instance.hasGrounded -= hasGroundedEventHandler;
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null && activeInteractable == interactable)
+        {
+            activeInteractable.ShowPrompt(false);
+            activeInteractable = null;
+        }
     }
+    void OnDestroy()
+    {
+        if (instance == this) instance = null;
+
+        if (inputManager != null)
+        {
+            inputManager.attackAction.action.performed -= OnAttack;
+            inputManager.specialAbilityAction.action.performed -= OnAbility;
+        }
+
+        if (groundedHandler != null)
+        {
+            groundedHandler.hasGrounded -= hasGroundedEventHandler;
+        }
+
+        inputManager.interactAction.action.performed -= OnInteract;
+    }
+
+    void Update()
+    {
+        currentTime += Time.deltaTime;
+
+        if (HasVelocityOverride) return;
+
+        if (IsActionLocked) return;
+
+        UpdateDirection();
+    }
+
+    void UpdateDirection()
+    {
+        if (inputManager == null) return;
+
+        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+
+        if (Mathf.Abs(inputX) > 0.1f)
+        {
+            direction = (sbyte)(inputX > 0 ? 1 : -1);
+
+            UpdateVisualDirection();
+        }
+    }
+
+    #region Input Handlers
+    void OnAttack(InputAction.CallbackContext ctx)
+    {
+        if (combatHandler == null) return;
+
+        combatHandler.TryPrimaryAttack();
+    }
+
+    void OnAbility(InputAction.CallbackContext ctx)
+    {
+        if (combatHandler == null) return;
+
+        combatHandler.TrySpecialAbility();
+    }
+    #endregion
 
     private void hasGroundedEventHandler(bool hasGrounded, float time)
     {
         lastGroundedTime = time;
     }
 
-    void Update()
+    #region BaseEntity Implementation
+    protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
-        currentTime += Time.deltaTime;
     }
 
-    public event Action<bool, float> hasBounced;
-    public event Action<float> hasJumped;
-}
-public interface IPlayerActions
-{
-    public event Action<bool, float> hasBounced;
-    public event Action<float> hasJumped;
+    protected override void OnDeath()
+    {
+        combatHandler?.CancelAll();
+        Debug.Log("[Player] Died. Game Over logic here.");
+
+        SceneTransitionManager.SwitchScene(1);
+    }
+    #endregion
 }

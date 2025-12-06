@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Space(20)]
 
-    [SerializeField]
-        Rigidbody2D rb;
+    Rigidbody2D rb;
+
     [SerializeField]
         isGroundedHandler isGroundedHandler;
     [SerializeField]
@@ -24,8 +24,12 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
         float movementDirection;
 
+    
+
     private void Start()
     {
+        rb = PlayerController.instance.rb;
+
         inputManager.jumpAction.action.performed += JumpAction;
         coyoteTimeTimerCurrent = chars.coyoteTime;
     }
@@ -37,21 +41,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // -1 if going left, 1 if going right
-        movementDirection = inputManager.moveAction.action.ReadValue<Vector2>().x == 0f ? 0 : inputManager.moveAction.action.ReadValue<Vector2>().x > 0.15f ? 1 : inputManager.moveAction.action.ReadValue<Vector2>().x <= 0.15f ? -1 : 0;
 
-        rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, movementDirection * chars.speed, chars.resetSpeedTime * Time.deltaTime);
+        if (controller.HasVelocityOverride)
+        {
+            Vector2 overrideVel = new Vector2(
+                controller.overrideVelocityX ?? rb.linearVelocityX,
+                controller.overrideVelocityY ?? rb.linearVelocityY
+            );
+
+            rb.linearVelocity = overrideVel;
+            // need to still handle jump timers while velocity is overridden
+            HandleJumpTimers();
+            return;
+        }
+
+        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+        movementDirection = inputX == 0f ? 0 : inputX > 0.15f ? 1 : -1;
+
+        float targetSpeed = movementDirection * controller.Stats["speed"];
+
+        rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 
         isForcedFalling = inputManager.moveAction.action.ReadValue<Vector2>().y < -0.5f && (controller.currentTime - controller.lastGroundedTime > chars.forcedFallCooldown);
 
         // resetting speed if we stop moving
-        if (Mathf.Abs(inputManager.moveAction.action.ReadValue<Vector2>().x) < 0.1f && isGroundedHandler.isGrounded)
+        if (Mathf.Abs(inputManager.moveAction.action.ReadValue<Vector2>().x) < 0.1f && isGroundedHandler.IsGrounded)
             rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, 0f, chars.resetSpeedTime * Time.deltaTime);
 
-        // clamping velocity so we wont fly too fast
-        rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, isForcedFalling ? -chars.forcedFallForce : chars.maxVerticalSpeed.x, chars.maxVerticalSpeed.y);
+        if (!controller.overrideVelocityY.HasValue)
+            rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, isForcedFalling ? -chars.forcedFallForce : chars.maxVerticalSpeed.x, chars.maxVerticalSpeed.y);
 
-        if (isGroundedHandler.isGrounded)
+        HandleJumpTimers();
+        if ((coyoteTimeTimerCurrent > 0f && bufferedJumpTimerCurrent > 0f) || (jumpsRemaining > 0 && jumpCooldown > 0 && bufferedJumpTimerCurrent > 0f))
+            Jump();
+    }
+    void HandleJumpTimers()
+    {
+        if (isGroundedHandler.IsGrounded)
         {
             jumpsRemaining = chars.maxJumps;
             coyoteTimeTimerCurrent = chars.coyoteTime;
@@ -63,11 +89,7 @@ public class PlayerMovement : MonoBehaviour
             bufferedJumpTimerCurrent -= Time.deltaTime;
 
         jumpCooldown -= Time.deltaTime;
-
-        if ((coyoteTimeTimerCurrent > 0f && bufferedJumpTimerCurrent > 0f) || (jumpsRemaining > 0 && jumpCooldown > 0 && bufferedJumpTimerCurrent > 0f))
-            Jump();
     }
-
     private void FixedUpdate()
     {
         // holding down 's' or stick down makes player slam down (after cooldown)
