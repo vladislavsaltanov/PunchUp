@@ -1,4 +1,3 @@
-using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public class Inventory : MonoBehaviour
             foreach (var mod in statItem.modifiers)
             {
                 if (!owner.Stats.AddModifier(mod.statName, mod.flat, mod.percent))
-                    return false;
+                    continue;
             }
         }
         else if (item is AbilityItemData abilityItem)

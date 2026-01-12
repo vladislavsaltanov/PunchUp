@@ -75,11 +75,14 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
         Vector2 wallOrigin = new Vector2(frontX, centerY);
         Vector2 wallDir = new Vector2(direction, 0);
 
-        RaycastHit2D[] wallHits = Physics2D.RaycastAll(wallOrigin, wallDir, wallCheckDistance, groundLayer | obstacleLayer);
+        RaycastHit2D[] wallHits = new RaycastHit2D[1];
+        int hitCount = Physics2D.RaycastNonAlloc(wallOrigin, wallDir, wallHits, wallCheckDistance, groundLayer | obstacleLayer);
         Debug.DrawRay(wallOrigin, wallDir * wallCheckDistance, Color.red);
 
-        foreach (var hit in wallHits)
+        for (int i = 0; i < hitCount; i++)
         {
+            RaycastHit2D hit = wallHits[i];
+            
             // Фильтруем себя (по иерархии)
             if (hit.transform.IsChildOf(logic.transform)) continue;
 
