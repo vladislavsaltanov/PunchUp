@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 353045}
   - component: {fileID: 353044}
   - component: {fileID: 353043}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (3)
-  m_TagString: Bouncy
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
