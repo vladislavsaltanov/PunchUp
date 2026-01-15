@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-
         if (controller.HasVelocityOverride)
         {
             Vector2 overrideVel = new Vector2(
@@ -55,17 +54,19 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+        Vector2 inputVector = inputManager.moveAction.action.ReadValue<Vector2>();
+
+        float inputX = inputVector.x;
         movementDirection = inputX == 0f ? 0 : inputX > 0.15f ? 1 : -1;
 
         float targetSpeed = movementDirection * controller.Stats["speed"];
 
         rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 
-        isForcedFalling = inputManager.moveAction.action.ReadValue<Vector2>().y < -0.5f && (controller.currentTime - controller.lastGroundedTime > chars.forcedFallCooldown);
+        isForcedFalling = inputVector.y < -0.5f && (controller.currentTime - controller.lastGroundedTime > chars.forcedFallCooldown);
 
         // resetting speed if we stop moving
-        if (Mathf.Abs(inputManager.moveAction.action.ReadValue<Vector2>().x) < 0.1f && isGroundedHandler.IsGrounded)
+        if (Mathf.Abs(inputVector.x) < 0.1f && isGroundedHandler.IsGrounded)
             rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, 0f, chars.resetSpeedTime * Time.deltaTime);
 
         if (!controller.overrideVelocityY.HasValue)

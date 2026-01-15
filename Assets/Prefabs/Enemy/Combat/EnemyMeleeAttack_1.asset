@@ -20,7 +20,7 @@ MonoBehaviour:
   windupTime: 0.15
   knockbackForce: {x: 8, y: 4}
   knockbackDuration: 0.2
-  hitboxSize: {x: 1.2, y: 1}
+  hitboxSize: {x: 1.4, y: 1}
   hitboxOffset: {x: 0.8, y: 0}
   targetLayers:
     serializedVersion: 2

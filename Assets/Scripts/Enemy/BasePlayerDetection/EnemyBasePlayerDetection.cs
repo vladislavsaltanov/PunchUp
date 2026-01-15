@@ -17,7 +17,7 @@ public class EnemyBasePlayerDetection : EnemyPlayerDetectionSO
 
         if (((1 << ray.collider.gameObject.layer) & playerLayer.value) != 0)
         {
-            distance = Mathf.Abs(ray.collider.transform.position.x - logic.transform.transform.position.x);
+            distance = ray.distance;
 
             return ray.collider.transform.position.x < logic.transform.transform.position.x ? (sbyte)-1 : (sbyte)1;
         }
