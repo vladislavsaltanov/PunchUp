@@ -600,7 +600,7 @@ MonoBehaviour:
     maxVerticalSpeed: {x: -35, y: 25}
     additionalGravity: 100
     forcedFallCooldown: 1
-    forcedFallForce: 1000
+    forcedFallForce: -100
     coyoteTime: 0.1
     bufferedJumpTimer: 0.15
     jumpCooldown: 0.25
