@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 inputVector = inputManager.moveAction.action.ReadValue<Vector2>();
         movementDirection = inputVector.x == 0f ? 0 : inputVector.x > 0.15f ? 1 : -1;
 
-        float targetSpeed = movementDirection * controller.Stats["speed"];
+        float targetSpeed = movementDirection * controller.Stats[StatType.Speed];
 
         rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, targetSpeed, chars.resetSpeedTime * Time.deltaTime);
 

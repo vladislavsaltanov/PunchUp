@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InventoryDebug : MonoBehaviour
@@ -31,10 +32,33 @@ public class InventoryDebug : MonoBehaviour
         if (inventory?.owner == null) return;
 
         var stats = inventory.owner.Stats;
-        Debug.Log($"Speed: {stats["speed"]}");
-        Debug.Log($"Attack Power: {stats["attackPower"]}");
-        Debug.Log($"Defense: {stats["defense"]}");
-        Debug.Log($"Max Health: {stats["maxHealth"]}");
+
+        Debug.Log("=== Current Stats ===");
+
+        foreach (StatType type in Enum.GetValues(typeof(StatType)))
+        {
+            float value = stats.Get(type);
+            float baseValue = stats.GetBase(type);
+
+            if (Math.Abs(value - baseValue) > 0.001f)
+            {
+                // Показываем только изменённые статы
+                Debug.Log($"{type}: {baseValue:F1} → {value:F1}");
+            }
+            else if (baseValue > 0)
+            {
+                Debug.Log($"{type}: {value:F1}");
+            }
+        }
+    }
+
+    [ContextMenu("Print Quick Stats")]
+    void PrintQuickStats()
+    {
+        if (inventory?.owner == null) return;
+
+        var stats = inventory.owner.Stats;
+        Debug.Log($"Speed: {stats[StatType.Speed]:F1} | ATK: {stats[StatType.AttackPower]:F1} | DEF: {stats[StatType.Defense]:F1} | HP: {stats[StatType.MaxHealth]:F0}");
     }
 
     [ContextMenu("Clear Inventory")]

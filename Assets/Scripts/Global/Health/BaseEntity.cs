@@ -64,7 +64,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     {
         if (CurrentHealth == 0) return;
 
-        float reduced = Mathf.Max(1, amount - Stats["defense"]);
+        float reduced = Mathf.Max(1, amount - Stats[StatType.Defense]);
         ushort finalDamage = (ushort)reduced;
 
         CurrentHealth = finalDamage >= CurrentHealth ? (ushort)0 : (ushort)(CurrentHealth - finalDamage);
