@@ -3,5 +3,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Stat Item")]
 public class StatItemData : ItemData
 {
-    public StatModifierData[] modifiers;
+    public StatModifierData[] modifiers; 
 }

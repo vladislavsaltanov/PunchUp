@@ -599,8 +599,6 @@ MonoBehaviour:
     maxHorizontalSpeed: 10
     maxVerticalSpeed: {x: -35, y: 25}
     additionalGravity: 100
-    forcedFallCooldown: 1
-    forcedFallForce: -100
     coyoteTime: 0.1
     bufferedJumpTimer: 0.15
     jumpCooldown: 0.25
@@ -621,11 +619,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats:
-    speed: 10
+    speed: 6
+    speedMultiplier: 1
     attackPower: 1
     defense: 0
     maxHealth: 50
+    healthRegenRate: 0
+    critChance: 0
+    critMultiplier: 1.5
     knockbackMultiplier: 1
+    knockbackResistance: 0
+    damageBlockChance: 0
+    cooldownReduction: 0
+    luck: 0
   maxHealth: 50
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
