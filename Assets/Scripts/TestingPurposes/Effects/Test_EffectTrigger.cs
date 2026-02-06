@@ -1,28 +1,20 @@
-using System.Collections;
 using UnityEngine;
 
 public class Test_EffectTrigger : MonoBehaviour
 {
-    [SerializeField]
-    SpriteRenderer spriteRenderer;
-    [SerializeField]
-    float cooldown = 5f;
-    bool onCooldown = false;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] EntityEffectData damageOverTimeEffect;
+    [SerializeField] float cooldown = 5f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (onCooldown) return;
-        if (collision.CompareTag("Player"))
-        {
-            spriteRenderer.enabled = false;
-            onCooldown = true;
-            StartCoroutine(resetCooldown());
-        }
-    }
+        var effectsSystem = collision.GetComponentInParent<EntityEffectsSystem>();
 
-    IEnumerator resetCooldown()
-    {
-        yield return new WaitForSeconds(cooldown);
-        spriteRenderer.enabled = true;
-        onCooldown = false;
+        if (effectsSystem != null && effectsSystem.ActiveEffects.TryGetValue(damageOverTimeEffect, out var activeEffect))
+            Debug.Log($"Remaining: {activeEffect.RemainingTime:F1}s");
+        else
+            Debug.Log("Effect not active");
+
+        effectsSystem.ApplyEffect(damageOverTimeEffect);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EntityEffectsSystem))]
 [Serializable]
 public class EntityStats
 {
@@ -26,6 +27,9 @@ public class EntityStats
 
     [Header("Luck")]
     [SerializeField] float luck = 0f;
+
+    [Header("Effects")]
+    [SerializeField] EntityEffectsSystem entityEffectsSystem;
 
     Dictionary<StatType, float> baseValues;
     Dictionary<StatType, List<StatModifier>> modifiers;
@@ -142,6 +146,9 @@ public class EntityStats
     void Init()
     {
         if (initialized) return;
+
+        if (entityEffectsSystem == null)
+            Debug.LogError("EntityEffectsSystem reference is missing in EntityStats!");
 
         baseValues = new Dictionary<StatType, float>
         {
