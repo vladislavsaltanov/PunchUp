@@ -1,8 +1,7 @@
 using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(EntityEffectsSystem))]
 public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Stats")]
