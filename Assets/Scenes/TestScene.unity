@@ -3353,7 +3353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_EffectTrigger
   spriteRenderer: {fileID: 1181072523}
-  damageOverTimeEffect: {fileID: 11400000, guid: a97d41b2f1abb2d4598b179b66dd7c95, type: 2}
+  damageOverTimeEffect: {fileID: 11400000, guid: 9adb54a283ff8b745964b846b7a4082d, type: 2}
   cooldown: 5
 --- !u!1 &1192863452
 GameObject:
