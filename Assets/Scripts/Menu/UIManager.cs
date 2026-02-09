@@ -1,6 +1,7 @@
-using UnityEngine;
+using System.Threading;
 using TMPro;
-using System.Collections;
+using UnityEngine;
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
@@ -14,8 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text notificationTitle;
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
-    Coroutine notificationCoroutine;
 
+    CancellationTokenSource notificationCts;
 
     private void Start()
     {
@@ -47,8 +48,8 @@ public class UIManager : MonoBehaviour
     {
         if (notificationPanel == null) return;
 
-        if (notificationCoroutine != null)
-            StopCoroutine(notificationCoroutine);
+        notificationCts?.Cancel();
+        notificationCts?.Dispose();
 
         notificationTitle.text = item.itemName;
 
@@ -63,14 +64,17 @@ public class UIManager : MonoBehaviour
         }
 
         notificationPanel.SetActive(true);
-        notificationCoroutine = StartCoroutine(HideNotificationRoutine());
+        notificationCts = new CancellationTokenSource();
+        _ = HideNotificationRoutine(notificationCts.Token);
     }
 
-    private IEnumerator HideNotificationRoutine()
+    private async Awaitable HideNotificationRoutine(CancellationToken token)
     {
-        yield return new WaitForSeconds(notificationDuration);
+        await Awaitable.WaitForSecondsAsync(notificationDuration, token);
+        if (token.IsCancellationRequested) return;
+
         notificationPanel.SetActive(false);
-        notificationCoroutine = null;
+        notificationCts = null;
     }
 
     private void OnPauseButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -100,6 +104,10 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        notificationCts?.Cancel();
+        notificationCts?.Dispose();
+        notificationCts = null;
+
         if (InputManager.Instance == null)
             return;
 
