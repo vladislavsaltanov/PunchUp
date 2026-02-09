@@ -24,7 +24,7 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
 
         if (logic.currentState != EnemyState.Waiting)
         {
-            float speed = logic.Stats["speed"];
+            float speed = logic.Stats[StatType.Speed];
             logic.rb.linearVelocityX = logic.direction * speed;
         }
     }
@@ -42,7 +42,7 @@ public class EnemyBaseMovement : EnemyMovementBaseSO
 
         if (!detection.isPlayerTooClose(state.playerDistance))
         {
-            float speed = logic.Stats["speed"];
+            float speed = logic.Stats[StatType.Speed];
             logic.rb.linearVelocityX = direction * speed * movementTowardsPlayerSpeedMultiplier;
         }
     }

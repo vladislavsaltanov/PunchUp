@@ -125,7 +125,7 @@ public class AutoSave : EditorWindow
 
 
 		if (AutoSavePreferences.logSaveEvent) {
-			LOG.Log ("Autosave");
+			//LOG.Log ("Autosave");
 		}
 #if UNITY_5_3
 		EditorSceneManager.SaveOpenScenes ();

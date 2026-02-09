@@ -528,6 +528,7 @@ GameObject:
   - component: {fileID: 2633023578081427226}
   - component: {fileID: 7017996865065010984}
   - component: {fileID: 1631731653201430541}
+  - component: {fileID: 6821972033225363592}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -599,8 +600,6 @@ MonoBehaviour:
     maxHorizontalSpeed: 10
     maxVerticalSpeed: {x: -35, y: 25}
     additionalGravity: 100
-    forcedFallCooldown: 1
-    forcedFallForce: -100
     coyoteTime: 0.1
     bufferedJumpTimer: 0.15
     jumpCooldown: 0.25
@@ -621,11 +620,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats:
-    speed: 10
+    speed: 6
     attackPower: 1
     defense: 0
     maxHealth: 50
+    healthRegenRate: 0
+    critChance: 0
+    critMultiplier: 1.5
     knockbackMultiplier: 1
+    knockbackResistance: 0
+    damageBlockChance: 0
+    cooldownReduction: 0
+    luck: 0
+    entityEffectsSystem: {fileID: 6821972033225363592}
   maxHealth: 50
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
@@ -720,6 +727,19 @@ MonoBehaviour:
   notificationTitle: {fileID: 9009807129639321049}
   notificationDesc: {fileID: 1766468397583324635}
   notificationDuration: 3
+--- !u!114 &6821972033225363592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541a0404b4f8bf140895be23b56c239c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
+  entity: {fileID: 3450894756909812398}
 --- !u!1 &2444405873806064545
 GameObject:
   m_ObjectHideFlags: 0

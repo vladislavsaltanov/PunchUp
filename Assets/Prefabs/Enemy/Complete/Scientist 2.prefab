@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 6548586802355228029}
   - component: {fileID: 7834036821289183661}
   - component: {fileID: 5979673803110708387}
+  - component: {fileID: 2796716739556374683}
   m_Layer: 8
   m_Name: Scientist 2
   m_TagString: Enemy
@@ -379,7 +380,15 @@ MonoBehaviour:
     attackPower: 1
     defense: 0
     maxHealth: 100
+    healthRegenRate: 0
+    critChance: 0
+    critMultiplier: 1.5
     knockbackMultiplier: 1
+    knockbackResistance: 0
+    damageBlockChance: 0
+    cooldownReduction: 0
+    luck: 0
+    entityEffectsSystem: {fileID: 2796716739556374683}
   maxHealth: 10
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
@@ -446,3 +455,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
   owner: {fileID: 6548586802355228029}
+--- !u!114 &2796716739556374683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593945755005346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541a0404b4f8bf140895be23b56c239c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
+  entity: {fileID: 6548586802355228029}

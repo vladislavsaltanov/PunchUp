@@ -18,7 +18,7 @@ public abstract class AttackSO : ActionSO
 
         // 1. Наносим урон
         // (Используем Stats["attackPower"] если есть, иначе 1)
-        float multiplier = owner.Stats != null ? owner.Stats["attackPower"] : 1f;
+        float multiplier = owner.Stats != null ? owner.Stats[StatType.AttackPower] : 1f;
         ushort finalDamage = (ushort)(baseDamage * multiplier);
 
         target.TakeDamage(finalDamage, owner.transform);
