@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class CombatHandler : MonoBehaviour
@@ -8,7 +9,7 @@ public class CombatHandler : MonoBehaviour
     float specialCooldownTimer;
 
     public bool IsBusy { get; private set; }
-
+    CancellationTokenSource cts;
     void Awake()
     {
         if (owner == null) owner = GetComponent<BaseEntity>();
@@ -47,24 +48,33 @@ public class CombatHandler : MonoBehaviour
             return false;
         }
 
-        StartCoroutine(ExecuteRoutine(action, setCooldownCallback));
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new CancellationTokenSource();
+
+        _ = ExecuteRoutine(action, setCooldownCallback, cts.Token);
         return true;
     }
 
-    System.Collections.IEnumerator ExecuteRoutine(ActionSO action, System.Action<float> setCooldownCallback)
+    async Awaitable ExecuteRoutine(ActionSO action, System.Action<float> setCooldownCallback, CancellationToken token)
     {
         IsBusy = true;
 
-        yield return action.Execute(owner);
+        await action.Execute(owner);
 
-        IsBusy = false;
-
+        if (token.IsCancellationRequested)
+        {
+            IsBusy = false;
+            return;
+        }
         setCooldownCallback?.Invoke(action.cooldown);
     }
 
     public void CancelAll()
     {
-        StopAllCoroutines();
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = null;
         IsBusy = false;
         owner.ClearVelocityOverride();
     }

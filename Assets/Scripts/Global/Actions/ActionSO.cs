@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public abstract class ActionSO : ScriptableObject
@@ -13,5 +12,5 @@ public abstract class ActionSO : ScriptableObject
 
     [Tooltip("Дистанция, с которой можно применить эту атаку")]
     public float range = 1.5f;
-    public abstract IEnumerator Execute(BaseEntity owner, Action onComplete = null);
+    public abstract Awaitable Execute(BaseEntity owner, Action onComplete = null);
 }

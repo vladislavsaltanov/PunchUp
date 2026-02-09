@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
@@ -12,6 +13,9 @@ public class EnemyLogic : BaseEntity
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
     [SerializeField] float searchDuration = 2f;
+
+    CancellationTokenSource actionCts;
+    CancellationTokenSource waitCts;
 
     // --- НОВОЕ СВОЙСТВО ---
     // Считает реальную дистанцию удара: от центра врага до кончика меча
@@ -172,24 +176,24 @@ public class EnemyLogic : BaseEntity
         {
             if (combatHandler.TrySpecialAbility())
             {
-                StartCoroutine(PerformActionRoutine(EnemyState.UsingAbility, specialAbility));
+                _ = PerformActionRoutine(EnemyState.UsingAbility, specialAbility, actionCts.Token);
                 actionStarted = true;
             }
         }
 
         if (!actionStarted && combatHandler.TryPrimaryAttack())
         {
-            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
+            _ = PerformActionRoutine(EnemyState.Attacking, primaryAttack, actionCts.Token);
             actionStarted = true;
         }
     }
 
-    IEnumerator PerformActionRoutine(EnemyState state, ActionSO action)
+    async Awaitable PerformActionRoutine(EnemyState state, ActionSO action, CancellationToken token)
     {
         currentState = state;
-        yield return new WaitForSeconds(action.duration);
+        await Awaitable.WaitForSecondsAsync(action.duration, token);
         currentState = EnemyState.Waiting;
-        yield return new WaitForSeconds(0.5f);
+        await Awaitable.WaitForSecondsAsync(0.5f, token);
         currentState = EnemyState.Walking;
     }
 
@@ -200,12 +204,14 @@ public class EnemyLogic : BaseEntity
 
         currentState = EnemyState.Waiting;
         movement.Stop(this);
-        StartCoroutine(WaitFor(duration));
+        _ = WaitFor(duration);
     }
 
-    public IEnumerator WaitFor(float time)
+    public async Awaitable WaitFor(float time)
     {
-        yield return new WaitForSeconds(time);
+        waitCts?.Cancel();
+        waitCts?.Dispose();
+        await Awaitable.WaitForSecondsAsync(time);
         currentState = EnemyState.Walking;
     }
 
@@ -213,7 +219,10 @@ public class EnemyLogic : BaseEntity
     {
         if (attacker != null && ((1 << attacker.gameObject.layer) & detection.playerLayer.value) != 0)
         {
-            StopAllCoroutines();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
 
             context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
             direction = context.directionToPlayer;
@@ -228,7 +237,10 @@ public class EnemyLogic : BaseEntity
     protected override void OnDeath()
     {
         combatHandler.CancelAll();
-        StopAllCoroutines();
+        waitCts?.Cancel();
+        waitCts?.Dispose();
+        actionCts?.Cancel();
+        actionCts?.Dispose();
 
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;

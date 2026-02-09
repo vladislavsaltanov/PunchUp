@@ -27,15 +27,15 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
     public override void Execute(EnemyLogic enemy, EnemyContextState context, GameObject player)
     { 
         if (enemy.currentState != EnemyState.Attacking && enemy.currentState != EnemyState.Waiting)
-            enemy.StartCoroutine(AttackRoutine(enemy, context));
+            _ = AttackRoutine(enemy, context);
     }
 
-    IEnumerator AttackRoutine(EnemyLogic enemy, EnemyContextState context)
+    async Awaitable AttackRoutine(EnemyLogic enemy, EnemyContextState context)
     {
         enemy.currentState = EnemyState.Attacking;
 
         // Замах
-        yield return new WaitForSeconds(windupTime);
+        await Awaitable.WaitForSecondsAsync(windupTime);
 
         // Hitbox
         Vector2 center = (Vector2)enemy.transform.position +
@@ -61,10 +61,10 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
         enemy.currentState = EnemyState.Waiting;
 
         // Восстановление после удара
-        yield return new WaitForSeconds(attackDuration - windupTime);
+        await Awaitable.WaitForSecondsAsync(attackDuration - windupTime);
 
         // Кулдаун
-        yield return new WaitForSeconds(attackCooldown);
+        await Awaitable.WaitForSecondsAsync(attackCooldown);
         enemy.currentState = EnemyState.Idle;
     }
 }

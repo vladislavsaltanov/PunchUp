@@ -10,17 +10,17 @@ public class MeleeAttackSO : AttackSO
     public Vector2 hitboxOffset = new Vector2(0.8f, 0f);
     public LayerMask targetLayers;
 
-    public override IEnumerator Execute(BaseEntity owner, Action onComplete = null)
+    public override async Awaitable Execute(BaseEntity owner, Action onComplete = null)
     {
         if (!string.IsNullOrEmpty(animationTrigger) && owner.animator != null)
             owner.animator.SetTrigger(animationTrigger);
 
-        yield return new WaitForSeconds(windupTime);
+        await Awaitable.WaitForSecondsAsync(windupTime);
 
         PerformHit(owner);
 
         float remainingTime = duration - windupTime;
-        if (remainingTime > 0) yield return new WaitForSeconds(remainingTime);
+        if (remainingTime > 0) await Awaitable.WaitForSecondsAsync(remainingTime);
 
         onComplete?.Invoke();
     }
