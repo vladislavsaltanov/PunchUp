@@ -13,6 +13,7 @@ public class CombatHandler : MonoBehaviour
     void Awake()
     {
         if (owner == null) owner = GetComponent<BaseEntity>();
+        IsBusy = false;
     }
 
     void Update()
@@ -67,7 +68,9 @@ public class CombatHandler : MonoBehaviour
             IsBusy = false;
             return;
         }
+
         setCooldownCallback?.Invoke(action.cooldown);
+        IsBusy = false;
     }
 
     public void CancelAll()

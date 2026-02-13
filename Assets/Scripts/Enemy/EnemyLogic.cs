@@ -176,24 +176,24 @@ public class EnemyLogic : BaseEntity
         {
             if (combatHandler.TrySpecialAbility())
             {
-                _ = PerformActionRoutine(EnemyState.UsingAbility, specialAbility, actionCts.Token);
+                _ = PerformActionRoutine(EnemyState.UsingAbility, specialAbility);
                 actionStarted = true;
             }
         }
 
         if (!actionStarted && combatHandler.TryPrimaryAttack())
         {
-            _ = PerformActionRoutine(EnemyState.Attacking, primaryAttack, actionCts.Token);
+            _ = PerformActionRoutine(EnemyState.Attacking, primaryAttack);
             actionStarted = true;
         }
     }
 
-    async Awaitable PerformActionRoutine(EnemyState state, ActionSO action, CancellationToken token)
+    async Awaitable PerformActionRoutine(EnemyState state, ActionSO action)
     {
         currentState = state;
-        await Awaitable.WaitForSecondsAsync(action.duration, token);
+        await Awaitable.WaitForSecondsAsync(action.duration, actionCts.Token);
         currentState = EnemyState.Waiting;
-        await Awaitable.WaitForSecondsAsync(0.5f, token);
+        await Awaitable.WaitForSecondsAsync(0.5f, actionCts.Token);
         currentState = EnemyState.Walking;
     }
 

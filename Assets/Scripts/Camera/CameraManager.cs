@@ -23,14 +23,14 @@ public class CameraManager : MonoBehaviour
     private float currentZoomDuration;
     public GameObject player;
 
-    private CancellationTokenSource rotationCts;
-    private CancellationTokenSource zoomCts;
+    private CancellationTokenSource rotationCts = new CancellationTokenSource();
+    private CancellationTokenSource zoomCts = new CancellationTokenSource();
 
     private void Awake()
     {
         if (Instance == null)
         {
-            Instance = this;
+            Instance = this; 
             DontDestroyOnLoad(gameObject);
         }
         else
