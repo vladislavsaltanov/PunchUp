@@ -5,12 +5,13 @@ public class FakeShadowRenderer : MonoBehaviour
 {
     [Header("Shadow Settings")]
     [SerializeField] private Color _shadowColor = new Color(0f, 0f, 0f, 0.3f);
-    [SerializeField] private float _shadowSizeMultiplier = 0.75f;
     [SerializeField] private float _maxShadowAlpha = 0.75f;
     [SerializeField] private float _minShadowAlpha = 0.1f;
     [SerializeField] private LayerMask _groundLayer = -1;
     [SerializeField] private float _groundCheckDistance = 8f;
     [SerializeField] private float _yOffset = -0.15f;
+    [SerializeField] private bool _updateShadowSize = true;
+    [SerializeField] private float _shadowSizeMultiplier = 0.75f;
 
     [Header("References")]
     [SerializeField] private Transform _entityToFollow;
@@ -93,23 +94,16 @@ public class FakeShadowRenderer : MonoBehaviour
     {
         if (_entityToFollow == null || shadowRenderer == null)
             return;
-
-        UpdateShadowPosition();
-        UpdateShadowSize();
-        UpdateShadowAlpha();
+        RaycastHit2D hit = GetRaycastHit();
+        UpdateShadowPosition(hit);
+        UpdateShadowAlpha(hit);
+        if (_updateShadowSize)
+            UpdateShadowSize();
     }
 
-    private void UpdateShadowPosition()
+    private void UpdateShadowPosition(RaycastHit2D hit)
     {
         if (_entityToFollow == null) return;
-
-        Vector2 entityPosition = _entityToFollow.position;
-        RaycastHit2D hit = Physics2D.Raycast(
-            entityPosition,
-            Vector2.down,
-            _groundCheckDistance,
-            _groundLayer
-        );
 
         if (hit.collider != null)
         {
@@ -121,6 +115,7 @@ public class FakeShadowRenderer : MonoBehaviour
         }
         else
         {
+            Vector2 entityPosition = _entityToFollow.position;
             shadowTransform.position = new Vector3(
                 entityPosition.x,
                 entityPosition.y - _groundCheckDistance,
@@ -146,17 +141,8 @@ public class FakeShadowRenderer : MonoBehaviour
         );
     }
 
-    private void UpdateShadowAlpha()
+    private void UpdateShadowAlpha(RaycastHit2D hit)
     {
-        if (_entityToFollow == null || shadowRenderer == null) return;
-
-        Vector2 entityPosition = _entityToFollow.position;
-        RaycastHit2D hit = Physics2D.Raycast(
-            entityPosition,
-            Vector2.down,
-            _groundCheckDistance,
-            _groundLayer
-        );
 
         if (hit.collider != null)
         {
@@ -182,6 +168,18 @@ public class FakeShadowRenderer : MonoBehaviour
                 _minShadowAlpha
             );
         }
+    }
+
+    private RaycastHit2D GetRaycastHit()
+    {
+        Vector2 entityPosition = _entityToFollow.position;
+        RaycastHit2D hit = Physics2D.Raycast(
+            entityPosition,
+            Vector2.down,
+            _groundCheckDistance,
+            _groundLayer
+        );
+        return hit;
     }
 
     private void OnDestroy()
