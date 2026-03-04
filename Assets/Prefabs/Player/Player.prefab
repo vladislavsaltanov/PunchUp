@@ -530,6 +530,7 @@ GameObject:
   - component: {fileID: 1631731653201430541}
   - component: {fileID: 6821972033225363592}
   - component: {fileID: 3720926837645525907}
+  - component: {fileID: 2444199853209225283}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -760,6 +761,28 @@ MonoBehaviour:
   dashDuration: 0.1
   controller: {fileID: 3450894756909812398}
   inputManager: {fileID: 758176366677849531}
+--- !u!114 &2444199853209225283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d21f748bd52884da6117c0160360f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLedgeClimb
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  headroomRayLength: 0.2
+  headroomRayOffset: 1.1
+  wallDetectRayLength: 0.2
+  wallDetectRayOffset: 0.8
+  _collider: {fileID: 7923158709754533670}
+  playerController: {fileID: 3450894756909812398}
+  canHang: 0
 --- !u!1 &2444405873806064545
 GameObject:
   m_ObjectHideFlags: 0
