@@ -44,6 +44,8 @@ public class EnemyLogic : BaseEntity
     protected override void Awake()
     {
         base.Awake();
+        actionCts = new CancellationTokenSource();
+        waitCts = new CancellationTokenSource();
         if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
         playerController = PlayerController.instance;
 
@@ -170,31 +172,13 @@ public class EnemyLogic : BaseEntity
             return;
         }
 
-        bool actionStarted = false;
-
         if (specialAbility != null && UnityEngine.Random.value < abilityChance)
         {
-            if (combatHandler.TrySpecialAbility())
-            {
-                _ = PerformActionRoutine(EnemyState.UsingAbility, specialAbility);
-                actionStarted = true;
-            }
+            combatHandler.TrySpecialAbility();
+            return;
         }
 
-        if (!actionStarted && combatHandler.TryPrimaryAttack())
-        {
-            _ = PerformActionRoutine(EnemyState.Attacking, primaryAttack);
-            actionStarted = true;
-        }
-    }
-
-    async Awaitable PerformActionRoutine(EnemyState state, ActionSO action)
-    {
-        currentState = state;
-        await Awaitable.WaitForSecondsAsync(action.duration, actionCts.Token);
-        currentState = EnemyState.Waiting;
-        await Awaitable.WaitForSecondsAsync(0.5f, actionCts.Token);
-        currentState = EnemyState.Walking;
+        combatHandler.TryPrimaryAttack();
     }
 
     public void EnterWait(float duration)
@@ -211,7 +195,8 @@ public class EnemyLogic : BaseEntity
     {
         waitCts?.Cancel();
         waitCts?.Dispose();
-        await Awaitable.WaitForSecondsAsync(time);
+        waitCts = new CancellationTokenSource();
+        await Awaitable.WaitForSecondsAsync(time, waitCts.Token);
         currentState = EnemyState.Walking;
     }
 
@@ -221,8 +206,10 @@ public class EnemyLogic : BaseEntity
         {
             waitCts?.Cancel();
             waitCts?.Dispose();
+            waitCts = new CancellationTokenSource();
             actionCts?.Cancel();
             actionCts?.Dispose();
+            actionCts = new CancellationTokenSource();
 
             context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
             direction = context.directionToPlayer;
@@ -244,19 +231,15 @@ public class EnemyLogic : BaseEntity
 
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
-        entityCollider.enabled = false; 
+        entityCollider.enabled = false;
 
         Destroy(gameObject, 0.1f);
     }
-
-    // --- ОТЛАДКА ---
-    // Рисуем радиус атаки в редакторе, когда враг выделен
     private void OnDrawGizmosSelected()
     {
         if (primaryAttack == null && entityCollider == null) return;
 
         Gizmos.color = Color.cyan;
-        // Рисуем проволочную сферу радиусом равным эффективной дистанции атаки
         Gizmos.DrawWireSphere(transform.position, EffectiveAttackReach);
     }
 }

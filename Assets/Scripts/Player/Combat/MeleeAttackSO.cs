@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Combat/Melee Attack")]
@@ -10,19 +10,26 @@ public class MeleeAttackSO : AttackSO
     public Vector2 hitboxOffset = new Vector2(0.8f, 0f);
     public LayerMask targetLayers;
 
+    static readonly List<Collider2D> hitBuffer = new List<Collider2D>(16);
     public override async Awaitable Execute(BaseEntity owner, Action onComplete = null)
     {
-        if (!string.IsNullOrEmpty(animationTrigger) && owner.animator != null)
-            owner.animator.SetTrigger(animationTrigger);
+        try
+        {
+            if (!string.IsNullOrEmpty(animationTrigger) && owner.animator != null)
+                owner.animator.SetTrigger(animationTrigger);
 
-        await Awaitable.WaitForSecondsAsync(windupTime);
+            await Awaitable.WaitForSecondsAsync(windupTime);
 
-        PerformHit(owner);
+            PerformHit(owner);
 
-        float remainingTime = duration - windupTime;
-        if (remainingTime > 0) await Awaitable.WaitForSecondsAsync(remainingTime);
-
-        onComplete?.Invoke();
+            float remainingTime = duration - windupTime;
+            if (remainingTime > 0)
+                await Awaitable.WaitForSecondsAsync(remainingTime);
+        }
+        finally
+        {
+            onComplete?.Invoke();
+        }
     }
 
     void PerformHit(BaseEntity owner)
@@ -30,11 +37,21 @@ public class MeleeAttackSO : AttackSO
         Vector2 center = (Vector2)owner.transform.position +
                          new Vector2(hitboxOffset.x * owner.direction, hitboxOffset.y);
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, hitboxSize, 0f, targetLayers);
+        var filter = new ContactFilter2D();
+        filter.SetLayerMask(targetLayers);
+        filter.useLayerMask = true;
+        filter.useTriggers = false;
 
-        foreach (var hit in hits)
+        hitBuffer.Clear();
+        Physics2D.OverlapBox(center, hitboxSize, 0f, filter, hitBuffer);
+
+        for (int i = 0; i < hitBuffer.Count; i++)
         {
-            if (hit.transform == owner.transform || hit.transform.IsChildOf(owner.transform) || hit.isTrigger) continue;
+            var hit = hitBuffer[i];
+
+            if (hit.transform == owner.transform ||
+                hit.transform.IsChildOf(owner.transform))
+                continue;
 
             var target = hit.GetComponentInParent<BaseEntity>();
             if (target != null && target != owner)

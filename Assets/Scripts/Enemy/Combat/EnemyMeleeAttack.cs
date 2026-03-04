@@ -1,5 +1,3 @@
-// EnemyBaseCombat.cs
-using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Enemy/Combat/Melee")]
@@ -25,7 +23,7 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
     }
 
     public override void Execute(EnemyLogic enemy, EnemyContextState context, GameObject player)
-    { 
+    {
         if (enemy.currentState != EnemyState.Attacking && enemy.currentState != EnemyState.Waiting)
             _ = AttackRoutine(enemy, context);
     }
@@ -34,10 +32,8 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
     {
         enemy.currentState = EnemyState.Attacking;
 
-        // Замах
         await Awaitable.WaitForSecondsAsync(windupTime);
 
-        // Hitbox
         Vector2 center = (Vector2)enemy.transform.position +
                          new Vector2(hitboxOffset.x * enemy.direction, hitboxOffset.y);
 
@@ -65,6 +61,6 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
 
         // Кулдаун
         await Awaitable.WaitForSecondsAsync(attackCooldown);
-        enemy.currentState = EnemyState.Idle;
+        enemy.currentState = EnemyState.Walking;
     }
 }
