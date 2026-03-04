@@ -17,7 +17,7 @@ public class ItemPickup : MonoBehaviour, IInteractable
 
     void Update()
     {
-        float translation = Mathf.Sin(Time.time * (translationSpeed + translationSpeedRandom) + translationOffset) * (translationDistance / 1000);
+        float translation = Mathf.Sin(Time.unscaledTime * (translationSpeed + translationSpeedRandom) + translationOffset) * (translationDistance / 1000);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + translation, transform.localPosition.z);
     }
 

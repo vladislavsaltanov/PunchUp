@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
@@ -12,6 +13,9 @@ public class EnemyLogic : BaseEntity
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
     [SerializeField] float searchDuration = 2f;
+
+    CancellationTokenSource actionCts;
+    CancellationTokenSource waitCts;
 
     // --- НОВОЕ СВОЙСТВО ---
     // Считает реальную дистанцию удара: от центра врага до кончика меча
@@ -40,6 +44,8 @@ public class EnemyLogic : BaseEntity
     protected override void Awake()
     {
         base.Awake();
+        actionCts = new CancellationTokenSource();
+        waitCts = new CancellationTokenSource();
         if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
         playerController = PlayerController.instance;
 
@@ -166,31 +172,13 @@ public class EnemyLogic : BaseEntity
             return;
         }
 
-        bool actionStarted = false;
-
         if (specialAbility != null && UnityEngine.Random.value < abilityChance)
         {
-            if (combatHandler.TrySpecialAbility())
-            {
-                StartCoroutine(PerformActionRoutine(EnemyState.UsingAbility, specialAbility));
-                actionStarted = true;
-            }
+            combatHandler.TrySpecialAbility();
+            return;
         }
 
-        if (!actionStarted && combatHandler.TryPrimaryAttack())
-        {
-            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
-            actionStarted = true;
-        }
-    }
-
-    IEnumerator PerformActionRoutine(EnemyState state, ActionSO action)
-    {
-        currentState = state;
-        yield return new WaitForSeconds(action.duration);
-        currentState = EnemyState.Waiting;
-        yield return new WaitForSeconds(0.5f);
-        currentState = EnemyState.Walking;
+        combatHandler.TryPrimaryAttack();
     }
 
     public void EnterWait(float duration)
@@ -200,12 +188,15 @@ public class EnemyLogic : BaseEntity
 
         currentState = EnemyState.Waiting;
         movement.Stop(this);
-        StartCoroutine(WaitFor(duration));
+        _ = WaitFor(duration);
     }
 
-    public IEnumerator WaitFor(float time)
+    public async Awaitable WaitFor(float time)
     {
-        yield return new WaitForSeconds(time);
+        waitCts?.Cancel();
+        waitCts?.Dispose();
+        waitCts = new CancellationTokenSource();
+        await Awaitable.WaitForSecondsAsync(time, waitCts.Token);
         currentState = EnemyState.Walking;
     }
 
@@ -213,7 +204,12 @@ public class EnemyLogic : BaseEntity
     {
         if (attacker != null && ((1 << attacker.gameObject.layer) & detection.playerLayer.value) != 0)
         {
-            StopAllCoroutines();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            waitCts = new CancellationTokenSource();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
+            actionCts = new CancellationTokenSource();
 
             context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
             direction = context.directionToPlayer;
@@ -228,23 +224,22 @@ public class EnemyLogic : BaseEntity
     protected override void OnDeath()
     {
         combatHandler.CancelAll();
-        StopAllCoroutines();
+        waitCts?.Cancel();
+        waitCts?.Dispose();
+        actionCts?.Cancel();
+        actionCts?.Dispose();
 
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
-        entityCollider.enabled = false; 
+        entityCollider.enabled = false;
 
         Destroy(gameObject, 0.1f);
     }
-
-    // --- ОТЛАДКА ---
-    // Рисуем радиус атаки в редакторе, когда враг выделен
     private void OnDrawGizmosSelected()
     {
         if (primaryAttack == null && entityCollider == null) return;
 
         Gizmos.color = Color.cyan;
-        // Рисуем проволочную сферу радиусом равным эффективной дистанции атаки
         Gizmos.DrawWireSphere(transform.position, EffectiveAttackReach);
     }
 }

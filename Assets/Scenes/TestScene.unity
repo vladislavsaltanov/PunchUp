@@ -7038,10 +7038,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   defaultCamera: {fileID: 9190079088896753911}
-  allCameras:
-  - {fileID: 9190079088896753911}
-  - {fileID: 3948375886776183433}
-  - {fileID: 6329992692364379203}
   player: {fileID: 0}
 --- !u!114 &4214717406839767300
 MonoBehaviour:
