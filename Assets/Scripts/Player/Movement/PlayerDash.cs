@@ -6,7 +6,6 @@ public class PlayerDash : MonoBehaviour
     [Header("Dash Settings")]
     [SerializeField] float dashSpeed = 18f;
     [SerializeField] float dashDuration = 0.18f;
-    [SerializeField] float dashCooldown = 0.6f;
 
     [Header("References")]
     [SerializeField] PlayerController controller;
@@ -43,12 +42,10 @@ public class PlayerDash : MonoBehaviour
     async Awaitable DashRoutine()
     {
         isDashing = true;
-        cooldownTimer = dashCooldown;
-
-        float dashDir = controller.direction;
+        cooldownTimer = controller.Stats[StatType.DashCooldown];
 
         controller.ApplyVelocityOverride(
-            new Vector2(dashDir * dashSpeed, 0f),
+            new Vector2(controller.direction * dashSpeed * controller.Stats[StatType.Speed], 0f),
             dashDuration
         );
 

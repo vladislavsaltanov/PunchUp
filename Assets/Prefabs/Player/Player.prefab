@@ -632,6 +632,8 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 6821972033225363592}
   maxHealth: 50
@@ -754,9 +756,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08865fd534a315e4ba0c97eba0b6bfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  dashSpeed: 18
-  dashDuration: 0.18
-  dashCooldown: 0.6
+  dashSpeed: 4
+  dashDuration: 0.1
   controller: {fileID: 3450894756909812398}
   inputManager: {fileID: 758176366677849531}
 --- !u!1 &2444405873806064545
