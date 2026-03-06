@@ -776,13 +776,21 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  headroomRayLength: 0.2
-  headroomRayOffset: 1.1
-  wallDetectRayLength: 0.2
-  wallDetectRayOffset: 0.8
+  wallBoxWidth: 0.1
+  wallBoxHeightScale: 0.9
+  headroomBoxWidth: 0.1
+  headroomBoxHeight: 0.1
   _collider: {fileID: 7923158709754533670}
-  playerController: {fileID: 3450894756909812398}
-  canHang: 0
+  controller: {fileID: 3450894756909812398}
+  inputManager: {fileID: 758176366677849531}
+  climbSpeed: 12
+  nudgeDuration: 0.08
+  nudgeSpeedX: 20
+  nudgeSpeedY: 12
+  footBoxWidth: 0.18
+  climbTimeout: 0.1
+  cancelInputDuration: 0.5
+  climbCooldown: 0.1
 --- !u!1 &2444405873806064545
 GameObject:
   m_ObjectHideFlags: 0

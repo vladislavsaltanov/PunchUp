@@ -3542,7 +3542,7 @@ Transform:
   m_GameObject: {fileID: 871514479}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.11, y: 3.9999998, z: -10}
+  m_LocalPosition: {x: -9.01, y: 7.9799995, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9286,21 +9286,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2444199853209225283, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 278640350835996709}
-    - target: {fileID: 2444199853209225283, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-      propertyPath: inputManager
-      value: 
-      objectReference: {fileID: 278640350835996717}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.11
+      value: -9.01
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.98
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9339,28 +9331,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
---- !u!114 &278640350835996709 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3450894756909812398, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-  m_PrefabInstance: {fileID: 278640350835996689}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a15de4f98dc094c4896833d7bd57ac1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
---- !u!114 &278640350835996717 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 758176366677849531, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-  m_PrefabInstance: {fileID: 278640350835996689}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d8a19c5daac44e4e9df1e064d1300c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputManager
 --- !u!61 &2076712551286356826
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9710,7 +9680,7 @@ Transform:
   m_GameObject: {fileID: 4692331386342586150}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.44203, y: 2.1909199, z: -10}
+  m_LocalPosition: {x: -8.342031, y: 6.17092, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9760,7 +9730,7 @@ Transform:
   m_GameObject: {fileID: 3875130198895299988}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.44203, y: 2.1909196, z: -10}
+  m_LocalPosition: {x: -8.342031, y: 6.1709194, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
