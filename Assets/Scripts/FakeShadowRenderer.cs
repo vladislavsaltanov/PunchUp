@@ -7,8 +7,8 @@ public class FakeShadowRenderer : MonoBehaviour
     [SerializeField] private Color _shadowColor = new Color(0f, 0f, 0f, 0.3f);
     [SerializeField] private float _maxShadowAlpha = 0.75f;
     [SerializeField] private float _minShadowAlpha = 0.1f;
-    [SerializeField] private LayerMask _groundLayer = -1;
     [SerializeField] private float _groundCheckDistance = 8f;
+    [SerializeField] private LayerMask _groundLayer = 1000000;
     [SerializeField] private float _yOffset = -0.15f;
     [SerializeField] private bool _updateShadowSize = true;
     [SerializeField] private float _shadowSizeMultiplier = 0.75f;
@@ -30,6 +30,7 @@ public class FakeShadowRenderer : MonoBehaviour
         if (_entitySpriteRenderer == null && _entityToFollow != null)
             _entitySpriteRenderer = _entityToFollow.GetComponent<SpriteRenderer>();
 
+        UpdateShadowSize();
     }
 
     private void InitializeShadow()
