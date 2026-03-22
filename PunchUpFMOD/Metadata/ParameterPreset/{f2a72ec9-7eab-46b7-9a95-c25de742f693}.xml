@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="ParameterPreset" id="{f2a72ec9-7eab-46b7-9a95-c25de742f693}">
-		<property name="note" />
 		<property name="name">
-			<value>JumpLandPar</value>
+			<value>Action</value>
 		</property>
 		<relationship name="folder">
 			<destination>{5613e5ab-e708-4891-9071-e0c53f3354fd}</destination>
@@ -17,7 +16,7 @@
 			<value>1</value>
 		</property>
 		<property name="maximum">
-			<value>2</value>
+			<value>3</value>
 		</property>
 		<property name="initialValue">
 			<value>0</value>

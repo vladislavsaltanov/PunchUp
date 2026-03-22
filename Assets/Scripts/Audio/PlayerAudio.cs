@@ -1,3 +1,4 @@
+using Lean.Transition;
 using UnityEngine;
 
 public class PlayerAudio : MonoBehaviour
@@ -10,7 +11,15 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     [Header("Movement Threshold")]
-    [SerializeField] private float minVelocityToPlay = 0.1f;
+    [SerializeField] private float minVelocityToPlay = 1.0f;
+
+    [Header("Footstep Delays")]
+    [SerializeField] private float footstepDelayAfterJump = 0.5f;
+    [SerializeField] private float footstepDelayAfterLand = 0.5f;
+    [SerializeField] private float footstepStartDelay = 0.2f;
+
+    [Header("Jump Threshold")]
+    [SerializeField] private float minTimeToPlay = 0.5f;
 
     [Header("Speed Mapping")]
     [SerializeField] private float walkSpeed = 2f;
@@ -24,6 +33,10 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private bool enableLogs = false;
 
     private float stepTimer;
+    private float jumpTime;
+    private float footstepBlockedUntil;
+    private float xPosLastFrame;
+    private bool wasMovingLastFrame;
 
     private void Awake()
     {
@@ -43,6 +56,7 @@ public class PlayerAudio : MonoBehaviour
             inputManager = GetComponent<InputManager>();
 
         isGroundedHandler.hasGrounded += HandleLand;
+        xPosLastFrame = transform.position.x;
     }
 
     private void Update()
@@ -74,12 +88,25 @@ public class PlayerAudio : MonoBehaviour
         float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
         bool isGrounded = isGroundedHandler.IsGrounded;
 
-        bool shouldPlay = isGrounded && linearVelocityX > minVelocityToPlay;
+        bool shouldPlay = isGrounded && (linearVelocityX > minVelocityToPlay) && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
+
+        if (Time.time < footstepBlockedUntil)
+        {
+            stepTimer = 0f;
+            return;
+        }
 
         if (!shouldPlay)
         {
             stepTimer = 0f;
+            wasMovingLastFrame = false;
             return;
+        }
+
+        if (!wasMovingLastFrame)
+        {
+            stepTimer = footstepStartDelay;
+            wasMovingLastFrame = true;
         }
 
         float normalizedSpeed = Mathf.InverseLerp(walkSpeed, runSpeed, linearVelocityX);
@@ -95,6 +122,7 @@ public class PlayerAudio : MonoBehaviour
             }
 
             AudioManager.Instance.PlayFootstep(transform.position);
+            xPosLastFrame = transform.position.x;
             stepTimer = currentStepInterval;
         }
     }
@@ -102,15 +130,30 @@ public class PlayerAudio : MonoBehaviour
     //Прыг
     public void HandleJump()
     {
+        footstepBlockedUntil = Time.time + footstepDelayAfterJump;
+        jumpTime = PlayerController.instance.currentTime;
         AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Jump);
     }
 
     //Скок
-    private void HandleLand(bool hasGrounded, float num)
+    private void HandleLand(bool hasGrounded, float time)
     {
         if (hasGrounded)
         {
-            AudioManager.Instance.PlayJumpLand(transform.position,AudioManager.JumpLandAction.Land);
+            footstepBlockedUntil = Time.time + footstepDelayAfterJump;
+            if ((time - jumpTime) > minTimeToPlay)
+            {
+                AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Land);
+            } else
+            {
+                AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.softLand);
+            }
         }
+    }
+
+    //Деш
+    public void HandleDash()
+    {
+        AudioManager.Instance.PlayDashSound(transform.position);
     }
 }
