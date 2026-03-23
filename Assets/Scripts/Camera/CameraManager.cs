@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         if (currentCamera == null)
         {
             currentCamera = defaultCamera;
@@ -206,8 +206,6 @@ public class CameraManager : MonoBehaviour
         }
         camera.Priority = 100;
         currentCamera = camera;
-        if (currentCamera.Follow == null)
-            currentCamera.Follow = player.transform;
     }
 
     //������ ������
