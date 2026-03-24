@@ -5,10 +5,16 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    [Header("Music")]
     [SerializeField] private EventReference[] backgroundMusicPlaylist;
+
+    [Header("Player")]
     [SerializeField] private EventReference footstepEvent;
     [SerializeField] private EventReference jumpLandEvent;
     [SerializeField] private EventReference dashEvent;
+
+    [Header("Doctor")]
+    [SerializeField] private EventReference doctorFootstepEvent;
 
     private EventInstance backgroundMusicInstance;
     private int lastTrackIndex = -1;
@@ -114,6 +120,13 @@ public class AudioManager : MonoBehaviour
         if (footstepEvent.IsNull) return;
 
         RuntimeManager.PlayOneShot(footstepEvent, worldPosition);
+    }
+
+    public void PlayDoctorFootstep(Vector2 worldPosition)
+    {
+        if (doctorFootstepEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
     //Прыг-скок-скок-скок-скок

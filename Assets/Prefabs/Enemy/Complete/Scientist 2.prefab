@@ -339,6 +339,7 @@ GameObject:
   - component: {fileID: 7834036821289183661}
   - component: {fileID: 5979673803110708387}
   - component: {fileID: 2796716739556374683}
+  - component: {fileID: -6506072773447974216}
   m_Layer: 8
   m_Name: Scientist 2
   m_TagString: Enemy
@@ -387,6 +388,8 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 2796716739556374683}
   maxHealth: 10
@@ -468,3 +471,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 6548586802355228029}
+--- !u!114 &-6506072773447974216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593945755005346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a192bfa6553b649b79b94b8901633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoctorAudio
+  rb: {fileID: 0}
+  isGroundedHandler: {fileID: 0}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  enableLogs: 0
