@@ -33,6 +33,10 @@ public static class PlaytestReporter
         public int playtime_sec;
         public string graphics_quality;
         public float volume_master;
+
+        public uint deaths;
+        public uint kills;
+        public uint items_picked;
     }
 
     [Serializable]
@@ -87,7 +91,11 @@ public static class PlaytestReporter
             flasks_picked = (int)data.statisticData.flasks_picked,
             playtime_sec = (int)data.statisticData.total_playtime,
             graphics_quality = data.globalStatisticsData.graphics_quality,
-            volume_master = data.globalStatisticsData.volume_master
+            volume_master = data.globalStatisticsData.volume_master,
+
+            deaths = data.statisticData.deaths,
+            kills = data.statisticData.kills,
+            items_picked = data.statisticData.items_picked
         };
 
         return true;

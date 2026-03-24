@@ -2511,6 +2511,9 @@ MonoBehaviour:
     graphics_quality: 
     volume_master: 0
   statisticData:
+    deaths: 0
+    kills: 0
+    items_picked: 0
     flasks_picked: 0
     floors_cleared: 0
     total_playtime: 0
