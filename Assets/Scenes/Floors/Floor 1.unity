@@ -1806,9 +1806,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1628677915}
   - component: {fileID: 1628677914}
-  - component: {fileID: 1628677913}
   - component: {fileID: 1628677916}
   - component: {fileID: 1628677917}
+  - component: {fileID: 1628677918}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1816,14 +1816,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1628677913
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628677912}
-  m_Enabled: 1
 --- !u!20 &1628677914
 Camera:
   m_ObjectHideFlags: 0
@@ -1884,7 +1876,7 @@ Transform:
   m_GameObject: {fileID: 1628677912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.055557, y: -3.5, z: -10}
+  m_LocalPosition: {x: -6.2683754, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1966,6 +1958,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &1628677918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628677912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1649685738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2517,6 +2523,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1032633143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &2110003529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2110003531}
+  - component: {fileID: 2110003530}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2110003530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110003529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c70b47312bc5c4b8d54647f67c7b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  backgroundMusicPlaylist:
+  - Guid:
+      Data1: 156431545
+      Data2: 1150085496
+      Data3: 1101736110
+      Data4: 1926479426
+    Path: event:/LevelTrack1
+  - Guid:
+      Data1: 1685236137
+      Data2: 1180557189
+      Data3: 2036288643
+      Data4: 231707184
+    Path: event:/LevelTrack2
+  footstepEvent:
+    Guid:
+      Data1: 838722172
+      Data2: 1225101137
+      Data3: -1980554097
+      Data4: -1412477336
+    Path: event:/PlayerFootsteps
+  jumpLandEvent:
+    Guid:
+      Data1: -1418682405
+      Data2: 1316274333
+      Data3: 707374476
+      Data4: 890176727
+    Path: event:/JumpLand
+  dashEvent:
+    Guid:
+      Data1: -220328532
+      Data2: 1218212715
+      Data3: 171741594
+      Data4: 1209077618
+    Path: event:/Dash
+--- !u!4 &2110003531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110003529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2529,3 +2613,4 @@ SceneRoots:
   - {fileID: 1032633143}
   - {fileID: 1941942395}
   - {fileID: 1431993691}
+  - {fileID: 2110003531}

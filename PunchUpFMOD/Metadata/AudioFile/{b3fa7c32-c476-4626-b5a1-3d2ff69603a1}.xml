@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{b3fa7c32-c476-4626-b5a1-3d2ff69603a1}">
+		<property name="assetPath">
+			<value>Sounds/player/movement/step_A.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.3348299319727891</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{bd32502d-ad33-42da-a859-5ae13da5bdee}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -44,6 +44,7 @@ public class PlayerDash : MonoBehaviour
         isDashing = true;
         cooldownTimer = controller.Stats[StatType.DashCooldown];
 
+        PlayerAudio.Instance.HandleDash();
         controller.ApplyVelocityOverride(
             new Vector2(controller.direction * dashSpeed * controller.Stats[StatType.Speed], 0f),
             dashDuration
