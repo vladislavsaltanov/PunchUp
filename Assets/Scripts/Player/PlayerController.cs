@@ -151,7 +151,10 @@ public class PlayerController : BaseEntity
     protected override void OnDeath()
     {
         combatHandler?.CancelAll();
-        Debug.Log("[Player] Died. Game Over logic here.");
+
+        var data = StatisticsHandler.Instance.statisticData;
+        data.cause_of_death = lastDamageCause ?? "unknown";
+        data.floor_of_death = 1;
 
         SceneTransitionManager.SwitchScene(1);
     }
