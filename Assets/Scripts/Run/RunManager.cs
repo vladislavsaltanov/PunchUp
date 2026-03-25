@@ -25,11 +25,12 @@ public class RunManager : MonoBehaviour
     {
         CurrentFloor = 1;
         IsRunActive = true;
+        PlayerPrefs.SetInt("totalRuns", PlayerPrefs.GetInt("totalRuns", 0) + 1);
 
         var s = StatisticsHandler.Instance;
         s.statisticData = new StatisticData
         {
-            run_number = (uint)(PlayerPrefs.GetInt("totalRuns", 0) + 1)
+            run_number = (uint)(PlayerPrefs.GetInt("totalRuns", 0))
         };
 
         s.StartTimer();
@@ -48,6 +49,8 @@ public class RunManager : MonoBehaviour
         IsRunActive = false;
 
         var s = StatisticsHandler.Instance;
+        LastResult = new StatisticData(s.statisticData);
+
         s.StopTimer();
 
         var data = s.statisticData;
@@ -60,13 +63,7 @@ public class RunManager : MonoBehaviour
             globalStatisticsData = s.globalStatisticsData
         });
 
-        CurrentFloor = 0;
         s.FinalSave();
         s.statisticData = new StatisticData();
-    }
-
-    public void EndRun()
-    {
-        StatisticsHandler.Instance.FinalSave();
     }
 }
