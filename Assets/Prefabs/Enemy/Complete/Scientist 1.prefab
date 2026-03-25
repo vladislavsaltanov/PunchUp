@@ -172,6 +172,8 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 8246746951798561985}
   maxHealth: 8
@@ -183,6 +185,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2590521676121854963}
   entityCollider: {fileID: 4518589733712738767}
   isWaiting: 0
+  _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5066113996724530292}

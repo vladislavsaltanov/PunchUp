@@ -48,7 +48,7 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
             if (entity == enemy) continue;
 
             // Урон
-            entity.TakeDamage(damage, enemy.transform);
+            entity.TakeDamage(damage, enemy.transform, enemy._name);
             float dirX = Mathf.Sign(hit.transform.position.x - enemy.transform.position.x);
             Vector2 knockback = new Vector2(dirX * knockbackForce, knockbackForce * 0.3f);
             entity.ApplyVelocityOverride(knockback, knockbackDuration);

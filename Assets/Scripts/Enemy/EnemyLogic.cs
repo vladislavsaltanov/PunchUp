@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyLogic : BaseEntity
 {
+    [Header("Name")]
+    public string _name = "Entity";
+
     [Header("Modules")]
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
