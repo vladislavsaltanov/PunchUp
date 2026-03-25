@@ -2565,6 +2565,27 @@ MonoBehaviour:
       Data3: 2036288643
       Data4: 231707184
     Path: event:/Music/LevelTrack2
+  ambientEvent:
+    Guid:
+      Data1: -1118531006
+      Data2: 1264467471
+      Data3: -1402622557
+      Data4: -607689263
+    Path: event:/Ambient/Ambient1
+  ElevatorAmbientEvent:
+    Guid:
+      Data1: -66592438
+      Data2: 1165212975
+      Data3: -474763388
+      Data4: -1089807001
+    Path: event:/Elevator/ElevatorAmb
+  ElevatorOpenEvent:
+    Guid:
+      Data1: 1107750847
+      Data2: 1335377952
+      Data3: -1676817004
+      Data4: -460798617
+    Path: event:/Elevator/DoorOpen
   footstepEvent:
     Guid:
       Data1: 838722172
@@ -2586,6 +2607,20 @@ MonoBehaviour:
       Data3: 171741594
       Data4: 1209077618
     Path: event:/Player/Dash
+  playerTakeDamageEvent:
+    Guid:
+      Data1: 1799236220
+      Data2: 1074446924
+      Data3: 339106238
+      Data4: 1061020778
+    Path: event:/Player/PlayerTakeDamage
+  playerAttackEvent:
+    Guid:
+      Data1: 1225387186
+      Data2: 1187468322
+      Data3: 640275334
+      Data4: 595975080
+    Path: "event:/Player/PlayerAtta\u0441k"
   doctorFootstepEvent:
     Guid:
       Data1: 1210354899
@@ -2593,6 +2628,27 @@ MonoBehaviour:
       Data3: 2027727786
       Data4: -1453107460
     Path: event:/Doctor/DoctorFootsteps
+  doctorTakeDamageEvent:
+    Guid:
+      Data1: 1625922570
+      Data2: 1143898690
+      Data3: -1507598424
+      Data4: 1388544781
+    Path: event:/Doctor/DoctorTakeDamage
+  doctorAttackEvent:
+    Guid:
+      Data1: -575175514
+      Data2: 1173829810
+      Data3: 1309711027
+      Data4: -796035169
+    Path: event:/Doctor/DoctorAttack
+  doctorIdleEvent:
+    Guid:
+      Data1: -275774054
+      Data2: 1307728897
+      Data3: -341171064
+      Data4: 808730391
+    Path: event:/Doctor/DoctorIdle
 --- !u!4 &2110003531
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ public class DoctorAudio : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private isGroundedHandler isGroundedHandler;
     [SerializeField] private EnemyLogic enemyLogic;
 
     [Header("Movement Threshold")]
@@ -25,11 +24,15 @@ public class DoctorAudio : MonoBehaviour
     [SerializeField] private float maxStepInterval = 0.5f;
     [SerializeField] private float minStepInterval = 0.25f;
 
+    [Header("Idle Voice")]
+    [SerializeField] private float minIdleSoundDelay = 5f;
+    [SerializeField] private float maxIdleSoundDelay = 10f;
+
     [Header("Debug")]
     [SerializeField] private bool enableLogs = false;
 
     private float stepTimer;
-    private float jumpTime;
+    private float idleSoundTimer;
     private float footstepBlockedUntil;
     private float xPosLastFrame;
     private bool wasMovingLastFrame;
@@ -45,18 +48,17 @@ public class DoctorAudio : MonoBehaviour
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();
 
-        if (isGroundedHandler == null)
-            isGroundedHandler = GetComponent<isGroundedHandler>();
-
         if (enemyLogic == null)
             enemyLogic = GetComponent<EnemyLogic>();
 
         xPosLastFrame = transform.position.x;
+        ResetIdleSoundTimer();
     }
 
     private void Update()
     {
         HandleFootsteps();
+        HandleIdleSound();
     }
 
     //Доктор, всё будет хорошо?
@@ -68,20 +70,13 @@ public class DoctorAudio : MonoBehaviour
             return;
         }
 
-        if (isGroundedHandler == null)
-        {
-            if (enableLogs) Debug.LogWarning("CharacterFootsteps: IsGroundedHandler is null");
-            return;
-        }
-
         if (AudioManager.Instance == null)
         {
             if (enableLogs) Debug.LogWarning("CharacterFootsteps: AudioManager.Instance is null");
             return;
         }
 
-        /*float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
-        bool isGrounded = isGroundedHandler.IsGrounded;
+        float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
 
         bool shouldPlay = enemyLogic.currentState == EnemyState.Walking && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
 
@@ -113,12 +108,43 @@ public class DoctorAudio : MonoBehaviour
         {
             if (enableLogs)
             {
-                Debug.Log($"CharacterFootsteps: step | grounded={isGrounded} | velocityX={linearVelocityX} | interval={currentStepInterval}");
+                Debug.Log($"CharacterFootsteps: step | velocityX={linearVelocityX} | interval={currentStepInterval}");
             }
-        */
+        
             AudioManager.Instance.PlayDoctorFootstep(transform.position);
-            //xPosLastFrame = transform.position.x;
-            //stepTimer = currentStepInterval;
-        //}
+            xPosLastFrame = transform.position.x;
+            stepTimer = currentStepInterval;
+        }
+    }
+
+    //Кхем-кхем
+    private void HandleIdleSound()
+    {
+        if (AudioManager.Instance == null)
+            return;
+
+        idleSoundTimer -= Time.deltaTime;
+
+        if (idleSoundTimer <= 0f)
+        {
+            AudioManager.Instance.PlayDoctorIdle(transform.position);
+            ResetIdleSoundTimer();
+        }
+    }
+    private void ResetIdleSoundTimer()
+    {
+        idleSoundTimer = Random.Range(minIdleSoundDelay, maxIdleSoundDelay);
+    }
+
+    //Ой
+    public void HandleDamage()
+    {
+        AudioManager.Instance.DoctorTakeDamage(transform.position);
+    }
+
+    //Скидыщь
+    public void HandleAttack()
+    {
+        AudioManager.Instance.DoctorAttack(transform.position);
     }
 }

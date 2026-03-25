@@ -43,11 +43,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639099969451312159
+  lastModified: 639100848402478006
   FileSizes:
   - Name: Desktop
-    Value: 1378
+    Value: 1816
   Exists: 1
+--- !u!114 &-8156635227392469984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorAttack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorAttack
+  Guid:
+    Data1: -575175514
+    Data2: 1173829810
+    Data3: 1309711027
+    Data4: -796035169
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &-7401941823985898750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +101,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 290
+  Length: 220
 --- !u!114 &-7386761039132826298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +126,87 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-5952317567737472412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/DoorOpen
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/DoorOpen
+  Guid:
+    Data1: 1107750847
+    Data2: 1335377952
+    Data3: -1676817004
+    Data4: -460798617
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5881655218654360823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorIdle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorIdle
+  Guid:
+    Data1: -275774054
+    Data2: 1307728897
+    Data3: -341171064
+    Data4: 808730391
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
+--- !u!114 &-4027563520712342830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorTakeDamage
+  Guid:
+    Data1: 1625922570
+    Data2: 1143898690
+    Data3: -1507598424
+    Data4: 1388544781
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 435
 --- !u!114 &-3618661679875742360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,11 +303,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639099969451317310
+  lastModified: 639100848402488796
   FileSizes:
   - Name: Desktop
-    Value: 1242
+    Value: 1790
   Exists: 1
+--- !u!114 &-1258931842190984658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambient/Ambient1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambient/Ambient1
+  Guid:
+    Data1: -1118531006
+    Data2: 1264467471
+    Data3: -1402622557
+    Data4: -607689263
+  Banks:
+  - {fileID: 7026963062129422614}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 75428
 --- !u!114 &-1194665916775660933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,11 +350,65 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639099989369677614
+  lastModified: 639100848403076488
   FileSizes:
   - Name: Desktop
-    Value: 60896
+    Value: 135616
   Exists: 1
+--- !u!114 &-679185100693385444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/PlayerTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/PlayerTakeDamage
+  Guid:
+    Data1: 1799236220
+    Data2: 1074446924
+    Data3: 339106238
+    Data4: 1061020778
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
+--- !u!114 &-449447542167164542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/ElevatorAmb
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/ElevatorAmb
+  Guid:
+    Data1: -66592438
+    Data2: 1165212975
+    Data3: -474763388
+    Data4: -1089807001
+  Banks:
+  - {fileID: 7026963062129422614}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 18687
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +426,7 @@ MonoBehaviour:
   - {fileID: -8528437763582345271}
   - {fileID: -1194665916775660933}
   - {fileID: 256050263783390188}
+  - {fileID: 7026963062129422614}
   EditorEvents:
   - {fileID: -7401941823985898750}
   - {fileID: -3618661679875742360}
@@ -244,13 +434,21 @@ MonoBehaviour:
   - {fileID: 4355301937220356616}
   - {fileID: -2786122615725439810}
   - {fileID: -2240859130052689921}
+  - {fileID: -4027563520712342830}
+  - {fileID: -679185100693385444}
+  - {fileID: 1894801183197014891}
+  - {fileID: -8156635227392469984}
+  - {fileID: -5881655218654360823}
+  - {fileID: -1258931842190984658}
+  - {fileID: -449447542167164542}
+  - {fileID: -5952317567737472412}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8528437763582345271}
   StringsBanks:
   - {fileID: -1603925922368945329}
   cacheVersion: 131858
-  cacheTime: 639099989369677614
+  cacheTime: 639100848403245626
   SerializableEventsDict:
   - key: event:/Player/PlayerFootsteps
     index: 0
@@ -264,6 +462,22 @@ MonoBehaviour:
     index: 4
   - key: event:/Doctor/DoctorFootsteps
     index: 5
+  - key: event:/Doctor/DoctorTakeDamage
+    index: 6
+  - key: event:/Player/PlayerTakeDamage
+    index: 7
+  - key: "event:/Player/PlayerAtta\u0441k"
+    index: 8
+  - key: event:/Doctor/DoctorAttack
+    index: 9
+  - key: event:/Doctor/DoctorIdle
+    index: 10
+  - key: event:/Ambient/Ambient1
+    index: 11
+  - key: event:/Elevator/ElevatorAmb
+    index: 12
+  - key: event:/Elevator/DoorOpen
+    index: 13
 --- !u!114 &256050263783390188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +498,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 5578176
   Exists: 1
+--- !u!114 &1894801183197014891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/Player/PlayerAtta\u0441k"
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: "event:/Player/PlayerAtta\u0441k"
+  Guid:
+    Data1: 1225387186
+    Data2: 1187468322
+    Data3: 640275334
+    Data4: 595975080
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
 --- !u!114 &4355301937220356616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,3 +552,23 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 128000
+--- !u!114 &7026963062129422614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Ambient.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: PunchUpFMOD/Build/Desktop/Ambient.bank
+  Name: Ambient
+  StudioPath: bank:/Ambient
+  lastModified: 639100848403245626
+  FileSizes:
+  - Name: Desktop
+    Value: 969344
+  Exists: 1

@@ -808,6 +808,10 @@ MonoBehaviour:
   isGroundedHandler: {fileID: 0}
   inputManager: {fileID: 0}
   minVelocityToPlay: 0.1
+  footstepDelayAfterJump: 0.2
+  footstepDelayAfterLand: 0.2
+  footstepStartDelay: 0.1
+  minTimeToPlay: 0.5
   walkSpeed: 2
   runSpeed: 6
   maxStepInterval: 0.5

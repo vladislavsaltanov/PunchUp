@@ -128,6 +128,8 @@ public class PlayerController : BaseEntity
         if (combatHandler == null) return;
 
         combatHandler.TryPrimaryAttack();
+
+        PlayerAudio.Instance.HandleAttack();
     }
 
     void OnAbility(InputAction.CallbackContext ctx)
@@ -146,6 +148,7 @@ public class PlayerController : BaseEntity
     #region BaseEntity Implementation
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
+        PlayerAudio.Instance.HandleDamage();
     }
 
     protected override void OnDeath()

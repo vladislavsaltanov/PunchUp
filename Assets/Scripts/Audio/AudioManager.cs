@@ -8,17 +8,31 @@ public class AudioManager : MonoBehaviour
     [Header("Music")]
     [SerializeField] private EventReference[] backgroundMusicPlaylist;
 
+    [Header("Ambience")]
+    [SerializeField] private EventReference ambientEvent;
+
+    [Header("Elevator")]
+    [SerializeField] private EventReference ElevatorAmbientEvent;
+    [SerializeField] private EventReference ElevatorOpenEvent;
+
     [Header("Player")]
     [SerializeField] private EventReference footstepEvent;
     [SerializeField] private EventReference jumpLandEvent;
     [SerializeField] private EventReference dashEvent;
+    [SerializeField] private EventReference playerTakeDamageEvent;
+    [SerializeField] private EventReference playerAttackEvent;
 
     [Header("Doctor")]
     [SerializeField] private EventReference doctorFootstepEvent;
+    [SerializeField] private EventReference doctorTakeDamageEvent;
+    [SerializeField] private EventReference doctorAttackEvent;
+    [SerializeField] private EventReference doctorIdleEvent;
 
     private EventInstance backgroundMusicInstance;
     private int lastTrackIndex = -1;
     private bool isPlaylistRunning;
+
+    private EventInstance ambientEventInstance;
 
     public enum JumpLandAction
     {
@@ -39,6 +53,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         StartBackgroundPlaylist();
+        StartAmbient(ambientEvent);
     }
 
     private void Update()
@@ -54,6 +69,28 @@ public class AudioManager : MonoBehaviour
             PlayNextPlaylistTrack();
         }
     }
+
+    //Фижма
+    public void StartAmbient(EventReference sound)
+    {
+        ambientEventInstance = RuntimeManager.CreateInstance(sound);
+        ambientEventInstance.start();
+    }
+
+    //Ты в лифте родился
+    public void StartElevatorAmbient()
+    {
+        StartAmbient(ElevatorAmbientEvent);
+    }
+
+    //Ты в открытом лифте родился
+    public void PlayOpenElevator()
+    {
+        if (ElevatorOpenEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(ElevatorOpenEvent);
+    }
+
 
     //Йоу печенье - програмное обеспечение >_<
     public void StartBackgroundPlaylist()
@@ -152,5 +189,43 @@ public class AudioManager : MonoBehaviour
         if (dashEvent.IsNull) return;
 
         RuntimeManager.PlayOneShot(dashEvent, position);
+    }
+
+    //Ай боль в ноге!
+    public void PlayerTakeDamage(Vector2 position)
+    {
+        if (playerTakeDamageEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(playerTakeDamageEvent, position);
+    }
+
+    public void DoctorTakeDamage(Vector2 position)
+    {
+        if (doctorTakeDamageEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(doctorTakeDamageEvent, position);
+    }
+
+    //Ломай меня полностью
+    public void PlayerAttack(Vector2 position)
+    {
+        if (playerAttackEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(playerAttackEvent, position);
+    }
+
+    public void DoctorAttack(Vector2 position)
+    {
+        if (doctorAttackEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(doctorAttackEvent, position);
+    }
+
+    //Неловие звуки работы
+    public void PlayDoctorIdle(Vector2 position)
+    {
+        if (doctorIdleEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(doctorIdleEvent, position);
     }
 }
