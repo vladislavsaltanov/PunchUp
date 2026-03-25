@@ -6,12 +6,18 @@ public class StatisticsHandler : MonoBehaviour
     public static StatisticsHandler Instance { get; private set; }
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         DontDestroyOnLoad(this);
         Instance = this;
     }
     #endregion
 
-    [SerializeField] GlobalStatisticsData globalStatisticsData;
+    public GlobalStatisticsData globalStatisticsData;
     public StatisticData statisticData;
 
     // should be called first as we check for player id
@@ -28,7 +34,7 @@ public class StatisticsHandler : MonoBehaviour
     void InitGlobalData()
     {
         if (!PlayerPrefs.HasKey("player_id"))
-            PlayerPrefs.SetString("player_id", UnityEngine.Random.Range(5000, 99999999).ToString());
+            PlayerPrefs.SetString("player_id", System.Guid.NewGuid().ToString());
 
         globalStatisticsData = new GlobalStatisticsData
         {
@@ -42,6 +48,13 @@ public class StatisticsHandler : MonoBehaviour
             volume_master = AudioListener.volume
         };
 
+        PlayerPrefs.Save();
+    }
+
+    public void ResetData()
+    {
+        PlayerPrefs.SetInt("current_floor", 0);
+        statisticData = new StatisticData();
         PlayerPrefs.Save();
     }
 

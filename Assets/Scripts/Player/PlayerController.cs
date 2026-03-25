@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,17 +40,12 @@ public class PlayerController : BaseEntity
         {
             inputManager.attackAction.action.performed += OnAttack;
             inputManager.specialAbilityAction.action.performed += OnAbility;
+            inputManager.interactAction.action.performed += OnInteract;
         }
 
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
-        if (groundedHandler != null)
-        {
-            groundedHandler.hasGrounded += hasGroundedEventHandler;
-        }
-
-        if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
-
-        inputManager.interactAction.action.performed += OnInteract;
+        if (groundedHandler != null) groundedHandler.hasGrounded += hasGroundedEventHandler;
+        if (combatHandler == null)   combatHandler = GetComponent<CombatHandler>();
     }
     void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
@@ -154,8 +148,18 @@ public class PlayerController : BaseEntity
 
         var data = StatisticsHandler.Instance.statisticData;
         data.cause_of_death = lastDamageCause ?? "unknown";
-        data.floor_of_death = 1;
+        data.floor_of_death = (uint)PlayerPrefs.GetInt("current_floor", 1);
 
+        PlaytestReporter.SendSession(new SessionData
+        {
+            statisticData = StatisticsHandler.Instance.statisticData,
+            globalStatisticsData = StatisticsHandler.Instance.globalStatisticsData
+        });
+
+        StatisticsHandler.Instance.ResetData();
+
+        // here we should    show a death screen with the option to retry
+        // probably need to freeze every other entity too
         SceneTransitionManager.SwitchScene(1);
     }
     #endregion
