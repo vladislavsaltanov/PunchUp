@@ -49,13 +49,13 @@ public class RunManager : MonoBehaviour
         IsRunActive = false;
 
         var s = StatisticsHandler.Instance;
-        LastResult = new StatisticData(s.statisticData);
-
         s.StopTimer();
 
         var data = s.statisticData;
         data.cause_of_death = cause;
         data.floor_of_death = (uint)CurrentFloor;
+
+        LastResult = new StatisticData(data);
 
         await PlaytestReporter.SendSessionAsync(new SessionData
         {

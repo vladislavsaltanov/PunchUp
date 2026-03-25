@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class EnemyLogic : BaseEntity
 {
-    [Header("Name")]
-    public string _name = "Entity";
-
     [Header("Modules")]
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
@@ -231,6 +228,8 @@ public class EnemyLogic : BaseEntity
         waitCts?.Dispose();
         actionCts?.Cancel();
         actionCts?.Dispose();
+
+        StatisticsHandler.Instance.statisticData.kills++;
 
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;

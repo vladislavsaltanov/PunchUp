@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Stats")]
+    public string _name = "Entity";
     public EntityStats stats = new EntityStats();
 
     [Space(10)]

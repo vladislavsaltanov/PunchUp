@@ -145,6 +145,7 @@ public class PlayerController : BaseEntity
     protected override void OnDeath()
     {
         combatHandler?.CancelAll();
+        StatisticsHandler.Instance.statisticData.deaths++;
 
         _ = RunManager.Instance.EndRun(lastDamageCause ?? "unknown");
 
