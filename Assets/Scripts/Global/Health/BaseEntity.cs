@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 [RequireComponent(typeof(EntityEffectsSystem))]
@@ -51,7 +52,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public float? overrideVelocityY { get; private set; }
     public bool HasVelocityOverride => overrideVelocityX.HasValue || overrideVelocityY.HasValue;
 
-    Coroutine velocityOverrideCoroutine;
+    CancellationTokenSource velocityOverrideCts;
     #endregion
 
     protected virtual void Awake()
@@ -93,36 +94,41 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     #region Velocity Override
     public void ApplyVelocityOverride(Vector2 velocity, float duration)
     {
-        if (velocityOverrideCoroutine != null)
-            StopCoroutine(velocityOverrideCoroutine);
+        ClearVelocityOverride();
 
         if (CurrentHealth != 0)
-            velocityOverrideCoroutine = StartCoroutine(VelocityOverrideRoutine(velocity, duration));
+        {
+            velocityOverrideCts = new CancellationTokenSource();
+            _ = VelocityOverrideRoutine(velocity, duration, velocityOverrideCts.Token);
+        }
     }
 
     public void ClearVelocityOverride()
     {
-        if (velocityOverrideCoroutine != null)
+        if (velocityOverrideCts != null)
         {
-            StopCoroutine(velocityOverrideCoroutine);
-            velocityOverrideCoroutine = null;
+            velocityOverrideCts.Cancel();
+            velocityOverrideCts.Dispose();
+            velocityOverrideCts = null;
         }
 
         overrideVelocityX = null;
         overrideVelocityY = null;
     }
 
-    IEnumerator VelocityOverrideRoutine(Vector2 velocity, float duration)
+    async Awaitable VelocityOverrideRoutine(Vector2 velocity, float duration, CancellationToken token)
     {
         overrideVelocityX = velocity.x;
         overrideVelocityY = velocity.y;
         rb.linearVelocity = velocity;
 
-        yield return new WaitForSeconds(duration);
+        await Awaitable.WaitForSecondsAsync(duration, token);
+
+        if (token.IsCancellationRequested) return;
 
         overrideVelocityX = null;
         overrideVelocityY = null;
-        velocityOverrideCoroutine = null;
+        velocityOverrideCts = null;
     }
     #endregion
 

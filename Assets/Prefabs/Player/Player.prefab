@@ -529,6 +529,9 @@ GameObject:
   - component: {fileID: 7017996865065010984}
   - component: {fileID: 1631731653201430541}
   - component: {fileID: 6821972033225363592}
+  - component: {fileID: 3720926837645525907}
+  - component: {fileID: 2444199853209225283}
+  - component: {fileID: 5816504282899715860}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -631,6 +634,8 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 6821972033225363592}
   maxHealth: 50
@@ -661,6 +666,7 @@ MonoBehaviour:
   actionScenario: 0
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   attackAction: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  dashAction: {fileID: -1986858869603424012, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   specialAbilityAction: {fileID: 6439146289783607942, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   jumpAction: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
@@ -740,6 +746,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 3450894756909812398}
+--- !u!114 &3720926837645525907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08865fd534a315e4ba0c97eba0b6bfdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashSpeed: 4
+  dashDuration: 0.1
+  controller: {fileID: 3450894756909812398}
+  inputManager: {fileID: 758176366677849531}
+--- !u!114 &2444199853209225283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d21f748bd52884da6117c0160360f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLedgeClimb
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  wallBoxWidth: 0.1
+  wallBoxHeightScale: 0.9
+  headroomBoxWidth: 0.1
+  headroomBoxHeight: 0.1
+  _collider: {fileID: 7923158709754533670}
+  controller: {fileID: 3450894756909812398}
+  inputManager: {fileID: 758176366677849531}
+  climbSpeed: 9
+  nudgeDuration: 0.08
+  nudgeSpeedX: 20
+  nudgeSpeedY: 12
+  footBoxWidth: 0.18
+  climbTimeout: 0.1
+  cancelInputDuration: 0.5
+  climbCooldown: 0.1
+--- !u!114 &5816504282899715860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111059313018016631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9488a7dcc4dcd9145b3b0ca292314c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootsteps
+  rb: {fileID: 0}
+  isGroundedHandler: {fileID: 0}
+  inputManager: {fileID: 0}
+  minVelocityToPlay: 0.1
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  enableLogs: 0
 --- !u!1 &2444405873806064545
 GameObject:
   m_ObjectHideFlags: 0

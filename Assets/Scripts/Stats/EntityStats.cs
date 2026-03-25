@@ -25,6 +25,10 @@ public class EntityStats
     [Header("Abilities")]
     [SerializeField] float cooldownReduction = 0f;
 
+    [Header("Parkour")]
+    [SerializeField] float dashCooldown = 5f;
+    [SerializeField] float ledgeClimbDuration = 0.2f;
+
     [Header("Luck")]
     [SerializeField] float luck = 0f;
 
@@ -163,7 +167,9 @@ public class EntityStats
             [StatType.KnockbackResistance] = knockbackResistance,
             [StatType.DamageBlockChance] = damageBlockChance,
             [StatType.ActiveAbilityCooldown] = cooldownReduction,
-            [StatType.LuckStat] = luck
+            [StatType.LuckStat] = luck,
+            [StatType.DashCooldown] = dashCooldown,
+            [StatType.LedgeClimbDuration] = ledgeClimbDuration
         };
 
         modifiers = new Dictionary<StatType, List<StatModifier>>();
@@ -199,6 +205,8 @@ public class EntityStats
                 StatType.KnockbackResistance => Mathf.Clamp(final, 0f, 100f),
                 StatType.ActiveAbilityCooldown => Mathf.Clamp(final, 0f, 90f),
                 StatType.CriticalHitDamageMultiplier => Mathf.Max(1f, final),
+                StatType.DashCooldown => Mathf.Max(0.1f, final),
+                StatType.LedgeClimbDuration => Mathf.Max(0.05f, final),
                 _ => Mathf.Max(0f, final)
             };
         }

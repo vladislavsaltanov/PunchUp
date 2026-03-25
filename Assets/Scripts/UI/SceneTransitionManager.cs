@@ -33,7 +33,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            Instance.StartCoroutine(Instance.TransitionRoutine(sceneIndex, duration));
+            _ = Instance.TransitionRoutine(sceneIndex, duration);
         }
         else
         {
@@ -41,32 +41,32 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
-    private IEnumerator TransitionRoutine(int sceneIndex, float duration)
+    private async Awaitable TransitionRoutine(int sceneIndex, float duration)
     {
         loadingScreenObject.SetActive(true);
-        yield return Fade(0f, 1f, duration);
+        await Fade(0f, 1f, duration);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
         while (!operation.isDone)
         {
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
 
-        yield return new WaitForSeconds(0.5f);
+        await Awaitable.WaitForSecondsAsync(0.5f);
 
-        yield return Fade(1f, 0f, duration);
+        await Fade(1f, 0f, duration);
         loadingScreenObject.SetActive(false);
     }
 
-    private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
+    private async Awaitable Fade(float startAlpha, float endAlpha, float duration)
     {
         float time = 0;
         while (time < duration)
         {
             time += Time.unscaledDeltaTime;
             canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, time / duration);
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
         canvasGroup.alpha = endAlpha;
     }

@@ -11,5 +11,7 @@ public enum StatType
     ActiveAbilityCooldown,
     HealthRegenRate,
     KnockbackResistance,
-    LuckStat
+    LuckStat,
+    DashCooldown,
+    LedgeClimbDuration
 }
