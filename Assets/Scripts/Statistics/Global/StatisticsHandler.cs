@@ -20,6 +20,13 @@ public class StatisticsHandler : MonoBehaviour
     public GlobalStatisticsData globalStatisticsData;
     public StatisticData statisticData;
 
+    float _runStartTime;
+
+    public void StartTimer() => _runStartTime = Time.realtimeSinceStartup;
+
+    public void StopTimer() =>
+        statisticData.total_playtime = (uint)(Time.realtimeSinceStartup - _runStartTime);
+
     // should be called first as we check for player id
     void TutorialPolicyCheck()
     {
@@ -51,6 +58,16 @@ public class StatisticsHandler : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void FinalSave()
+    {
+        PlayerPrefs.SetInt("totalKills", (int)(PlayerPrefs.GetInt("totalKills", 0) + statisticData.kills));
+        PlayerPrefs.SetInt("totalDeaths", (int)(PlayerPrefs.GetInt("totalDeaths", 0) + statisticData.deaths));
+        PlayerPrefs.SetInt("totalFlasksPicked", (int)(PlayerPrefs.GetInt("totalFlasksPicked", 0) + statisticData.flasks_picked));
+        PlayerPrefs.SetInt("totalItemsPicked", (int)(PlayerPrefs.GetInt("totalItemsPicked", 0) + statisticData.items_picked));
+        PlayerPrefs.SetInt("totalFloorsCleared", (int)(PlayerPrefs.GetInt("totalFloorsCleared", 0) + statisticData.floors_cleared));
+        PlayerPrefs.SetInt("maxFloor", (int)Mathf.Max(PlayerPrefs.GetInt("maxFloor", 0), statisticData.floor_of_death));
+        PlayerPrefs.Save();
+    }
     public void ResetData()
     {
         PlayerPrefs.SetInt("current_floor", 0);

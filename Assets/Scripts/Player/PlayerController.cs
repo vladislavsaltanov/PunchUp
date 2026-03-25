@@ -146,20 +146,8 @@ public class PlayerController : BaseEntity
     {
         combatHandler?.CancelAll();
 
-        var data = StatisticsHandler.Instance.statisticData;
-        data.cause_of_death = lastDamageCause ?? "unknown";
-        data.floor_of_death = (uint)PlayerPrefs.GetInt("current_floor", 1);
+        _ = RunManager.Instance.EndRun(lastDamageCause ?? "unknown");
 
-        PlaytestReporter.SendSession(new SessionData
-        {
-            statisticData = StatisticsHandler.Instance.statisticData,
-            globalStatisticsData = StatisticsHandler.Instance.globalStatisticsData
-        });
-
-        StatisticsHandler.Instance.ResetData();
-
-        // here we should    show a death screen with the option to retry
-        // probably need to freeze every other entity too
         SceneTransitionManager.SwitchScene(1);
     }
     #endregion

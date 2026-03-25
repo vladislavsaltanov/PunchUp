@@ -2517,6 +2517,9 @@ MonoBehaviour:
     flasks_picked: 0
     floors_cleared: 0
     total_playtime: 0
+    cause_of_death: 
+    floor_of_death: 0
+    run_number: 0
 --- !u!4 &1570105715
 Transform:
   m_ObjectHideFlags: 0
