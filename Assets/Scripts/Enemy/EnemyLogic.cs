@@ -229,6 +229,8 @@ public class EnemyLogic : BaseEntity
         actionCts?.Cancel();
         actionCts?.Dispose();
 
+        StatisticsHandler.Instance.statisticData.kills++;
+
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
         entityCollider.enabled = false;

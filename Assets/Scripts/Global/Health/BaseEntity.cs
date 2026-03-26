@@ -6,12 +6,14 @@ using UnityEngine;
 public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Stats")]
+    public string _name = "Entity";
     public EntityStats stats = new EntityStats();
 
     [Space(10)]
     [Header("Health")]
     [SerializeField] protected ushort maxHealth = 100;
     public ushort CurrentHealth { get; protected set; }
+    protected string lastDamageCause;
 
     [Space(10)]
     [Header("Movement")]
@@ -60,9 +62,10 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         CurrentHealth = maxHealth;
     }
 
-    public void TakeDamage(ushort amount, Transform attacker = null)
+    public void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (CurrentHealth == 0) return;
+        lastDamageCause = cause ?? "unknown";
 
         float reduced = Mathf.Max(1, amount - Stats[StatType.Defense]);
         ushort finalDamage = (ushort)reduced;

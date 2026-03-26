@@ -622,6 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15de4f98dc094c4896833d7bd57ac1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  _name: "\u0418\u0433\u0440\u043E\u043A"
   stats:
     speed: 6
     attackPower: 1
