@@ -1,0 +1,18 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="LeanLocalization.csproj" />
+  <Project Path="LeanCommon.csproj" />
+  <Project Path="LeanTransition.csproj" />
+  <Project Path="LeanLocalization.TMP.csproj" />
+  <Project Path="FMODUnityResonanceEditor.csproj" />
+  <Project Path="CW.Common.csproj" />
+  <Project Path="FMODUnityEditor.csproj" />
+  <Project Path="FMODUnity.csproj" />
+  <Project Path="LeanGUI.csproj" />
+  <Project Path="LeanLocalizationEditor.csproj" />
+  <Project Path="FMODUnityResonance.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="LeanTransition.Editor.csproj" />
+  <Project Path="sc.utilities.screenshot.editor.csproj" />
+</Solution>

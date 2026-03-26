@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocityY = 0;
         rb.AddForce(Vector2.up * chars.jumpForce, ForceMode2D.Impulse);
+        PlayerAudio.Instance.HandleJump();
     }
 }
 [System.Serializable]
