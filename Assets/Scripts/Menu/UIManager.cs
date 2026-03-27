@@ -84,7 +84,7 @@ public class UIManager : MonoBehaviour
 
     public void SwitchPause()
     {
-        if (!RunManager.Instance.IsRunActive)
+        if (RunManager.Instance != null && !RunManager.Instance.IsRunActive)
             return;
 
         isPaused = !isPaused;

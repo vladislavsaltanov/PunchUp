@@ -1089,8 +1089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8b90b864fb328419344f03f7dc91eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraZone
-  gridWidth: 40
-  gridHeight: 20
 --- !u!61 &385664972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3134,7 +3132,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1365302147}
-  m_Father: {fileID: 1683235954}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3394,7 +3392,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1683235954}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &831285808
 SpriteRenderer:
@@ -7296,16 +7294,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635562162}
+  m_GameObject: {fileID: 1683235951}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10080be1655fcbc4cadd2ddc530cc5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBounce
-  _player: {fileID: 1635562169}
+  _player: {fileID: 0}
   _pushStrengthX: 12
   _pushStrengthY: 8
   _duration: 0.1
+--- !u!4 &1683235954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683235951}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1740773677
 GameObject:
   m_ObjectHideFlags: 0
@@ -9262,6 +9275,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1637596717862765878, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637596717862765878, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchScene
+      objectReference: {fileID: 0}
     - target: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9309,10 +9330,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1635562172}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
 --- !u!61 &2076712551286356826
 BoxCollider2D:
@@ -9529,6 +9547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   defaultCamera: {fileID: 9190079088896753911}
+  allCameras: []
+  currentCamera: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &4214717406839767300
 MonoBehaviour:
@@ -9591,8 +9611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8b90b864fb328419344f03f7dc91eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraZone
-  gridWidth: 40
-  gridHeight: 20
 --- !u!114 &6329992692364379203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9782,6 +9800,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1683235954}
   - {fileID: 828016548}
   - {fileID: 871514482}
   - {fileID: 278640350835996689}
@@ -9791,7 +9810,6 @@ SceneRoots:
   - {fileID: 1499893071}
   - {fileID: 1018854565}
   - {fileID: 2094719915}
-  - {fileID: 1683235954}
   - {fileID: 330527712}
   - {fileID: 1788870360}
   - {fileID: 1916225853}
@@ -9804,3 +9822,5 @@ SceneRoots:
   - {fileID: 1621454020}
   - {fileID: 453052464}
   - {fileID: 457679792}
+  - {fileID: 771636659}
+  - {fileID: 831285807}
