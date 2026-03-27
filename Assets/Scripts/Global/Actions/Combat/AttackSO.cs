@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public abstract class AttackSO : ActionSO
@@ -21,7 +19,7 @@ public abstract class AttackSO : ActionSO
         float multiplier = owner.Stats != null ? owner.Stats[StatType.AttackPower] : 1f;
         ushort finalDamage = (ushort)(baseDamage * multiplier);
 
-        target.TakeDamage(finalDamage, owner.transform);
+        target.TakeDamage(finalDamage, owner.transform, owner._name);
 
         // 2. Рассчитываем отталкивание
         // Вектор ОТ атакующего К цели

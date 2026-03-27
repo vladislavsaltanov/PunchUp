@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 340591476197143272}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7, z: 0}
+  m_LocalPosition: {x: 0, y: 1.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 9210668083274912766, guid: dbae09644df74e3459e720e677891be0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 506051a2ee71e0245ab3d705b58d0986, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -293,6 +293,8 @@ GameObject:
   - component: {fileID: 1765776240886170450}
   - component: {fileID: 134716935740392034}
   - component: {fileID: 6536770724743704795}
+  - component: {fileID: 4776601906185170543}
+  - component: {fileID: 6778920336013747956}
   m_Layer: 0
   m_Name: ExitElevator
   m_TagString: Untagged
@@ -378,6 +380,49 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.047665, y: 3.5008779}
   m_EdgeRadius: 0
+--- !u!114 &4776601906185170543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5546326299054504339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a784e801abbddd14d83bded3984e08e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ElevatorAudio
+--- !u!114 &6778920336013747956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5546326299054504339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -66592438
+      Data2: 1165212975
+      Data3: -474763388
+      Data4: -1089807001
+    Path: event:/Elevator/ElevatorAmb
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 15
 --- !u!1 &7815933996796649970
 GameObject:
   m_ObjectHideFlags: 0

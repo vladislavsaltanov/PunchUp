@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,17 +40,12 @@ public class PlayerController : BaseEntity
         {
             inputManager.attackAction.action.performed += OnAttack;
             inputManager.specialAbilityAction.action.performed += OnAbility;
+            inputManager.interactAction.action.performed += OnInteract;
         }
 
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
-        if (groundedHandler != null)
-        {
-            groundedHandler.hasGrounded += hasGroundedEventHandler;
-        }
-
-        if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
-
-        inputManager.interactAction.action.performed += OnInteract;
+        if (groundedHandler != null) groundedHandler.hasGrounded += hasGroundedEventHandler;
+        if (combatHandler == null)   combatHandler = GetComponent<CombatHandler>();
     }
     void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
@@ -128,6 +122,8 @@ public class PlayerController : BaseEntity
         if (combatHandler == null) return;
 
         combatHandler.TryPrimaryAttack();
+
+        PlayerAudio.Instance.HandleAttack();
     }
 
     void OnAbility(InputAction.CallbackContext ctx)
@@ -146,14 +142,27 @@ public class PlayerController : BaseEntity
     #region BaseEntity Implementation
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
+        PlayerAudio.Instance.HandleDamage();
     }
 
     protected override void OnDeath()
     {
-        combatHandler?.CancelAll();
-        Debug.Log("[Player] Died. Game Over logic here.");
+        GetComponent<PlayerMovement>().enabled = false;
 
-        SceneTransitionManager.SwitchScene(1);
+        rb.simulated = false;
+        entityCollider.enabled = false;
+
+        combatHandler?.CancelAll();
+        StatisticsHandler.Instance.statisticData.deaths++;
+
+        _ = RunManager.Instance.EndRun(lastDamageCause ?? "unknown");
+
+        // TODO: shader dissolve effect via awaitable
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        base.OnDeath();
     }
     #endregion
 }

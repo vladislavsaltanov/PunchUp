@@ -339,6 +339,9 @@ GameObject:
   - component: {fileID: 7834036821289183661}
   - component: {fileID: 5979673803110708387}
   - component: {fileID: 2796716739556374683}
+  - component: {fileID: -6506072773447974216}
+  - component: {fileID: -8886564601316419656}
+  - component: {fileID: -9203921536540124746}
   m_Layer: 8
   m_Name: Scientist 2
   m_TagString: Enemy
@@ -387,6 +390,8 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 2796716739556374683}
   maxHealth: 10
@@ -398,9 +403,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 6697251720718071081}
   entityCollider: {fileID: 605229748249607518}
   isWaiting: 0
+  _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5979673803110708387}
+  doctorAudio: {fileID: 0}
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
@@ -468,3 +475,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 6548586802355228029}
+--- !u!114 &-6506072773447974216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593945755005346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a192bfa6553b649b79b94b8901633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoctorAudio
+  rb: {fileID: 0}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  minIdleSoundDelay: 3
+  maxIdleSoundDelay: 5
+  enableLogs: 0
+--- !u!114 &-8886564601316419656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593945755005346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1210354899
+      Data2: 1281391265
+      Data3: 2027727786
+      Data4: -1453107460
+    Path: event:/Doctor/DoctorFootsteps
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10
+--- !u!114 &-9203921536540124746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593945755005346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -275774054
+      Data2: 1307728897
+      Data3: -341171064
+      Data4: 808730391
+    Path: event:/Doctor/DoctorIdle
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5
