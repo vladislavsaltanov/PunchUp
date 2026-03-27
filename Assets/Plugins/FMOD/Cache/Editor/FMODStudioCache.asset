@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9138368964054090130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/JumpLand
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/JumpLand
+  Guid:
+    Data1: -1418682405
+    Data2: 1316274333
+    Data3: 707374476
+    Data4: 890176727
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -7386761039132826298}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-8528437763582345271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,12 +43,66 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639099012992025266
+  lastModified: 639101663867924845
   FileSizes:
   - Name: Desktop
-    Value: 1378
+    Value: 1816
   Exists: 1
---- !u!114 &-1927043591500405792
+--- !u!114 &-8156635227392469984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorAttack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorAttack
+  Guid:
+    Data1: -575175514
+    Data2: 1173829810
+    Data3: 1309711027
+    Data4: -796035169
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
+--- !u!114 &-7401941823985898750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/PlayerFootsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/PlayerFootsteps
+  Guid:
+    Data1: 838722172
+    Data2: 1225101137
+    Data3: -1980554097
+    Data4: -1412477336
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 220
+--- !u!114 &-7386761039132826298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,6 +126,168 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-5952317567737472412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/DoorOpen
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/DoorOpen
+  Guid:
+    Data1: 1107750847
+    Data2: 1335377952
+    Data3: -1676817004
+    Data4: -460798617
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5881655218654360823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorIdle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorIdle
+  Guid:
+    Data1: -275774054
+    Data2: 1307728897
+    Data3: -341171064
+    Data4: 808730391
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
+--- !u!114 &-4027563520712342830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorTakeDamage
+  Guid:
+    Data1: 1625922570
+    Data2: 1143898690
+    Data3: -1507598424
+    Data4: 1388544781
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 435
+--- !u!114 &-3618661679875742360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Dash
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/Dash
+  Guid:
+    Data1: -220328532
+    Data2: 1218212715
+    Data3: 171741594
+    Data4: 1209077618
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2786122615725439810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/LevelTrack1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/LevelTrack1
+  Guid:
+    Data1: 156431545
+    Data2: 1150085496
+    Data3: 1101736110
+    Data4: 1926479426
+  Banks:
+  - {fileID: 256050263783390188}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 248470
+--- !u!114 &-2240859130052689921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorFootsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorFootsteps
+  Guid:
+    Data1: 1210354899
+    Data2: 1281391265
+    Data3: 2027727786
+    Data4: -1453107460
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 440
 --- !u!114 &-1603925922368945329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,11 +303,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639099012992025266
+  lastModified: 639101663867924845
   FileSizes:
   - Name: Desktop
-    Value: 1164
+    Value: 1790
   Exists: 1
+--- !u!114 &-1258931842190984658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambient/Ambient1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambient/Ambient1
+  Guid:
+    Data1: -1118531006
+    Data2: 1264467471
+    Data3: -1402622557
+    Data4: -607689263
+  Banks:
+  - {fileID: 7026963062129422614}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 75428
 --- !u!114 &-1194665916775660933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,11 +350,65 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639099012992035245
+  lastModified: 639101663867939950
   FileSizes:
   - Name: Desktop
-    Value: 44864
+    Value: 135616
   Exists: 1
+--- !u!114 &-679185100693385444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/PlayerTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/PlayerTakeDamage
+  Guid:
+    Data1: 1799236220
+    Data2: 1074446924
+    Data3: 339106238
+    Data4: 1061020778
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
+--- !u!114 &-449447542167164542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/ElevatorAmb
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/ElevatorAmb
+  Guid:
+    Data1: -66592438
+    Data2: 1165212975
+    Data3: -474763388
+    Data4: -1089807001
+  Banks:
+  - {fileID: 7026963062129422614}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 18687
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,30 +426,58 @@ MonoBehaviour:
   - {fileID: -8528437763582345271}
   - {fileID: -1194665916775660933}
   - {fileID: 256050263783390188}
+  - {fileID: 7026963062129422614}
   EditorEvents:
-  - {fileID: 8614665482816021402}
-  - {fileID: 5284568708955897430}
-  - {fileID: 2819314686382356753}
-  - {fileID: 8319188999617021258}
-  - {fileID: 7296529914980316478}
+  - {fileID: -7401941823985898750}
+  - {fileID: -3618661679875742360}
+  - {fileID: -9138368964054090130}
+  - {fileID: 4355301937220356616}
+  - {fileID: -2786122615725439810}
+  - {fileID: -2240859130052689921}
+  - {fileID: -4027563520712342830}
+  - {fileID: -679185100693385444}
+  - {fileID: 1894801183197014891}
+  - {fileID: -8156635227392469984}
+  - {fileID: -5881655218654360823}
+  - {fileID: -1258931842190984658}
+  - {fileID: -449447542167164542}
+  - {fileID: -5952317567737472412}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8528437763582345271}
   StringsBanks:
   - {fileID: -1603925922368945329}
   cacheVersion: 131858
-  cacheTime: 639099012992257929
+  cacheTime: 639101663868155213
   SerializableEventsDict:
-  - key: event:/PlayerFootsteps
+  - key: event:/Player/PlayerFootsteps
     index: 0
-  - key: event:/JumpLand
+  - key: event:/Player/Dash
     index: 1
-  - key: event:/LevelTrack2
+  - key: event:/Player/JumpLand
     index: 2
-  - key: event:/LevelTrack1
+  - key: event:/Music/LevelTrack2
     index: 3
-  - key: event:/Dash
+  - key: event:/Music/LevelTrack1
     index: 4
+  - key: event:/Doctor/DoctorFootsteps
+    index: 5
+  - key: event:/Doctor/DoctorTakeDamage
+    index: 6
+  - key: event:/Player/PlayerTakeDamage
+    index: 7
+  - key: "event:/Player/PlayerAtta\u0441k"
+    index: 8
+  - key: event:/Doctor/DoctorAttack
+    index: 9
+  - key: event:/Doctor/DoctorIdle
+    index: 10
+  - key: event:/Ambient/Ambient1
+    index: 11
+  - key: event:/Elevator/ElevatorAmb
+    index: 12
+  - key: event:/Elevator/DoorOpen
+    index: 13
 --- !u!114 &256050263783390188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,12 +493,12 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SoundTrack.bank
   Name: SoundTrack
   StudioPath: bank:/SoundTrack
-  lastModified: 639099012992257929
+  lastModified: 639101663868155213
   FileSizes:
   - Name: Desktop
     Value: 5578176
   Exists: 1
---- !u!114 &2819314686382356753
+--- !u!114 &1894801183197014891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,9 +508,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LevelTrack2
+  m_Name: "event:/Player/PlayerAtta\u0441k"
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/LevelTrack2
+  Path: "event:/Player/PlayerAtta\u0441k"
+  Guid:
+    Data1: 1225387186
+    Data2: 1187468322
+    Data3: 640275334
+    Data4: 595975080
+  Banks:
+  - {fileID: -1194665916775660933}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
+--- !u!114 &4355301937220356616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/LevelTrack2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/LevelTrack2
   Guid:
     Data1: 1685236137
     Data2: 1180557189
@@ -172,7 +552,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 128000
---- !u!114 &5284568708955897430
+--- !u!114 &7026963062129422614
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,103 +561,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/JumpLand
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/JumpLand
-  Guid:
-    Data1: -1418682405
-    Data2: 1316274333
-    Data3: 707374476
-    Data4: 890176727
-  Banks:
-  - {fileID: -1194665916775660933}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -1927043591500405792}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &7296529914980316478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Dash
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Dash
-  Guid:
-    Data1: -220328532
-    Data2: 1218212715
-    Data3: 171741594
-    Data4: 1209077618
-  Banks:
-  - {fileID: -1194665916775660933}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &8319188999617021258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LevelTrack1
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/LevelTrack1
-  Guid:
-    Data1: 156431545
-    Data2: 1150085496
-    Data3: 1101736110
-    Data4: 1926479426
-  Banks:
-  - {fileID: 256050263783390188}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 248470
---- !u!114 &8614665482816021402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/PlayerFootsteps
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/PlayerFootsteps
-  Guid:
-    Data1: 838722172
-    Data2: 1225101137
-    Data3: -1980554097
-    Data4: -1412477336
-  Banks:
-  - {fileID: -1194665916775660933}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 290
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Ambient.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: PunchUpFMOD/Build/Desktop/Ambient.bank
+  Name: Ambient
+  StudioPath: bank:/Ambient
+  lastModified: 639101663867924845
+  FileSizes:
+  - Name: Desktop
+    Value: 969344
+  Exists: 1
