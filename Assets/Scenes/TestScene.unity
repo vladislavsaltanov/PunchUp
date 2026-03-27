@@ -7296,36 +7296,16 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683235951}
+  m_GameObject: {fileID: 1635562162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50c2425bf3bae2a48bb90ff8f1752b2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 10080be1655fcbc4cadd2ddc530cc5a0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemData: {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
-  promptUI: {fileID: 771636655}
-  translationTime: 1
-  translationSpeed: 4
-  translationSpeedRandom: 0.5
-  translationDistance: 1.4
-  translationOffset: 0
---- !u!4 &1683235954
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683235951}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.8, y: 7.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 771636659}
-  - {fileID: 831285807}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBounce
+  _player: {fileID: 1635562169}
+  _pushStrengthX: 12
+  _pushStrengthY: 8
+  _duration: 0.1
 --- !u!1 &1740773677
 GameObject:
   m_ObjectHideFlags: 0
@@ -9329,7 +9309,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1635562172}
   m_SourcePrefab: {fileID: 100100000, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
 --- !u!61 &2076712551286356826
 BoxCollider2D:
