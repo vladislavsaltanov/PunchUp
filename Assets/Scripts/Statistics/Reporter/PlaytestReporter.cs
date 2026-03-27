@@ -49,6 +49,9 @@ public static class PlaytestReporter
 
     public static async Awaitable SendSessionAsync(SessionData data)
     {
+        if (!PrivacyScreenManager.IsAnalyticsConsented())
+            return;
+
         if (!TryBuildPayload(data, out var payload))
             return;
 
@@ -116,6 +119,9 @@ public static class PlaytestReporter
 
     private static async Awaitable<bool> PostOnceAsync(FlatSessionDto dto)
     {
+        if (!PrivacyScreenManager.IsAnalyticsConsented())
+            return false;
+
         string json = JsonUtility.ToJson(dto);
         byte[] body = Encoding.UTF8.GetBytes(json);
 

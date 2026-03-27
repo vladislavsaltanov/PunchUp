@@ -38,8 +38,6 @@ public class RunManager : MonoBehaviour
 
     public async Awaitable EndRun(string cause = "unknown")
     {
-        Debug.Log($"[RunManager] EndRun(cause={cause}) IsRunActive={IsRunActive}");
-
         if (!IsRunActive) return;
         IsRunActive = false;
 
@@ -53,14 +51,7 @@ public class RunManager : MonoBehaviour
         LastResult = new StatisticData(data); 
 
         s.FinalSave();
-        if (EndScreenController.Instance == null)
-        {
-            Debug.LogError("[RunManager] EndScreenController.Instance is NULL. End screen prefab/object is not present (or got destroyed).");
-        }
-        else
-        {
-            await EndScreenController.Instance.Show(cause != "end");
-        }
+        await EndScreenController.Instance.Show(cause != "end");
 
         _ = PlaytestReporter.SendSessionAsync(new SessionData
         {
