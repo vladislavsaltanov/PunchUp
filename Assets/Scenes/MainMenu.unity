@@ -1681,7 +1681,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 620898588}
   consentToggle: {fileID: 632156554}
   privacyPolicyUrl: https://example.com/privacy
-  playtestUrl: https://punchup.madebykowie.ru/
+  playtestUrl: https://punchup.madebykowie.ru/privacy
 --- !u!225 &620898588
 CanvasGroup:
   m_ObjectHideFlags: 0
