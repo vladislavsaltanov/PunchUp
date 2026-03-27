@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2427fd4f96f4b0b47828eba9ae8cfdaf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 35
   m_Sprite: {fileID: 8125616955614268524, guid: 46eb8b614410a7f44929bc62201e4bff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,6 +166,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 631518498508182827}
   entityCollider: {fileID: 3764929845417665654}
   isWaiting: 0
+  impactSeconds: 0.1
+  deathProgressSeconds: 1.5
   movement: {fileID: 0}
   detection: {fileID: 0}
   combatHandler: {fileID: 0}
