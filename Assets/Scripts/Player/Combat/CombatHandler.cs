@@ -76,18 +76,21 @@ public class CombatHandler : MonoBehaviour
         IsBusy = true;
         busySinceTime = Time.time;
 
-        await action.Execute(owner);
-
-        if (token.IsCancellationRequested)
+        try
         {
+            await action.Execute(owner);
+        }
+        finally
+        {
+            // всегда сбрасываем busy, даже если было исключение/отмена
             IsBusy = false;
             busySinceTime = -1f;
-            return;
         }
 
+        if (token.IsCancellationRequested)
+            return;
+
         setCooldownCallback?.Invoke(action.cooldown);
-        IsBusy = false;
-        busySinceTime = -1f;
     }
 
     /// <summary>

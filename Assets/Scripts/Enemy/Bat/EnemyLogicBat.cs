@@ -5,7 +5,8 @@ public class EnemyLogicBat : EnemyLogic
     enum BatAiState
     {
         None,
-        PreparingAttack
+        PreparingAttack,
+        RisingBeforeDive
     }
 
     [System.Serializable]
@@ -14,13 +15,10 @@ public class EnemyLogicBat : EnemyLogic
         public Vector2 targetPoint;
         public bool hasTarget;
 
-        public float originalY;
-
         public float nextScanTime;
         public float attackEndTime;
         public float waitOnGroundEndTime;
         public float riseEndTime;
-        public float repeatAfterHitTime;
 
         public float bobPhase;
 
@@ -32,9 +30,18 @@ public class EnemyLogicBat : EnemyLogic
         public float nextDamageTime;
         public bool damagedThisDive;
 
-        // Patrol constraints runtime
-        public float patrolAltitudeAboveGround;
         public float requiredHeadClearance;
+
+        public float desiredAltitudeAboveGround;
+        public float postHitCooldownEndTime;
+
+        // ADD THIS
+        public float repeatAfterHitTime;
+
+        public float preDiveRiseTargetY;
+        public float preDiveRiseEndTime;
+
+        public float stunnedEndTime;
     }
 
     [Header("Bat: Scan (down to ground)")]
@@ -44,14 +51,11 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField] LayerMask groundLayer;
 
     [Header("Bat: Ceiling")]
-    [Tooltip("Layers that count as ceiling above the bat. Often same as groundLayer.")]
     [SerializeField] LayerMask ceilingLayer;
+    [SerializeField] float ceilingProbeDistance = 20f;
 
     [Header("Ground Probe")]
     [SerializeField] float groundProbeDistance = 50f;
-
-    [Header("Ceiling Probe")]
-    [SerializeField] float ceilingProbeDistance = 20f;
 
     [Header("Bat: Scan Runtime")]
     [SerializeField] float scanTickInterval = 0.15f;
@@ -60,14 +64,25 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField] Vector2 prepareAttackDelayRange = new Vector2(1f, 2f);
 
     [Header("Bat: Patrol Height Constraints (above ground)")]
-    [Tooltip("Bat will never choose a patrol altitude above this range (above ground).")]
-    [SerializeField] Vector2 maxAltitudeAboveGroundRange = new Vector2(5f, 6f);
+    [Tooltip("Desired cruising altitude above ground. Forced to be >= MinAltitudeAboveGround.")]
+    [SerializeField] Vector2 desiredAltitudeAboveGroundRange = new Vector2(5f, 6f);
 
     [Tooltip("Required free space above bat (to ceiling). If there is less, bat will go lower.")]
     [SerializeField] Vector2 requiredHeadClearanceRange = new Vector2(1f, 2f);
 
-    [Tooltip("If bat falls below this altitude above ground, it recalculates patrol height.")]
-    [SerializeField] float minAltitudeAboveGround = 2.5f;
+    [Tooltip("Hard minimum altitude above ground that should be respected always.")]
+    [SerializeField] float minAltitudeAboveGround = 5f;
+
+    [Header("Bat: Post-hit cooldown (cruise only)")]
+    [SerializeField] Vector2 postHitCooldownRange = new Vector2(3f, 5f);
+
+    [Header("Bat: Stun/Contusion after taking damage")]
+    [SerializeField] Vector2 stunDurationRange = new Vector2(2f, 3f);
+
+    [Header("Bat: Pre-dive rise")]
+    [SerializeField] Vector2 preDiveRiseUnitsRange = new Vector2(1f, 3f);
+    [SerializeField] float preDiveRiseTimeout = 0.75f;
+    [SerializeField] float preDiveRiseTolerance = 0.05f;
 
     [Header("Bat: Bobbing (vertical oscillation)")]
     [SerializeField] float bobAmplitude = 0.35f;
@@ -105,6 +120,18 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField] Sprite spriteB_Attack;
     [SerializeField] Sprite spriteC_MissWait;
 
+    [Header("Bat: Separation (anti-clumping)")]
+    [SerializeField] LayerMask batLayer;
+    [SerializeField] float separationRadius = 0.75f;
+    [SerializeField] float separationStrength = 3.0f;
+
+    [Header("Bat: Stun Drift (anti-stuck)")]
+    [SerializeField] float stunDriftUpSpeed = 2.5f;
+    [SerializeField] float stunDriftSideSpeed = 1.5f;
+
+    // Reuse buffer to avoid allocations
+    static readonly Collider2D[] separationHits = new Collider2D[16];
+
     BatContextState bat = new BatContextState();
     BatAiState batAiState = BatAiState.None;
 
@@ -120,22 +147,17 @@ public class EnemyLogicBat : EnemyLogic
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (entityCollider == null) entityCollider = GetComponent<Collider2D>();
         if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (ceilingLayer.value == 0) ceilingLayer = groundLayer;
 
-        if (ceilingLayer.value == 0)
-            ceilingLayer = groundLayer; // safe default
-
-        bat.originalY = transform.position.y;
         bat.bobPhase = Random.value * 10f;
 
-        // pick constraints once (stable “personality”)
-        bat.patrolAltitudeAboveGround = Random.Range(maxAltitudeAboveGroundRange.x, maxAltitudeAboveGroundRange.y);
+        bat.desiredAltitudeAboveGround = Random.Range(desiredAltitudeAboveGroundRange.x, desiredAltitudeAboveGroundRange.y);
         bat.requiredHeadClearance = Random.Range(requiredHeadClearanceRange.x, requiredHeadClearanceRange.y);
-
-        patrolBaseY = PickInitialPatrolY();
 
         bat.nextScanTime = Time.time;
         bat.lastX = transform.position.x;
 
+        patrolBaseY = PickInitialPatrolY();
         currentState = EnemyState.FlyingPatrol;
     }
 
@@ -144,20 +166,51 @@ public class EnemyLogicBat : EnemyLogic
         if (!TryGetGroundPointBelowProbed(out Vector2 ground))
             return transform.position.y;
 
-        float allowedAltitude = GetAllowedAltitudeAboveGround(ground.y);
-        return ground.y + allowedAltitude;
+        return ground.y + GetAllowedCruisingAltitudeAboveGround();
     }
 
     void Update()
     {
         if (CurrentHealth <= 0) return;
-        if (HasVelocityOverride) return;
 
         UpdateVisualDirection();
+
+        // --- CONTUSION WINDOW ---
+        if (Time.time < bat.stunnedEndTime)
+        {
+            // Let knockback do its job if active.
+            if (HasVelocityOverride) return;
+
+            // If no override anymore, do NOT freeze in place.
+            // Drift upward and sideways a bit so they can unstack/escape small spaces.
+            float vx = direction * stunDriftSideSpeed;
+            float vy = stunDriftUpSpeed;
+
+            // separation helps even during stun
+            Vector2 sep = ComputeSeparationVector();
+            vx += sep.x * separationStrength;
+            vy += sep.y * separationStrength;
+
+            rb.linearVelocity = new Vector2(vx, Mathf.Clamp(vy, -maxVerticalSpeed, maxVerticalSpeed));
+            return;
+        }
+
+        // If knockback is active but we're not stunned anymore, just let it finish this frame.
+        if (HasVelocityOverride)
+            return;
+
+        if (Time.time < bat.postHitCooldownEndTime)
+        {
+            SetSprite(spriteA_Idle);
+            EnsureMinAltitudeAlways();
+            PatrolTick();
+            return;
+        }
 
         if (Time.time < bat.repeatAfterHitTime)
         {
             SetSprite(spriteA_Idle);
+            EnsureMinAltitudeAlways();
             PatrolTick();
             return;
         }
@@ -167,9 +220,9 @@ public class EnemyLogicBat : EnemyLogic
             case EnemyState.FlyingPatrol:
                 SetSprite(spriteA_Idle);
 
-                EnsureMinAltitudeAndCeilingClearance();
+                EnsureMinAltitudeAlways();
 
-                if (Time.time >= bat.nextScanTime && batAiState != BatAiState.PreparingAttack)
+                if (Time.time >= bat.nextScanTime && batAiState == BatAiState.None)
                 {
                     bat.nextScanTime = Time.time + scanTickInterval;
                     TryAcquireTargetFromDownScan();
@@ -178,18 +231,32 @@ public class EnemyLogicBat : EnemyLogic
                 if (batAiState == BatAiState.PreparingAttack)
                 {
                     rb.linearVelocity = new Vector2(0f, VerticalSeek(PatrolTargetY, verticalFollowSpeed));
+
                     if (Time.time >= bat.prepareAttackEndTime)
+                        BeginPreDiveRise();
+
+                    break;
+                }
+
+                if (batAiState == BatAiState.RisingBeforeDive)
+                {
+                    rb.linearVelocity = new Vector2(0f, VerticalSeek(bat.preDiveRiseTargetY, verticalFollowSpeed));
+
+                    bool reached = Mathf.Abs(transform.position.y - bat.preDiveRiseTargetY) <= preDiveRiseTolerance;
+                    bool timedOut = Time.time >= bat.preDiveRiseEndTime;
+
+                    if (reached || timedOut)
                     {
                         batAiState = BatAiState.None;
                         bat.attackEndTime = Time.time + attackChaseSecondsN;
                         bat.damagedThisDive = false;
                         currentState = EnemyState.DivingToPoint;
                     }
+
+                    break;
                 }
-                else
-                {
-                    PatrolTick();
-                }
+
+                PatrolTick();
                 break;
 
             case EnemyState.DivingToPoint:
@@ -210,7 +277,7 @@ public class EnemyLogicBat : EnemyLogic
 
             case EnemyState.RisingBack:
                 SetSprite(spriteA_Idle);
-                EnsureMinAltitudeAndCeilingClearance();
+                EnsureMinAltitudeAlways();
                 RiseTick();
                 break;
 
@@ -220,43 +287,29 @@ public class EnemyLogicBat : EnemyLogic
         }
     }
 
-    void EnsureMinAltitudeAndCeilingClearance()
+    // NEW: always enforce target baseline as at least minAltitudeAboveGround above the ground
+    void EnsureMinAltitudeAlways()
     {
         if (!TryGetGroundPointBelowProbed(out Vector2 ground))
             return;
 
         float groundY = ground.y;
-        float altitude = transform.position.y - groundY;
 
-        // If too low: re-anchor baseline using allowed altitude
-        if (altitude < minAltitudeAboveGround)
-        {
-            patrolBaseY = groundY + GetAllowedAltitudeAboveGround(groundY);
-            return;
-        }
-
-        // If current target violates ceiling clearance: push baseline down
-        float allowed = GetAllowedAltitudeAboveGround(groundY);
-        float desiredY = groundY + allowed;
-
-        // only adjust down (don’t jerk upwards constantly)
-        if (desiredY < patrolBaseY)
-            patrolBaseY = desiredY;
+        float desiredAltitude = Mathf.Max(minAltitudeAboveGround, GetAllowedCruisingAltitudeAboveGround());
+        patrolBaseY = groundY + desiredAltitude;
     }
 
-    float GetAllowedAltitudeAboveGround(float groundY)
+    float GetAllowedCruisingAltitudeAboveGround()
     {
-        float desired = Mathf.Clamp(bat.patrolAltitudeAboveGround, 0f, maxAltitudeAboveGroundRange.y);
+        // Ensure desired itself is >= minimum
+        float desired = Mathf.Max(minAltitudeAboveGround, bat.desiredAltitudeAboveGround);
 
-        // Limit by ceiling distance so that there’s head clearance
+        // Ceiling cap (still respected to avoid clipping)
         if (TryGetCeilingDistance(out float ceilingDist))
         {
-            float maxAltitudeByCeiling = Mathf.Max(0f, ceilingDist - bat.requiredHeadClearance);
-            desired = Mathf.Min(desired, maxAltitudeByCeiling);
+            float maxByCeiling = Mathf.Max(0f, ceilingDist - bat.requiredHeadClearance);
+            desired = Mathf.Min(desired, maxByCeiling);
         }
-
-        // Always cap by max range (5–6)
-        desired = Mathf.Min(desired, maxAltitudeAboveGroundRange.y);
 
         return desired;
     }
@@ -264,8 +317,6 @@ public class EnemyLogicBat : EnemyLogic
     bool TryGetCeilingDistance(out float ceilingDistance)
     {
         Vector2 origin = transform.position;
-
-        // if we have collider, start from top to make it intuitive
         if (entityCollider != null)
             origin.y = entityCollider.bounds.max.y;
 
@@ -280,6 +331,22 @@ public class EnemyLogicBat : EnemyLogic
         return true;
     }
 
+    void BeginPreDiveRise()
+    {
+        float riseUnits = Random.Range(preDiveRiseUnitsRange.x, preDiveRiseUnitsRange.y);
+        float targetY = transform.position.y + riseUnits;
+
+        if (TryGetCeilingDistance(out float ceilingDist))
+        {
+            float maxUp = Mathf.Max(0f, ceilingDist - bat.requiredHeadClearance);
+            targetY = Mathf.Min(targetY, transform.position.y + maxUp);
+        }
+
+        bat.preDiveRiseTargetY = targetY;
+        bat.preDiveRiseEndTime = Time.time + preDiveRiseTimeout;
+        batAiState = BatAiState.RisingBeforeDive;
+    }
+
     void PatrolTick()
     {
         float speedX = Stats[StatType.Speed] * patrolSpeedMultiplier;
@@ -287,12 +354,17 @@ public class EnemyLogicBat : EnemyLogic
 
         float vy = VerticalSeek(PatrolTargetY, verticalFollowSpeed);
 
+        // Apply separation so bats don't clump
+        Vector2 sep = ComputeSeparationVector();
+        vx += sep.x * separationStrength;
+        vy += sep.y * separationStrength;
+
         rb.linearVelocity = new Vector2(vx, vy);
 
         if (IsWallAhead(direction))
         {
             direction *= -1;
-            rb.linearVelocity = new Vector2(direction * speedX, vy);
+            rb.linearVelocity = new Vector2(direction * speedX, rb.linearVelocity.y);
         }
 
         HandleStuckInPatrol(speedX);
@@ -392,6 +464,7 @@ public class EnemyLogicBat : EnemyLogic
             rb.linearVelocity = new Vector2(0f, riseSpeed * 0.75f);
 
             bat.hasTarget = false;
+            bat.postHitCooldownEndTime = Time.time + Random.Range(postHitCooldownRange.x, postHitCooldownRange.y);
             bat.repeatAfterHitTime = Time.time + reattackDelayAfterHit;
 
             currentState = EnemyState.FlyingPatrol;
@@ -442,6 +515,12 @@ public class EnemyLogicBat : EnemyLogic
         float vy = VerticalSeek(targetY, verticalFollowSpeed);
 
         float speedX = direction * Stats[StatType.Speed] * patrolSpeedMultiplier * 0.5f;
+
+        // Apply separation while rising too
+        Vector2 sep = ComputeSeparationVector();
+        speedX += sep.x * separationStrength;
+        vy += sep.y * separationStrength;
+
         rb.linearVelocity = new Vector2(speedX, vy);
 
         float dy = Mathf.Abs(targetY - transform.position.y);
@@ -501,6 +580,20 @@ public class EnemyLogicBat : EnemyLogic
         return hit.collider != null && !hit.collider.isTrigger;
     }
 
+    // NEW: take damage reaction -> stun 2–3s then rise back to cruising height
+    protected override void OnDamageReceived(ushort amount, Transform attacker = null)
+    {
+        bat.stunnedEndTime = Time.time + Random.Range(stunDurationRange.x, stunDurationRange.y);
+
+        // Cancel any current attack prep
+        batAiState = BatAiState.None;
+        bat.hasTarget = false;
+
+        // After stun ends, force rising behavior
+        currentState = EnemyState.RisingBack;
+        bat.riseEndTime = bat.stunnedEndTime + riseSecondsP;
+    }
+
     void SetSprite(Sprite sprite)
     {
         if (spriteRenderer == null) return;
@@ -510,15 +603,42 @@ public class EnemyLogicBat : EnemyLogic
             spriteRenderer.sprite = sprite;
     }
 
+    Vector2 ComputeSeparationVector()
+    {
+        if (batLayer.value == 0) return Vector2.zero;
+
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, separationRadius, separationHits, batLayer);
+        if (count <= 0) return Vector2.zero;
+
+        Vector2 push = Vector2.zero;
+        Vector2 myPos = transform.position;
+
+        for (int i = 0; i < count; i++)
+        {
+            var col = separationHits[i];
+            if (col == null) continue;
+            if (col.transform == transform || col.transform.IsChildOf(transform)) continue;
+
+            // Only separate from other bats (EnemyLogicBat on parent)
+            var otherBat = col.GetComponentInParent<EnemyLogicBat>();
+            if (otherBat == null || otherBat == this) continue;
+
+            Vector2 toMe = myPos - (Vector2)otherBat.transform.position;
+            float dist = toMe.magnitude;
+            if (dist <= 0.0001f) continue;
+
+            float t = 1f - Mathf.Clamp01(dist / separationRadius); // stronger when closer
+            push += (toMe / dist) * t;
+        }
+
+        return push;
+    }
+
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, separationRadius);
 
-        Vector2 top = (Vector2)transform.position + scanBoxOffset;
-        Vector2 center = top + Vector2.down * (scanBoxSize.y * 0.5f);
-        Gizmos.DrawWireCube(center, scanBoxSize);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRadiusK);
+        // îñòàâü òâîè îñòàëüíûå gizmos åñëè íóæíî
     }
 }
