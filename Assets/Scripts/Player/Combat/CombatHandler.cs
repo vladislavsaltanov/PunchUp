@@ -54,6 +54,7 @@ public class CombatHandler : MonoBehaviour
         cts = new CancellationTokenSource();
 
         _ = ExecuteRoutine(action, setCooldownCallback, cts.Token);
+
         return true;
     }
 

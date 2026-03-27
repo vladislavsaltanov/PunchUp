@@ -156,4 +156,16 @@ public class PlayerAudio : MonoBehaviour
     {
         AudioManager.Instance.PlayDashSound(transform.position);
     }
+    
+    //јй
+    public void HandleDamage()
+    {
+        AudioManager.Instance.PlayerTakeDamage(transform.position);
+    }
+
+    //Ѕамс
+    public void HandleAttack()
+    {
+        AudioManager.Instance.PlayerAttack(transform.position);
+    }
 }
