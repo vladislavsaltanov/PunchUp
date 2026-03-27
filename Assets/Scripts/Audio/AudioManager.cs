@@ -28,6 +28,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference doctorAttackEvent;
     [SerializeField] private EventReference doctorIdleEvent;
 
+    [Header("Bat")]
+    [SerializeField] private EventReference batFlyEvent;
+    [SerializeField] private EventReference batTakeDamageEvent;
+    [SerializeField] private EventReference batAttackEvent;
+    [SerializeField] private EventReference batIdleEvent;
+
     private EventInstance backgroundMusicInstance;
     private int lastTrackIndex = -1;
     private bool isPlaylistRunning;
@@ -166,6 +172,14 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
+    public void BatFly(Vector2 worldPosition)
+    {
+        if (batFlyEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(batFlyEvent, worldPosition);
+    }
+
+
     //Прыг-скок-скок-скок-скок
     public void PlayJumpLand(Vector2 position, JumpLandAction action)
     {
@@ -206,6 +220,13 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorTakeDamageEvent, position);
     }
 
+    public void BatTakeDamage(Vector2 position)
+    {
+        if (batTakeDamageEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(batTakeDamageEvent, position);
+    }
+
     //Ломай меня полностью
     public void PlayerAttack(Vector2 position)
     {
@@ -221,11 +242,25 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorAttackEvent, position);
     }
 
+    public void BatAttack(Vector2 position)
+    {
+        if (batAttackEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(batAttackEvent, position);
+    }
+
     //Неловие звуки работы
     public void PlayDoctorIdle(Vector2 position)
     {
         if (doctorIdleEvent.IsNull) return;
 
         RuntimeManager.PlayOneShot(doctorIdleEvent, position);
+    }
+
+    public void PlayBatIdle(Vector2 position)
+    {
+        if (batIdleEvent.IsNull) return;
+
+        RuntimeManager.PlayOneShot(batIdleEvent, position);
     }
 }

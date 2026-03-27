@@ -303,10 +303,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639102291296607456
+  lastModified: 639102439103047455
   FileSizes:
   - Name: Desktop
-    Value: 135616
+    Value: 212352
   Exists: 1
 --- !u!114 &-4027563520712342830
 MonoBehaviour:
@@ -389,6 +389,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 248470
+--- !u!114 &-2778015456863009602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Bat/BatFly
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Bat/BatFly
+  Guid:
+    Data1: -1596256942
+    Data2: 1316362937
+    Data3: 466448023
+    Data4: -1888349835
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 440
 --- !u!114 &-2240859130052689921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +443,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 440
+--- !u!114 &-2158674649060205696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Bat/BatTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Bat/BatTakeDamage
+  Guid:
+    Data1: 1622415761
+    Data2: 1200280268
+    Data3: -1436550985
+    Data4: 1517957654
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 635
 --- !u!114 &-1951601841409260423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,13 +705,16 @@ MonoBehaviour:
   - {fileID: 1380388850785137131}
   - {fileID: -7154849910244208238}
   - {fileID: 5276397319579343605}
+  - {fileID: 5845961012792075146}
+  - {fileID: -2778015456863009602}
+  - {fileID: -2158674649060205696}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639102291296998171
+  cacheTime: 639102439103047455
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -687,6 +744,12 @@ MonoBehaviour:
     index: 12
   - key: event:/Music/LevelTrack1
     index: 13
+  - key: event:/Bat/BatIdle
+    index: 14
+  - key: event:/Bat/BatFly
+    index: 15
+  - key: event:/Bat/BatTakeDamage
+    index: 16
 --- !u!114 &256050263783390188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,6 +930,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 248470
+--- !u!114 &5845961012792075146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Bat/BatIdle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Bat/BatIdle
+  Guid:
+    Data1: -438365424
+    Data2: 1193690249
+    Data3: -121648200
+    Data4: 1785489045
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &6088826597517771694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +999,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SoundTrack.bank
   Name: SoundTrack
   StudioPath: bank:/SoundTrack
-  lastModified: 639102291296998171
+  lastModified: 639102435841737595
   FileSizes:
   - Name: Desktop
     Value: 5578176
@@ -976,7 +1066,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639102291296577450
+  lastModified: 639102439102735719
   FileSizes:
   - Name: Desktop
     Value: 969344
@@ -1023,10 +1113,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639102291296597474
+  lastModified: 639102439102767058
   FileSizes:
   - Name: Desktop
-    Value: 1790
+    Value: 1952
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1043,10 +1133,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639102291296587456
+  lastModified: 639102439102767058
   FileSizes:
   - Name: Desktop
-    Value: 1816
+    Value: 1962
   Exists: 1
 --- !u!114 &9220659935962306198
 MonoBehaviour:
