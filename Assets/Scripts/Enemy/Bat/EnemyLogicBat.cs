@@ -6,7 +6,8 @@ public class EnemyLogicBat : EnemyLogic
     {
         None,
         PreparingAttack,
-        RisingBeforeDive
+        RisingBeforeDive,
+        RisingToUncramp
     }
 
     [System.Serializable]
@@ -208,20 +209,6 @@ public class EnemyLogicBat : EnemyLogic
         return true;
     }
 
-    void ClampToLeashX()
-    {
-        // Prevent drift beyond leash in patrol/rise.
-        // Only clamp X to keep vertical behavior unchanged.
-        Vector3 p = transform.position;
-        float minX = spawnAnchor.x - maxRoamDistanceFromSpawn;
-        float maxX = spawnAnchor.x + maxRoamDistanceFromSpawn;
-
-        if (p.x < minX) p.x = minX;
-        if (p.x > maxX) p.x = maxX;
-
-        transform.position = p;
-    }
-
     float PickInitialPatrolY()
     {
         if (!TryGetGroundPointBelowProbed(out Vector2 ground))
@@ -266,7 +253,6 @@ public class EnemyLogicBat : EnemyLogic
             SetSprite(spriteA_Idle);
             EnsureMinAltitudeAlways();
             PatrolTick();
-            ClampToLeashX();
             return;
         }
 
@@ -291,8 +277,6 @@ public class EnemyLogicBat : EnemyLogic
 
                     if (Time.time >= bat.prepareAttackEndTime)
                         BeginPreDiveRise();
-
-                    ClampToLeashX();
                     break;
                 }
 
@@ -310,13 +294,26 @@ public class EnemyLogicBat : EnemyLogic
                         bat.damagedThisDive = false;
                         currentState = EnemyState.DivingToPoint;
                     }
+                    break;
+                }
 
-                    ClampToLeashX();
+                if (batAiState == BatAiState.RisingToUncramp)
+                {
+                    rb.linearVelocity = new Vector2(
+                        rb.linearVelocity.x,
+                        VerticalSeek(bat.preDiveRiseTargetY, verticalFollowSpeed));
+
+                    bool reached = Mathf.Abs(transform.position.y - bat.preDiveRiseTargetY) <= preDiveRiseTolerance;
+                    bool timedOut = Time.time >= bat.preDiveRiseEndTime;
+
+                    if (reached || timedOut)
+                    {
+                        batAiState = BatAiState.None;
+                    }
                     break;
                 }
 
                 PatrolTick();
-                ClampToLeashX();
                 break;
 
             case EnemyState.DivingToPoint:
@@ -350,7 +347,6 @@ public class EnemyLogicBat : EnemyLogic
                 SetSprite(spriteA_Idle);
                 EnsureMinAltitudeAlways();
                 RiseTick();
-                ClampToLeashX();
                 break;
 
             default:
@@ -431,7 +427,12 @@ public class EnemyLogicBat : EnemyLogic
         vx += sep.x * separationStrength;
         vy += sep.y * separationStrength;
 
-        rb.linearVelocity = new Vector2(vx, vy);
+        Vector2 v = new Vector2(vx, vy);
+
+        // steer back if outside leash
+        ApplyLeashSteering(ref v, Stats[StatType.Speed] * patrolSpeedMultiplier);
+
+        rb.linearVelocity = v;
 
         if (IsWallAhead(direction))
         {
@@ -609,7 +610,9 @@ public class EnemyLogicBat : EnemyLogic
         speedX += sep.x * separationStrength;
         vy += sep.y * separationStrength;
 
-        rb.linearVelocity = new Vector2(speedX, vy);
+        Vector2 v = new Vector2(speedX, vy);
+        ApplyLeashSteering(ref v, Stats[StatType.Speed] * patrolSpeedMultiplier);
+        rb.linearVelocity = v;
 
         float dy = Mathf.Abs(targetY - transform.position.y);
         if (dy <= 0.1f || Time.time >= bat.riseEndTime)
@@ -695,6 +698,8 @@ public class EnemyLogicBat : EnemyLogic
         if (Time.time < nextCrampedCheckTime) return;
         nextCrampedCheckTime = Time.time + crampedRiseCooldown;
 
+        if (batAiState != BatAiState.None) return;
+
         if (!IsCrampedSideways()) return;
 
         float targetY = transform.position.y + crampedRiseUnits;
@@ -707,7 +712,8 @@ public class EnemyLogicBat : EnemyLogic
 
         bat.preDiveRiseTargetY = targetY;
         bat.preDiveRiseEndTime = Time.time + preDiveRiseTimeout;
-        batAiState = BatAiState.RisingBeforeDive;
+
+        batAiState = BatAiState.RisingToUncramp;
     }
 
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
@@ -778,5 +784,32 @@ public class EnemyLogicBat : EnemyLogic
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(spawnAnchor, maxRoamDistanceFromSpawn);
+    }
+
+    Vector2 GetLeashCenter()
+    {
+        return spawnAnchor;
+    }
+
+    void ApplyLeashSteering(ref Vector2 velocity, float strength)
+    {
+        // Push back toward spawn if outside leash radius (no teleport, only velocity bias)
+        Vector2 pos = transform.position;
+        Vector2 center = GetLeashCenter();
+        Vector2 toCenter = center - pos;
+
+        float dist = toCenter.magnitude;
+        if (dist <= 0.001f) return;
+
+        float over = dist - maxRoamDistanceFromSpawn;
+        if (over <= 0f) return;
+
+        Vector2 dir = toCenter / dist;
+
+        // scale by how far outside we are, but clamp it
+        float k = Mathf.Clamp01(over / Mathf.Max(0.01f, leashReturnMargin));
+        Vector2 push = dir * (strength * k);
+
+        velocity += push;
     }
 }
