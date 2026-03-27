@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: d015afc43c17bf94ba418c12c2ad6dc9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 22
   m_Sprite: {fileID: 8125616955614268524, guid: 46eb8b614410a7f44929bc62201e4bff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -164,6 +164,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 631518498508182827}
   entityCollider: {fileID: 3764929845417665654}
   isWaiting: 0
+  impactSeconds: 0.1
+  deathProgressSeconds: 1.5
   movement: {fileID: 0}
   detection: {fileID: 0}
   combatHandler: {fileID: 0}
@@ -190,13 +192,21 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  ceilingLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  ceilingProbeDistance: 20
   groundProbeDistance: 55
   scanTickInterval: 0.15
   prepareAttackDelayRange: {x: 0.2, y: 1}
-  useScanHeightAsPatrolHeight: 1
-  patrolHeightRange: {x: 5, y: 7}
-  patrolClearanceFromGround: 0.5
+  desiredAltitudeAboveGroundRange: {x: 5, y: 6}
+  requiredHeadClearanceRange: {x: 1, y: 2}
   minAltitudeAboveGround: 2.5
+  postHitCooldownRange: {x: 3, y: 5}
+  stunDurationRange: {x: 2, y: 3}
+  preDiveRiseUnitsRange: {x: 1, y: 3}
+  preDiveRiseTimeout: 0.75
+  preDiveRiseTolerance: 0.05
   bobAmplitude: 0.1
   bobFrequency: 2
   patrolSpeedMultiplier: 1
@@ -219,6 +229,13 @@ MonoBehaviour:
   spriteA_Idle: {fileID: 8125616955614268524, guid: 46eb8b614410a7f44929bc62201e4bff, type: 3}
   spriteB_Attack: {fileID: 2128742226252731361, guid: 4db266d2cabeace40b87090c0b63a8d6, type: 3}
   spriteC_MissWait: {fileID: 7952961006481424333, guid: de34e3eb3f7cbbb4a9e13cde12a8b359, type: 3}
+  batLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  separationRadius: 0.75
+  separationStrength: 3
+  stunDriftUpSpeed: 2.5
+  stunDriftSideSpeed: 1.5
 --- !u!114 &2986937477780424829
 MonoBehaviour:
   m_ObjectHideFlags: 0
