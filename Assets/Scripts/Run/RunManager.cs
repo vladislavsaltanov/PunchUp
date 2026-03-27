@@ -64,6 +64,7 @@ public class RunManager : MonoBehaviour
         });
 
         s.FinalSave();
+        EndScreenController.Instance.Show(cause != "end");
         s.statisticData = new StatisticData();
     }
 }
