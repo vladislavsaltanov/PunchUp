@@ -184,7 +184,12 @@ public class EnemyLogic : BaseEntity
         if (currentState == EnemyState.Waiting) return;
 
         currentState = EnemyState.Waiting;
-        movement.Stop(this);
+
+        if (movement != null)
+            movement.Stop(this);
+        else if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
         _ = WaitFor(duration);
     }
 
