@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{822ec50f-edd9-4880-b734-1fd63739da34}">
+		<property name="assetPath">
+			<value>Sounds/elevator/ambience_nearby.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>18.687505668934239</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{bd32502d-ad33-42da-a859-5ae13da5bdee}</destination>
+		</relationship>
+	</object>
+</objects>

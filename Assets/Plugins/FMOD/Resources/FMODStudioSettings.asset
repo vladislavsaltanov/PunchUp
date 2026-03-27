@@ -489,6 +489,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - Ambient
   - SFX
   - SoundTrack
   BanksToLoad: []

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{6c3cb2d2-ab7f-4a98-aba8-ad4825fd3039}">
+		<property name="assetPath">
+			<value>Sounds/enemyDoctor/idle_acid.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.8571428571428571</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{bd32502d-ad33-42da-a859-5ae13da5bdee}</destination>
+		</relationship>
+	</object>
+</objects>

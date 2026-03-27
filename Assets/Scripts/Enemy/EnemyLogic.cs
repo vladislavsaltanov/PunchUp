@@ -8,6 +8,7 @@ public class EnemyLogic : BaseEntity
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
     [SerializeField] CombatHandler combatHandler;
+    [SerializeField] DoctorAudio doctorAudio;
 
     [Header("AI Settings")]
     [SerializeField] float abilityChance = 0.3f;
@@ -47,6 +48,8 @@ public class EnemyLogic : BaseEntity
         playerController = PlayerController.instance;
 
         if (entityCollider == null) entityCollider = GetComponent<Collider2D>();
+
+        if (doctorAudio == null) doctorAudio = GetComponent<DoctorAudio>();
 
         direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
         EnterWait(1f);
@@ -212,6 +215,8 @@ public class EnemyLogic : BaseEntity
             context.wasHit = true;
 
             currentState = EnemyState.WalkingTowardsPlayer;
+
+            doctorAudio.HandleDamage();
         }
     }
 
