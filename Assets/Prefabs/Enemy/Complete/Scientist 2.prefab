@@ -169,7 +169,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: ccabb37b8c66bb740975487674c7960f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dad24c32d6df7449a27929c4a4722f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
+  _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
   stats:
     speed: 1.2
     attackPower: 1
@@ -403,7 +404,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 6697251720718071081}
   entityCollider: {fileID: 605229748249607518}
   isWaiting: 0
-  _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
+  impactFrames: 3
+  deathProgressSeconds: 1.5
   movement: {fileID: 11400000, guid: e027fc801439dc04189b980a35d51e07, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5979673803110708387}
@@ -462,6 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
   owner: {fileID: 6548586802355228029}
+  busySoftLockTimeout: 3
 --- !u!114 &2796716739556374683
 MonoBehaviour:
   m_ObjectHideFlags: 0
