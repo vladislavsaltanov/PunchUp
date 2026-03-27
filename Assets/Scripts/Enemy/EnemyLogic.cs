@@ -184,7 +184,12 @@ public class EnemyLogic : BaseEntity
         if (currentState == EnemyState.Waiting) return;
 
         currentState = EnemyState.Waiting;
-        movement.Stop(this);
+
+        if (movement != null)
+            movement.Stop(this);
+        else if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
         _ = WaitFor(duration);
     }
 
@@ -222,19 +227,24 @@ public class EnemyLogic : BaseEntity
 
     protected override void OnDeath()
     {
-        combatHandler.CancelAll();
-        waitCts?.Cancel();
-        waitCts?.Dispose();
-        actionCts?.Cancel();
-        actionCts?.Dispose();
+        try
+        {
+            combatHandler?.CancelAll();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
 
-        StatisticsHandler.Instance.statisticData.kills++;
+            StatisticsHandler.Instance.statisticData.kills++;
 
-        rb.linearVelocity = Vector2.zero;
-        rb.simulated = false;
-        entityCollider.enabled = false;
-
-        Destroy(gameObject, 0.1f);
+            rb.linearVelocity = Vector2.zero;
+            rb.simulated = false;
+            entityCollider.enabled = false;
+        }
+        finally
+        {
+            base.OnDeath();
+        }
     }
     private void OnDrawGizmosSelected()
     {

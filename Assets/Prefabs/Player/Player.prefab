@@ -1052,10 +1052,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   chars:
-    speed: 10
+    speed: 11.5
     jumpForce: 70
     resetSpeedTime: 20
-    maxHorizontalSpeed: 10
+    maxHorizontalSpeed: 11.5
     maxVerticalSpeed: {x: -35, y: 25}
     additionalGravity: 100
     coyoteTime: 0.1
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _name: "\u0418\u0433\u0440\u043E\u043A"
   stats:
-    speed: 6
+    speed: 8
     attackPower: 1
     defense: 0
     maxHealth: 50
@@ -1172,6 +1172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
   owner: {fileID: 3450894756909812398}
+  busySoftLockTimeout: 3
 --- !u!114 &1631731653201430541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,7 +3191,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bb80591a6f1f2ca499df23121234f529, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3213,7 +3214,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: -299831083027680978, guid: 05096f3f24b7a074ebc48a17890d9b84, type: 3}
-  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
