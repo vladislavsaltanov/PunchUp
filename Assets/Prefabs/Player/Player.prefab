@@ -1103,6 +1103,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1037472663058153170}
   entityCollider: {fileID: 7923158709754533670}
   isWaiting: 0
+  impactSeconds: 0.1
+  deathProgressSeconds: 1.5
+  deactivateOnDeath: 0
   currentTime: 0
   lastGroundedTime: 0
   combatHandler: {fileID: 7017996865065010984}
