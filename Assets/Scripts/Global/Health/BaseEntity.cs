@@ -117,6 +117,9 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
         if (CurrentHealth == 0)
             OnDeath();
+
+        if (this is PlayerController)
+            PlayerHealthBarUIManager.Instance.UpdateHealth(CurrentHealth, maxHealth);
     }
 
     public void Heal(ushort amount)
