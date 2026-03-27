@@ -43,7 +43,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639101663867924845
+  lastModified: 639102291296587456
   FileSizes:
   - Name: Desktop
     Value: 1816
@@ -303,7 +303,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639101663867924845
+  lastModified: 639102291296597474
   FileSizes:
   - Name: Desktop
     Value: 1790
@@ -350,7 +350,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639101663867939950
+  lastModified: 639102291296607456
   FileSizes:
   - Name: Desktop
     Value: 135616
@@ -448,7 +448,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -1603925922368945329}
   cacheVersion: 131858
-  cacheTime: 639101663868155213
+  cacheTime: 639102291296998171
   SerializableEventsDict:
   - key: event:/Player/PlayerFootsteps
     index: 0
@@ -493,7 +493,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SoundTrack.bank
   Name: SoundTrack
   StudioPath: bank:/SoundTrack
-  lastModified: 639101663868155213
+  lastModified: 639102291296998171
   FileSizes:
   - Name: Desktop
     Value: 5578176
@@ -567,7 +567,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639101663867924845
+  lastModified: 639102291296577450
   FileSizes:
   - Name: Desktop
     Value: 969344
