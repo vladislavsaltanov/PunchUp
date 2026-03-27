@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour
 {
     [Header("Camera References")]
     [SerializeField] private CinemachineCamera defaultCamera;
-    [SerializeField] private List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
+    [SerializeField] public List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
     public static CameraManager Instance { get; private set; }
 
-    private CinemachineCamera currentCamera;
+    public CinemachineCamera currentCamera;
     private CinemachinePositionComposer composer;
     private Quaternion startRotation;
     private Quaternion targetRotation;
@@ -25,6 +26,7 @@ public class CameraManager : MonoBehaviour
     private float zoomProgress;
     private float currentZoomDuration;
     private Coroutine zoomCoroutine;
+    public GameObject player;
 
     private void Awake()
     {
@@ -38,32 +40,35 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         if (currentCamera == null)
         {
-            SwitchToCamera(defaultCamera);
+            currentCamera = defaultCamera;
         }
-        //GlobalEventHandler.Instance.GetActionByName()
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void SwitchToCamera(CinemachineCamera targetCamera)
+    private void OnDisable()
     {
-        if (targetCamera == null) return;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-        foreach (var camera in allCameras)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentCamera = FindFirstObjectByType<CinemachineCamera>();
+    }
+
+    public void SetTrackingTarget(Transform target)
+    {
+        if (currentCamera == null)
         {
-            if (camera != null)
-            {
-                camera.gameObject.SetActive(false);
-                camera.Priority = 0;
-            }
+            currentCamera = FindFirstObjectByType<CinemachineCamera>();
         }
 
-        targetCamera.gameObject.SetActive(true);
-        targetCamera.Priority = 100;
-        currentCamera = targetCamera;
-
-        composer = targetCamera.GetComponent<CinemachinePositionComposer>();
+        currentCamera.Follow = target;
     }
 
     public void ResetCameraRotation()
@@ -181,5 +186,31 @@ public class CameraManager : MonoBehaviour
             StopCoroutine(zoomCoroutine);
             zoomCoroutine = null;
         }
+    }
+
+    public void AddCamera(CinemachineCamera camera)
+    {
+        allCameras.Add(camera);
+    }
+
+    public void RemoveCamera(CinemachineCamera camera)
+    {
+        allCameras.Remove(camera);
+    }
+
+    public void ChangeCamera(CinemachineCamera camera)
+    {
+        foreach (var cam in allCameras)
+        {
+            cam.Priority = 0;
+        }
+        camera.Priority = 100;
+        currentCamera = camera;
+    }
+
+    //������ ������
+    public CinemachineCamera GetCamera()
+    {
+        return currentCamera;
     }
 }

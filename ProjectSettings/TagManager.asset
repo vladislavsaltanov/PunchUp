@@ -7,16 +7,17 @@ TagManager:
   - Ground
   - Bouncy
   - Testing
+  - CameraBounds
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Player
+  - Enemy
   - 
   - 
   - 

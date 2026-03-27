@@ -11,10 +11,11 @@ public class RoomManager : MonoBehaviour
     public List<Transform> enemyPositions;
     // Audio bank
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,13 +24,22 @@ public class RoomManager : MonoBehaviour
         
     }
 
-    public void InitializeElevator(int i)
+    public Vector2 InitializeElevator(int i)
     {
-        Instantiate(elevators[i], elevatorPlaceholder);
+        return Instantiate(elevators[i], elevatorPlaceholder).transform.position;
     }
 
     public void SetRoomID(int i)
     {
         roomID = i;
+    }
+
+    public void SpawnRoomEnemy(List<GameObject> Enemys)
+    {
+        
+        for( int i = 0; i < enemyPositions.Count; i++)
+        {
+            Instantiate(Enemys[Random.Range(0,Enemys.Count)], enemyPositions[i]);
+        }
     }
 }
