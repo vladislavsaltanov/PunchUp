@@ -1,17 +1,35 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class CameraZoneTrigger : MonoBehaviour
 {
-    Transform cameraBounds;
 
-    public float gridWidth = 40f;
-    public float gridHeight = 20f;
+    public float gridWidth = 60f;
+    public float gridHeight = 30f;
+    private int curCameraID;
+    private CinemachineCamera curCamera;
+    private float snappedX;
+    private float snappedY;
+    private Transform player;
+
+    public CameraManager cameraManager;
 
     private void Start()
     {
-        cameraBounds = GameObject.FindGameObjectWithTag("CameraBounds").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        snappedX = Mathf.Round(player.position.x / gridWidth);
+        snappedY = Mathf.Round(player.position.y / gridHeight);
+        cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
+        foreach (var cam in cameraManager.allCameras)
+            cam.Target.TrackingTarget = player;
+
+        curCameraID = GetCurrentCamera(snappedX, snappedY);
+        curCamera = cameraManager.allCameras[curCameraID];
+        cameraManager.ChangeCamera(curCamera);
     }
+
     private void OnTriggerEnter2D(Collider2D tr)
     {
         if (!tr.CompareTag("Player"))
@@ -24,12 +42,15 @@ public class CameraZoneTrigger : MonoBehaviour
     {
         if (!tr.CompareTag("Player"))
             return;
+        snappedX = Mathf.Clamp(Mathf.Round(tr.transform.position.x / gridWidth), -60, 60);
+        snappedY = Mathf.Clamp(Mathf.Round(tr.transform.position.y / gridHeight), -30, 30);
+        curCameraID = GetCurrentCamera(snappedX, snappedY);
+        curCamera = cameraManager.allCameras[curCameraID];
+        cameraManager.ChangeCamera(curCamera);
+    }
 
-        float snappedX = Mathf.Round(tr.transform.position.x / gridWidth) * gridWidth;
-        float snappedY = Mathf.Round(tr.transform.position.y / gridHeight) * gridHeight;
-        snappedX = Mathf.Clamp(snappedX, -40f, 40f);
-        snappedY = Mathf.Clamp(snappedY, -20f, 20f);
-
-        cameraBounds.position = new Vector3(snappedX, snappedY, cameraBounds.position.z);
+    private static int GetCurrentCamera(float x, float y)
+    {
+        return (int)(4 + x + (y * 3));
     }
 }
