@@ -35,13 +35,6 @@ public class RunManager : MonoBehaviour
 
         s.StartTimer();
     }
-    public void OnFloorCleared()
-    {
-        StatisticsHandler.Instance.statisticData.floors_cleared++;
-        // perhaps saving data? 
-        
-        CurrentFloor++;
-    }
 
     public async Awaitable EndRun(string cause = "unknown")
     {
@@ -66,5 +59,26 @@ public class RunManager : MonoBehaviour
         s.FinalSave();
         EndScreenController.Instance.Show(cause != "end");
         s.statisticData = new StatisticData();
+    }
+
+    public async void RestartRun()
+    {
+        // NOTE: EndRun shows the end screen. For restart we typically don't want that.
+        // If you want a silent restart, consider adding an overload/flag to EndRun.
+        if (IsRunActive)
+            await EndRun("restart");
+
+        // Start a fresh run using the canonical path.
+        StartRun();
+
+        SceneTransitionManager.Instance.ReloadCurrentScene();
+    }
+
+    public void OnFloorCleared()
+    {
+        StatisticsHandler.Instance.statisticData.floors_cleared++;
+        // perhaps saving data? 
+
+        CurrentFloor++;
     }
 }

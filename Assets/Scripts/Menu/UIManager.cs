@@ -120,6 +120,27 @@ public class UIManager : MonoBehaviour
         SceneTransitionManager.SwitchScene(id, 1.5f);
     }
 
+    public async void Surrender()
+    {
+        // Unpause first so timers/awaitables/etc. don't get stuck on Time.timeScale = 0.
+        if (isPaused)
+            SwitchPause();
+
+        var player = PlayerController.instance;
+        if (player == null)
+        {
+            SwitchScene(0);
+            return;
+        }
+
+        // Убиваем игрока "легальным" путем, чтобы отработал OnDeath().
+        // cause важно: PlayerController.OnDeath() прочитает lastDamageCause = "surrender".
+        player.TakeDamage(ushort.MaxValue, null, "surrender");
+
+        // На всякий случай даем кадр, чтобы OnDeath успел стартовать EndRun.
+        await Awaitable.NextFrameAsync();
+    }
+
     public void Exit()
     {
         PlayerPrefs.Save();

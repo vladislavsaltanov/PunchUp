@@ -17,15 +17,12 @@ public class EnemyLogic : BaseEntity
     CancellationTokenSource actionCts;
     CancellationTokenSource waitCts;
 
-    // --- НОВОЕ СВОЙСТВО ---
-    // Считает реальную дистанцию удара: от центра врага до кончика меча
     public float EffectiveAttackReach
     {
         get
         {
             float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
 
-            // Если есть коллайдер, добавляем его половину ширины (extents.x)
             if (entityCollider != null)
             {
                 return entityCollider.bounds.extents.x + weaponRange;
@@ -120,7 +117,6 @@ public class EnemyLogic : BaseEntity
 
     void ChooseCombatOrChase()
     {
-        // ИСПОЛЬЗУЕМ EffectiveAttackReach (Ширина + Оружие)
         if (context.playerDistance <= EffectiveAttackReach)
         {
             currentState = EnemyState.Combat;
@@ -160,8 +156,6 @@ public class EnemyLogic : BaseEntity
 
         movement.Stop(this);
 
-        // Также учитываем размеры коллайдера при выходе из боя
-        // Умножаем на 1.2 только саму дальность оружия, а не ширину тела, чтобы было точнее
         float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
         float bodySize = (entityCollider != null) ? entityCollider.bounds.extents.x : 0f;
 
@@ -254,7 +248,6 @@ public class EnemyContextState
     public float playerDistance = Mathf.Infinity;
     public float lastHitTime = -100f;
 
-    // Для логики "потерял из виду"
     public float lastTimeSeenPlayer = -100f;
     public sbyte lastKnownDirection = 0;
 

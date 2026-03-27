@@ -144,12 +144,19 @@ public class PlayerController : BaseEntity
 
     protected override void OnDeath()
     {
+        GetComponent<PlayerMovement>().enabled = false;
+
+        rb.simulated = false;
+        entityCollider.enabled = false;
+
         combatHandler?.CancelAll();
         StatisticsHandler.Instance.statisticData.deaths++;
 
         _ = RunManager.Instance.EndRun(lastDamageCause ?? "unknown");
 
-        SceneTransitionManager.SwitchScene(1);
+        // TODO: shader dissolve effect via awaitable
+
+        base.OnDeath();
     }
     #endregion
 }
