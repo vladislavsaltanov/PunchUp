@@ -13,7 +13,6 @@ public class EndScreenController : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 
@@ -31,12 +30,16 @@ public class EndScreenController : MonoBehaviour
     [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject textPrefab;
 
-    public async void Show(bool died = false)
+    public async Awaitable Show(bool died = false)
     {
+        canvasGroup.gameObject.SetActive(true);
+        canvasGroup.alpha = 0;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         foreach (Transform child in contentParent)
-        {
             Destroy(child.gameObject);
-        }
 
         var runManager = RunManager.Instance;
         var lastResult = runManager.LastResult;
@@ -60,7 +63,7 @@ public class EndScreenController : MonoBehaviour
     public async void Hide()
     {
         await FadeTo(0);
-        gameObject.SetActive(false);
+        canvasGroup.gameObject.SetActive(false);
     }
 
     private async Awaitable FadeTo(float targetAlpha)
@@ -70,13 +73,13 @@ public class EndScreenController : MonoBehaviour
 
         if (targetAlpha > 0)
         {
-            gameObject.SetActive(true);
+            canvasGroup.gameObject.SetActive(true);
             canvasGroup.blocksRaycasts = true;
         }
 
         while (elapsed < fadeDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / fadeDuration);
             await Awaitable.NextFrameAsync();
         }

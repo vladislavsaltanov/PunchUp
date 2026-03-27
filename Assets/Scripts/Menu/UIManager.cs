@@ -84,6 +84,9 @@ public class UIManager : MonoBehaviour
 
     public void SwitchPause()
     {
+        if (!RunManager.Instance.IsRunActive)
+            return;
+
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
 
@@ -135,7 +138,7 @@ public class UIManager : MonoBehaviour
 
         // Убиваем игрока "легальным" путем, чтобы отработал OnDeath().
         // cause важно: PlayerController.OnDeath() прочитает lastDamageCause = "surrender".
-        player.TakeDamage(ushort.MaxValue, null, "surrender");
+        player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
 
         // На всякий случай даем кадр, чтобы OnDeath успел стартовать EndRun.
         await Awaitable.NextFrameAsync();

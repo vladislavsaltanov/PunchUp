@@ -156,6 +156,9 @@ public class PlayerController : BaseEntity
 
         // TODO: shader dissolve effect via awaitable
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         base.OnDeath();
     }
     #endregion
