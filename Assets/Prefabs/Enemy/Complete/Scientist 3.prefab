@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5527136180007242226}
   - component: {fileID: 2483328308904730475}
   - component: {fileID: 9080053592874354569}
+  - component: {fileID: 5820359421126868030}
   m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
@@ -215,6 +216,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2.5}
   m_EdgeRadius: 0
+--- !u!114 &5820359421126868030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035488543878875879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6286d3a363ed2694383769552c73f97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeShadowRenderer
+  _shadowColor: {r: 0, g: 0, b: 0, a: 0.3}
+  _maxShadowAlpha: 0.7
+  _minShadowAlpha: 0
+  _groundCheckDistance: 5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _yOffset: -0.15
+  _updateShadowSize: 1
+  _shadowSizeMultiplier: 1
+  _entityToFollow: {fileID: 6497281321143207380}
+  _entitySpriteRenderer: {fileID: 2483328308904730475}
 --- !u!1 &4469383118799625817
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,8 +318,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2483328308904730475}
   entityCollider: {fileID: 9080053592874354569}
   isWaiting: 0
-  impactFrames: 3
+  impactSeconds: 0.1
   deathProgressSeconds: 1.5
+  deactivateOnDeath: 1
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 7236936652644260688}

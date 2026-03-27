@@ -189,8 +189,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2590521676121854963}
   entityCollider: {fileID: 4518589733712738767}
   isWaiting: 0
-  impactFrames: 3
+  impactSeconds: 0.1
   deathProgressSeconds: 1.5
+  deactivateOnDeath: 1
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5066113996724530292}
@@ -439,6 +440,7 @@ GameObject:
   - component: {fileID: 1386450050093507366}
   - component: {fileID: 2590521676121854963}
   - component: {fileID: 4518589733712738767}
+  - component: {fileID: 7766428552789190209}
   m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
@@ -565,3 +567,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2.5}
   m_EdgeRadius: 0
+--- !u!114 &7766428552789190209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221771316080197431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6286d3a363ed2694383769552c73f97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeShadowRenderer
+  _shadowColor: {r: 0, g: 0, b: 0, a: 0.3}
+  _maxShadowAlpha: 0.7
+  _minShadowAlpha: 0
+  _groundCheckDistance: 5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _yOffset: -0.15
+  _updateShadowSize: 1
+  _shadowSizeMultiplier: 1
+  _entityToFollow: {fileID: 6268713337435757019}
+  _entitySpriteRenderer: {fileID: 2590521676121854963}

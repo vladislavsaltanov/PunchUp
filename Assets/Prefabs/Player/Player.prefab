@@ -3415,6 +3415,7 @@ GameObject:
   - component: {fileID: 4848405734436866732}
   - component: {fileID: 1037472663058153170}
   - component: {fileID: 7923158709754533670}
+  - component: {fileID: 1602646066050631591}
   m_Layer: 7
   m_Name: Square
   m_TagString: Player
@@ -3541,3 +3542,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1602646066050631591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887219085180420117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6286d3a363ed2694383769552c73f97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeShadowRenderer
+  _shadowColor: {r: 0, g: 0, b: 0, a: 0.3}
+  _maxShadowAlpha: 0.65
+  _minShadowAlpha: 0
+  _groundCheckDistance: 5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _yOffset: -0.15
+  _updateShadowSize: 1
+  _shadowSizeMultiplier: 0.75
+  _entityToFollow: {fileID: 5252948213629827692}
+  _entitySpriteRenderer: {fileID: 1037472663058153170}
