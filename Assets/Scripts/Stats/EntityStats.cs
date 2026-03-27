@@ -1,131 +1,224 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[RequireComponent(typeof(EntityEffectsSystem))]
+[Serializable]
 public class EntityStats
 {
     [Header("Base Stats")]
-    public float speed = 5f;
-    public float attackPower = 1f;
-    public float defense = 0f;
-    public float maxHealth = 100f;
-    public float knockbackMultiplier = 1f;
+    [SerializeField] float speed = 5f;
+    [SerializeField] float attackPower = 1f;
+    [SerializeField] float defense = 0f;
+    [SerializeField] float maxHealth = 100f;
+    [SerializeField] float healthRegenRate = 0f;
 
-    // Runtime
-    Dictionary<string, float> baseStats;
-    Dictionary<string, float> flatMods = new Dictionary<string, float>();
-    Dictionary<string, float> percentMods = new Dictionary<string, float>();
-    Dictionary<string, float> cached = new Dictionary<string, float>();
+    [Header("Critical")]
+    [SerializeField] float critChance = 0f;
+    [SerializeField] float critMultiplier = 1.5f;
+
+    [Header("Resistance")]
+    [SerializeField] float knockbackMultiplier = 1f;
+    [SerializeField] float knockbackResistance = 0f;
+    [SerializeField] float damageBlockChance = 0f;
+
+    [Header("Abilities")]
+    [SerializeField] float cooldownReduction = 0f;
+
+    [Header("Parkour")]
+    [SerializeField] float dashCooldown = 5f;
+    [SerializeField] float ledgeClimbDuration = 0.2f;
+
+    [Header("Luck")]
+    [SerializeField] float luck = 0f;
+
+    [Header("Effects")]
+    [SerializeField] EntityEffectsSystem entityEffectsSystem;
+
+    Dictionary<StatType, float> baseValues;
+    Dictionary<StatType, List<StatModifier>> modifiers;
+    Dictionary<StatType, float> cache;
+
     bool isDirty = true;
-    bool initialized = false;
+    bool initialized;
 
-    public float this[string statName]
+    public event Action<StatType, float, float> OnChanged;
+
+    public float this[StatType type] => Get(type);
+
+    public float Get(StatType type)
     {
-        get
-        {
-            Initialize();
+        Init();
 
-            if (isDirty)
-                Recalculate();
+        if (isDirty)
+            Recalculate();
 
-            if (cached.TryGetValue(statName, out float val))
-                return val;
-
-            Debug.LogWarning($"[EntityStats] Unknown stat '{statName}'");
-            return 0f;
-        }
+        return cache.TryGetValue(type, out var val) ? val : 0f;
     }
 
-    /// <summary>
-    /// flat: +5 урона
-    /// percent: +20 означает +20%
-    /// </summary>
-    public bool AddModifier(string statName, float flat = 0f, float percent = 0f)
+    public float GetBase(StatType type)
     {
-        Initialize();
+        Init();
+        return baseValues.TryGetValue(type, out var val) ? val : 0f;
+    }
 
-        if (!baseStats.ContainsKey(statName))
-        {
-            Debug.LogWarning($"[EntityStats] Unknown stat '{statName}'");
+    public void SetBase(StatType type, float value)
+    {
+        Init();
+
+        var oldVal = Get(type);
+        baseValues[type] = value;
+        isDirty = true;
+
+        NotifyIfChanged(type, oldVal);
+    }
+
+    public StatModifier AddModifier(StatType type, float flat = 0f, float percent = 0f, object source = null)
+    {
+        Init();
+
+        if (!modifiers.ContainsKey(type))
+            modifiers[type] = new List<StatModifier>();
+
+        var oldVal = Get(type);
+        var mod = new StatModifier(flat, percent, source);
+        modifiers[type].Add(mod);
+        isDirty = true;
+
+        NotifyIfChanged(type, oldVal);
+
+        return mod;
+    }
+
+    public bool RemoveModifier(StatType type, StatModifier modifier)
+    {
+        Init();
+
+        if (!modifiers.TryGetValue(type, out var list))
             return false;
-        }
 
-        if (flat != 0f)
+        var oldVal = Get(type);
+        var removed = list.Remove(modifier);
+
+        if (removed)
         {
-            if (!flatMods.ContainsKey(statName))
-                flatMods[statName] = 0f;
-            flatMods[statName] += flat;
-        }
-
-        if (percent != 0f)
-        {
-            if (!percentMods.ContainsKey(statName))
-                percentMods[statName] = 0f;
-            percentMods[statName] += percent;
-        }
-
-        isDirty = true;
-        return true;
-    }
-
-    public void RemoveModifier(string statName, float flat = 0f, float percent = 0f)
-    {
-        if (flat != 0f && flatMods.ContainsKey(statName))
-        {
-            flatMods[statName] -= flat;
             isDirty = true;
+            NotifyIfChanged(type, oldVal);
         }
 
-        if (percent != 0f && percentMods.ContainsKey(statName))
+        return removed;
+    }
+
+    public int RemoveModifiersFrom(object source)
+    {
+        Init();
+
+        int total = 0;
+
+        foreach (var (type, list) in modifiers)
         {
-            percentMods[statName] -= percent;
-            isDirty = true;
+            var oldVal = Get(type);
+            var removed = list.RemoveAll(m => ReferenceEquals(m.Source, source));
+
+            if (removed > 0)
+            {
+                total += removed;
+                isDirty = true;
+                NotifyIfChanged(type, oldVal);
+            }
+        }
+
+        return total;
+    }
+
+    public void ClearModifiers()
+    {
+        Init();
+
+        foreach (var (type, list) in modifiers)
+        {
+            if (list.Count > 0)
+            {
+                var oldVal = Get(type);
+                list.Clear();
+                isDirty = true;
+                NotifyIfChanged(type, oldVal);
+            }
         }
     }
 
-    public void ResetModifiers()
-    {
-        flatMods.Clear();
-        percentMods.Clear();
-        isDirty = true;
-    }
-
-    public bool HasStat(string statName)
-    {
-        Initialize();
-        return baseStats.ContainsKey(statName);
-    }
-
-    void Initialize()
+    void Init()
     {
         if (initialized) return;
 
-        baseStats = new Dictionary<string, float>
+        if (entityEffectsSystem == null)
+            Debug.LogError("EntityEffectsSystem reference is missing in EntityStats!");
+
+        baseValues = new Dictionary<StatType, float>
         {
-            ["speed"] = speed,
-            ["attackPower"] = attackPower,
-            ["defense"] = defense,
-            ["maxHealth"] = maxHealth,
-            ["knockbackMultiplier"] = knockbackMultiplier
+            [StatType.Speed] = speed,
+            [StatType.AttackPower] = attackPower,
+            [StatType.Defense] = defense,
+            [StatType.MaxHealth] = maxHealth,
+            [StatType.HealthRegenRate] = healthRegenRate,
+            [StatType.CriticalHitChance] = critChance,
+            [StatType.CriticalHitDamageMultiplier] = critMultiplier,
+            [StatType.KnockbackMultiplier] = knockbackMultiplier,
+            [StatType.KnockbackResistance] = knockbackResistance,
+            [StatType.DamageBlockChance] = damageBlockChance,
+            [StatType.ActiveAbilityCooldown] = cooldownReduction,
+            [StatType.LuckStat] = luck,
+            [StatType.DashCooldown] = dashCooldown,
+            [StatType.LedgeClimbDuration] = ledgeClimbDuration
         };
+
+        modifiers = new Dictionary<StatType, List<StatModifier>>();
+        cache = new Dictionary<StatType, float>();
 
         initialized = true;
     }
 
     void Recalculate()
     {
-        cached.Clear();
-
-        foreach (var stat in baseStats)
+        foreach (var (type, baseVal) in baseValues)
         {
-            float baseVal = stat.Value;
-            float flat = flatMods.TryGetValue(stat.Key, out float f) ? f : 0f;
-            float percent = percentMods.TryGetValue(stat.Key, out float p) ? p : 0f;
+            float flat = 0f;
+            float percent = 0f;
 
-            // Формула: (base + flat) * (1 + percent / 100)
-            cached[stat.Key] = (baseVal + flat) * (1f + percent / 100f);
+            if (modifiers.TryGetValue(type, out var list))
+            {
+                foreach (var mod in list)
+                {
+                    flat += mod.Flat;
+                    percent += mod.Percent;
+                }
+            }
+
+            float final = (baseVal + flat) * (1f + percent / 100f);
+
+            cache[type] = type switch
+            {
+                StatType.Speed => Mathf.Max(0f, final),
+                StatType.MaxHealth => Mathf.Max(1f, final),
+                StatType.CriticalHitChance => Mathf.Clamp(final, 0f, 100f),
+                StatType.DamageBlockChance => Mathf.Clamp(final, 0f, 100f),
+                StatType.KnockbackResistance => Mathf.Clamp(final, 0f, 100f),
+                StatType.ActiveAbilityCooldown => Mathf.Clamp(final, 0f, 90f),
+                StatType.CriticalHitDamageMultiplier => Mathf.Max(1f, final),
+                StatType.DashCooldown => Mathf.Max(0.1f, final),
+                StatType.LedgeClimbDuration => Mathf.Max(0.05f, final),
+                _ => Mathf.Max(0f, final)
+            };
         }
 
         isDirty = false;
+    }
+
+    void NotifyIfChanged(StatType type, float oldVal)
+    {
+        if (isDirty) Recalculate();
+
+        if (cache.TryGetValue(type, out var newVal) && Mathf.Abs(oldVal - newVal) > 0.0001f)
+            OnChanged?.Invoke(type, oldVal, newVal);
     }
 }

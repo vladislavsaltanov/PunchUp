@@ -1,5 +1,3 @@
-// EnemyBaseCombat.cs
-using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Enemy/Combat/Melee")]
@@ -25,19 +23,17 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
     }
 
     public override void Execute(EnemyLogic enemy, EnemyContextState context, GameObject player)
-    { 
+    {
         if (enemy.currentState != EnemyState.Attacking && enemy.currentState != EnemyState.Waiting)
-            enemy.StartCoroutine(AttackRoutine(enemy, context));
+            _ = AttackRoutine(enemy, context);
     }
 
-    IEnumerator AttackRoutine(EnemyLogic enemy, EnemyContextState context)
+    async Awaitable AttackRoutine(EnemyLogic enemy, EnemyContextState context)
     {
         enemy.currentState = EnemyState.Attacking;
 
-        // Замах
-        yield return new WaitForSeconds(windupTime);
+        await Awaitable.WaitForSecondsAsync(windupTime);
 
-        // Hitbox
         Vector2 center = (Vector2)enemy.transform.position +
                          new Vector2(hitboxOffset.x * enemy.direction, hitboxOffset.y);
 
@@ -52,7 +48,8 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
             if (entity == enemy) continue;
 
             // Урон
-            entity.TakeDamage(damage, enemy.transform);
+            entity.TakeDamage(damage, enemy.transform, enemy._name);
+
             float dirX = Mathf.Sign(hit.transform.position.x - enemy.transform.position.x);
             Vector2 knockback = new Vector2(dirX * knockbackForce, knockbackForce * 0.3f);
             entity.ApplyVelocityOverride(knockback, knockbackDuration);
@@ -61,10 +58,10 @@ public class EnemyMeleeAttack : EnemyCombatLogicSO
         enemy.currentState = EnemyState.Waiting;
 
         // Восстановление после удара
-        yield return new WaitForSeconds(attackDuration - windupTime);
+        await Awaitable.WaitForSecondsAsync(attackDuration - windupTime);
 
         // Кулдаун
-        yield return new WaitForSeconds(attackCooldown);
-        enemy.currentState = EnemyState.Idle;
+        await Awaitable.WaitForSecondsAsync(attackCooldown);
+        enemy.currentState = EnemyState.Walking;
     }
 }

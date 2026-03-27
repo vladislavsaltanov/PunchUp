@@ -8,11 +8,11 @@ public class CameraManager : MonoBehaviour
 {
     [Header("Camera References")]
     [SerializeField] private CinemachineCamera defaultCamera;
-    [SerializeField] private List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
+    [SerializeField] public List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
     public static CameraManager Instance { get; private set; }
 
-    private CinemachineCamera currentCamera;
+    public CinemachineCamera currentCamera;
     private CinemachinePositionComposer composer;
     private Quaternion startRotation;
     private Quaternion targetRotation;
@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         if (currentCamera == null)
         {
             currentCamera = defaultCamera;
@@ -186,6 +186,26 @@ public class CameraManager : MonoBehaviour
             StopCoroutine(zoomCoroutine);
             zoomCoroutine = null;
         }
+    }
+
+    public void AddCamera(CinemachineCamera camera)
+    {
+        allCameras.Add(camera);
+    }
+
+    public void RemoveCamera(CinemachineCamera camera)
+    {
+        allCameras.Remove(camera);
+    }
+
+    public void ChangeCamera(CinemachineCamera camera)
+    {
+        foreach (var cam in allCameras)
+        {
+            cam.Priority = 0;
+        }
+        camera.Priority = 100;
+        currentCamera = camera;
     }
 
     //������ ������

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
@@ -7,21 +8,22 @@ public class EnemyLogic : BaseEntity
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
     [SerializeField] CombatHandler combatHandler;
+    [SerializeField] DoctorAudio doctorAudio;
 
     [Header("AI Settings")]
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
     [SerializeField] float searchDuration = 2f;
 
-    // --- НОВОЕ СВОЙСТВО ---
-    // Считает реальную дистанцию удара: от центра врага до кончика меча
+    CancellationTokenSource actionCts;
+    CancellationTokenSource waitCts;
+
     public float EffectiveAttackReach
     {
         get
         {
             float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
 
-            // Если есть коллайдер, добавляем его половину ширины (extents.x)
             if (entityCollider != null)
             {
                 return entityCollider.bounds.extents.x + weaponRange;
@@ -40,10 +42,14 @@ public class EnemyLogic : BaseEntity
     protected override void Awake()
     {
         base.Awake();
+        actionCts = new CancellationTokenSource();
+        waitCts = new CancellationTokenSource();
         if (combatHandler == null) combatHandler = GetComponent<CombatHandler>();
         playerController = PlayerController.instance;
 
         if (entityCollider == null) entityCollider = GetComponent<Collider2D>();
+
+        if (doctorAudio == null) doctorAudio = GetComponent<DoctorAudio>();
 
         direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
         EnterWait(1f);
@@ -114,7 +120,6 @@ public class EnemyLogic : BaseEntity
 
     void ChooseCombatOrChase()
     {
-        // ИСПОЛЬЗУЕМ EffectiveAttackReach (Ширина + Оружие)
         if (context.playerDistance <= EffectiveAttackReach)
         {
             currentState = EnemyState.Combat;
@@ -154,8 +159,6 @@ public class EnemyLogic : BaseEntity
 
         movement.Stop(this);
 
-        // Также учитываем размеры коллайдера при выходе из боя
-        // Умножаем на 1.2 только саму дальность оружия, а не ширину тела, чтобы было точнее
         float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
         float bodySize = (entityCollider != null) ? entityCollider.bounds.extents.x : 0f;
 
@@ -166,31 +169,13 @@ public class EnemyLogic : BaseEntity
             return;
         }
 
-        bool actionStarted = false;
-
         if (specialAbility != null && UnityEngine.Random.value < abilityChance)
         {
-            if (combatHandler.TrySpecialAbility())
-            {
-                StartCoroutine(PerformActionRoutine(EnemyState.UsingAbility, specialAbility));
-                actionStarted = true;
-            }
+            combatHandler.TrySpecialAbility();
+            return;
         }
 
-        if (!actionStarted && combatHandler.TryPrimaryAttack())
-        {
-            StartCoroutine(PerformActionRoutine(EnemyState.Attacking, primaryAttack));
-            actionStarted = true;
-        }
-    }
-
-    IEnumerator PerformActionRoutine(EnemyState state, ActionSO action)
-    {
-        currentState = state;
-        yield return new WaitForSeconds(action.duration);
-        currentState = EnemyState.Waiting;
-        yield return new WaitForSeconds(0.5f);
-        currentState = EnemyState.Walking;
+        combatHandler.TryPrimaryAttack();
     }
 
     public void EnterWait(float duration)
@@ -199,13 +184,21 @@ public class EnemyLogic : BaseEntity
         if (currentState == EnemyState.Waiting) return;
 
         currentState = EnemyState.Waiting;
-        movement.Stop(this);
-        StartCoroutine(WaitFor(duration));
+
+        if (movement != null)
+            movement.Stop(this);
+        else if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
+        _ = WaitFor(duration);
     }
 
-    public IEnumerator WaitFor(float time)
+    public async Awaitable WaitFor(float time)
     {
-        yield return new WaitForSeconds(time);
+        waitCts?.Cancel();
+        waitCts?.Dispose();
+        waitCts = new CancellationTokenSource();
+        await Awaitable.WaitForSecondsAsync(time, waitCts.Token);
         currentState = EnemyState.Walking;
     }
 
@@ -213,7 +206,12 @@ public class EnemyLogic : BaseEntity
     {
         if (attacker != null && ((1 << attacker.gameObject.layer) & detection.playerLayer.value) != 0)
         {
-            StopAllCoroutines();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            waitCts = new CancellationTokenSource();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
+            actionCts = new CancellationTokenSource();
 
             context.directionToPlayer = (sbyte)(attacker.position.x - transform.position.x > 0 ? 1 : -1);
             direction = context.directionToPlayer;
@@ -222,29 +220,37 @@ public class EnemyLogic : BaseEntity
             context.wasHit = true;
 
             currentState = EnemyState.WalkingTowardsPlayer;
+
+            doctorAudio.HandleDamage();
         }
     }
 
     protected override void OnDeath()
     {
-        combatHandler.CancelAll();
-        StopAllCoroutines();
+        try
+        {
+            combatHandler?.CancelAll();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
 
-        rb.linearVelocity = Vector2.zero;
-        rb.simulated = false;
-        entityCollider.enabled = false; 
+            StatisticsHandler.Instance.statisticData.kills++;
 
-        Destroy(gameObject, 0.1f);
+            rb.linearVelocity = Vector2.zero;
+            rb.simulated = false;
+            entityCollider.enabled = false;
+        }
+        finally
+        {
+            base.OnDeath();
+        }
     }
-
-    // --- ОТЛАДКА ---
-    // Рисуем радиус атаки в редакторе, когда враг выделен
     private void OnDrawGizmosSelected()
     {
         if (primaryAttack == null && entityCollider == null) return;
 
         Gizmos.color = Color.cyan;
-        // Рисуем проволочную сферу радиусом равным эффективной дистанции атаки
         Gizmos.DrawWireSphere(transform.position, EffectiveAttackReach);
     }
 }
@@ -257,7 +263,6 @@ public class EnemyContextState
     public float playerDistance = Mathf.Infinity;
     public float lastHitTime = -100f;
 
-    // Для логики "потерял из виду"
     public float lastTimeSeenPlayer = -100f;
     public sbyte lastKnownDirection = 0;
 

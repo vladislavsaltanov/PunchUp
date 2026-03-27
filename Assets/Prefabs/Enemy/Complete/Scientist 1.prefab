@@ -123,6 +123,10 @@ GameObject:
   - component: {fileID: 6020674113196865468}
   - component: {fileID: 2318857361292536804}
   - component: {fileID: 5066113996724530292}
+  - component: {fileID: 8246746951798561985}
+  - component: {fileID: 3196997662404516153}
+  - component: {fileID: 7346280441140059464}
+  - component: {fileID: 7788110922498594398}
   m_Layer: 8
   m_Name: Scientist 1
   m_TagString: Enemy
@@ -159,12 +163,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dad24c32d6df7449a27929c4a4722f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
+  _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
   stats:
     speed: 2
     attackPower: 1
     defense: 0
     maxHealth: 100
+    healthRegenRate: 0
+    critChance: 0
+    critMultiplier: 1.5
     knockbackMultiplier: 1
+    knockbackResistance: 0
+    damageBlockChance: 0
+    cooldownReduction: 0
+    dashCooldown: 5
+    ledgeClimbDuration: 0.2
+    luck: 0
+    entityEffectsSystem: {fileID: 8246746951798561985}
   maxHealth: 8
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
@@ -174,9 +189,13 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2590521676121854963}
   entityCollider: {fileID: 4518589733712738767}
   isWaiting: 0
+  impactSeconds: 0.1
+  deathProgressSeconds: 1.5
+  deactivateOnDeath: 1
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5066113996724530292}
+  doctorAudio: {fileID: 0}
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
@@ -231,6 +250,107 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatHandler
   owner: {fileID: 6020674113196865468}
+  busySoftLockTimeout: 3
+--- !u!114 &8246746951798561985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116590055214077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541a0404b4f8bf140895be23b56c239c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
+  entity: {fileID: 6020674113196865468}
+--- !u!114 &3196997662404516153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116590055214077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a192bfa6553b649b79b94b8901633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoctorAudio
+  rb: {fileID: 0}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  minIdleSoundDelay: 3
+  maxIdleSoundDelay: 5
+  enableLogs: 0
+--- !u!114 &7346280441140059464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116590055214077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1210354899
+      Data2: 1281391265
+      Data3: 2027727786
+      Data4: -1453107460
+    Path: event:/Doctor/DoctorFootsteps
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10
+--- !u!114 &7788110922498594398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116590055214077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -275774054
+      Data2: 1307728897
+      Data3: -341171064
+      Data4: 808730391
+    Path: event:/Doctor/DoctorIdle
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5
 --- !u!1 &8559998504225684287
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +440,7 @@ GameObject:
   - component: {fileID: 1386450050093507366}
   - component: {fileID: 2590521676121854963}
   - component: {fileID: 4518589733712738767}
+  - component: {fileID: 7766428552789190209}
   m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
@@ -367,7 +488,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 26158fa7143a72a4b9ade44cfe667795, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -446,3 +567,27 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2.5}
   m_EdgeRadius: 0
+--- !u!114 &7766428552789190209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221771316080197431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6286d3a363ed2694383769552c73f97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeShadowRenderer
+  _shadowColor: {r: 0, g: 0, b: 0, a: 0.3}
+  _maxShadowAlpha: 0.7
+  _minShadowAlpha: 0
+  _groundCheckDistance: 5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _yOffset: -0.15
+  _updateShadowSize: 1
+  _shadowSizeMultiplier: 1
+  _entityToFollow: {fileID: 6268713337435757019}
+  _entitySpriteRenderer: {fileID: 2590521676121854963}
