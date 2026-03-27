@@ -22,11 +22,7 @@ public class BatAudio : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool enableLogs = false;
 
-    private float stepTimer;
     private float idleSoundTimer;
-    private float footstepBlockedUntil;
-    private float xPosLastFrame;
-    private bool wasMovingLastFrame;
 
     private void Awake()
     {
@@ -34,7 +30,6 @@ public class BatAudio : MonoBehaviour
         if (enemyLogic == null)
             enemyLogic = GetComponent<EnemyLogic>();
 
-        xPosLastFrame = transform.position.x;
         ResetIdleSoundTimer();
     }
 
@@ -46,24 +41,7 @@ public class BatAudio : MonoBehaviour
     //Доктор, всё будет хорошо?
     public void HandleFly()
     {
-        if (AudioManager.Instance == null)
-        {
-            if (enableLogs) Debug.LogWarning("CharacterFootsteps: AudioManager.Instance is null");
-            return;
-        }
-        if (Time.time < footstepBlockedUntil)
-        {
-            stepTimer = 0f;
-            return;
-        }
-
-        stepTimer -= Time.deltaTime;
-
-        if (stepTimer <= 0f)
-        {
             AudioManager.Instance.PlayDoctorFootstep(transform.position);
-            xPosLastFrame = transform.position.x;
-        }
     }
 
     //Вау-Вау

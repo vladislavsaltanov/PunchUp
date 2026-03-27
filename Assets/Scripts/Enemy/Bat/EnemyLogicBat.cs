@@ -136,6 +136,9 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField, Min(1f)] float maxRoamDistanceFromSpawn = 18f;
     [SerializeField, Min(0.1f)] float leashReturnMargin = 1.0f;
 
+    [Header("Audio manager")]
+    [SerializeField] private BatAudio batAudio;
+
     // Reuse buffer to avoid allocations
     static readonly Collider2D[] separationHits = new Collider2D[16];
 
