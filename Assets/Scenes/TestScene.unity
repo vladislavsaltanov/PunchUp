@@ -9546,10 +9546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2d69e2a5bdc564499ee05f7f9703b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  defaultCamera: {fileID: 9190079088896753911}
-  allCameras: []
-  currentCamera: {fileID: 0}
-  player: {fileID: 0}
 --- !u!114 &4214717406839767300
 MonoBehaviour:
   m_ObjectHideFlags: 0
