@@ -37,6 +37,10 @@ public static class PlaytestReporter
         public uint deaths;
         public uint kills;
         public uint items_picked;
+
+        public string cause_of_death;
+        public uint floor_of_death;
+        public uint run_number;
     }
 
     [Serializable]
