@@ -104,11 +104,18 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField] float attackRadiusK = 1.2f;
     [SerializeField] float attackHitCooldown = 0.35f;
     [SerializeField] float groundWaitSecondsK = 1.5f;
+    [SerializeField] float missWaitSeconds = 1.5f;
     [SerializeField] float riseSecondsP = 1.0f;
     [SerializeField] float reattackDelayAfterHit = 1.0f;
 
     [Header("Bat: Damage")]
     [SerializeField] ushort damage = 10;
+
+    [Header("Bat: Stomp (ïðûæîê ñâåðõó)")]
+    [SerializeField] LayerMask playerLayer;
+    [SerializeField] ushort stompDamage = 5;
+    [SerializeField] float stompKnockbackX = 12f;
+    [SerializeField] float stompKnockbackY = 4f;
 
     [Header("Bat: Sprites")]
     [SerializeField] Sprite spriteA_Idle;
@@ -132,21 +139,24 @@ public class EnemyLogicBat : EnemyLogic
     [SerializeField] float crampedRiseCooldown = 1.0f;
 
     [Header("Bat: Targeting (LoS + leash)")]
-    [SerializeField] LayerMask losBlockerLayer;               // if 0 -> use groundLayer
+    [SerializeField] LayerMask losBlockerLayer;
     [SerializeField, Min(1f)] float maxRoamDistanceFromSpawn = 18f;
     [SerializeField, Min(0.1f)] float leashReturnMargin = 1.0f;
 
     [Header("Audio manager")]
     [SerializeField] private BatAudio batAudio;
 
-    // Reuse buffer to avoid allocations
+    // Reuse buffers to avoid allocations
     static readonly Collider2D[] separationHits = new Collider2D[16];
+    static readonly Collider2D[] scanHits = new Collider2D[32];
 
     BatContextState bat = new BatContextState();
     BatAiState batAiState = BatAiState.None;
 
     float patrolBaseY;
     float nextCrampedCheckTime;
+    float nextAltitudeUpdateTime;
+    const float altitudeUpdateInterval = 0.2f;
 
     Vector2 spawnAnchor;
 
@@ -192,24 +202,17 @@ public class EnemyLogicBat : EnemyLogic
 
         LayerMask mask = (losBlockerLayer.value != 0) ? losBlockerLayer : groundLayer;
 
-        Vector2 from = transform.position;
-        if (entityCollider != null)
-            from = entityCollider.bounds.center;
+        Vector2 from = entityCollider != null ? entityCollider.bounds.center : (Vector2)transform.position;
 
-        Vector2 to = target.position;
+        Collider2D targetCol = target.GetComponentInChildren<Collider2D>();
+        Vector2 to = targetCol != null ? targetCol.bounds.center : (Vector2)target.position;
+
         Vector2 dir = to - from;
         float dist = dir.magnitude;
         if (dist <= 0.001f) return true;
 
-        dir /= dist;
-
-        RaycastHit2D hit = Physics2D.Raycast(from, dir, dist, mask);
-
-        // If we hit something, LoS is blocked (ignore triggers)
-        if (hit.collider != null && !hit.collider.isTrigger)
-            return false;
-
-        return true;
+        RaycastHit2D hit = Physics2D.Raycast(from, dir / dist, dist, mask);
+        return hit.collider == null || hit.collider.isTrigger;
     }
 
     float PickInitialPatrolY()
@@ -229,24 +232,20 @@ public class EnemyLogicBat : EnemyLogic
         // --- CONTUSION WINDOW ---
         if (Time.time < bat.stunnedEndTime)
         {
-            // Let knockback do its job if active.
             if (HasVelocityOverride) return;
 
-            // If no override anymore, do NOT freeze in place.
-            // Drift upward and sideways a bit so they can unstack/escape small spaces.
             float vx = direction * stunDriftSideSpeed;
             float vy = stunDriftUpSpeed;
 
-            // separation helps even during stun
-            Vector2 sep = ComputeSeparationVector();
-            vx += sep.x * separationStrength;
-            vy += sep.y * separationStrength;
+            Vector2 sep = Vector2.ClampMagnitude(ComputeSeparationVector() * separationStrength,
+                                                  Stats[StatType.Speed] * 1.5f);
+            vx += sep.x;
+            vy += sep.y;
 
             rb.linearVelocity = new Vector2(vx, Mathf.Clamp(vy, -maxVerticalSpeed, maxVerticalSpeed));
             return;
         }
 
-        // If knockback is active but we're not stunned anymore, just let it finish this frame.
         if (HasVelocityOverride)
             return;
 
@@ -310,9 +309,7 @@ public class EnemyLogicBat : EnemyLogic
                     bool timedOut = Time.time >= bat.preDiveRiseEndTime;
 
                     if (reached || timedOut)
-                    {
                         batAiState = BatAiState.None;
-                    }
                     break;
                 }
 
@@ -322,13 +319,13 @@ public class EnemyLogicBat : EnemyLogic
             case EnemyState.DivingToPoint:
                 SetSprite(spriteB_Attack);
 
-                // If we leaked out of leash, abort and return to patrol
                 if (IsOutsideLeash())
                 {
                     batAiState = BatAiState.None;
                     bat.hasTarget = false;
                     rb.linearVelocity = new Vector2(0f, riseSpeed);
-                    currentState = EnemyState.FlyingPatrol;
+                    currentState = EnemyState.RisingBack;
+                    bat.riseEndTime = Time.time + riseSecondsP;
                     break;
                 }
 
@@ -358,24 +355,21 @@ public class EnemyLogicBat : EnemyLogic
         }
     }
 
-    // NEW: always enforce target baseline as at least minAltitudeAboveGround above the ground
     void EnsureMinAltitudeAlways()
     {
-        if (!TryGetGroundPointBelowProbed(out Vector2 ground))
-            return;
+        if (Time.time < nextAltitudeUpdateTime) return;
+        nextAltitudeUpdateTime = Time.time + altitudeUpdateInterval;
 
-        float groundY = ground.y;
+        if (!TryGetGroundPointBelowProbed(out Vector2 ground)) return;
 
         float desiredAltitude = Mathf.Max(minAltitudeAboveGround, GetAllowedCruisingAltitudeAboveGround());
-        patrolBaseY = groundY + desiredAltitude;
+        patrolBaseY = ground.y + desiredAltitude;
     }
 
     float GetAllowedCruisingAltitudeAboveGround()
     {
-        // Ensure desired itself is >= minimum
         float desired = Mathf.Max(minAltitudeAboveGround, bat.desiredAltitudeAboveGround);
 
-        // Ceiling cap (still respected to avoid clipping)
         if (TryGetCeilingDistance(out float ceilingDist))
         {
             float maxByCeiling = Mathf.Max(0f, ceilingDist - bat.requiredHeadClearance);
@@ -425,14 +419,12 @@ public class EnemyLogicBat : EnemyLogic
 
         float vy = VerticalSeek(PatrolTargetY, verticalFollowSpeed);
 
-        // Apply separation so bats don't clump
-        Vector2 sep = ComputeSeparationVector();
-        vx += sep.x * separationStrength;
-        vy += sep.y * separationStrength;
+        Vector2 sep = Vector2.ClampMagnitude(ComputeSeparationVector() * separationStrength,
+                                              Stats[StatType.Speed] * 1.5f);
+        vx += sep.x;
+        vy += sep.y;
 
         Vector2 v = new Vector2(vx, vy);
-
-        // steer back if outside leash
         ApplyLeashSteering(ref v, Stats[StatType.Speed] * patrolSpeedMultiplier);
 
         rb.linearVelocity = v;
@@ -460,7 +452,6 @@ public class EnemyLogicBat : EnemyLogic
             if (bat.stuckTimer >= stuckTimeThreshold)
             {
                 bat.stuckTimer = 0f;
-
                 direction *= -1;
 
                 float vy = rb.linearVelocity.y;
@@ -485,26 +476,20 @@ public class EnemyLogicBat : EnemyLogic
         Vector2 size = new Vector2(scanBoxSize.x, height);
         Vector2 center = new Vector2(top.x, groundPoint.y + height * 0.5f);
 
-        var hits = Physics2D.OverlapBoxAll(center, size, 0f, scanTargetLayer);
-        if (hits == null || hits.Length == 0)
-            return;
+        int count = Physics2D.OverlapBoxNonAlloc(center, size, 0f, scanHits, scanTargetLayer);
+        if (count == 0) return;
 
         Transform best = null;
         float bestSqr = float.PositiveInfinity;
 
-        for (int i = 0; i < hits.Length; i++)
+        for (int i = 0; i < count; i++)
         {
-            var h = hits[i];
+            var h = scanHits[i];
             if (h == null) continue;
             if (h.transform == transform) continue;
 
-            // leash check (don’t acquire outside spawn radius)
-            if (!IsWithinLeash(h.transform.position))
-                continue;
-
-            // LoS check (blocked by ground/obstacles)
-            if (!HasLineOfSightTo(h.transform))
-                continue;
+            if (!IsWithinLeash(h.transform.position)) continue;
+            if (!HasLineOfSightTo(h.transform)) continue;
 
             float sqr = ((Vector2)h.transform.position - (Vector2)transform.position).sqrMagnitude;
             if (sqr < bestSqr)
@@ -532,18 +517,21 @@ public class EnemyLogicBat : EnemyLogic
             return;
         }
 
-        // If target drifted outside leash, abort
         if (!IsWithinLeash(bat.targetPoint))
         {
             bat.hasTarget = false;
-            currentState = EnemyState.FlyingPatrol;
+            bat.riseEndTime = Time.time + riseSecondsP;
+            currentState = EnemyState.RisingBack;
             return;
         }
 
         Vector2 pos = transform.position;
         Vector2 to = bat.targetPoint - pos;
 
-        float vx = Mathf.Clamp(to.x, -1f, 1f) * Stats[StatType.Speed] * chaseSpeedMultiplier;
+        float vx = 0f;
+        if (Mathf.Abs(to.x) > 0.1f)
+            vx = Mathf.Sign(to.x) * Stats[StatType.Speed] * chaseSpeedMultiplier;
+
         float vy = -Mathf.Abs(diveSpeed);
 
         rb.linearVelocity = new Vector2(vx, vy);
@@ -563,42 +551,44 @@ public class EnemyLogicBat : EnemyLogic
             return;
         }
 
-        if (!IsGroundBelow())
-            return;
+        float dynamicGroundCheck = Mathf.Max(groundCheckDistance, Mathf.Abs(diveSpeed) * Time.deltaTime * 2f);
+        Vector2 groundOrigin = transform.position;
+        if (entityCollider != null)
+            groundOrigin.y = entityCollider.bounds.min.y;
+
+        RaycastHit2D groundHit = Physics2D.Raycast(groundOrigin, Vector2.down, dynamicGroundCheck, groundLayer);
+        if (groundHit.collider == null) return;
 
         rb.linearVelocity = Vector2.zero;
         BeginMissWait();
-    }
-
-    bool TryDamagePlayerInRadiusK()
-    {
-        var hits = Physics2D.OverlapCircleAll(transform.position, attackRadiusK, scanTargetLayer);
-        if (hits == null || hits.Length == 0)
-            return false;
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            var h = hits[i];
-            if (h == null) continue;
-
-            var entity = h.GetComponentInParent<BaseEntity>();
-            if (entity == null) continue;
-            if (entity == this) continue;
-
-            entity.TakeDamage(damage, transform, _name);
-            return true;
-        }
-
-        return false;
     }
 
     void BeginMissWait()
     {
         batAiState = BatAiState.None;
         bat.hasTarget = false;
-
-        bat.waitOnGroundEndTime = Time.time + groundWaitSecondsK;
+        bat.waitOnGroundEndTime = Time.time + missWaitSeconds;
         currentState = EnemyState.WaitingOnGround;
+    }
+
+    bool TryDamagePlayerInRadiusK()
+    {
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, attackRadiusK, separationHits, scanTargetLayer);
+        if (count == 0) return false;
+
+        for (int i = 0; i < count; i++)
+        {
+            var h = separationHits[i];
+            if (h == null) continue;
+
+            var entity = h.GetComponentInParent<BaseEntity>();
+            if (entity == null || entity == this) continue;
+
+            entity.TakeDamage(damage, transform, _name);
+            return true;
+        }
+
+        return false;
     }
 
     void RiseTick()
@@ -608,10 +598,9 @@ public class EnemyLogicBat : EnemyLogic
 
         float speedX = direction * Stats[StatType.Speed] * patrolSpeedMultiplier * 0.5f;
 
-        // Apply separation while rising too
-        Vector2 sep = ComputeSeparationVector();
-        speedX += sep.x * separationStrength;
-        vy += sep.y * separationStrength;
+        Vector2 sep = Vector2.ClampMagnitude(ComputeSeparationVector() * separationStrength, Stats[StatType.Speed] * 1.5f);
+        speedX += sep.x;
+        vy += sep.y;
 
         Vector2 v = new Vector2(speedX, vy);
         ApplyLeashSteering(ref v, Stats[StatType.Speed] * patrolSpeedMultiplier);
@@ -619,9 +608,7 @@ public class EnemyLogicBat : EnemyLogic
 
         float dy = Mathf.Abs(targetY - transform.position.y);
         if (dy <= 0.1f || Time.time >= bat.riseEndTime)
-        {
             currentState = EnemyState.FlyingPatrol;
-        }
 
         if (IsWallAhead(direction))
             direction *= -1;
@@ -647,17 +634,6 @@ public class EnemyLogicBat : EnemyLogic
 
         groundPoint = hit.point;
         return true;
-    }
-
-    bool IsGroundBelow()
-    {
-        Vector2 origin = transform.position;
-
-        if (entityCollider != null)
-            origin.y = entityCollider.bounds.min.y;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
-        return hit.collider != null;
     }
 
     bool IsWallAhead(sbyte dir)
@@ -702,7 +678,6 @@ public class EnemyLogicBat : EnemyLogic
         nextCrampedCheckTime = Time.time + crampedRiseCooldown;
 
         if (batAiState != BatAiState.None) return;
-
         if (!IsCrampedSideways()) return;
 
         float targetY = transform.position.y + crampedRiseUnits;
@@ -715,19 +690,37 @@ public class EnemyLogicBat : EnemyLogic
 
         bat.preDiveRiseTargetY = targetY;
         bat.preDiveRiseEndTime = Time.time + preDiveRiseTimeout;
-
         batAiState = BatAiState.RisingToUncramp;
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (CurrentHealth <= 0) return;
+        if ((playerLayer.value & (1 << col.gameObject.layer)) == 0) return;
+
+        Vector2 normal = col.contacts[0].normal;
+        if (normal.y > -0.6f) return;
+
+        TakeDamage(stompDamage, col.transform, "stomp");
+
+        LayerMask obstacleMask = sideObstacleLayer.value != 0 ? sideObstacleLayer : groundLayer;
+        Vector2 origin = entityCollider != null ? entityCollider.bounds.center : (Vector2)transform.position;
+
+        float leftDist = ProbeSide(origin, Vector2.left, sideProbeDistance, obstacleMask);
+        float rightDist = ProbeSide(origin, Vector2.right, sideProbeDistance, obstacleMask);
+
+        float knockDir = leftDist > rightDist ? -1f : 1f;
+        rb.linearVelocity = new Vector2(knockDir * stompKnockbackX, stompKnockbackY);
+        direction = (sbyte)(knockDir > 0 ? 1 : -1);
     }
 
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
         bat.stunnedEndTime = Time.time + Random.Range(stunDurationRange.x, stunDurationRange.y);
 
-        // Cancel any current attack prep
         batAiState = BatAiState.None;
         bat.hasTarget = false;
 
-        // After stun ends, force rising behavior
         currentState = EnemyState.RisingBack;
         bat.riseEndTime = bat.stunnedEndTime + riseSecondsP;
     }
@@ -742,9 +735,7 @@ public class EnemyLogicBat : EnemyLogic
 
     void SetSprite(Sprite sprite)
     {
-        if (spriteRenderer == null) return;
-        if (sprite == null) return;
-
+        if (spriteRenderer == null || sprite == null) return;
         if (spriteRenderer.sprite != sprite)
             spriteRenderer.sprite = sprite;
     }
@@ -765,7 +756,6 @@ public class EnemyLogicBat : EnemyLogic
             if (col == null) continue;
             if (col.transform == transform || col.transform.IsChildOf(transform)) continue;
 
-            // Only separate from other bats (EnemyLogicBat on parent)
             var otherBat = col.GetComponentInParent<EnemyLogicBat>();
             if (otherBat == null || otherBat == this) continue;
 
@@ -773,11 +763,36 @@ public class EnemyLogicBat : EnemyLogic
             float dist = toMe.magnitude;
             if (dist <= 0.0001f) continue;
 
-            float t = 1f - Mathf.Clamp01(dist / separationRadius); // stronger when closer
+            float t = 1f - Mathf.Clamp01(dist / separationRadius);
             push += (toMe / dist) * t;
         }
 
         return push;
+    }
+
+    void ApplyLeashSteering(ref Vector2 velocity, float strength)
+    {
+        Vector2 pos = transform.position;
+        Vector2 toCenter = spawnAnchor - pos;
+
+        float dist = toCenter.magnitude;
+        if (dist <= 0.001f) return;
+
+        float over = dist - maxRoamDistanceFromSpawn;
+        if (over <= 0f) return;
+
+        Vector2 dir = toCenter / dist;
+        float k = Mathf.Clamp01(over / Mathf.Max(0.01f, leashReturnMargin));
+        velocity += dir * (strength * k);
+
+        float awayDot = Vector2.Dot(velocity, -dir);
+        if (awayDot > 0f)
+            velocity += dir * awayDot;
+    }
+
+    Vector2 GetLeashCenter()
+    {
+        return spawnAnchor;
     }
 
     void OnDrawGizmosSelected()
@@ -787,32 +802,5 @@ public class EnemyLogicBat : EnemyLogic
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(spawnAnchor, maxRoamDistanceFromSpawn);
-    }
-
-    Vector2 GetLeashCenter()
-    {
-        return spawnAnchor;
-    }
-
-    void ApplyLeashSteering(ref Vector2 velocity, float strength)
-    {
-        // Push back toward spawn if outside leash radius (no teleport, only velocity bias)
-        Vector2 pos = transform.position;
-        Vector2 center = GetLeashCenter();
-        Vector2 toCenter = center - pos;
-
-        float dist = toCenter.magnitude;
-        if (dist <= 0.001f) return;
-
-        float over = dist - maxRoamDistanceFromSpawn;
-        if (over <= 0f) return;
-
-        Vector2 dir = toCenter / dist;
-
-        // scale by how far outside we are, but clamp it
-        float k = Mathf.Clamp01(over / Mathf.Max(0.01f, leashReturnMargin));
-        Vector2 push = dir * (strength * k);
-
-        velocity += push;
     }
 }

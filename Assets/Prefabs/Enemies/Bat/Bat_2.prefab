@@ -202,8 +202,8 @@ MonoBehaviour:
   groundProbeDistance: 40
   scanTickInterval: 0.15
   prepareAttackDelayRange: {x: 0.2, y: 1}
-  desiredAltitudeAboveGroundRange: {x: 5, y: 6}
-  requiredHeadClearanceRange: {x: 1, y: 2}
+  desiredAltitudeAboveGroundRange: {x: 6, y: 7}
+  requiredHeadClearanceRange: {x: 0.5, y: 1}
   minAltitudeAboveGround: 2.5
   postHitCooldownRange: {x: 3, y: 5}
   stunDurationRange: {x: 2, y: 3}
@@ -226,9 +226,16 @@ MonoBehaviour:
   attackRadiusK: 1.2
   attackHitCooldown: 0.35
   groundWaitSecondsK: 1.5
+  missWaitSeconds: 1.5
   riseSecondsP: 1
   reattackDelayAfterHit: 1
   damage: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  stompDamage: 5
+  stompKnockbackX: 12
+  stompKnockbackY: 4
   spriteA_Idle: {fileID: 8125616955614268524, guid: 46eb8b614410a7f44929bc62201e4bff, type: 3}
   spriteB_Attack: {fileID: 2128742226252731361, guid: 4db266d2cabeace40b87090c0b63a8d6, type: 3}
   spriteC_MissWait: {fileID: 7952961006481424333, guid: de34e3eb3f7cbbb4a9e13cde12a8b359, type: 3}
