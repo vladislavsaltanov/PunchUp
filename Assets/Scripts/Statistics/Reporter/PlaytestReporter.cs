@@ -102,7 +102,11 @@ public static class PlaytestReporter
 
             deaths = data.statisticData.deaths,
             kills = data.statisticData.kills,
-            items_picked = data.statisticData.items_picked
+            items_picked = data.statisticData.items_picked,
+
+            floor_of_death = data.statisticData.floor_of_death,
+            cause_of_death = data.statisticData.cause_of_death,
+            run_number = data.statisticData.run_number
         };
 
         return true;

@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc61004a3a3de8e4a904ac8038714c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogicBat
-  _name: Entity
+  _name: "\u043B\u0435\u0442\u0443\u0447\u0430\u044F \u043C\u044B\u0448\u044C"
   stats:
     speed: 5
     attackPower: 1
