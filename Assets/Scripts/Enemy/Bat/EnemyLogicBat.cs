@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyLogicBat : EnemyLogic
 {
@@ -111,7 +111,7 @@ public class EnemyLogicBat : EnemyLogic
     [Header("Bat: Damage")]
     [SerializeField] ushort damage = 10;
 
-    [Header("Bat: Stomp (ïðûæîê ñâåðõó)")]
+    [Header("Bat: Stomp (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)")]
     [SerializeField] LayerMask playerLayer;
     [SerializeField] ushort stompDamage = 5;
     [SerializeField] float stompKnockbackX = 12f;
@@ -146,7 +146,6 @@ public class EnemyLogicBat : EnemyLogic
     [Header("Audio manager")]
     [SerializeField] private BatAudio batAudio;
 
-    // Reuse buffers to avoid allocations
     static readonly Collider2D[] separationHits = new Collider2D[16];
     static readonly Collider2D[] scanHits = new Collider2D[32];
 
@@ -229,7 +228,6 @@ public class EnemyLogicBat : EnemyLogic
 
         UpdateVisualDirection();
 
-        // --- CONTUSION WINDOW ---
         if (Time.time < bat.stunnedEndTime)
         {
             if (HasVelocityOverride) return;
@@ -275,7 +273,14 @@ public class EnemyLogicBat : EnemyLogic
 
                 if (batAiState == BatAiState.PreparingAttack)
                 {
-                    rb.linearVelocity = new Vector2(0f, VerticalSeek(PatrolTargetY, verticalFollowSpeed));
+                    float prepDriftX = 0f;
+                    if (bat.hasTarget)
+                    {
+                        float dx = bat.targetPoint.x - transform.position.x;
+                        if (Mathf.Abs(dx) > 0.15f)
+                            prepDriftX = Mathf.Sign(dx) * Stats[StatType.Speed] * patrolSpeedMultiplier * 0.4f;
+                    }
+                    rb.linearVelocity = new Vector2(prepDriftX, VerticalSeek(PatrolTargetY, verticalFollowSpeed));
 
                     if (Time.time >= bat.prepareAttackEndTime)
                         BeginPreDiveRise();
@@ -284,7 +289,14 @@ public class EnemyLogicBat : EnemyLogic
 
                 if (batAiState == BatAiState.RisingBeforeDive)
                 {
-                    rb.linearVelocity = new Vector2(0f, VerticalSeek(bat.preDiveRiseTargetY, verticalFollowSpeed));
+                    float riseDriftX = 0f;
+                    if (bat.hasTarget)
+                    {
+                        float dx = bat.targetPoint.x - transform.position.x;
+                        if (Mathf.Abs(dx) > 0.15f)
+                            riseDriftX = Mathf.Sign(dx) * Stats[StatType.Speed] * patrolSpeedMultiplier * 0.3f;
+                    }
+                    rb.linearVelocity = new Vector2(riseDriftX, VerticalSeek(bat.preDiveRiseTargetY, verticalFollowSpeed));
 
                     bool reached = Mathf.Abs(transform.position.y - bat.preDiveRiseTargetY) <= preDiveRiseTolerance;
                     bool timedOut = Time.time >= bat.preDiveRiseEndTime;
@@ -301,8 +313,9 @@ public class EnemyLogicBat : EnemyLogic
 
                 if (batAiState == BatAiState.RisingToUncramp)
                 {
+                    float uncrampVx = direction * Stats[StatType.Speed] * patrolSpeedMultiplier * 0.5f;
                     rb.linearVelocity = new Vector2(
-                        rb.linearVelocity.x,
+                        uncrampVx,
                         VerticalSeek(bat.preDiveRiseTargetY, verticalFollowSpeed));
 
                     bool reached = Mathf.Abs(transform.position.y - bat.preDiveRiseTargetY) <= preDiveRiseTolerance;
@@ -528,9 +541,14 @@ public class EnemyLogicBat : EnemyLogic
         Vector2 pos = transform.position;
         Vector2 to = bat.targetPoint - pos;
 
-        float vx = 0f;
-        if (Mathf.Abs(to.x) > 0.1f)
-            vx = Mathf.Sign(to.x) * Stats[StatType.Speed] * chaseSpeedMultiplier;
+        float targetVx = Mathf.Abs(to.x) > 0.1f
+            ? Mathf.Sign(to.x) * Stats[StatType.Speed] * chaseSpeedMultiplier
+            : 0f;
+
+        float vx = Mathf.MoveTowards(
+            rb.linearVelocity.x,
+            targetVx,
+            Stats[StatType.Speed] * chaseSpeedMultiplier * 8f * Time.deltaTime);
 
         float vy = -Mathf.Abs(diveSpeed);
 
@@ -606,8 +624,8 @@ public class EnemyLogicBat : EnemyLogic
         ApplyLeashSteering(ref v, Stats[StatType.Speed] * patrolSpeedMultiplier);
         rb.linearVelocity = v;
 
-        float dy = Mathf.Abs(targetY - transform.position.y);
-        if (dy <= 0.1f || Time.time >= bat.riseEndTime)
+        float dy = Mathf.Abs(patrolBaseY - transform.position.y);
+        if (dy <= 0.15f || Time.time >= bat.riseEndTime)
             currentState = EnemyState.FlyingPatrol;
 
         if (IsWallAhead(direction))
