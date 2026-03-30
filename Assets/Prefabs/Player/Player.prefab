@@ -1166,7 +1166,7 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
-    dashCooldown: 5
+    dashCooldown: 2.5
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 6821972033225363592}
