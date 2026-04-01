@@ -45,6 +45,7 @@ public class CameraManager : MonoBehaviour
         {
             currentCamera = defaultCamera;
         }
+
     }
     private void OnEnable()
     {
@@ -59,6 +60,7 @@ public class CameraManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentCamera = FindFirstObjectByType<CinemachineCamera>();
+        UpdateAllCameras();
     }
 
     public void SetTrackingTarget(Transform target)
@@ -190,7 +192,8 @@ public class CameraManager : MonoBehaviour
 
     public void AddCamera(CinemachineCamera camera)
     {
-        allCameras.Add(camera);
+        if (!allCameras.Contains(camera))
+            allCameras.Add(camera);
     }
 
     public void RemoveCamera(CinemachineCamera camera)
@@ -206,6 +209,16 @@ public class CameraManager : MonoBehaviour
         }
         camera.Priority = 100;
         currentCamera = camera;
+    }
+
+    public void UpdateAllCameras()
+    {
+        CinemachineCamera[] cameras = GameObject.Find("Cameras").GetComponentsInChildren<CinemachineCamera>();
+        allCameras.Clear();
+        foreach (var cam in cameras)
+        {
+            AddCamera(cam);
+        }
     }
 
     //������ ������
