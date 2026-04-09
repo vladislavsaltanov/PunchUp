@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 
     CancellationTokenSource notificationCts;
 
+    public bool godmode = false;
+
     private void Start()
     {
         if (Instance == null)
@@ -103,6 +105,15 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    public void SwitchGodMode(bool value)
+    {
+        godmode = value;
+    }
+    public bool GetGodMode()
+    {
+        return godmode;
     }
 
     private void OnDisable()

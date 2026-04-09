@@ -22,8 +22,11 @@ public class PlayerController : BaseEntity
     #region Modules
     [Header("Modules")]
     [SerializeField] CombatHandler combatHandler;
-    [SerializeField] isGroundedHandler groundedHandler; 
+    [SerializeField] isGroundedHandler groundedHandler;
     #endregion
+
+    [Header("GODMODE")]
+    [SerializeField] public bool GodModeBool;//Очень инетерсное решение сделанное без тз
     public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
 
     #region Cached
@@ -46,6 +49,8 @@ public class PlayerController : BaseEntity
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
         if (groundedHandler != null) groundedHandler.hasGrounded += hasGroundedEventHandler;
         if (combatHandler == null)   combatHandler = GetComponent<CombatHandler>();
+
+        GodModeBool = UIManager.Instance.godmode;
     }
     void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
@@ -163,6 +168,12 @@ public class PlayerController : BaseEntity
         Cursor.lockState = CursorLockMode.None;
 
         base.OnDeath();
+    }
+
+    public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
+    {
+        if (GodModeBool) return;
+        else base.TakeDamage(amount,attacker,cause);
     }
     #endregion
 }
