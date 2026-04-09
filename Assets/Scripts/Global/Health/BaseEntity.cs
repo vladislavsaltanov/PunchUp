@@ -39,6 +39,9 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Header("States")]
     public bool isWaiting;
 
+    [Header("GODMODE")]
+    [SerializeField] public bool GodModeBool;//Очень инетерсное решение сделанное без тз
+
     #region Runtime
     protected float attackCooldown;
     protected float abilityCooldown;
@@ -102,6 +105,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (CurrentHealth == 0) return;
+        if (GodModeBool) return;
 
         lastDamageCause = cause ?? "unknown";
 
