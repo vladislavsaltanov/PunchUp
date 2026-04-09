@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour
     public void SwitchGodMode(bool value)
     {
         godmode = value;
+        Debug.Log("Godmode is " + value);
     }
     public bool GetGodMode()
     {
