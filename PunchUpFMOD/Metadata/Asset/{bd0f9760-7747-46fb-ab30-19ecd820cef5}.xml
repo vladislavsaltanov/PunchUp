@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EncodableAsset" id="{bd0f9760-7747-46fb-ab30-19ecd820cef5}">
+		<property name="assetPath">
+			<value>Sounds/section_ambiences/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{bd32502d-ad33-42da-a859-5ae13da5bdee}</destination>
+		</relationship>
+	</object>
+</objects>

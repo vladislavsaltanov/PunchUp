@@ -30,6 +30,7 @@ public class Inventory : MonoBehaviour
         }
 
         items.Add(item);
+        StatisticsHandler.Instance.statisticData.items_picked++;
         return true;
     }
 

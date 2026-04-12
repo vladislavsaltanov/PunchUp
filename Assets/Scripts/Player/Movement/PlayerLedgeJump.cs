@@ -187,7 +187,14 @@ public class PlayerLedgeClimb : MonoBehaviour
             if (FootBoxHit())
                 break;
 
-            await Awaitable.NextFrameAsync(ct);
+            try
+            {
+                await Awaitable.NextFrameAsync(ct);
+            }
+            catch
+            {
+                
+            }
         }
 
         // phase 2: keep climbing until foot box clears the ledge

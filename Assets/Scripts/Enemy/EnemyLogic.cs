@@ -8,6 +8,7 @@ public class EnemyLogic : BaseEntity
     [SerializeField] EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
     [SerializeField] CombatHandler combatHandler;
+    [SerializeField] DoctorAudio doctorAudio;
 
     [Header("AI Settings")]
     [SerializeField] float abilityChance = 0.3f;
@@ -17,15 +18,12 @@ public class EnemyLogic : BaseEntity
     CancellationTokenSource actionCts;
     CancellationTokenSource waitCts;
 
-    // --- НОВОЕ СВОЙСТВО ---
-    // Считает реальную дистанцию удара: от центра врага до кончика меча
     public float EffectiveAttackReach
     {
         get
         {
             float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
 
-            // Если есть коллайдер, добавляем его половину ширины (extents.x)
             if (entityCollider != null)
             {
                 return entityCollider.bounds.extents.x + weaponRange;
@@ -50,6 +48,8 @@ public class EnemyLogic : BaseEntity
         playerController = PlayerController.instance;
 
         if (entityCollider == null) entityCollider = GetComponent<Collider2D>();
+
+        if (doctorAudio == null) doctorAudio = GetComponent<DoctorAudio>();
 
         direction = (sbyte)(UnityEngine.Random.value > 0.5f ? 1 : -1);
         EnterWait(1f);
@@ -120,7 +120,6 @@ public class EnemyLogic : BaseEntity
 
     void ChooseCombatOrChase()
     {
-        // ИСПОЛЬЗУЕМ EffectiveAttackReach (Ширина + Оружие)
         if (context.playerDistance <= EffectiveAttackReach)
         {
             currentState = EnemyState.Combat;
@@ -160,8 +159,6 @@ public class EnemyLogic : BaseEntity
 
         movement.Stop(this);
 
-        // Также учитываем размеры коллайдера при выходе из боя
-        // Умножаем на 1.2 только саму дальность оружия, а не ширину тела, чтобы было точнее
         float weaponRange = (primaryAttack != null) ? primaryAttack.range : 1.0f;
         float bodySize = (entityCollider != null) ? entityCollider.bounds.extents.x : 0f;
 
@@ -187,7 +184,12 @@ public class EnemyLogic : BaseEntity
         if (currentState == EnemyState.Waiting) return;
 
         currentState = EnemyState.Waiting;
-        movement.Stop(this);
+
+        if (movement != null)
+            movement.Stop(this);
+        else if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
         _ = WaitFor(duration);
     }
 
@@ -218,22 +220,31 @@ public class EnemyLogic : BaseEntity
             context.wasHit = true;
 
             currentState = EnemyState.WalkingTowardsPlayer;
+
+            doctorAudio.HandleDamage();
         }
     }
 
     protected override void OnDeath()
     {
-        combatHandler.CancelAll();
-        waitCts?.Cancel();
-        waitCts?.Dispose();
-        actionCts?.Cancel();
-        actionCts?.Dispose();
+        try
+        {
+            combatHandler?.CancelAll();
+            waitCts?.Cancel();
+            waitCts?.Dispose();
+            actionCts?.Cancel();
+            actionCts?.Dispose();
 
-        rb.linearVelocity = Vector2.zero;
-        rb.simulated = false;
-        entityCollider.enabled = false;
+            StatisticsHandler.Instance.statisticData.kills++;
 
-        Destroy(gameObject, 0.1f);
+            rb.linearVelocity = Vector2.zero;
+            rb.simulated = false;
+            entityCollider.enabled = false;
+        }
+        finally
+        {
+            base.OnDeath();
+        }
     }
     private void OnDrawGizmosSelected()
     {
@@ -252,7 +263,6 @@ public class EnemyContextState
     public float playerDistance = Mathf.Infinity;
     public float lastHitTime = -100f;
 
-    // Для логики "потерял из виду"
     public float lastTimeSeenPlayer = -100f;
     public sbyte lastKnownDirection = 0;
 

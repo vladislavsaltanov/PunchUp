@@ -1,4 +1,5 @@
-using System.Threading;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,30 +8,31 @@ public class CameraManager : MonoBehaviour
 {
     [Header("Camera References")]
     [SerializeField] private CinemachineCamera defaultCamera;
+    [SerializeField] public List<CinemachineCamera> allCameras = new List<CinemachineCamera>();
 
     public static CameraManager Instance { get; private set; }
 
-    private CinemachineCamera currentCamera;
+    public CinemachineCamera currentCamera;
+    private CinemachinePositionComposer composer;
     private Quaternion startRotation;
     private Quaternion targetRotation;
     private float rotationProgress;
     private float currentRotationDuration;
     private bool isrotating;
+    private Coroutine rotationCoroutine;
 
     private float targetZoom;
     private float startZoom;
     private float zoomProgress;
     private float currentZoomDuration;
+    private Coroutine zoomCoroutine;
     public GameObject player;
-
-    private CancellationTokenSource rotationCts = new CancellationTokenSource();
-    private CancellationTokenSource zoomCts = new CancellationTokenSource();
 
     private void Awake()
     {
         if (Instance == null)
         {
-            Instance = this; 
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -38,7 +40,7 @@ public class CameraManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         if (currentCamera == null)
         {
             currentCamera = defaultCamera;
@@ -89,11 +91,11 @@ public class CameraManager : MonoBehaviour
         else
         {
             isrotating = true;
-            _ = Rotation(currentCamera.transform.rotation * Quaternion.Euler(0, 0, angle), duration, rotationCts.Token);
+            StartCoroutine(RotationCoroutine(currentCamera.transform.rotation * Quaternion.Euler(0, 0, angle), duration));
         }
     }
 
-    private async Awaitable Rotation(Quaternion target, float duration, CancellationToken token)
+    private IEnumerator RotationCoroutine(Quaternion target, float duration)
     {
         startRotation = currentCamera.transform.rotation;
         targetRotation = target;
@@ -102,11 +104,11 @@ public class CameraManager : MonoBehaviour
 
         while (rotationProgress < 1f)
         {
-            if (currentCamera == null || token.IsCancellationRequested) return;
+            if (currentCamera == null) yield break;
 
             rotationProgress += Time.deltaTime / duration;
             currentCamera.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationProgress);
-            await Awaitable.NextFrameAsync();
+            yield return null;
         }
 
         if (currentCamera != null)
@@ -114,6 +116,7 @@ public class CameraManager : MonoBehaviour
             currentCamera.transform.rotation = targetRotation;
         }
         isrotating = false;
+        rotationCoroutine = null;
     }
 
     public void ChangeZoom(float zoomValue, float time = -1f)
@@ -134,12 +137,15 @@ public class CameraManager : MonoBehaviour
 
     private void StartSmoothZoomChange(float targetZoomValue, float duration)
     {
-        StopZoomChange();
-        zoomCts = new CancellationTokenSource();
-        _ = SmoothZoom(targetZoomValue, duration, zoomCts.Token);
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+        }
+
+        zoomCoroutine = StartCoroutine(SmoothZoomCoroutine(targetZoomValue, duration));
     }
 
-    private async Awaitable SmoothZoom(float targetZoomValue, float duration, CancellationToken token)
+    private IEnumerator SmoothZoomCoroutine(float targetZoomValue, float duration)
     {
         startZoom = currentCamera.Lens.OrthographicSize;
         targetZoom = targetZoomValue;
@@ -148,34 +154,61 @@ public class CameraManager : MonoBehaviour
 
         while (zoomProgress < 1f)
         {
-            if (currentCamera == null || token.IsCancellationRequested) return;
+            if (currentCamera == null) yield break;
 
             zoomProgress += Time.deltaTime / duration;
             float currentZoom = Mathf.Lerp(startZoom, targetZoom, zoomProgress);
             currentCamera.Lens.OrthographicSize = currentZoom;
-            await Awaitable.NextFrameAsync();
+            yield return null;
         }
 
         if (currentCamera != null)
         {
             currentCamera.Lens.OrthographicSize = targetZoom;
         }
+
+        zoomCoroutine = null;
     }
 
     public void StopCameraRotation()
     {
-        rotationCts?.Cancel();
-        rotationCts?.Dispose();
-        rotationCts = null;
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
     }
 
     public void StopZoomChange()
     {
-        zoomCts?.Cancel();
-        zoomCts?.Dispose();
-        zoomCts = null;
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+            zoomCoroutine = null;
+        }
     }
 
+    public void AddCamera(CinemachineCamera camera)
+    {
+        allCameras.Add(camera);
+    }
+
+    public void RemoveCamera(CinemachineCamera camera)
+    {
+        allCameras.Remove(camera);
+    }
+
+    public void ChangeCamera(CinemachineCamera camera)
+    {
+        foreach (var cam in allCameras)
+        {
+            cam.Priority = 0;
+        }
+        camera.Priority = 100;
+        currentCamera = camera;
+    }
+
+    //������ ������
     public CinemachineCamera GetCamera()
     {
         return currentCamera;
