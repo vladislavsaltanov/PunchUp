@@ -15,8 +15,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text notificationTitle;
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
+    [SerializeField] TMP_Text gameVersionText;
 
     CancellationTokenSource notificationCts;
+
+    private void Awake()
+    {
+        if (gameVersionText != null)
+            gameVersionText.text = Application.version;
+    }
 
     private void Start()
     {
@@ -42,7 +49,6 @@ public class UIManager : MonoBehaviour
             return;
 
         InputManager.Instance.pauseAction.action.performed += OnPauseButtonPressed;
-
     }
     public void ShowItemNotification(ItemData item)
     {
