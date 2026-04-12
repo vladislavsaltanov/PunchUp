@@ -23,7 +23,7 @@ public class DamageOverTimeEffect: EntityEffectData
         if (timer >= tickInterval)
         {
             timer -= tickInterval;
-            entity.TakeDamage(damagePerTick);
+            entity.TakeDamage(damagePerTick, cause: "Unknown forces");
         }
 
         activeEffect.RuntimeData = timer;

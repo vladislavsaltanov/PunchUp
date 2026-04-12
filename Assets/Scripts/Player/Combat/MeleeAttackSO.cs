@@ -54,6 +54,7 @@ public class MeleeAttackSO : AttackSO
                 continue;
 
             var target = hit.GetComponentInParent<BaseEntity>();
+            target = target ?? hit.GetComponent<BaseEntity>();
             if (target != null && target != owner)
             {
                 ApplyDamageAndKnockback(owner, target);

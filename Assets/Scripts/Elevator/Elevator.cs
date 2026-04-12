@@ -1,7 +1,9 @@
 using UnityEngine;
+using System.Collections;
 
 public class Elevator : MonoBehaviour, IInteractable
 {
+
     [Header("Settings")]
     [SerializeField] int sceneBuildIndex;
 

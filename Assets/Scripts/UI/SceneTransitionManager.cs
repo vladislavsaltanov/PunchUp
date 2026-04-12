@@ -70,4 +70,10 @@ public class SceneTransitionManager : MonoBehaviour
         }
         canvasGroup.alpha = endAlpha;
     }
+
+    public void ReloadCurrentScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SwitchScene(currentSceneIndex);
+    }
 }
