@@ -4,17 +4,24 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public BaseEntity owner;
-    [SerializeField] List<ItemData> items = new();
+    [SerializeField] public List<ItemData> items = new();
 
     Dictionary<ItemData, int> stackCounts = new();
     Dictionary<ItemData, List<(StatType type, StatModifier mod)>> activeModifiers = new();
+
+    private InventoryManager inventoryManager;
+
+    void Start()
+    {
+        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+    }
 
     public bool AddItem(ItemData item)
     {
         if (item == null) return false;
 
         if (!stackCounts.ContainsKey(item))
-            stackCounts[item] = 0;
+            stackCounts[item] = 1;
         stackCounts[item]++;
 
         if (item is StatItemData statItem)
@@ -30,6 +37,7 @@ public class Inventory : MonoBehaviour
         }
 
         items.Add(item);
+        inventoryManager.AddItem(item);
         StatisticsHandler.Instance.statisticData.items_picked++;
         return true;
     }
