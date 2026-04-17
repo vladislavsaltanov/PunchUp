@@ -734,6 +734,7 @@ public class EnemyLogicBat : EnemyLogic
 
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
+        batAudio.HandleDamage();
         bat.stunnedEndTime = Time.time + Random.Range(stunDurationRange.x, stunDurationRange.y);
 
         batAiState = BatAiState.None;

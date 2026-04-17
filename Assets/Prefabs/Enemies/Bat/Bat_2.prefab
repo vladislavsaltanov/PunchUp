@@ -156,7 +156,7 @@ MonoBehaviour:
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 2986937477780424829}
-  maxHealth: 11
+  maxHealth: 15
   direction: 0
   primaryAttack: {fileID: 0}
   specialAbility: {fileID: 0}
