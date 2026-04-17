@@ -195,7 +195,7 @@ MonoBehaviour:
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5066113996724530292}
-  doctorAudio: {fileID: 0}
+  doctorAudio: {fileID: 3196997662404516153}
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
@@ -589,5 +589,8 @@ MonoBehaviour:
   _yOffset: -0.15
   _updateShadowSize: 1
   _shadowSizeMultiplier: 1
+  _alphaSmoothTime: 0.08
+  _groundSnapThreshold: 0.15
+  _snapAlphaZeroSeconds: 0.05
   _entityToFollow: {fileID: 6268713337435757019}
   _entitySpriteRenderer: {fileID: 2590521676121854963}
