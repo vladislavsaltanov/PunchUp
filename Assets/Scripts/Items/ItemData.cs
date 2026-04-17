@@ -6,4 +6,6 @@ public abstract class ItemData : ScriptableObject
     [TextArea(3, 5)]
     public string description;
     public Sprite icon;
+    public ItemRarity rarity;
 }
+public enum ItemRarity { White, Green, Red, Yellow }

@@ -67,6 +67,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     CancellationTokenSource impactCts;
     CancellationTokenSource deathCts;
     bool isDying;
+
+    public event Action OnDeathEvent;
     #endregion
 
     #region Velocity Override
@@ -156,6 +158,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             if (cols[i] != null) cols[i].enabled = false;
 
         RefreshShaderTargets();
+
+        OnDeathEvent?.Invoke();
 
         _ = DeathProgressRoutine(deathProgressSeconds);
     }
