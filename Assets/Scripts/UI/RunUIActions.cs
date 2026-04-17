@@ -4,6 +4,9 @@ public class RunUIActions : MonoBehaviour
 {
     public void StartRun()
     {
+/*        if (PlayerPrefs.GetInt("tutorial_passsed", 0) == 0)
+            
+*/
         RunManager.Instance.StartRun();
     }
 
