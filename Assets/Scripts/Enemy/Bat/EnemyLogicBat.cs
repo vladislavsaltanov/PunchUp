@@ -755,7 +755,11 @@ public class EnemyLogicBat : EnemyLogic
     {
         if (spriteRenderer == null || sprite == null) return;
         if (spriteRenderer.sprite != sprite)
+        {
             spriteRenderer.sprite = sprite;
+            batAudio.HandleFly();
+            Debug.Log("Спрайт");
+        }
     }
 
     Vector2 ComputeSeparationVector()

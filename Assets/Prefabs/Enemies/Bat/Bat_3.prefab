@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 1271088907665360827}
   - component: {fileID: 3764929845417665654}
   - component: {fileID: 8494767211267583048}
-  - component: {fileID: 8257812054412205734}
   m_Layer: 8
   m_Name: Bat_3
   m_TagString: Enemy
@@ -258,7 +257,7 @@ MonoBehaviour:
     m_Bits: 0
   maxRoamDistanceFromSpawn: 18
   leashReturnMargin: 1
-  batAudio: {fileID: 0}
+  batAudio: {fileID: 8494767211267583048}
 --- !u!114 &2986937477780424829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,39 +358,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BatAudio
   enemyLogic: {fileID: 0}
   minVelocityToPlay: 1
-  walkSpeed: 2
-  runSpeed: 6
   minIdleSoundDelay: 5
   maxIdleSoundDelay: 10
   enableLogs: 0
---- !u!114 &8257812054412205734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3304388756238957270}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -1596256942
-      Data2: 1316362937
-      Data3: 466448023
-      Data4: -1888349835
-    Path: event:/Bat/BatFly
-  Event: 
-  EventPlayTrigger: 1
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 1
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 10
