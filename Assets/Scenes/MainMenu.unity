@@ -2217,6 +2217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   pauseMenu: {fileID: 0}
+  isPaused: 0
   notificationPanel: {fileID: 0}
   notificationTitle: {fileID: 0}
   notificationDesc: {fileID: 0}

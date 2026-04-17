@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [SerializeField] GameObject pauseMenu;
-    bool isPaused;
+    public bool isPaused;
 
     [Space(10)]
     [Header("Notification System")]

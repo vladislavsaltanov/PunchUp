@@ -37,6 +37,7 @@ public class PlayerAudio : MonoBehaviour
     private float footstepBlockedUntil;
     private float xPosLastFrame;
     private bool wasMovingLastFrame;
+    private bool isPausedBool = false;
 
     private void Awake()
     {
@@ -132,7 +133,12 @@ public class PlayerAudio : MonoBehaviour
     {
         footstepBlockedUntil = Time.time + footstepDelayAfterJump;
         jumpTime = PlayerController.instance.currentTime;
-        AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Jump);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool)
+        {
+            AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Jump);
+        }
+        else return;
     }
 
     //Скок
@@ -154,7 +160,12 @@ public class PlayerAudio : MonoBehaviour
     //Деш
     public void HandleDash()
     {
-        AudioManager.Instance.PlayDashSound(transform.position);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool)
+        {
+            AudioManager.Instance.PlayDashSound(transform.position);
+        }
+        else return;
     }
     
     //Ай
@@ -166,6 +177,11 @@ public class PlayerAudio : MonoBehaviour
     //Бамс
     public void HandleAttack()
     {
-        AudioManager.Instance.PlayerAttack(transform.position);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool)
+        {
+            AudioManager.Instance.PlayerAttack(transform.position);
+        }
+        else return;
     }
 }
