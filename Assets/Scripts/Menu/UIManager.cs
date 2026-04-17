@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
 
     CancellationTokenSource notificationCts;
 
+    public bool godmode = false;
     private void Awake()
     {
         if (gameVersionText != null)
@@ -111,6 +112,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SwitchGodMode(bool value)
+    {
+        godmode = value;
+        Debug.Log("Godmode is " + value);
+    }
+    public bool GetGodMode()
+    {
+        return godmode;
+    }
+
     private void OnDisable()
     {
         notificationCts?.Cancel();
@@ -142,11 +153,11 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // Убиваем игрока "легальным" путем, чтобы отработал OnDeath().
-        // cause важно: PlayerController.OnDeath() прочитает lastDamageCause = "surrender".
-        player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
+        // Г“ГЎГЁГўГ ГҐГ¬ ГЁГЈГ°Г®ГЄГ  "Г«ГҐГЈГ Г«ГјГ­Г»Г¬" ГЇГіГІГҐГ¬, Г·ГІГ®ГЎГ» Г®ГІГ°Г ГЎГ®ГІГ Г« OnDeath().
+        // cause ГўГ Г¦Г­Г®: PlayerController.OnDeath() ГЇГ°Г®Г·ГЁГІГ ГҐГІ lastDamageCause = "surrender".
+        player.TakeDamage(ushort.MaxValue, null, "ГўГ®ГІ ГІГ ГЄ ГўГ®ГІ ГЇГ®Г«ГіГ·ГЁГ«Г®Г±Гј");
 
-        // На всякий случай даем кадр, чтобы OnDeath успел стартовать EndRun.
+        // ГЌГ  ГўГ±ГїГЄГЁГ© Г±Г«ГіГ·Г Г© Г¤Г ГҐГ¬ ГЄГ Г¤Г°, Г·ГІГ®ГЎГ» OnDeath ГіГ±ГЇГҐГ« Г±ГІГ Г°ГІГ®ГўГ ГІГј EndRun.
         await Awaitable.NextFrameAsync();
     }
 

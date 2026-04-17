@@ -99,7 +99,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             shaderTargets = Array.Empty<SpriteRenderer>();
     }
 
-    public void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
+    public virtual void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (CurrentHealth == 0) return;
 
