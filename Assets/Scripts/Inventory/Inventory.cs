@@ -9,13 +9,6 @@ public class Inventory : MonoBehaviour
     Dictionary<ItemData, int> stackCounts = new();
     Dictionary<ItemData, List<(StatType type, StatModifier mod)>> activeModifiers = new();
 
-    private InventoryManager inventoryManager;
-
-    void Start()
-    {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
-    }
-
     public bool AddItem(ItemData item)
     {
         if (item == null) return false;
@@ -37,7 +30,6 @@ public class Inventory : MonoBehaviour
         }
 
         items.Add(item);
-        inventoryManager.AddItem(item);
         StatisticsHandler.Instance.statisticData.items_picked++;
         return true;
     }

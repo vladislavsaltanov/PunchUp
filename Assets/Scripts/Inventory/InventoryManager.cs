@@ -1,31 +1,59 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
-    public GameObject InventoryMenu;
-    private bool menuActivated;
+    public GameObject inventoryCanvas;
+    private bool isInventoryOpen;
+    public ItemSlot[] itemSlot;
+    private InputAction toggleAction;
+    [SerializeField] private Inventory inventory;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        
+        // Создаём действие прямо в коде
+        toggleAction = new InputAction(
+            "ToggleInventory",
+            binding: "<Keyboard>/Tab",
+            interactions: "Press"
+        );
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        /*
-         if (Input.GetButtonDown("Inventory") && menuActivated)
-        {
-            InventoryMenu.SetActive(false);
-            menuActivated = false;
-        }
+        toggleAction.Disable();
+        toggleAction.performed -= OnToggle;
+    }
 
-        else if (Input.GetButtonDown("Inventory") && !menuActivated)
+    private void OnToggle(InputAction.CallbackContext context)
+    {
+        ToggleInventory();
+    }
+
+    private void ToggleInventory()
+    {
+        Debug.Log("ToggleInventory");
+        isInventoryOpen = !isInventoryOpen;
+        inventoryCanvas.SetActive(isInventoryOpen);
+
+        Cursor.visible = isInventoryOpen;
+        Cursor.lockState = isInventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Time.timeScale = isInventoryOpen ? 0f : 1f;
+        UpdateInventory();
+    }
+
+    void Start()
+    {
+        UpdateInventory();
+    }
+
+    public void UpdateInventory()
+    {
+        foreach (var item in inventory.items)
         {
-            InventoryMenu.SetActive(true);
-            menuActivated = true;
+            AddItem(item);
         }
-         */
     }
 
     public void AddItem(ItemData item)
@@ -35,6 +63,16 @@ public class InventoryManager : MonoBehaviour
         string itemName = item.itemName;
         string itemDescription = item.description;
         Sprite itemSprite = item.icon;
-        Debug.Log("ItemName = " + itemName + "Description = " + itemDescription + "itemSprite = " + itemSprite);
+
+        //Debug.Log("ItemName = " + itemName + "Description = " + itemDescription + "itemSprite = " + itemSprite);
+        
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (!itemSlot[i].isFull)
+            {
+                itemSlot[i].AddItem(item);
+                return;
+            }
+        }
     }
 }
