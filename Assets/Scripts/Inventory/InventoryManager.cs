@@ -50,6 +50,8 @@ public class InventoryManager : MonoBehaviour
 
     public void UpdateInventory()
     {
+        DeselectAllSlots();
+        ClearAllSlots();
         foreach (var item in inventory.items)
         {
             AddItem(item);
@@ -73,6 +75,23 @@ public class InventoryManager : MonoBehaviour
                 itemSlot[i].AddItem(item);
                 return;
             }
+        }
+    }
+
+    public void DeselectAllSlots()
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            itemSlot[i].selectedShader.SetActive(false);
+            itemSlot[i].thisItemSelected = false;
+        }
+    }
+
+    public void ClearAllSlots()
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            itemSlot[i].ClearSlot();
         }
     }
 }

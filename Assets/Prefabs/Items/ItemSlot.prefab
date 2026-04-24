@@ -172,7 +172,11 @@ MonoBehaviour:
   isFull: 0
   quantityText: {fileID: 5445111191070905497}
   itemImage: {fileID: 187418309058143323}
+  quantityTextObject: {fileID: 7947126757457078929}
+  itemImageObject: {fileID: 5738154579775284388}
   inventory: {fileID: 0}
+  selectedShader: {fileID: 562533761081662712}
+  thisItemSelected: 0
 --- !u!1 &5738154579775284388
 GameObject:
   m_ObjectHideFlags: 0
