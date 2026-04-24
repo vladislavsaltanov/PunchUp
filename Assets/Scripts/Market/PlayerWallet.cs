@@ -3,6 +3,8 @@ using System;
 
 public class PlayerWallet : MonoBehaviour
 {
+    public static PlayerWallet Instance { get; private set; }
+
     [SerializeField] private int startingGold = 0;
 
     public int Gold { get; private set; }
@@ -11,6 +13,16 @@ public class PlayerWallet : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Gold = startingGold;
         OnGoldChanged?.Invoke(Gold);
     }
@@ -21,6 +33,8 @@ public class PlayerWallet : MonoBehaviour
 
         Gold += amount;
         OnGoldChanged?.Invoke(Gold);
+
+        Debug.Log("Gold added. Current: " + Gold);
     }
 
     public bool TrySpend(int amount)
@@ -33,11 +47,5 @@ public class PlayerWallet : MonoBehaviour
         Gold -= amount;
         OnGoldChanged?.Invoke(Gold);
         return true;
-    }
-
-    public void SetGold(int amount)
-    {
-        Gold = Mathf.Max(0, amount);
-        OnGoldChanged?.Invoke(Gold);
     }
 }
