@@ -23,6 +23,12 @@ public class PlayerController : BaseEntity
     [Header("Modules")]
     [SerializeField] CombatHandler combatHandler;
     [SerializeField] isGroundedHandler groundedHandler;
+
+    [SerializeField] private GameObject shopMenu;
+    private bool isShopOpen;
+    private ShopKeeper currentShop;
+    private ShopItem[] currentItems;
+    private bool movementPressed;
     #endregion
 
     [Header("GODMODE")]
@@ -44,6 +50,7 @@ public class PlayerController : BaseEntity
             inputManager.attackAction.action.performed += OnAttack;
             inputManager.specialAbilityAction.action.performed += OnAbility;
             inputManager.interactAction.action.performed += OnInteract;
+            inputManager.moveAction.action.performed += OnMovePerformed;
         }
 
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
@@ -86,6 +93,7 @@ public class PlayerController : BaseEntity
         {
             inputManager.attackAction.action.performed -= OnAttack;
             inputManager.specialAbilityAction.action.performed -= OnAbility;
+            inputManager.moveAction.action.performed -= OnMovePerformed;
         }
 
         if (groundedHandler != null)
@@ -103,6 +111,23 @@ public class PlayerController : BaseEntity
         if (HasVelocityOverride) return;
 
         if (IsActionLocked) return;
+
+        // Если магазин открыт — обрабатываем только его логику
+        if (isShopOpen)
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                CloseShop();
+                return;
+            }
+
+            if (IsMovementInputPressed())
+            {
+                CloseShop();
+                return;
+            }
+            return;
+        }
 
         UpdateDirection();
     }
@@ -176,4 +201,56 @@ public class PlayerController : BaseEntity
         else base.TakeDamage(amount,attacker,cause);
     }
     #endregion
+
+    public void OpenShop(ShopKeeper shop, ShopItem[] items)
+    {
+        isShopOpen = true;
+
+        currentShop = shop;
+        currentItems = items;
+
+        shopMenu.SetActive(true);
+        Time.timeScale = 0f;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        var shopUI = shopMenu.GetComponent<ShopUI>();
+        shopUI.Setup(shop, items, this);
+    }
+
+    public void CloseShop()
+    {
+        if (!isShopOpen) return;
+
+        isShopOpen = false;
+
+        shopMenu.SetActive(false);
+        Time.timeScale = 1f;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void RefreshShopUI()
+    {
+        var shopUI = shopMenu.GetComponent<ShopUI>();
+        shopUI.Refresh();
+    }
+
+    private bool IsMovementInputPressed()
+    {
+        if (inputManager == null) return false;
+
+        Vector2 moveInput = inputManager.moveAction.action.ReadValue<Vector2>();
+        return moveInput != Vector2.zero;
+    }
+
+    void OnMovePerformed(InputAction.CallbackContext ctx)
+    {
+        if (isShopOpen)
+        {
+            CloseShop();
+        }
+    }
 }

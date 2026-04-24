@@ -2,28 +2,18 @@ using UnityEngine;
 
 public class ShopKeeper : MonoBehaviour, IInteractable
 {
-    [Header("Shop Items (3 items)")]
     [SerializeField] private ShopItem[] shopItems;
-
-    [Header("Prompt UI")]
     [SerializeField] private GameObject promptUI;
-
-    private ShopUI shopUI;
 
     private void Awake()
     {
-        shopUI = FindObjectOfType<ShopUI>();
-
         if (promptUI != null)
             promptUI.SetActive(false);
     }
 
     public void Interact(PlayerController player)
     {
-        if (shopUI != null)
-        {
-            shopUI.OpenShop(this, shopItems, player);
-        }
+        player.OpenShop(this, shopItems);
     }
 
     public void ShowPrompt(bool show)
@@ -43,17 +33,18 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             return;
 
         var inventory = player.GetComponent<Inventory>();
+        var wallet = player.GetComponent<PlayerWallet>();
 
-        if (inventory == null)
+        if (inventory == null || wallet == null)
             return;
 
-        bool success = inventory.AddItem(shopItem.item);
+        if (!wallet.TrySpend(shopItem.price))
+            return;
 
-        if (success)
+        if (inventory.AddItem(shopItem.item))
         {
             shopItem.isSold = true;
-            shopUI.RefreshUI();
-
+            player.RefreshShopUI();
             UIManager.Instance?.ShowItemNotification(shopItem.item);
         }
     }
