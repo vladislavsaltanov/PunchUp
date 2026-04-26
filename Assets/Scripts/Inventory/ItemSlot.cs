@@ -35,7 +35,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void AddItem(ItemData item)
     {
-        Debug.Log($"ItemSlot({item})");
         this.itemName = item.itemName;
         this.quantity = inventory.GetStackCount(item);
         this.itemSprite = item.icon;

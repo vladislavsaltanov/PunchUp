@@ -4,8 +4,8 @@ public class EffectSlotManager : MonoBehaviour
 {
 
     [SerializeField] public EffectSlot[] effectSlots;
+    [SerializeField] private EntityEffectsSystem effectsSystem;
 
-    private EntityEffectsSystem effectsSystem;
     public void AddEffect(EntityEffectData effect)
     {
         foreach (var slot in effectSlots)
@@ -33,7 +33,7 @@ public class EffectSlotManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        effectsSystem = GameObject.Find("Player").GetComponent<EntityEffectsSystem>();
+
     }
 
     // Update is called once per frame
