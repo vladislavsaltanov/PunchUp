@@ -4,7 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public BaseEntity owner;
-    [SerializeField] List<ItemData> items = new();
+    [SerializeField] public List<ItemData> items = new();
 
     Dictionary<ItemData, int> stackCounts = new();
     Dictionary<ItemData, List<(StatType type, StatModifier mod)>> activeModifiers = new();
@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
         if (item == null) return false;
 
         if (!stackCounts.ContainsKey(item))
-            stackCounts[item] = 0;
+            stackCounts[item] = 1;
         stackCounts[item]++;
 
         if (item is StatItemData statItem)

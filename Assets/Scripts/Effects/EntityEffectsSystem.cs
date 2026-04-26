@@ -15,6 +15,8 @@ public class EntityEffectsSystem : MonoBehaviour
 
     public IReadOnlyDictionary<EntityEffectData, ActiveEffect> ActiveEffects => activeEffects;
 
+    [SerializeField] EffectSlotManager effectSlotManager;
+
     void Awake()
     {
         if (entity == null)
@@ -29,6 +31,9 @@ public class EntityEffectsSystem : MonoBehaviour
     public void ApplyEffect(EntityEffectData effectData)
     {
         if (effectData == null) return;
+
+        if (entity.CompareTag("Player"))
+            effectSlotManager.AddEffect(effectData);
 
         if (activeEffects.TryGetValue(effectData, out var existing))
         {
@@ -48,6 +53,9 @@ public class EntityEffectsSystem : MonoBehaviour
     {
         if (!activeEffects.TryGetValue(effectData, out var effect))
             return;
+
+        if (entity.CompareTag("Player"))
+            effectSlotManager.RemoveEffect(effectData);
 
         effect.Remove();
         activeEffects.Remove(effectData);
