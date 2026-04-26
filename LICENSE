@@ -19,3 +19,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+THIRD PARTY SOFTWARE NOTICES
+
+This project uses FMOD Studio by Firelight Technologies Pty Ltd.
+Copyright (c) Firelight Technologies Pty Ltd.
+
+The use of FMOD Studio is subject to the FMOD End User License Agreement.
+FMOD binaries and assets are NOT covered by the MIT License of this project.
+
+For more information, visit https://www.fmod.com/
