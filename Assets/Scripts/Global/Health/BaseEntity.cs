@@ -13,6 +13,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Space(10)]
     [Header("Health")]
     [SerializeField] protected ushort maxHealth = 100;
+    public float LastDamageTime { get; private set; } = -999f;
     public ushort CurrentHealth { get; protected set; }
     protected string lastDamageCause;
 
@@ -44,7 +45,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     protected float abilityCooldown;
     protected bool isAttacking;
     protected bool isUsingAbility;
-
+    public event Action OnDamageEvent;
     public EntityStats Stats => stats;
     public bool HasAbility => specialAbility != null;
     #endregion
@@ -116,6 +117,11 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             _ = ImpactRoutine(impactSeconds);
 
         OnDamageReceived(amount, attacker);
+        if (finalDamage > 0)
+        {
+            LastDamageTime = Time.time;
+            OnDamageEvent?.Invoke();
+        }
 
         if (CurrentHealth == 0)
             OnDeath();

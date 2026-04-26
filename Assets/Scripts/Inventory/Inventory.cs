@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -27,6 +27,11 @@ public class Inventory : MonoBehaviour
         {
             if (abilityItem.ability != null)
                 owner.SetSpecialAbility(abilityItem.ability);
+        }
+        else if (item is EffectItemData effectItem)
+        {
+            if (effectItem.effect != null)
+                owner.GetComponent<EntityEffectsSystem>().ApplyEffect(effectItem.effect);
         }
 
         items.Add(item);
@@ -60,6 +65,12 @@ public class Inventory : MonoBehaviour
         else if (item is AbilityItemData && stackCounts[item] <= 0)
         {
             owner.SetSpecialAbility(null);
+            stackCounts.Remove(item);
+        }
+        else if (item is EffectItemData effectItem && stackCounts[item] <= 0)
+        {
+            if (effectItem.effect != null)
+                owner.GetComponent<EntityEffectsSystem>().RemoveEffect(effectItem.effect);
             stackCounts.Remove(item);
         }
 
