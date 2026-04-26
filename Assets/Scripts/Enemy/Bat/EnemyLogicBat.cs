@@ -747,7 +747,6 @@ public class EnemyLogicBat : EnemyLogic
     {
         batAiState = BatAiState.None;
         bat.hasTarget = false;
-        PlayerWallet.Instance.AddGold(10);
 
         base.OnDeath();
     }

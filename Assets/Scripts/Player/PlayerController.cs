@@ -25,7 +25,7 @@ public class PlayerController : BaseEntity
     [SerializeField] isGroundedHandler groundedHandler;
 
     [SerializeField] private GameObject shopMenu;
-    private bool isShopOpen;
+    public bool isShopOpen;
     private ShopKeeper currentShop;
     private ShopItem[] currentItems;
     private bool movementPressed;

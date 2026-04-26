@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[System.Serializable]
-public class ShopItem
+[CreateAssetMenu(menuName = "Items/Shop item")]
+public class ShopItem :ScriptableObject
 {
     public ItemData item;
     public int price;

@@ -240,7 +240,6 @@ public class EnemyLogic : BaseEntity
             rb.linearVelocity = Vector2.zero;
             rb.simulated = false;
             entityCollider.enabled = false;
-            PlayerWallet.Instance.AddGold(10);
         }
         finally
         {

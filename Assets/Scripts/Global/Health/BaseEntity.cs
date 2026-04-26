@@ -8,6 +8,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 {
     [Header("Stats")]
     public string _name = "Entity";
+    public int EntityCost = 10;
     public EntityStats stats = new EntityStats();
 
     [Space(10)]
@@ -156,6 +157,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             if (cols[i] != null) cols[i].enabled = false;
 
         RefreshShaderTargets();
+
+        PlayerWallet.Instance.AddGold(EntityCost);
 
         _ = DeathProgressRoutine(deathProgressSeconds);
     }

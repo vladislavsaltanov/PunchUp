@@ -407,9 +407,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e3fcf1ad7a519488490d3f0c55ce40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopKeeper
-  shopItems: []
+  shopItems:
+  - {fileID: 11400000, guid: b6433f3a23f417041bb9ac7bf8684660, type: 2}
+  - {fileID: 11400000, guid: dc9f883ff5564ab40b0cc8a60bbe4693, type: 2}
+  - {fileID: 11400000, guid: f364a192d0774d247b1798c8c8b08cb2, type: 2}
   promptUI: {fileID: 6954418181147519732}
-  shopUI: {fileID: 0}
 --- !u!61 &1021043086011375267
 BoxCollider2D:
   m_ObjectHideFlags: 0
