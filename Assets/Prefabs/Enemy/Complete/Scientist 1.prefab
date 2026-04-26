@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 3196997662404516153}
   - component: {fileID: 7346280441140059464}
   - component: {fileID: 7788110922498594398}
+  - component: {fileID: -5906837097420922495}
   m_Layer: 8
   m_Name: Scientist 1
   m_TagString: Enemy
@@ -351,6 +352,21 @@ MonoBehaviour:
   OverrideAttenuation: 1
   OverrideMinDistance: 1
   OverrideMaxDistance: 5
+--- !u!114 &-5906837097420922495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116590055214077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6817681461486860093, guid: 3a0103492da21864d935f8401497dbe2, type: 3}
+  dropChance: 1
 --- !u!1 &8559998504225684287
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,5 +605,8 @@ MonoBehaviour:
   _yOffset: -0.15
   _updateShadowSize: 1
   _shadowSizeMultiplier: 1
+  _alphaSmoothTime: 0.08
+  _groundSnapThreshold: 0.15
+  _snapAlphaZeroSeconds: 0.05
   _entityToFollow: {fileID: 6268713337435757019}
   _entitySpriteRenderer: {fileID: 2590521676121854963}

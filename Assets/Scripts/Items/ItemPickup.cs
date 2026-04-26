@@ -7,6 +7,7 @@ public class ItemPickup : MonoBehaviour, IInteractable
 
     [Header("Visuals")]
     [SerializeField] GameObject promptUI;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     [Header("Animation")]
     [SerializeField] float translationTime = 1f;
@@ -49,10 +50,25 @@ public class ItemPickup : MonoBehaviour, IInteractable
             }
         }
     }
+    public void Init(ItemData data)
+    {
+        itemData = data;
 
+        if (data.icon != null)
+            spriteRenderer.sprite = data.icon;
+    }
     public void ShowPrompt(bool show)
     {
         if (promptUI != null)
             promptUI.SetActive(show);
     }
+
+    Color returnColor(ItemRarity rarity) => rarity switch
+    {
+        ItemRarity.White => Color.whiteSmoke,
+        ItemRarity.Green => Color.limeGreen,
+        ItemRarity.Red => Color.softRed,
+        ItemRarity.Yellow => Color.lightGoldenRod,
+        _ => Color.white
+    };
 }

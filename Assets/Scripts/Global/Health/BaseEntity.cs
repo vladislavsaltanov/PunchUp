@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -67,6 +67,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     CancellationTokenSource impactCts;
     CancellationTokenSource deathCts;
     bool isDying;
+
+    public event Action OnDeathEvent;
     #endregion
 
     #region Velocity Override
@@ -157,6 +159,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
         RefreshShaderTargets();
 
+        OnDeathEvent?.Invoke();
+
         _ = DeathProgressRoutine(deathProgressSeconds);
     }
 
@@ -207,8 +211,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
         float start = Time.time;
         float end = start + Mathf.Max(0.01f, seconds);
-
-        Debug.Log("Starting material");
 
         while (Time.time < end)
         {

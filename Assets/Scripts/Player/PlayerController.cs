@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,7 +33,12 @@ public class PlayerController : BaseEntity
     #region Cached
     InputManager inputManager;
     #endregion
-    IInteractable activeInteractable;
+
+    #region Interactables
+    List<IInteractable> nearbyInteractables = new();
+    IInteractable activeInteractable =>
+        nearbyInteractables.Count > 0 ? nearbyInteractables[^1] : null;
+    #endregion
 
     void Start()
     {
@@ -52,34 +58,43 @@ public class PlayerController : BaseEntity
 
         GodModeBool = UIManager.Instance.godmode;
     }
-    void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        if (activeInteractable != null)
-        {
-            activeInteractable.Interact(this);
-        }
-    }
     void OnTriggerEnter2D(Collider2D other)
     {
         var interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            activeInteractable = interactable;
-            activeInteractable.ShowPrompt(true);
-        }
+        if (interactable == null) return;
+
+        nearbyInteractables.Add(interactable);
+
+        // скрыть prompt у предыдущего
+        if (nearbyInteractables.Count > 1)
+            nearbyInteractables[^2].ShowPrompt(false);
+
+        interactable.ShowPrompt(true);
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         var interactable = other.GetComponent<IInteractable>();
-        if (interactable != null && activeInteractable == interactable)
-        {
-            activeInteractable.ShowPrompt(false);
-            activeInteractable = null;
-        }
+        if (interactable == null) return;
+
+        interactable.ShowPrompt(false);
+        nearbyInteractables.Remove(interactable);
+
+        // показать prompt у следующего в очереди
+        if (nearbyInteractables.Count > 0)
+            nearbyInteractables[^1].ShowPrompt(true);
+    }
+
+    void OnInteract(InputAction.CallbackContext ctx)
+    {
+        activeInteractable?.Interact(this);
     }
     void OnDestroy()
     {
+        foreach (var i in nearbyInteractables)
+            i?.ShowPrompt(false);
+        nearbyInteractables.Clear();
+
         if (instance == this) instance = null;
 
         if (inputManager != null)
