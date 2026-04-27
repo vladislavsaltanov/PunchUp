@@ -169,7 +169,7 @@ MonoBehaviour:
     speed: 2
     attackPower: 1
     defense: 0
-    maxHealth: 100
+    maxHealth: 15
     healthRegenRate: 0
     critChance: 0
     critMultiplier: 1.5
@@ -181,7 +181,6 @@ MonoBehaviour:
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 8246746951798561985}
-  maxHealth: 8
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
   specialAbility: {fileID: 0}
