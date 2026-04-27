@@ -1188,6 +1188,7 @@ MonoBehaviour:
   lastGroundedTime: 0
   combatHandler: {fileID: 7017996865065010984}
   groundedHandler: {fileID: 5044149940470653903}
+  GodModeBool: 0
 --- !u!114 &758176366677849531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1239,9 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   owner: {fileID: 3450894756909812398}
-  items:
-  - {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
-  - {fileID: 11400000, guid: c1ba03756b0e38d4c9b21cb5585d6b19, type: 2}
+  items: []
 --- !u!114 &7017996865065010984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1272,8 @@ MonoBehaviour:
   notificationTitle: {fileID: 9009807129639321049}
   notificationDesc: {fileID: 1766468397583324635}
   notificationDuration: 3
+  gameVersionText: {fileID: 0}
+  godmode: 0
 --- !u!114 &6821972033225363592
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemPickup : MonoBehaviour, IInteractable
 {
@@ -8,6 +8,8 @@ public class ItemPickup : MonoBehaviour, IInteractable
     [Header("Visuals")]
     [SerializeField] GameObject promptUI;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] ParticleSystem commonGlow;
+    [SerializeField] ParticleSystem rareGlow;
 
     [Header("Animation")]
     [SerializeField] float translationTime = 1f;
@@ -53,6 +55,17 @@ public class ItemPickup : MonoBehaviour, IInteractable
     public void Init(ItemData data)
     {
         itemData = data;
+        bool isRare = data.rarity == ItemRarity.Red || data.rarity == ItemRarity.Yellow;
+
+        if (commonGlow != null) commonGlow.gameObject.SetActive(!isRare);
+        if (rareGlow != null) rareGlow.gameObject.SetActive(isRare);
+
+        var glow = isRare ? rareGlow : commonGlow;
+        if (glow != null)
+        {
+            var main = glow.main;
+            main.startColor = RarityColor(data.rarity);
+        }
 
         if (data.icon != null)
             spriteRenderer.sprite = data.icon;
@@ -63,7 +76,7 @@ public class ItemPickup : MonoBehaviour, IInteractable
             promptUI.SetActive(show);
     }
 
-    Color returnColor(ItemRarity rarity) => rarity switch
+    Color RarityColor(ItemRarity rarity) => rarity switch
     {
         ItemRarity.White => Color.whiteSmoke,
         ItemRarity.Green => Color.limeGreen,
