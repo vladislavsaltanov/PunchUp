@@ -12,7 +12,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     [Space(10)]
     [Header("Health")]
-    [SerializeField] protected ushort maxHealth = 100;
+    protected ushort maxHealth = 100;
     public float LastDamageTime { get; private set; } = -999f;
     public ushort CurrentHealth { get; protected set; }
     protected string lastDamageCause;
@@ -84,7 +84,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     protected virtual void Awake()
     {
-        CurrentHealth = maxHealth;
+        maxHealth = (ushort)Stats[StatType.MaxHealth];
+        CurrentHealth = (ushort)Stats[StatType.MaxHealth];
         mpb ??= new MaterialPropertyBlock();
 
         // initial gather
