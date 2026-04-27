@@ -26,7 +26,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Header("Combat Actions")]
     public ActionSO primaryAttack;
     public ActionSO specialAbility;
-
+    public event Action<BaseEntity> OnHitEnemy;
+    public void RaiseOnHitEnemy(BaseEntity target) => OnHitEnemy?.Invoke(target);
     public void SetPrimaryAttack(ActionSO action) => primaryAttack = action;
     public void SetSpecialAbility(ActionSO action) => specialAbility = action;
 
@@ -106,6 +107,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public virtual void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (CurrentHealth == 0) return;
+        if (UnityEngine.Random.value * 100f < Stats[StatType.DamageBlockChance]) return;
 
         lastDamageCause = cause ?? "unknown";
 

@@ -11,7 +11,7 @@ public class ReviveItemData : ItemData
         entity.SetHealth((ushort)(entity.Stats[StatType.MaxHealth] * healPercent));
 
         if (reviveParticlePrefab != null)
-            Object.Instantiate(reviveParticlePrefab, entity.transform.position, Quaternion.identity);
+            Instantiate(reviveParticlePrefab, entity.transform.position, Quaternion.identity);
 
         UIManager.Instance.ShowItemNotification(this);
 
