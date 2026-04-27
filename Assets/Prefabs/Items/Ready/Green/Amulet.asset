@@ -17,7 +17,7 @@ MonoBehaviour:
     \u0434\u0435\u043D\u044C. \u0428\u0430\u043D\u0441 \u043F\u0430\u0434\u0435\u043D\u0438\u044F
     \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432 \u0443\u0432\u0435\u043B\u0438\u0447\u0435\u043D
     \u043D\u0430 10%."
-  icon: {fileID: 0}
+  icon: {fileID: 5647430373762768393, guid: 1882e7e896f145845bb7a60754bad6ca, type: 3}
   rarity: 1
   modifiers:
   - statType: 11
