@@ -16,6 +16,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public float LastDamageTime { get; private set; } = -999f;
     public ushort CurrentHealth { get; protected set; }
     protected string lastDamageCause;
+    public void SetHealth(ushort value) => CurrentHealth = value;
 
     [Space(10)]
     [Header("Movement")]
@@ -124,10 +125,29 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         }
 
         if (CurrentHealth == 0)
+        {
+            if (TryRevive()) return;
             OnDeath();
+        }
 
         if (this is PlayerController)
             PlayerHealthBarUIManager.Instance.UpdateHealth(CurrentHealth, maxHealth);
+    }
+
+    bool TryRevive()
+    {
+        var inventory = GetComponent<Inventory>();
+        if (inventory == null) return false;
+
+        foreach (var item in inventory.GetItems())
+        {
+            if (item is ReviveItemData reviveItem)
+            {
+                reviveItem.Revive(this, inventory);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Heal(ushort amount)
