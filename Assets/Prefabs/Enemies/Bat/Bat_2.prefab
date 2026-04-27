@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 3764929845417665654}
   - component: {fileID: 1714250523144505033}
   - component: {fileID: -5081348076499347348}
+  - component: {fileID: -8367398640246500815}
   m_Layer: 8
   m_Name: Bat_2
   m_TagString: Enemy
@@ -272,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 710732635978774089}
+  effectSlotManager: {fileID: 0}
 --- !u!50 &1271088907665360827
 Rigidbody2D:
   serializedVersion: 5
@@ -395,3 +397,18 @@ MonoBehaviour:
   OverrideAttenuation: 1
   OverrideMinDistance: 1
   OverrideMaxDistance: 10
+--- !u!114 &-8367398640246500815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3304388756238957270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.8
