@@ -169,6 +169,7 @@ public class EnemyLogicTurret : EnemyLogic
 
     protected override void OnDeath()
     {
+        VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, 10);
         base.OnDeath();
     }
 

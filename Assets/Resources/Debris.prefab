@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8994902666154390158}
   - component: {fileID: 951955406526556236}
   m_Layer: 0
-  m_Name: DestructionParticles
+  m_Name: Debris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
