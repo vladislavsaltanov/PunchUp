@@ -18,8 +18,25 @@ public class ItemPickup : MonoBehaviour, IInteractable
     [SerializeField] float translationDistance = 1.4f;
     [SerializeField] float translationOffset = 0f;
 
+    bool isDropping = true;
+    float dropTarget;
+
     void Update()
     {
+        if (isDropping)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,
+                new Vector3(transform.position.x, dropTarget, transform.position.z),
+                5f * Time.deltaTime);
+
+            if (Mathf.Abs(transform.position.y - dropTarget) < 0.05f)
+            {
+                transform.position = new Vector3(transform.position.x, dropTarget, transform.position.z);
+                isDropping = false;
+            }
+            return;
+        }
+
         float translation = Mathf.Sin(Time.unscaledTime * (translationSpeed + translationSpeedRandom) + translationOffset) * (translationDistance / 1000);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + translation, transform.localPosition.z);
     }
@@ -34,6 +51,12 @@ public class ItemPickup : MonoBehaviour, IInteractable
 
         var col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
+
+        var hit = Physics2D.Raycast(transform.position, Vector2.down, 50f, LayerMask.GetMask("Ground"));
+        if (hit.collider != null)
+            dropTarget = hit.point.y + 0.3f;
+        else
+            dropTarget = transform.position.y - Random.Range(1f, 2f);
     }
 
     public void Interact(PlayerController player)

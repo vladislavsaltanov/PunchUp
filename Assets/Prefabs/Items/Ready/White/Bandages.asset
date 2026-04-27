@@ -22,5 +22,5 @@ MonoBehaviour:
   - statType: 3
     valueType: 1
     value: 8
-    stackType: 0
-    coefficient: 0
+    stackType: 1
+    coefficient: 0.1

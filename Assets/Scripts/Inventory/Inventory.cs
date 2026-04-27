@@ -84,6 +84,7 @@ public class Inventory : MonoBehaviour
         foreach (var data in statItem.modifiers)
         {
             float calculatedValue = data.CalculateValue(stacks);
+            var previousMaxHealth = owner.Stats[StatType.MaxHealth];
 
             var mod = owner.Stats.AddModifier(
                 data.statType,
@@ -92,6 +93,11 @@ public class Inventory : MonoBehaviour
                 source: statItem
             );
 
+            if (data.statType == StatType.MaxHealth)
+            {
+                float diff = owner.Stats[StatType.MaxHealth] - previousMaxHealth;
+                if (diff > 0) owner.Heal((ushort)diff);
+            }
             appliedMods.Add((data.statType, mod));
         }
 
