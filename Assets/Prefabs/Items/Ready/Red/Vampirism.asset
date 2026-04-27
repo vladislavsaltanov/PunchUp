@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9614692ce221545a77a57c30d645af, type: 3}
+  m_Name: Vampirism
+  m_EditorClassIdentifier: Assembly-CSharp::EffectItemData
+  itemName: "\u0412\u0430\u043C\u043F\u0438\u0440"
+  description: "\u041A\u0443\u0441\u044C. \u0418 \u0442\u0435\u0431\u0435 \u043B\u0443\u0447\u0448\u0435,
+    \u0438 \u043C\u043D\u0435."
+  icon: {fileID: 0}
+  rarity: 2
+  effect: {fileID: 11400000, guid: 87c7b235f1e2ff247831d74a5a69f95d, type: 2}

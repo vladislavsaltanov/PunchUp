@@ -13,8 +13,10 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Space(10)]
     [Header("Health")]
     [SerializeField] protected ushort maxHealth = 100;
+    public float LastDamageTime { get; private set; } = -999f;
     public ushort CurrentHealth { get; protected set; }
     protected string lastDamageCause;
+    public void SetHealth(ushort value) => CurrentHealth = value;
 
     [Space(10)]
     [Header("Movement")]
@@ -24,7 +26,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     [Header("Combat Actions")]
     public ActionSO primaryAttack;
     public ActionSO specialAbility;
-
+    public event Action<BaseEntity> OnHitEnemy;
+    public void RaiseOnHitEnemy(BaseEntity target) => OnHitEnemy?.Invoke(target);
     public void SetPrimaryAttack(ActionSO action) => primaryAttack = action;
     public void SetSpecialAbility(ActionSO action) => specialAbility = action;
 
@@ -44,7 +47,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     protected float abilityCooldown;
     protected bool isAttacking;
     protected bool isUsingAbility;
-
+    public event Action OnDamageEvent;
     public EntityStats Stats => stats;
     public bool HasAbility => specialAbility != null;
     #endregion
@@ -104,6 +107,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public virtual void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (CurrentHealth == 0) return;
+        if (UnityEngine.Random.value * 100f < Stats[StatType.DamageBlockChance]) return;
 
         lastDamageCause = cause ?? "unknown";
 
@@ -116,12 +120,36 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             _ = ImpactRoutine(impactSeconds);
 
         OnDamageReceived(amount, attacker);
+        if (finalDamage > 0)
+        {
+            LastDamageTime = Time.time;
+            OnDamageEvent?.Invoke();
+        }
 
         if (CurrentHealth == 0)
+        {
+            if (TryRevive()) return;
             OnDeath();
+        }
 
         if (this is PlayerController)
             PlayerHealthBarUIManager.Instance.UpdateHealth(CurrentHealth, maxHealth);
+    }
+
+    bool TryRevive()
+    {
+        var inventory = GetComponent<Inventory>();
+        if (inventory == null) return false;
+
+        foreach (var item in inventory.GetItems())
+        {
+            if (item is ReviveItemData reviveItem)
+            {
+                reviveItem.Revive(this, inventory);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Heal(ushort amount)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,6 +58,7 @@ public class MeleeAttackSO : AttackSO
             if (target != null && target != owner)
             {
                 ApplyDamageAndKnockback(owner, target);
+                owner.RaiseOnHitEnemy(target);
             }
         }
     }
