@@ -10,24 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57a6888ce27d6b449b6d6ba17e7baec0, type: 3}
-  m_Name: Scientist1
+  m_Name: Bat
   m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropConfig
   whiteItems:
-  - {fileID: 11400000, guid: a4d62b417d49aa349b98d74be4353af5, type: 2}
+  - {fileID: 11400000, guid: 75c5535b65d53964fa74889476cc8845, type: 2}
   - {fileID: 11400000, guid: 26d578b09eaeb7e4a823f70c109c6526, type: 2}
-  - {fileID: 11400000, guid: 6e54397e598f7a44781ad2f88b92934f, type: 2}
-  - {fileID: 11400000, guid: 46b42a69c72730340b9cd78422c18725, type: 2}
+  - {fileID: 11400000, guid: ecd7dcb384c54d14a8ee635fec250d47, type: 2}
   - {fileID: 11400000, guid: c967bf66a04e87a4187774ae877c0b30, type: 2}
   greenItems:
   - {fileID: 11400000, guid: fd59cfaa2cd3c074181468a238f85a2f, type: 2}
-  - {fileID: 11400000, guid: ecfd4ac6d5d648242b23abe52b4365dd, type: 2}
-  - {fileID: 11400000, guid: 81bcccb955febdc4d8072df86b01c43f, type: 2}
   - {fileID: 11400000, guid: e0b1a6fca06ef204c97de61a549cadef, type: 2}
+  - {fileID: 11400000, guid: 1c6a30a6592c713428957144f453e66c, type: 2}
   redItems:
-  - {fileID: 11400000, guid: ea622d38fbee5f940b71ceae5dc7c189, type: 2}
+  - {fileID: 11400000, guid: 71e49209f061a9141a5b3dae5a4fab3f, type: 2}
   yellowItems:
-  - {fileID: 11400000, guid: 54b0f3210cb3e1b44aab89fc05e0173b, type: 2}
+  - {fileID: 11400000, guid: 023d1050317a4264a815c07474527f0f, type: 2}
   whiteWeight: 80
-  greenWeight: 20
-  redWeight: 0.5
-  yellowWeight: 0.1
+  greenWeight: 40
+  redWeight: 1
+  yellowWeight: 0.5

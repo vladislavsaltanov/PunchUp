@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
         float movementDirection;
 
-    
+    public void AddJump(byte amount = 1) => chars.maxJumps += amount;
+    public void RemoveJump(byte amount = 1) => chars.maxJumps = (byte)Mathf.Max(1, chars.maxJumps - amount);
 
     private void Start()
     {
