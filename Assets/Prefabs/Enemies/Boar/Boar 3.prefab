@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1251586428189321356}
   - component: {fileID: 8779415966733243676}
   m_Layer: 8
-  m_Name: Boar
+  m_Name: Boar 3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,8 +203,8 @@ MonoBehaviour:
     speed: 5
     attackPower: 1
     defense: 0
-    maxHealth: 20
-    healthRegenRate: 0
+    maxHealth: 26
+    healthRegenRate: 0.2
     critChance: 0
     critMultiplier: 1.5
     knockbackMultiplier: 1
@@ -254,11 +254,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  chargeSpeed: 12
+  chargeSpeed: 10
   chargeAcceleration: 30
-  chargeDuration: 3
+  chargeDuration: 2
   chargeDamage: 8
-  chargeKnockbackX: 20
+  chargeKnockbackX: 18
   chargeKnockbackY: 6
   chargeKnockbackDuration: 0.18
   hitTargetLayer:
