@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,7 +27,7 @@ public class PlayerController : BaseEntity
     #endregion
 
     [Header("GODMODE")]
-    [SerializeField] public bool GodModeBool;//Очень инетерсное решение сделанное без тз
+    [SerializeField] public bool GodModeBool;//РћС‡РµРЅСЊ РёРЅРµС‚РµСЂСЃРЅРѕРµ СЂРµС€РµРЅРёРµ СЃРґРµР»Р°РЅРЅРѕРµ Р±РµР· С‚Р·
     public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
 
     #region Cached
@@ -65,7 +65,7 @@ public class PlayerController : BaseEntity
 
         nearbyInteractables.Add(interactable);
 
-        // ������ prompt � �����������
+        // скрыть prompt у предыдущего
         if (nearbyInteractables.Count > 1)
             nearbyInteractables[^2].ShowPrompt(false);
 
@@ -80,7 +80,7 @@ public class PlayerController : BaseEntity
         interactable.ShowPrompt(false);
         nearbyInteractables.Remove(interactable);
 
-        // �������� prompt � ���������� � �������
+        // показать prompt у следующего в очереди
         if (nearbyInteractables.Count > 0)
             nearbyInteractables[^1].ShowPrompt(true);
     }
@@ -187,6 +187,7 @@ public class PlayerController : BaseEntity
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
+        Debug.Log($"Player TakeDamage: {cause}\n{System.Environment.StackTrace} ");
         if (GodModeBool) return;
         else base.TakeDamage(amount,attacker,cause);
     }

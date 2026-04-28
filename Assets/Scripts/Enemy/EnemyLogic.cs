@@ -1,11 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Threading;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
 {
     [Header("Modules")]
-    [SerializeField] EnemyMovementBaseSO movement;
+    [SerializeField] protected EnemyMovementBaseSO movement;
     [SerializeField] EnemyPlayerDetectionSO detection;
     [SerializeField] CombatHandler combatHandler;
     [SerializeField] DoctorAudio doctorAudio;
@@ -55,7 +55,7 @@ public class EnemyLogic : BaseEntity
         EnterWait(1f);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (CurrentHealth <= 0) return;
 
