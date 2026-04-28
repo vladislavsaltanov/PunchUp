@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Threading;
 
 public class EnemyLogicBoar : EnemyLogic
 {
@@ -64,16 +65,10 @@ public class EnemyLogicBoar : EnemyLogic
 
             case BoarState.Recovering:
                 rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, 0f, chargeAcceleration * Time.deltaTime);
-                stateTimer -= Time.deltaTime;
-                if (stateTimer <= 0f)
-                    boarState = BoarState.Patrol;
                 break;
 
             case BoarState.Stunned:
                 rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, 0f, chargeAcceleration * Time.deltaTime);
-                stateTimer -= Time.deltaTime;
-                if (stateTimer <= 0f)
-                    boarState = BoarState.Patrol;
                 break;
         }
     }
@@ -95,7 +90,6 @@ public class EnemyLogicBoar : EnemyLogic
 
     void ChargeTick()
     {
-        Debug.Log($"ChargeTick, hitPlayerThisCharge: {hitPlayerThisCharge}, boarState: {boarState}");
         stateTimer -= Time.deltaTime;
 
         currentChargeSpeed = Mathf.MoveTowards(
@@ -121,14 +115,10 @@ public class EnemyLogicBoar : EnemyLogic
 
             if (hitEntity != null && Time.time >= lastHitTime + hitCooldown)
             {
-                Debug.Log($"Boar hit player, time: {Time.time}");
-                
-                // Сначала обновляем состояние самого кабана
                 lastHitTime = Time.time;
                 hitPlayerThisCharge = true;
                 EnterRecovery();
 
-                // Затем вызываем внешние методы
                 hitEntity.ApplyVelocityOverride(
                     new Vector2(chargeDirection * chargeKnockbackX, chargeKnockbackY),
                     chargeKnockbackDuration);
@@ -154,12 +144,22 @@ public class EnemyLogicBoar : EnemyLogic
         direction = chargeDirection;
     }
 
-    void EnterRecovery()
+    async void EnterRecovery()
     {
-        Debug.Log($"EnterRecovery called, boarState: {boarState}");
         boarState = BoarState.Recovering;
-        stateTimer = recoveryDuration;
         rb.linearVelocityX = 0f;
+
+        // Используем actionCts из базового класса для отмены, если кабан умрет или будет оглушен
+        actionCts?.Cancel();
+        actionCts = new CancellationTokenSource();
+
+        try 
+        {
+            await Awaitable.WaitForSecondsAsync(recoveryDuration, actionCts.Token);
+            if (boarState == BoarState.Recovering)
+                boarState = BoarState.Patrol;
+        }
+        catch (System.OperationCanceledException) { }
     }
 
     bool CanSeePlayer()
@@ -176,8 +176,23 @@ public class EnemyLogicBoar : EnemyLogic
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
         boarState = BoarState.Stunned;
-        stateTimer = Random.Range(stunDurationRange.x, stunDurationRange.y);
         rb.linearVelocityX = 0f;
+
+        _ = PerformStun();
+    }
+
+    async Awaitable PerformStun()
+    {
+        actionCts?.Cancel();
+        actionCts = new CancellationTokenSource();
+
+        try
+        {
+            await Awaitable.WaitForSecondsAsync(Random.Range(stunDurationRange.x, stunDurationRange.y), actionCts.Token);
+            if (boarState == BoarState.Stunned)
+                boarState = BoarState.Patrol;
+        }
+        catch (System.OperationCanceledException) { }
     }
 
     protected override void OnDeath()

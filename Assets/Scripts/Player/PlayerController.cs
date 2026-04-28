@@ -187,7 +187,6 @@ public class PlayerController : BaseEntity
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
-        Debug.Log($"Player TakeDamage: {cause}\n{System.Environment.StackTrace} ");
         if (GodModeBool) return;
         else base.TakeDamage(amount,attacker,cause);
     }

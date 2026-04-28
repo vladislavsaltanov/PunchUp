@@ -6,17 +6,17 @@ public class EnemyLogic : BaseEntity
 {
     [Header("Modules")]
     [SerializeField] protected EnemyMovementBaseSO movement;
-    [SerializeField] EnemyPlayerDetectionSO detection;
-    [SerializeField] CombatHandler combatHandler;
-    [SerializeField] DoctorAudio doctorAudio;
+    [SerializeField] protected EnemyPlayerDetectionSO detection;
+    [SerializeField] protected CombatHandler combatHandler;
+    [SerializeField] protected DoctorAudio doctorAudio;
 
     [Header("AI Settings")]
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
     [SerializeField] float searchDuration = 2f;
 
-    CancellationTokenSource actionCts;
-    CancellationTokenSource waitCts;
+    protected CancellationTokenSource actionCts;
+    protected CancellationTokenSource waitCts;
 
     public float EffectiveAttackReach
     {
