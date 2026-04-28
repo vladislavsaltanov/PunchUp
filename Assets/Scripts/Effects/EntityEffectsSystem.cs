@@ -17,6 +17,8 @@ public class EntityEffectsSystem : MonoBehaviour
 
     [SerializeField] EffectSlotManager effectSlotManager;
 
+    float _regenBuffer;
+
     void Awake()
     {
         if (entity == null)
@@ -26,6 +28,23 @@ public class EntityEffectsSystem : MonoBehaviour
     void Update()
     {
         TickEffects(Time.deltaTime);
+        HandleBaseRegeneration(Time.deltaTime);
+    }
+
+    void HandleBaseRegeneration(float deltaTime)
+    {
+        if (entity == null || entity.CurrentHealth <= 0) return;
+
+        float regenRate = entity.Stats[StatType.HealthRegenRate];
+        if (regenRate <= 0) return;
+
+        _regenBuffer += regenRate * deltaTime;
+
+        while (_regenBuffer >= 1f)
+        {
+            entity.Heal(1);
+            _regenBuffer -= 1f;
+        }
     }
 
     public void ApplyEffect(EntityEffectData effectData)
