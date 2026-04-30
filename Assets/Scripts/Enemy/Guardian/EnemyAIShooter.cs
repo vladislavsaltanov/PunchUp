@@ -104,7 +104,7 @@ public class EnemyAIShooter : EnemyAI
     {
         if (bulletPrefab == null || muzzlePoint == null) return;
         var go = Object.Instantiate(bulletPrefab, muzzlePoint.position, Quaternion.identity);
-        var bullet = go.GetComponent<TurretBullet>();
+        var bullet = go.GetComponent<Bullet>();
         if (bullet != null)
             bullet.Init(direction, bulletSpeed, bulletDamage, this);
     }
