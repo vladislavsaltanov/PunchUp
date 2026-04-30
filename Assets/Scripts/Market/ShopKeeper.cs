@@ -59,9 +59,14 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         var go = Instantiate(itemPickupPrefab, spawnPos, Quaternion.identity);
         go.GetComponent<ItemPickup>().Init(slot.item);
 
-        // Обновляем слот новым предметом
-        slot.item = dropConfig.Roll();
+        // ✅ Закрываем магазин
+        PlayerController.instance.CloseShop();
 
-        PlayerController.instance.RefreshShopUI();
+        // ✅ Убираем prompt
+        if (promptUI != null)
+            promptUI.SetActive(false);
+
+        // ✅ Удаляем магазин
+        Destroy(transform.parent.gameObject);
     }
 }
