@@ -1607,7 +1607,6 @@ MonoBehaviour:
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 6821972033225363592}
-  maxHealth: 50
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 0e4689e0312839447a689757a8519f2f, type: 2}
   specialAbility: {fileID: 0}
@@ -1724,6 +1723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 3450894756909812398}
+  effectSlotManager: {fileID: 0}
 --- !u!114 &3720926837645525907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5077,12 +5077,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -299831083027680978, guid: 05096f3f24b7a074ebc48a17890d9b84, type: 3}
+  m_Sprite: {fileID: 5105687775796018570, guid: e14365148fa39154b9a00d373c61eac8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5125,9 +5125,9 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.52459013, y: 0.5}
-    oldSize: {x: 1.22, y: 1.28}
-    newSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.36, y: 0.54}
+    newSize: {x: 0.75, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
