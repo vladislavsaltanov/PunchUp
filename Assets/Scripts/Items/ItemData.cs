@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class ItemData : ScriptableObject
 {
@@ -7,5 +7,7 @@ public abstract class ItemData : ScriptableObject
     public string description;
     public Sprite icon;
     public ItemRarity rarity;
+
+    public int price;
 }
 public enum ItemRarity { White, Green, Red, Yellow }
