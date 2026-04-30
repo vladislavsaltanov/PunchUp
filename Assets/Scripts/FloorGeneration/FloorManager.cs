@@ -10,6 +10,7 @@ public class FloorManager : MonoBehaviour
     List<GameObject> currentRooms = new List<GameObject>();
     public List<Transform> placeholders;
     public List<GameObject> roomPrefabs;
+    public GameObject MarketPrefab;
     List<GameObject> _roomPrefabs;
     public List<Transform> pathwaysPlaceholders;
     public List<Transform> blockPlaceholders;
@@ -21,6 +22,7 @@ public class FloorManager : MonoBehaviour
 
     public int EnterInd;
     public int ExitInd;
+    public int MarketInd;
 
     [SerializeField] GameObject playerObject;
 
@@ -54,6 +56,12 @@ public class FloorManager : MonoBehaviour
         _roomPrefabs.RemoveAt(randomIndex);
     }
 
+    void GenerateMarket(int i)
+    {
+        currentRooms.Add(Instantiate(MarketPrefab, placeholders[i]));
+        currentRooms[i].GetComponent<RoomManager>().SetRoomID(i);
+    }
+
     void GeneratePathways()
     {
         for (int i = 0; i < 23; i += 2)
@@ -69,13 +77,21 @@ public class FloorManager : MonoBehaviour
         _roomPrefabs = new List<GameObject>(roomPrefabs);
         EnterInd = Random.Range(0, 3);
         ExitInd = Random.Range(3, 9);
-
+        MarketInd = Random.Range(0, 9);
+        while (MarketInd == EnterInd || MarketInd == ExitInd)
+        {
+            MarketInd = Random.Range(0, 9);
+        }
+        Debug.Log(EnterInd + " " + ExitInd + " " + MarketInd);
         cameraBounds.position = placeholders[EnterInd].position;
         currentRoom = placeholders[EnterInd].transform;
         //Ãåíåðàöèÿ êîìíàò
         for (int i = 0; i < 9; i++)
         {
-            GenerateRoom(i);
+            if (i == MarketInd)
+            {
+                GenerateMarket(i);
+            } else GenerateRoom(i);
         }
         //Ñïàâí ëèôòîâ
         Vector2 playerSpawnPosition = currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);

@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     bool isPaused;
 
+
     [Space(10)]
     [Header("Notification System")]
     [SerializeField] GameObject notificationPanel;
