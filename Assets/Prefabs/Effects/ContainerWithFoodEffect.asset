@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7df65ca6444b746a9c3030473f037b, type: 3}
+  m_Name: ContainerWithFoodEffect
+  m_EditorClassIdentifier: Assembly-CSharp::HealOverTimeEffect
+  effectName: "\u041A\u043E\u043D\u0442\u0435\u0439\u043D\u0435\u0440 \u0441 \u0435\u0434\u043E\u0439"
+  description: "\u041A\u0442\u043E-\u0442\u043E \u043E\u0441\u0442\u0430\u0432\u0438\u043B
+    \u043A\u043E\u043D\u0442\u0435\u0439\u043D\u0435\u0440 \u0441 \u0435\u0434\u043E\u0439.
+    \u041E\u043D \u043D\u0430\u043C \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u0441\u044F.
+    \u0412\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
+    10% \u043E\u0442 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F \u043F\u043E\u0441\u043B\u0435
+    10 \u0441\u0435\u043A\u0443\u043D\u0434 \u0431\u0435\u0437 \u0443\u0440\u043E\u043D\u0430."
+  icon: {fileID: 0}
+  duration: 999999
+  healPerTick: 0
+  tickInterval: 10
+  noDamageCooldown: 10
+  healPercent: 1
+  healPerTickPercent: 0.1

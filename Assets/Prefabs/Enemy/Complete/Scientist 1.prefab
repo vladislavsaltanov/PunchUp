@@ -169,7 +169,7 @@ MonoBehaviour:
     speed: 2
     attackPower: 1
     defense: 0
-    maxHealth: 100
+    maxHealth: 15
     healthRegenRate: 0
     critChance: 0
     critMultiplier: 1.5
@@ -181,7 +181,6 @@ MonoBehaviour:
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 8246746951798561985}
-  maxHealth: 8
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
   specialAbility: {fileID: 0}
@@ -265,6 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 6020674113196865468}
+  effectSlotManager: {fileID: 0}
 --- !u!114 &3196997662404516153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,8 +365,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
   dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
-  itemPickupPrefab: {fileID: 6817681461486860093, guid: 3a0103492da21864d935f8401497dbe2, type: 3}
-  dropChance: 1
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.5
 --- !u!1 &8559998504225684287
 GameObject:
   m_ObjectHideFlags: 0
