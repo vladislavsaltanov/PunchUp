@@ -154,11 +154,8 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // Óáèâàåì èãðîêà "ëåãàëüíûì" ïóòåì, ÷òîáû îòðàáîòàë OnDeath().
-        // cause âàæíî: PlayerController.OnDeath() ïðî÷èòàåò lastDamageCause = "surrender".
-        player.TakeDamage(ushort.MaxValue, null, "âîò òàê âîò ïîëó÷èëîñü");
+        player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
 
-        // Íà âñÿêèé ñëó÷àé äàåì êàäð, ÷òîáû OnDeath óñïåë ñòàðòîâàòü EndRun.
         await Awaitable.NextFrameAsync();
     }
 
