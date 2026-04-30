@@ -246,11 +246,11 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-  - m_Index: 2175
+  - m_Index: 2176
     m_Metrics:
-      m_Width: 57
+      m_Width: 61
       m_Height: 94
-      m_HorizontalBearingX: 4
+      m_HorizontalBearingX: 0
       m_HorizontalBearingY: 72
       m_HorizontalAdvance: 61
     m_GlyphRect:
