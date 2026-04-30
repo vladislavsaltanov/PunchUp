@@ -34,7 +34,7 @@ public class TurretBullet : MonoBehaviour
         }
 
         var entity = other.GetComponentInParent<BaseEntity>();
-        if (entity == null || entity == owner) return;
+        if (entity == null || entity == owner || !entity._name.Equals("Игрок")) return;
 
         entity.TakeDamage(damage, owner.transform, "турель");
         Destroy(gameObject);
