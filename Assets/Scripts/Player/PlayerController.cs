@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,13 +27,11 @@ public class PlayerController : BaseEntity
 
     [SerializeField] private GameObject shopMenu;
     public bool isShopOpen;
-    private ShopKeeper currentShop;
-    private ShopItem[] currentItems;
     private bool movementPressed;
     #endregion
 
     [Header("GODMODE")]
-    [SerializeField] public bool GodModeBool;//Очень инетерсное решение сделанное без тз
+    [SerializeField] public bool GodModeBool;//РћС‡РµРЅСЊ РёРЅРµС‚РµСЂСЃРЅРѕРµ СЂРµС€РµРЅРёРµ СЃРґРµР»Р°РЅРЅРѕРµ Р±РµР· С‚Р·
     public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
 
     #region Cached
@@ -72,7 +70,7 @@ public class PlayerController : BaseEntity
 
         nearbyInteractables.Add(interactable);
 
-        // ������ prompt � �����������
+        // скрыть prompt у предыдущего
         if (nearbyInteractables.Count > 1)
             nearbyInteractables[^2].ShowPrompt(false);
 
@@ -87,7 +85,7 @@ public class PlayerController : BaseEntity
         interactable.ShowPrompt(false);
         nearbyInteractables.Remove(interactable);
 
-        // �������� prompt � ���������� � �������
+        // показать prompt у следующего в очереди
         if (nearbyInteractables.Count > 0)
             nearbyInteractables[^1].ShowPrompt(true);
     }
@@ -127,7 +125,7 @@ public class PlayerController : BaseEntity
 
         if (IsActionLocked) return;
 
-        // Если магазин открыт — обрабатываем только его логику
+        // Р•СЃР»Рё РјР°РіР°Р·РёРЅ РѕС‚РєСЂС‹С‚ вЂ” РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј С‚РѕР»СЊРєРѕ РµРіРѕ Р»РѕРіРёРєСѓ
         if (isShopOpen)
         {
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -216,13 +214,11 @@ public class PlayerController : BaseEntity
         else base.TakeDamage(amount,attacker,cause);
     }
     #endregion
+    //SHSHOP
 
-    public void OpenShop(ShopKeeper shop, ShopItem[] items)
+    public void OpenShop(ShopKeeper shop, ShopSlotRuntime[] slots)
     {
         isShopOpen = true;
-
-        currentShop = shop;
-        currentItems = items;
 
         shopMenu.SetActive(true);
         Time.timeScale = 0f;
@@ -231,7 +227,7 @@ public class PlayerController : BaseEntity
         Cursor.lockState = CursorLockMode.None;
 
         var shopUI = shopMenu.GetComponent<ShopUI>();
-        shopUI.Setup(shop, items, this);
+        shopUI.Setup(shop, slots, this);
     }
 
     public void CloseShop()

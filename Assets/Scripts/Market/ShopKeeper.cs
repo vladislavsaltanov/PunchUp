@@ -1,19 +1,38 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShopKeeper : MonoBehaviour, IInteractable
 {
-    [SerializeField] private ShopItem[] shopItems;
+    [SerializeField] private EntityItemDropConfig dropConfig;
+    [SerializeField] private GameObject itemPickupPrefab;
+    [SerializeField] private int shopSize = 3;
     [SerializeField] private GameObject promptUI;
+
+    private ShopSlotRuntime[] currentSlots;
 
     private void Awake()
     {
         if (promptUI != null)
             promptUI.SetActive(false);
+
+        GenerateShop();
+    }
+
+    void GenerateShop()
+    {
+        currentSlots = new ShopSlotRuntime[shopSize];
+
+        for (int i = 0; i < shopSize; i++)
+        {
+            currentSlots[i] = new ShopSlotRuntime
+            {
+                item = dropConfig.Roll()
+            };
+        }
     }
 
     public void Interact(PlayerController player)
     {
-        player.OpenShop(this, shopItems);
+        player.OpenShop(this, currentSlots);
     }
 
     public void ShowPrompt(bool show)
@@ -22,30 +41,27 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             promptUI.SetActive(show);
     }
 
-    public void TryBuyItem(int index, PlayerController player)
+    public void TryBuyItem(int index)
     {
-        if (index < 0 || index >= shopItems.Length)
+        if (index < 0 || index >= currentSlots.Length)
             return;
 
-        var shopItem = shopItems[index];
-
-        if (shopItem.isSold)
+        var slot = currentSlots[index];
+        if (slot.item == null)
             return;
 
-        var inventory = player.GetComponent<Inventory>();
-        var wallet = player.GetComponent<PlayerWallet>();
-
-        if (inventory == null || wallet == null)
+        var wallet = PlayerWallet.Instance;
+        if (!wallet.TrySpend(slot.item.price))
             return;
 
-        if (!wallet.TrySpend(shopItem.price))
-            return;
+        Vector3 spawnPos = PlayerController.instance.transform.position + Vector3.up * 0.5f;
 
-        if (inventory.AddItem(shopItem.item))
-        {
-            shopItem.isSold = true;
-            player.RefreshShopUI();
-            UIManager.Instance?.ShowItemNotification(shopItem.item);
-        }
+        var go = Instantiate(itemPickupPrefab, spawnPos, Quaternion.identity);
+        go.GetComponent<ItemPickup>().Init(slot.item);
+
+        // Обновляем слот новым предметом
+        slot.item = dropConfig.Roll();
+
+        PlayerController.instance.RefreshShopUI();
     }
 }

@@ -407,10 +407,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e3fcf1ad7a519488490d3f0c55ce40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopKeeper
-  shopItems:
-  - {fileID: 11400000, guid: b6433f3a23f417041bb9ac7bf8684660, type: 2}
-  - {fileID: 11400000, guid: dc9f883ff5564ab40b0cc8a60bbe4693, type: 2}
-  - {fileID: 11400000, guid: f364a192d0774d247b1798c8c8b08cb2, type: 2}
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6817681461486860093, guid: 3a0103492da21864d935f8401497dbe2, type: 3}
+  shopSize: 3
   promptUI: {fileID: 6954418181147519732}
 --- !u!61 &1021043086011375267
 BoxCollider2D:

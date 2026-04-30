@@ -1,54 +1,66 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopUI : MonoBehaviour
 {
     [SerializeField] private Button[] itemButtons;
     [SerializeField] private Image[] itemIcons;
-    [SerializeField] private Text[] itemTexts;
-    [SerializeField] private Text[] priceTexts;
+    [SerializeField] private TMP_Text[] itemNames;
+    [SerializeField] private TMP_Text[] priceTexts;
+    [SerializeField] private Image[] rarityFrames;
 
     private ShopKeeper currentShop;
-    private ShopItem[] currentItems;
-    private PlayerController currentPlayer;
+    private ShopSlotRuntime[] currentSlots;
 
-    public void Setup(ShopKeeper shop, ShopItem[] items, PlayerController player)
+    public void Setup(ShopKeeper shop, ShopSlotRuntime[] slots, PlayerController player)
     {
         currentShop = shop;
-        currentItems = items;
-        currentPlayer = player;
+        currentSlots = slots;
 
         Refresh();
     }
 
     public void Refresh()
     {
-        for (int i = 0; i < itemButtons.Length; i++)
+        int max = Mathf.Min(currentSlots.Length, itemButtons.Length);
+
+        for (int i = 0; i < max; i++)
         {
-            if (i >= currentItems.Length)
-                continue;
+            var item = currentSlots[i].item;
 
-            var shopItem = currentItems[i];
-
-            itemIcons[i].sprite = shopItem.item.icon;
-            priceTexts[i].text = shopItem.price.ToString();
             itemButtons[i].onClick.RemoveAllListeners();
-            if (shopItem.isSold)
-            {
-                itemTexts[i].text = shopItem.item.itemName + " (Sold)";
-                itemButtons[i].interactable = false;
-            }
-            else
-            {
-                int index = i;
-                itemTexts[i].text = shopItem.item.itemName;
-                itemButtons[i].interactable = true;
 
-                itemButtons[i].onClick.AddListener(() =>
-                {
-                    currentShop.TryBuyItem(index, currentPlayer);
-                });
+            if (item == null)
+            {
+                itemButtons[i].interactable = false;
+                continue;
             }
+
+            try
+            {
+                itemIcons[i].sprite = item.icon;
+                rarityFrames[i].color = GetRarityColor(item.rarity);
+            }
+            catch { }
+            itemNames[i].text = item.itemName;
+            priceTexts[i].text = item.price.ToString();
+
+            int index = i;
+            itemButtons[i].interactable = true;
+            itemButtons[i].onClick.AddListener(() =>
+            {
+                currentShop.TryBuyItem(index);
+            });
         }
     }
+
+    Color GetRarityColor(ItemRarity rarity) => rarity switch
+    {
+        ItemRarity.White => Color.white,
+        ItemRarity.Green => Color.green,
+        ItemRarity.Red => Color.red,
+        ItemRarity.Yellow => Color.yellow,
+        _ => Color.white
+    };
 }

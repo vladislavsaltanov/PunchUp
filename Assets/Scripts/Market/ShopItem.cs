@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Items/Shop item")]
-public class ShopItem :ScriptableObject
+[Serializable]
+public class ShopItem
 {
     public ItemData item;
     public int price;
-    [HideInInspector] public bool isSold;
+
+    [NonSerialized]
+    public bool isSold;
 }
