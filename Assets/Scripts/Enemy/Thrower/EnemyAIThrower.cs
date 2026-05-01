@@ -16,8 +16,7 @@ public class EnemyAIThrower : EnemyAI
     public float ledgeCheckDistance = 0.5f;
 
     [Header("Thrower: Throw")]
-    public float jumpBackForce = 4f;
-    public float jumpBackForceY = 5f;
+    public float jumpForce = 6f;
     public float flightTime = 1.2f;
     public float throwCooldown = 3f;
     public ushort vialDamage = 12;
@@ -73,20 +72,24 @@ public class EnemyAIThrower : EnemyAI
             ? (Vector2)entityCollider.bounds.center
             : (Vector2)transform.position;
         origin.y -= entityCollider != null ? entityCollider.bounds.extents.y : 0f;
-        IsGrounded = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundLayer).collider != null;
+        IsGrounded = Physics2D.Raycast(origin, Vector2.down, 0.3f, groundLayer).collider != null;
     }
 
     public bool CanSeePlayer()
     {
         if (Player == null) return false;
         float dist = Vector2.Distance(transform.position, Player.transform.position);
+
         if (dist > detectionRange) return false;
 
         float dy = Mathf.Abs(Player.transform.position.y - transform.position.y);
+
         if (dy > sameFloorThreshold) return false;
 
         Vector2 dir = ((Vector2)Player.transform.position - (Vector2)transform.position).normalized;
-        return Physics2D.Raycast(transform.position, dir, dist, losBlockerLayer).collider == null;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, losBlockerLayer);
+
+        return hit.collider == null;
     }
 
     public bool IsPlayerTooClose()
@@ -135,10 +138,9 @@ public class EnemyAIThrower : EnemyAI
         LastThrowTime = Time.time;
     }
 
-    public void JumpBack()
+    public void Jump()
     {
-        float jumpDir = -direction;
-        rb.linearVelocity = new Vector2(jumpDir * jumpBackForce, jumpBackForceY);
+        rb.linearVelocity = new Vector2(0f, jumpForce);
     }
 
     public void SetAnimation(ThrowerAnimState anim)

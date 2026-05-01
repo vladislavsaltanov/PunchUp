@@ -3,7 +3,7 @@
 public class ThrowerAggroState : IEnemyState
 {
     readonly EnemyAIThrower _thrower;
-    bool _jumpedBack;
+    bool _isJumping;
 
     public ThrowerAggroState(EnemyAIThrower thrower) => _thrower = thrower;
 
@@ -11,31 +11,39 @@ public class ThrowerAggroState : IEnemyState
     {
         _thrower.SetAnimation(EnemyAIThrower.ThrowerAnimState.Aggro);
         _thrower.rb.linearVelocityX = 0f;
-        _jumpedBack = false;
-
-        // прыгаем назад перед броском
-        if (_thrower.IsGrounded)
-        {
-            _thrower.JumpBack();
-            _jumpedBack = true;
-        }
+        _isJumping = false;
+        if (Time.time - _thrower.LastThrowTime > _thrower.throwCooldown)
+            _thrower.LastThrowTime = Time.time - _thrower.throwCooldown;
     }
 
     public void Update()
     {
         if (!_thrower.CanSeePlayer()) { _thrower.GoToPatrol(); return; }
-        if (_thrower.IsPlayerTooClose()) { _thrower.GoToFlee(); return; }
 
-        // смотрим на игрока
-        if (_thrower.Player != null)
+        FacePlayer();
+
+        if (_isJumping)
         {
-            float dx = _thrower.Player.transform.position.x - _thrower.transform.position.x;
-            _thrower.direction = (sbyte)Mathf.Sign(dx);
+            if (_thrower.IsGrounded && _thrower.rb.linearVelocityY <= 0f)
+                _isJumping = false;
+            return;
         }
 
-        // бросаем если приземлились и кулдаун прошёл
-        if (_thrower.IsGrounded && Time.time >= _thrower.LastThrowTime + _thrower.throwCooldown)
+        if (!_thrower.IsGrounded) return;
+
+        if (Time.time >= _thrower.LastThrowTime + _thrower.throwCooldown)
+        {
+            _thrower.Jump();
+            _isJumping = true;
             _thrower.Throw();
+        }
+    }
+
+    void FacePlayer()
+    {
+        if (_thrower.Player == null) return;
+        float dx = _thrower.Player.transform.position.x - _thrower.transform.position.x;
+        _thrower.direction = (sbyte)Mathf.Sign(dx);
     }
 
     public void Exit() { }

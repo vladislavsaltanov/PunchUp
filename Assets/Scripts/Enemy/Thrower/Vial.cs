@@ -8,11 +8,8 @@ public class Vial : MonoBehaviour
     [SerializeField] LayerMask targetLayer;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float lifetime = 5f;
-    [SerializeField] Texture2D debrisTexture;
 
-    Rigidbody2D rb;
-
-    void Awake() => rb = GetComponent<Rigidbody2D>();
+    [SerializeField] Rigidbody2D rb;
 
     public void Init(Vector2 velocity, ushort dmg, BaseEntity own)
     {
@@ -20,6 +17,7 @@ public class Vial : MonoBehaviour
         owner = own;
         rb.linearVelocity = velocity;
         Destroy(gameObject, lifetime);
+        rb.angularVelocity = Random.Range(-300f, 300f);
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -31,17 +29,22 @@ public class Vial : MonoBehaviour
             return;
         }
 
-        var entity = col.collider.GetComponentInParent<BaseEntity>();
-        if (entity == null || entity == owner) return;
+        try
+        {
+            var entity = col.collider.GetComponentInParent<BaseEntity>();
+            if (entity == null || entity == owner) return;
 
-        entity.TakeDamage(damage, owner?.transform, "пробирка");
-        SpawnDebris(transform.position);
-        Destroy(gameObject);
+            entity.TakeDamage(damage, owner?.transform, owner._name);
+        }
+        catch
+        {
+            SpawnDebris(transform.position);
+            Destroy(gameObject);
+        }
     }
 
     void SpawnDebris(Vector3 position)
     {
-        if (debrisTexture != null)
-            VisualEffectsManager.SpawnDebris(debrisTexture, position);
+        VisualEffectsManager.SpawnDebris(owner.spriteRenderer.sprite.texture, position, 5, 0.5f);
     }
 }
