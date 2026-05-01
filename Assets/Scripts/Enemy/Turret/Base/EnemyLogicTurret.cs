@@ -156,7 +156,7 @@ public class EnemyLogicTurret : EnemyLogic
         if (bulletPrefab == null || muzzlePoint == null) return;
 
         var go = Instantiate(bulletPrefab, muzzlePoint.position, Quaternion.identity);
-        var bullet = go.GetComponent<TurretBullet>();
+        var bullet = go.GetComponent<Bullet>();
         if (bullet != null)
             bullet.Init(direction, bulletSpeed, bulletDamage, this);
     }
