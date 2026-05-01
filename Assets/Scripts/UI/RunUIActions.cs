@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RunUIActions : MonoBehaviour
 {
@@ -8,6 +8,11 @@ public class RunUIActions : MonoBehaviour
             
 */
         RunManager.Instance.StartRun();
+    }
+
+    public void OpenSettings()
+    {
+        SettingsManager.Instance.Open();
     }
 
     public void RestartRun()
