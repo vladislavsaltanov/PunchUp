@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class PlayerWallet : MonoBehaviour
@@ -33,8 +33,6 @@ public class PlayerWallet : MonoBehaviour
 
         Gold += amount;
         OnGoldChanged?.Invoke(Gold);
-
-        Debug.Log("Gold added. Current: " + Gold);
     }
 
     public bool TrySpend(int amount)
