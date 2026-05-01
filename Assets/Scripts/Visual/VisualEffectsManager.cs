@@ -6,7 +6,7 @@ public class VisualEffectsManager : MonoBehaviour
     private static GameObject _cachedPrefab;
     private static readonly int TexturePropID = Shader.PropertyToID("_MainTex");
 
-    public static void SpawnDebris(Texture2D texture, Vector3 position, short amount = 20)
+    public static void SpawnDebris(Texture2D texture, Vector3 position, short amount = 20, float scale = 1f)
     {
         if (_cachedPrefab == null)
         {
@@ -26,6 +26,12 @@ public class VisualEffectsManager : MonoBehaviour
         var emission = ps.emission;
         var burst = new ParticleSystem.Burst(0f, amount);
         emission.SetBursts(new ParticleSystem.Burst[] { burst });
+
+        var main = ps.main;
+        var startSize = main.startSize;
+        startSize.constantMin *= scale;
+        startSize.constantMax *= scale;
+        main.startSize = startSize;
 
         MaterialPropertyBlock block = new MaterialPropertyBlock();
         block.SetTexture(TexturePropID, texture);
