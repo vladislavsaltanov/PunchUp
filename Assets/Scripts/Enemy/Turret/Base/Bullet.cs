@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 
-public class TurretBullet : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
     float speed;
     ushort damage;
     BaseEntity owner;
     int direction;
+    string _name;
 
     [SerializeField] LayerMask targetLayer;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float lifetime = 5f;
+
+    Rigidbody2D rb;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     public void Init(int dir, float spd, ushort dmg, BaseEntity own)
     {
@@ -17,12 +25,12 @@ public class TurretBullet : MonoBehaviour
         speed = spd;
         damage = dmg;
         owner = own;
-        Destroy(gameObject, lifetime);
-    }
+        _name = own._name;
 
-    void Update()
-    {
-        transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        if (rb != null)
+            rb.linearVelocity = Vector2.right * direction * speed;
+
+        Destroy(gameObject, lifetime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -35,8 +43,9 @@ public class TurretBullet : MonoBehaviour
 
         var entity = other.GetComponentInParent<BaseEntity>();
         if (entity == null || entity == owner) return;
+        if (!entity._name.Equals("Игрок")) return;
 
-        entity.TakeDamage(damage, owner.transform, "турель");
+        entity.TakeDamage(damage, owner?.transform, _name);
         Destroy(gameObject);
     }
 }
