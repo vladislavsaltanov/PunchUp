@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RunUIActions : MonoBehaviour
 {
+    private void Start()
+    {
+        FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("UI");
+    }
+
     public void StartRun()
     {
 /*        if (PlayerPrefs.GetInt("tutorial_passsed", 0) == 0)

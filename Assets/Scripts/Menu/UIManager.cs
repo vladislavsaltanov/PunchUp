@@ -103,6 +103,9 @@ public class UIManager : MonoBehaviour
         if (pauseMenu != null)
             pauseMenu.SetActive(isPaused);
 
+        if (InputManager.Instance != null)
+            InputManager.Instance.SwitchScenario(isPaused ? 1 : 0);
+
         if (!isPaused)
         {
             Cursor.visible = false;
@@ -161,9 +164,17 @@ public class UIManager : MonoBehaviour
         await Awaitable.NextFrameAsync();
     }
 
-    public void OpenSettings() => SettingsManager.Instance.Open();
-    public void CloseSettings() => SettingsManager.Instance.Close();
+    public void OpenSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(1);
+        SettingsManager.Instance.Open();
+    }
 
+    public void CloseSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(0);
+        SettingsManager.Instance.Close();
+    }
     public void Exit()
     {
         PlayerPrefs.Save();

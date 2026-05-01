@@ -46,6 +46,7 @@ public class PlayerController : BaseEntity
 
     void Start()
     {
+        FindFirstObjectByType<PlayerInput>().SwitchCurrentActionMap("Game");
         Time.timeScale = 1f;
         inputManager = InputManager.Instance;
 
