@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -92,6 +92,8 @@ public class UIManager : MonoBehaviour
 
     public void SwitchPause()
     {
+        CloseSettings();
+
         if (RunManager.Instance != null && !RunManager.Instance.IsRunActive)
             return;
 
@@ -158,6 +160,9 @@ public class UIManager : MonoBehaviour
 
         await Awaitable.NextFrameAsync();
     }
+
+    public void OpenSettings() => SettingsManager.Instance.Open();
+    public void CloseSettings() => SettingsManager.Instance.Close();
 
     public void Exit()
     {
