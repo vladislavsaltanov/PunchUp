@@ -61,11 +61,11 @@ public class SettingsManager : MonoBehaviour
         }
 
         vsyncToggle.onValueChanged.AddListener(val => {
-            Data.vsync = val; ApplyVideoSettings(); Save();
+            Data.vsync = val; ApplyVideoSettings();
         });
         fullscreenToggle.onValueChanged.AddListener(val => {
             Data.isFullscreen = val;
-            ApplyVideoSettings(); Save();
+            ApplyVideoSettings();
         });
 
         if (fpsDropdown != null)
@@ -81,7 +81,6 @@ public class SettingsManager : MonoBehaviour
                 else
                     Data.fpsCap = 0;
                 ApplyVideoSettings();
-                Save();
             });
         }
 
@@ -220,6 +219,7 @@ currentResolutionIndex;
 
     public void Open()
     {
+        ApplySettingsToUI();
         if (settingsScreen != null) settingsScreen.SetActive(true);
     }
 
@@ -228,6 +228,8 @@ currentResolutionIndex;
         Load();
         ApplyAllSettings();
 
+        resolutionDropdown.value = Data.resolutionIndex;
+         
         SetVolume(VolumeSetting.MainVolume, Data.masterVolume);
         SetVolume(VolumeSetting.MusicVolume, Data.musicVolume);
         SetVolume(VolumeSetting.SFXVolume, Data.sfxVolume);
