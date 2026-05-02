@@ -15,7 +15,7 @@ MonoBehaviour:
   effectName: "\u0412\u0430\u043C\u043F\u0438\u0440"
   description: "\u041A\u0443\u0441\u044C. \u0418 \u0442\u0435\u0431\u0435 \u043B\u0443\u0447\u0448\u0435,
     \u0438 \u043C\u043D\u0435."
-  icon: {fileID: 0}
+  icon: {fileID: -347728147373902237, guid: f8927cf0602005b409585bcafbec0755, type: 3}
   duration: 5
   chance: 0.3
   healPercent: 0.1
