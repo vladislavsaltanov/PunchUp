@@ -1,20 +1,47 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
     #region Singleton
     static public InputManager Instance { get; private set; }
-    private void Awake() =>
+    private void Awake()
+    {
         Instance = this;
+    }
     #endregion
 
     #region Action Scenario
-    enum ActionScenario { Game, UI }
-    [SerializeField] ActionScenario actionScenario;
-    public void SwitchScenario(int i) =>
-        actionScenario = (ActionScenario) i;
-    #endregion
+    public enum ActionScenario { Game, UI }
+    public ActionScenario CurrentScenario { get; private set; } = ActionScenario.Game;
 
-    public InputActionReference moveAction, attackAction, dashAction, specialAbilityAction, interactAction, jumpAction, pauseAction, inventoryAction;
+    private PlayerInput _playerInput;
+
+    public void RegisterPlayer(PlayerInput input)
+    {
+        _playerInput = input;
+    }
+
+    public void UnregisterPlayer()
+    {
+        _playerInput = null;
+    }
+
+    public void SwitchScenario(ActionScenario scenario)
+    {
+        CurrentScenario = scenario;
+        
+        if (_playerInput != null)
+        {
+            string mapName = (scenario == ActionScenario.UI) ? "UI" : "Game";
+            _playerInput.SwitchCurrentActionMap(mapName);
+        }
+    }
+
+    public InputAction GetAction(string actionName)
+    {
+        if (_playerInput == null) return null;
+        return _playerInput.actions.FindAction(actionName);
+    }
+    #endregion
 }

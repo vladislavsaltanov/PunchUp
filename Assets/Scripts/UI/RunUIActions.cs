@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RunUIActions : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class RunUIActions : MonoBehaviour
             
 */
         RunManager.Instance.StartRun();
+    }
+
+    public void OpenSettings()
+    {
+        SettingsManager.Instance.Open();
     }
 
     public void RestartRun()

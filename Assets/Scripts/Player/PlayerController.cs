@@ -31,7 +31,7 @@ public class PlayerController : BaseEntity
     #endregion
 
     [Header("GODMODE")]
-    [SerializeField] public bool GodModeBool;//РћС‡РµРЅСЊ РёРЅРµС‚РµСЂСЃРЅРѕРµ СЂРµС€РµРЅРёРµ СЃРґРµР»Р°РЅРЅРѕРµ Р±РµР· С‚Р·
+    [SerializeField] public bool GodModeBool;
     public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
 
     #region Cached
@@ -48,13 +48,14 @@ public class PlayerController : BaseEntity
     {
         Time.timeScale = 1f;
         inputManager = InputManager.Instance;
+        inputManager.RegisterPlayer(GetComponent<PlayerInput>());
 
         if (inputManager != null)
         {
-            inputManager.attackAction.action.performed += OnAttack;
-            inputManager.specialAbilityAction.action.performed += OnAbility;
-            inputManager.interactAction.action.performed += OnInteract;
-            inputManager.moveAction.action.performed += OnMovePerformed;
+            inputManager.GetAction("Attack").performed += OnAttack;
+            inputManager.GetAction("SpecialAbility").performed += OnAbility;
+            inputManager.GetAction("Interact").performed += OnInteract;
+            inputManager.GetAction("Move").performed += OnMovePerformed;
         }
 
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
@@ -104,9 +105,9 @@ public class PlayerController : BaseEntity
 
         if (inputManager != null)
         {
-            inputManager.attackAction.action.performed -= OnAttack;
-            inputManager.specialAbilityAction.action.performed -= OnAbility;
-            inputManager.moveAction.action.performed -= OnMovePerformed;
+            inputManager.GetAction("Attack").performed -= OnAttack;
+            inputManager.GetAction("SpecialAbility").performed -= OnAbility;
+            inputManager.GetAction("Move").performed -= OnMovePerformed;
         }
 
         if (groundedHandler != null)
@@ -114,7 +115,7 @@ public class PlayerController : BaseEntity
             groundedHandler.hasGrounded -= hasGroundedEventHandler;
         }
 
-        inputManager.interactAction.action.performed -= OnInteract;
+        inputManager.GetAction("Interact").performed -= OnInteract;
     }
 
     void Update()
@@ -125,7 +126,6 @@ public class PlayerController : BaseEntity
 
         if (IsActionLocked) return;
 
-        // Р•СЃР»Рё РјР°РіР°Р·РёРЅ РѕС‚РєСЂС‹С‚ вЂ” РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј С‚РѕР»СЊРєРѕ РµРіРѕ Р»РѕРіРёРєСѓ
         if (isShopOpen)
         {
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -149,7 +149,7 @@ public class PlayerController : BaseEntity
     {
         if (inputManager == null) return;
 
-        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+        float inputX = inputManager.GetAction("Move").ReadValue<Vector2>().x;
 
         if (Mathf.Abs(inputX) > 0.1f)
         {
@@ -253,7 +253,7 @@ public class PlayerController : BaseEntity
     {
         if (inputManager == null) return false;
 
-        Vector2 moveInput = inputManager.moveAction.action.ReadValue<Vector2>();
+        Vector2 moveInput = inputManager.GetAction("Move").ReadValue<Vector2>();
         return moveInput != Vector2.zero;
     }
 

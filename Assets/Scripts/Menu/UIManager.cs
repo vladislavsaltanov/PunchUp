@@ -1,6 +1,7 @@
-using System.Threading;
+﻿using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
     [SerializeField] TMP_Text gameVersionText;
+    [SerializeField] GameObject uiFocusGameobject;
 
     CancellationTokenSource notificationCts;
 
@@ -50,7 +52,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed += OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered += OnPauseButtonPressed;
     }
     public void ShowItemNotification(ItemData item)
     {
@@ -85,13 +87,16 @@ public class UIManager : MonoBehaviour
         notificationCts = null;
     }
 
-    private void OnPauseButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void OnPauseButtonPressed(InputAction.CallbackContext context)
     {
-        SwitchPause();
+        if (context.action.name == "Pause" && context.performed)
+            SwitchPause();
     }
 
     public void SwitchPause()
     {
+        CloseSettings();
+
         if (RunManager.Instance != null && !RunManager.Instance.IsRunActive)
             return;
 
@@ -100,6 +105,9 @@ public class UIManager : MonoBehaviour
 
         if (pauseMenu != null)
             pauseMenu.SetActive(isPaused);
+
+        if (InputManager.Instance != null)
+            InputManager.Instance.SwitchScenario(isPaused ? InputManager.ActionScenario.UI : InputManager.ActionScenario.Game);
 
         if (!isPaused)
         {
@@ -111,6 +119,15 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    // helper method for settings menu to retract attention to pause screen buttons
+    public void FocusUI()
+    {
+        if (uiFocusGameobject == null) return;
+
+        uiFocusGameobject.SetActive(false);
+        uiFocusGameobject.SetActive(true);
     }
 
     public void SwitchGodMode(bool value)
@@ -132,7 +149,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed -= OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered -= OnPauseButtonPressed;
     }
 
     public void SwitchScene(int id)
@@ -159,6 +176,17 @@ public class UIManager : MonoBehaviour
         await Awaitable.NextFrameAsync();
     }
 
+    public void OpenSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
+        SettingsManager.Instance.Open();
+    }
+
+    public void CloseSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
+        SettingsManager.Instance.Close();
+    }
     public void Exit()
     {
         PlayerPrefs.Save();
