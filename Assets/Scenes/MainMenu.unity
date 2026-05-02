@@ -4395,10 +4395,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1448742166}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1062591373}
+        m_TargetAssemblyTypeName: RunUIActions, Assembly-CSharp
+        m_MethodName: OpenSettings
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4407,10 +4407,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1062591373}
-        m_TargetAssemblyTypeName: RunUIActions, Assembly-CSharp
-        m_MethodName: OpenSettings
-        m_Mode: 1
+      - m_Target: {fileID: 1448742166}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5505,8 +5505,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1149492611}
+  - component: {fileID: 1149492612}
   m_Layer: 5
-  m_Name: Container
+  m_Name: SettingsScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5546,6 +5547,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1149492612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149492610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9068e406304d370439dde285a40da2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsUI
+  mainVolumeSlider: {fileID: 1429730883}
+  musicVolumeSlider: {fileID: 2041524233}
+  sfxVolumeSlider: {fileID: 1798168734}
+  vsyncToggle: {fileID: 1525657349}
+  fullscreenToggle: {fileID: 2016290319}
+  resolutionDropdown: {fileID: 1402434989}
+  fpsDropdown: {fileID: 276728074}
+  bloomToggle: {fileID: 63696942}
+  chromaticToggle: {fileID: 862860050}
+  lensDistortionToggle: {fileID: 1057109488}
 --- !u!1 &1156490885
 GameObject:
   m_ObjectHideFlags: 0
@@ -6303,58 +6326,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246594129}
   m_CullTransparentMesh: 1
---- !u!1 &1247598324
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1247598325}
-  - component: {fileID: 1247598326}
-  m_Layer: 0
-  m_Name: UIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1247598325
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247598324}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1247598326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247598324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d281956c118a4b043b2f10586e781449, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MenuManager
-  pauseMenu: {fileID: 0}
-  notificationPanel: {fileID: 0}
-  notificationTitle: {fileID: 0}
-  notificationDesc: {fileID: 0}
-  notificationDuration: 3
-  gameVersionText: {fileID: 304380991}
-  uiFocusGameobject: {fileID: 0}
-  godmode: 0
 --- !u!1 &1272085641
 GameObject:
   m_ObjectHideFlags: 0
@@ -10657,6 +10628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4948add7176f8f346a759b2405d88c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
+  _playerPrefab: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+  _mainMenuSceneName: MainMenu
 --- !u!4 &1904016613
 Transform:
   m_ObjectHideFlags: 0
@@ -11306,7 +11279,7 @@ GameObject:
   - component: {fileID: 2068252493}
   - component: {fileID: 2068252496}
   m_Layer: 5
-  m_Name: SettingsScreen
+  m_Name: SettingsScreenUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11407,18 +11380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb27a2a80ef52d84ba00af849048cb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
-  globalVolume: {fileID: 2090215065}
-  bloomToggle: {fileID: 63696942}
-  chromaticToggle: {fileID: 862860050}
-  lensDistortionToggle: {fileID: 1057109488}
-  vsyncToggle: {fileID: 1525657349}
-  fullscreenToggle: {fileID: 2016290319}
-  mainVolumeSlider: {fileID: 1429730883}
-  musicVolumeSlider: {fileID: 2041524233}
-  sfxVolumeSlider: {fileID: 1798168734}
-  resolutionDropdown: {fileID: 1402434989}
-  fpsDropdown: {fileID: 276728074}
-  settingsScreen: {fileID: 1149492610}
   Data:
     masterVolume: 1
     musicVolume: 0.8
@@ -11804,17 +11765,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39f7c41f52670d64097971cd6b81ee95, type: 3}
---- !u!114 &2090215065 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7708179673421371505, guid: 39f7c41f52670d64097971cd6b81ee95, type: 3}
-  m_PrefabInstance: {fileID: 2090215064}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
 --- !u!1 &2115763278
 GameObject:
   m_ObjectHideFlags: 0
@@ -11940,7 +11890,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1247598326}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SwitchGodMode
         m_Mode: 0
@@ -12096,7 +12046,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1247598326}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Exit
         m_Mode: 1
@@ -12640,8 +12590,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1247598326}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1062591373}
+        m_TargetAssemblyTypeName: RunUIActions, Assembly-CSharp
         m_MethodName: SwitchScene
         m_Mode: 3
         m_Arguments:
@@ -12730,7 +12680,6 @@ SceneRoots:
   - {fileID: 411344516}
   - {fileID: 1833182655}
   - {fileID: 1448742170}
-  - {fileID: 1247598325}
   - {fileID: 291138950}
   - {fileID: 1570105715}
   - {fileID: 1904016613}

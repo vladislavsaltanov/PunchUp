@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -36,7 +36,7 @@ public class FloorManager : MonoBehaviour
     void Start()
     {
         cameraBounds = GameObject.FindGameObjectWithTag("CameraBounds").transform;
-        StartGenerating();
+        _ = StartGenerating();
     }
 
     // Update is called once per frame
@@ -72,7 +72,7 @@ public class FloorManager : MonoBehaviour
         }
     }
 
-    void StartGenerating()
+    async Awaitable StartGenerating()
     {
         _roomPrefabs = new List<GameObject>(roomPrefabs);
         EnterInd = Random.Range(0, 3);
@@ -97,7 +97,19 @@ public class FloorManager : MonoBehaviour
         Vector2 playerSpawnPosition = currentRooms[EnterInd].GetComponent<RoomManager>().InitializeElevator(0);
         currentRooms[ExitInd].GetComponent<RoomManager>().InitializeElevator(1);
 
-        CameraManager.Instance.SetTrackingTarget(Instantiate(playerObject, playerSpawnPosition, Quaternion.identity).transform);
+        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();
+
+        if (PlayerController.instance == null)
+            await Awaitable.WaitForSecondsAsync(0.1f);
+
+        playerObject = PlayerController.instance.gameObject;
+        playerObject.transform.position = playerSpawnPosition;
+        
+        CameraManager.Instance.SetTrackingTarget(playerObject.transform);
 
         //Ñïàâí "Áëîêîâ" íà ãðàíèöàõ óðîâíÿ
         for (int i = 0; i < 24; i++)

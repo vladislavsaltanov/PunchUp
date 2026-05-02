@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -26,7 +26,7 @@ public class CameraManager : MonoBehaviour
     private float zoomProgress;
     private float currentZoomDuration;
     private Coroutine zoomCoroutine;
-    public GameObject player;
+    public GameObject player; 
 
     private void Awake()
     {
@@ -213,6 +213,9 @@ public class CameraManager : MonoBehaviour
 
     public void UpdateAllCameras()
     {
+        // if current scene's name is MainMenu, don't update cameras
+        if (SceneManager.GetActiveScene().name == "MainMenu") return;
+
         CinemachineCamera[] cameras = GameObject.Find("Cameras").GetComponentsInChildren<CinemachineCamera>();
         allCameras.Clear();
         foreach (var cam in cameras)

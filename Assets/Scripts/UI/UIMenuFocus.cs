@@ -8,10 +8,12 @@ public class UIMenuFocus : MonoBehaviour
     private async void OnEnable()
     {
         SimpleSelectionFrame.ResetParent();
+        
+        // Ensure EventSystem is ready and clear old selection
         if (EventSystem.current == null) return;
-
         EventSystem.current.SetSelectedGameObject(null);
 
+        // Wait for the end of frame to ensure UI layout is updated and EventSystem is stable
         await Awaitable.NextFrameAsync();
         await Awaitable.NextFrameAsync();
 
