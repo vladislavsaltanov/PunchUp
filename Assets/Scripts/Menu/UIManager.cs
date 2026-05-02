@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text notificationTitle;
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
-    [SerializeField] TMP_Text gameVersionText;
     [SerializeField] GameObject uiFocusGameobject;
 
     CancellationTokenSource notificationCts;
@@ -25,24 +25,19 @@ public class UIManager : MonoBehaviour
     public bool godmode = false;
     private void Awake()
     {
-        if (gameVersionText != null)
-            gameVersionText.text = Application.version;
+        if (Instance == null)
+            Instance = this;
     }
 
     private void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
-        {
+        { 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         } else
         {
-            Cursor.visible = true;
+            Cursor.visible = true; 
             Cursor.lockState = CursorLockMode.None;
         }
 

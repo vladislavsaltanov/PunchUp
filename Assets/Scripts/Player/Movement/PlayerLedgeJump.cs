@@ -275,9 +275,16 @@ public class PlayerLedgeClimb : MonoBehaviour
     {
         if (climbCts != null)
         {
-            climbCts.Cancel();
-            climbCts.Dispose();
-            climbCts = null;
+            try
+            {
+                climbCts?.Cancel();
+                climbCts?.Dispose();
+                climbCts = null;
+            }
+            finally
+            {
+                climbCts = null;
+            }
         }
 
         controller.ClearVelocityOverride();

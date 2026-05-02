@@ -10,7 +10,16 @@ public class RunUIActions : MonoBehaviour
 */
         RunManager.Instance.StartRun();
     }
-
+    public void Exit()
+    {
+        PlayerPrefs.Save();
+        Application.Quit();
+    }
+    public void SwitchScene(int id)
+    {
+        Time.timeScale = 1f;
+        SceneTransitionManager.SwitchScene(id, 1.5f);
+    }
     public void OpenSettings()
     {
         SettingsManager.Instance.Open();
