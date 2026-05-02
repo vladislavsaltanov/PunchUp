@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler
+public class ItemSlot : Selectable, ISubmitHandler, IPointerClickHandler
 {
     public string itemName;
     public int quantity;
@@ -26,12 +26,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public GameObject selectedShader;
     public bool thisItemSelected;
 
-    private InventoryManager inventoryManager;
-
-    void Start()
-    {
-        inventoryManager = GameObject.Find("InventoryMenu").GetComponent<InventoryManager>();
-    }
+    [SerializeField] InventoryManager inventoryManager;
 
     public void AddItem(ItemData item)
     {
@@ -57,7 +52,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             OnLeftClick();
         }
     }
+    public void OnSubmit(BaseEventData eventData)
+    {
+        if (string.IsNullOrEmpty(itemName)) return;
 
+        OnLeftClick();
+    }
     public void OnLeftClick()
     {
         inventoryManager.DeselectAllSlots();
