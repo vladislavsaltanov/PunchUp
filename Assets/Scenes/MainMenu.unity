@@ -3935,9 +3935,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 735908041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e9761213cd9cde4a956e69e4672828e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0256167a2d0a4d0419c7d39dcc605168, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GamepadScrollHandler
+  m_EditorClassIdentifier: Assembly-CSharp::UIAutoScroll
 --- !u!1 &774518837
 GameObject:
   m_ObjectHideFlags: 0
@@ -10833,6 +10833,7 @@ GameObject:
   - component: {fileID: 1983596903}
   - component: {fileID: 1983596902}
   - component: {fileID: 1983596901}
+  - component: {fileID: 1983596904}
   m_Layer: 5
   m_Name: Template
   m_TagString: Untagged
@@ -10929,6 +10930,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983596899}
   m_CullTransparentMesh: 1
+--- !u!114 &1983596904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983596899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0256167a2d0a4d0419c7d39dcc605168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIAutoScroll
 --- !u!1 &1988565884
 GameObject:
   m_ObjectHideFlags: 0
