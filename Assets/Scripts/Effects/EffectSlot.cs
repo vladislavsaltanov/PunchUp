@@ -17,12 +17,12 @@ public class EffectSlot : MonoBehaviour
     {
         this.effectName = effect.effectName;
         this.description = effect.description;
-        this.effectSprite = effect.icon ?? defaultSprite;
+        this.effectSprite = effect.icon;
         this.isFull = true;
         this.duration = effect.duration;
 
         effectImageObject.SetActive(true);
-        effectImage.sprite = effectSprite;
+        effectImage.sprite = effectSprite ?? defaultSprite;
     }
 
     public void RemoveEffect()

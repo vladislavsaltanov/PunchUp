@@ -20,6 +20,8 @@ public class UIAutoScroll : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!SimpleSelectionFrame.ShowFrame) return;
+
         GameObject selected = EventSystem.current?.currentSelectedGameObject;
         if (selected == null) return;
 
