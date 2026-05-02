@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -30,13 +30,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        inventoryManager = GameObject.Find("InventoryMenu").GetComponent<InventoryManager>();
     }
 
     public void AddItem(ItemData item)
     {
         this.itemName = item.itemName;
-        this.quantity = inventory.GetStackCount(item);
+        this.quantity = 1;
         this.itemSprite = item.icon;
         this.description = item.description;
         isFull = true;
@@ -45,19 +45,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemImageObject.SetActive(true);
         quantityText.text = quantity.ToString();
         itemImage.sprite = itemSprite;
-        
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (string.IsNullOrEmpty(itemName)) return;
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnLeftClick();
-        }
-
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            OnRigthClick();
         }
     }
 
@@ -72,11 +69,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDescriptionImage.sprite = itemSprite;
     }
 
-    public void OnRigthClick()
-    {
-
-    }
-
     public void ClearSlot()
     {
         itemName = null;
@@ -84,5 +76,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         quantityTextObject.SetActive(false);
         itemImageObject.SetActive(false);
         isFull = false;
+    }
+
+    public void AddCount(int n)
+    {
+        this.quantity += n;
+        quantityText.text = quantity.ToString();
     }
 }

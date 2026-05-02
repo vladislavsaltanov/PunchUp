@@ -1,47 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
-    public GameObject inventoryCanvas;
     private bool isInventoryOpen;
     public ItemSlot[] itemSlot;
-    private InputAction toggleAction;
     [SerializeField] private Inventory inventory;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
-    {
-        // ������ �������� ����� � ����
-        toggleAction = new InputAction(
-            "ToggleInventory",
-            binding: "<Keyboard>/Tab",
-            interactions: "Press"
-        );
-    }
-
-    private void OnDisable()
-    {
-        toggleAction.Disable();
-        toggleAction.performed -= OnToggle;
-    }
-
-    private void OnToggle(InputAction.CallbackContext context)
-    {
-        ToggleInventory();
-    }
-
-    private void ToggleInventory()
-    {
-        Debug.Log("ToggleInventory");
-        isInventoryOpen = !isInventoryOpen;
-        inventoryCanvas.SetActive(isInventoryOpen);
-
-        Cursor.visible = isInventoryOpen;
-        Cursor.lockState = isInventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
-        Time.timeScale = isInventoryOpen ? 0f : 1f;
-        UpdateInventory();
-    }
+    [SerializeField] Sprite defaultSprite;
 
     void Start()
     {
@@ -64,12 +29,18 @@ public class InventoryManager : MonoBehaviour
 
         string itemName = item.itemName;
         string itemDescription = item.description;
-        Sprite itemSprite = item.icon;
+        Sprite itemSprite = item.icon ?? defaultSprite;
 
         //Debug.Log("ItemName = " + itemName + "Description = " + itemDescription + "itemSprite = " + itemSprite);
-        
+
         for (int i = 0; i < itemSlot.Length; i++)
         {
+            if (itemSlot[i].itemName == item.itemName)
+            {
+                itemSlot[i].AddCount(1);
+                return;
+            }
+
             if (!itemSlot[i].isFull)
             {
                 itemSlot[i].AddItem(item);
@@ -77,7 +48,71 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+    public void RemoveItem(ItemData item)
+    {
+        if (item == null) return;
 
+        bool slotCleared = false;
+
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].itemName == item.itemName)
+            {
+                itemSlot[i].AddCount(-1);
+
+                if (itemSlot[i].quantity <= 0)
+                {
+                    itemSlot[i].ClearSlot();
+                    slotCleared = true;
+                }
+                break; // Прерываем цикл, так как предмет найден
+            }
+        }
+
+        // Если слот полностью освободился, сдвигаем предметы, чтобы избежать пропусков
+        if (slotCleared)
+        {
+            ReorganizeSlots();
+        }
+    }
+
+    public void ReorganizeSlots()
+    {
+        // Собираем все текущие предметы и их количество
+        var activeItems = new System.Collections.Generic.List<(ItemData itemData, int quantity)>();
+
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].isFull)
+            {
+                // Находим оригинальный ItemData из основного инвентаря
+                ItemData data = inventory.items.Find(x => x.itemName == itemSlot[i].itemName);
+                if (data != null)
+                {
+                    activeItems.Add((data, itemSlot[i].quantity));
+                }
+            }
+        }
+
+        ClearAllSlots();
+
+        // Заполняем слоты заново подряд, перенося количество
+        int newIndex = 0;
+        foreach (var activeItem in activeItems)
+        {
+            if (newIndex < itemSlot.Length)
+            {
+                itemSlot[newIndex].AddItem(activeItem.itemData);
+
+                // AddItem обычно устанавливает quantity на 1, поэтому добавляем остаток
+                if (activeItem.quantity > 1)
+                {
+                    itemSlot[newIndex].AddCount(activeItem.quantity - 1);
+                }
+                newIndex++;
+            }
+        }
+    }
     public void DeselectAllSlots()
     {
         for (int i = 0; i < itemSlot.Length; i++)

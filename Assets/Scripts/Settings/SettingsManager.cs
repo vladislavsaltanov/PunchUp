@@ -17,6 +17,7 @@ public class SettingsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Load();
+        ApplyAllSettings();
     }
     #endregion
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,6 @@ public class EntityEffectsSystem : MonoBehaviour
     public IReadOnlyDictionary<EntityEffectData, ActiveEffect> ActiveEffects => activeEffects;
 
     [SerializeField] EffectSlotManager effectSlotManager;
-
     float _regenBuffer;
 
     void Awake()

@@ -5,7 +5,7 @@ public class Inventory : MonoBehaviour
 {
     public BaseEntity owner;
     [SerializeField] public List<ItemData> items = new();
-
+    [SerializeField] private InventoryManager inventoryManager;
     Dictionary<ItemData, int> stackCounts = new();
     Dictionary<ItemData, List<(StatType type, StatModifier mod)>> activeModifiers = new();
 
@@ -35,6 +35,7 @@ public class Inventory : MonoBehaviour
         }
 
         items.Add(item);
+        inventoryManager.AddItem(item);
         StatisticsHandler.Instance.statisticData.items_picked++;
         return true;
     }
@@ -73,7 +74,7 @@ public class Inventory : MonoBehaviour
                 owner.GetComponent<EntityEffectsSystem>().RemoveEffect(effectItem.effect);
             stackCounts.Remove(item);
         }
-
+        inventoryManager.RemoveItem(item);
         return true;
     }
 
