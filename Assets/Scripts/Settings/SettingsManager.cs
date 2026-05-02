@@ -237,6 +237,8 @@ currentResolutionIndex;
         ApplySettingsToUI();
         SetupFPSDropdown();
 
+        UIManager.Instance?.FocusUI();
+
         if (settingsScreen != null) settingsScreen.SetActive(false);
     }
 

@@ -6353,6 +6353,7 @@ MonoBehaviour:
   notificationDesc: {fileID: 0}
   notificationDuration: 3
   gameVersionText: {fileID: 304380991}
+  uiFocusGameobject: {fileID: 0}
   godmode: 0
 --- !u!1 &1272085641
 GameObject:

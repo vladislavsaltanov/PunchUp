@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
     [SerializeField] TMP_Text gameVersionText;
+    [SerializeField] GameObject uiFocusGameobject;
 
     CancellationTokenSource notificationCts;
 
@@ -118,6 +119,15 @@ public class UIManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    // helper method for settings menu to retract attention to pause screen buttons
+    public void FocusUI()
+    {
+        if (uiFocusGameobject == null) return;
+
+        uiFocusGameobject.SetActive(false);
+        uiFocusGameobject.SetActive(true);
     }
 
     public void SwitchGodMode(bool value)
