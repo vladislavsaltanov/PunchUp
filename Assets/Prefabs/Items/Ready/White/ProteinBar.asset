@@ -17,8 +17,9 @@ MonoBehaviour:
     \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F
     \u043D\u0430 5%. \u0411\u0430\u0442\u043E\u043D\u0447\u0438\u043A \u043E\u043A\u0430\u0437\u0430\u043B\u0441\u044F
     \u0432\u043A\u0443\u0441\u043D\u044B\u043C."
-  icon: {fileID: 0}
+  icon: {fileID: 7357118450888630499, guid: f8927cf0602005b409585bcafbec0755, type: 3}
   rarity: 0
+  price: 5
   modifiers:
   - statType: 0
     valueType: 1
