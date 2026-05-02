@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed += OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered += OnPauseButtonPressed;
     }
     public void ShowItemNotification(ItemData item)
     {
@@ -85,9 +86,10 @@ public class UIManager : MonoBehaviour
         notificationCts = null;
     }
 
-    private void OnPauseButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void OnPauseButtonPressed(InputAction.CallbackContext context)
     {
-        SwitchPause();
+        if (context.action.name == "Pause" && context.performed)
+            SwitchPause();
     }
 
     public void SwitchPause()
@@ -104,7 +106,7 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(isPaused);
 
         if (InputManager.Instance != null)
-            InputManager.Instance.SwitchScenario(isPaused ? 1 : 0);
+            InputManager.Instance.SwitchScenario(isPaused ? InputManager.ActionScenario.UI : InputManager.ActionScenario.Game);
 
         if (!isPaused)
         {
@@ -137,7 +139,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed -= OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered -= OnPauseButtonPressed;
     }
 
     public void SwitchScene(int id)
@@ -166,13 +168,13 @@ public class UIManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(1);
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
         SettingsManager.Instance.Open();
     }
 
     public void CloseSettings()
     {
-        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(0);
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
         SettingsManager.Instance.Close();
     }
     public void Exit()
