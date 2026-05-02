@@ -328,6 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 153704335}
   - component: {fileID: 153704336}
+  - component: {fileID: 153704337}
   m_Layer: 0
   m_Name: CameraBounds (7)
   m_TagString: CameraBounds
@@ -396,6 +397,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &153704337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153704334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: -60, y: 30, z: 0}
 --- !u!1 &155421956
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173404817}
   - component: {fileID: 173404816}
+  - component: {fileID: 173404818}
   m_Layer: 0
   m_Name: CameraBounds (2)
   m_TagString: CameraBounds
@@ -514,6 +529,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 155421957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &173404818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173404815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 0, y: -30, z: 0}
 --- !u!1 &242350612
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 242350613}
   - component: {fileID: 242350614}
+  - component: {fileID: 242350615}
   m_Layer: 0
   m_Name: CameraBounds (4)
   m_TagString: CameraBounds
@@ -592,6 +621,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &242350615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242350612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: -60, y: 0, z: 0}
 --- !u!1 &250313785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,6 +1696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 743636616}
   - component: {fileID: 743636617}
+  - component: {fileID: 743636618}
   m_Layer: 0
   m_Name: CameraBounds (8)
   m_TagString: CameraBounds
@@ -1722,6 +1765,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &743636618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743636615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 0, y: 30, z: 0}
 --- !u!1 &751635886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,6 +1788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 751635887}
   - component: {fileID: 751635888}
+  - component: {fileID: 751635889}
   m_Layer: 0
   m_Name: CameraBounds (6)
   m_TagString: CameraBounds
@@ -1800,6 +1857,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &751635889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751635886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 60, y: 0, z: 0}
 --- !u!1 &759896523
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,6 +2132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896310521}
   - component: {fileID: 896310522}
+  - component: {fileID: 896310523}
   m_Layer: 0
   m_Name: CameraBounds (5)
   m_TagString: CameraBounds
@@ -2130,6 +2201,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &896310523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896310520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 0, y: 0, z: 0}
 --- !u!1 &956495843
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,6 +2372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1075520628}
   - component: {fileID: 1075520629}
+  - component: {fileID: 1075520630}
   m_Layer: 0
   m_Name: CameraBounds (9)
   m_TagString: CameraBounds
@@ -2356,6 +2441,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1075520630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075520627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 60, y: 30, z: 0}
 --- !u!1 &1120629939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2680,6 +2778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1294424436}
   - component: {fileID: 1294424437}
+  - component: {fileID: 1294424438}
   m_Layer: 0
   m_Name: CameraBounds (3)
   m_TagString: CameraBounds
@@ -2748,6 +2847,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1294424438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294424435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: 60, y: -30, z: 0}
 --- !u!1 &1304359782
 GameObject:
   m_ObjectHideFlags: 0
@@ -3419,7 +3531,7 @@ Transform:
   m_GameObject: {fileID: 1628677912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -60, y: -30, z: -10}
+  m_LocalPosition: {x: 0, y: 30, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4412,6 +4524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9147322774861849509}
   - component: {fileID: 6409852346495559533}
+  - component: {fileID: 9147322774861849510}
   m_Layer: 0
   m_Name: CameraBounds (1)
   m_TagString: CameraBounds
@@ -4569,6 +4682,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 155421957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9147322774861849510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3232184269054660921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a3e11666821b740a8cf5d1cd956c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionFixer
+  desired: {x: -60, y: -30, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
