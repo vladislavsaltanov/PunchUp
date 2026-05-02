@@ -10855,6 +10855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4948add7176f8f346a759b2405d88c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
+  levelNameHandler: {fileID: 11400000, guid: c639cf49c3d472b45bcd349c53ea8d5a, type: 2}
   _playerPrefab: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
   _mainMenuSceneName: MainMenu
 --- !u!4 &1904016613
@@ -12817,18 +12818,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1062591373}
-        m_TargetAssemblyTypeName: RunUIActions, Assembly-CSharp
-        m_MethodName: SwitchScene
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &8507184854993014136
 RectTransform:
