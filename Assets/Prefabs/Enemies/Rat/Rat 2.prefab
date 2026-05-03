@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7004290848405879468}
   - component: {fileID: 3213660456086838815}
   - component: {fileID: 4132372756268133309}
+  - component: {fileID: -3127696970191218545}
   m_Layer: 8
   m_Name: Rat 2
   m_TagString: Enemy
@@ -142,6 +143,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-3127696970191218545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769681605450153020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: ab0ff595e86ecc34789ad07777c5efee, type: 2}
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.8
 --- !u!1 &5555306658535780387
 GameObject:
   m_ObjectHideFlags: 0

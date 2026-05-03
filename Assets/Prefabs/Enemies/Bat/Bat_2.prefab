@@ -409,6 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
-  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  dropConfig: {fileID: 11400000, guid: 3161218f62bb0ea4c92abf623e5d2349, type: 2}
   itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
   dropChance: 0.8
