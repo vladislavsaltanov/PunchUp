@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9614692ce221545a77a57c30d645af, type: 3}
+  m_Name: ContainerWithFood
+  m_EditorClassIdentifier: Assembly-CSharp::EffectItemData
+  itemName: "\u041A\u043E\u043D\u0442\u0435\u0439\u043D\u0435\u0440 \u0441 \u0435\u0434\u043E\u0439"
+  description: "\u041A\u0442\u043E-\u0442\u043E \u043E\u0441\u0442\u0430\u0432\u0438\u043B
+    \u043A\u043E\u043D\u0442\u0435\u0439\u043D\u0435\u0440 \u0441 \u0435\u0434\u043E\u0439.
+    \u041E\u043D \u043D\u0430\u043C \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u0441\u044F.
+    \u0412\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
+    10% \u043E\u0442 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F \u043F\u043E\u0441\u043B\u0435
+    10 \u0441\u0435\u043A\u0443\u043D\u0434 \u0431\u0435\u0437 \u0443\u0440\u043E\u043D\u0430."
+  icon: {fileID: 7012941748725796420, guid: f8927cf0602005b409585bcafbec0755, type: 3}
+  rarity: 1
+  price: 520
+  effect: {fileID: 11400000, guid: 0a3da1055d150a443a508c84d0c512a4, type: 2}

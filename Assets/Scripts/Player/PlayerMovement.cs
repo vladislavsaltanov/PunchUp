@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -24,19 +24,22 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
         float movementDirection;
 
-    
+    public void AddJump(byte amount = 1) => chars.maxJumps += amount;
+    public void RemoveJump(byte amount = 1) => chars.maxJumps = (byte)Mathf.Max(1, chars.maxJumps - amount);
 
     private void Start()
-    {
+    { 
         rb = PlayerController.instance.rb;
+        inputManager = InputManager.Instance;
+        inputManager.RegisterPlayer(GetComponent<PlayerInput>());
 
-        inputManager.jumpAction.action.performed += JumpAction;
+        inputManager.GetAction("Jump").performed += JumpAction;
         coyoteTimeTimerCurrent = chars.coyoteTime;
     }
 
     private void OnDestroy()
     {
-        inputManager.jumpAction.action.performed -= JumpAction;
+        inputManager.GetAction("Jump").performed -= JumpAction;
     }
 
     private void Update()
@@ -55,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector2 inputVector = inputManager.moveAction.action.ReadValue<Vector2>();
+        Vector2 inputVector = inputManager.GetAction("Move").ReadValue<Vector2>();
         movementDirection = inputVector.x == 0f ? 0 : inputVector.x > 0.15f ? 1 : -1;
 
         float targetSpeed = movementDirection * controller.Stats[StatType.Speed];

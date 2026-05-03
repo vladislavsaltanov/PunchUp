@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatItemData
   itemName: "\u0423\u0441\u0438\u043B\u0435\u043D\u043D\u044B\u0439 \u0443\u0440\u043E\u043D"
   description: "\u0414\u0430\u0435\u0442 +50% \u0443\u0440\u043E\u043D\u0430."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9b0a6bc822a2af5479e829d7a6d68a2a, type: 3}
   modifiers:
   - statType: 1
-    flat: 0
-    percent: 50
+    valueType: 0
+    value: 0
+    stackType: 0
+    coefficient: 0
