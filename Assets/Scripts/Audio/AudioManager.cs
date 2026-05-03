@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
 public class AudioManager : MonoBehaviour
@@ -34,6 +34,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference batAttackEvent;
     [SerializeField] private EventReference batIdleEvent;
 
+    [Header("Bus")]
+    private Bus masterBus;
+    private Bus SFXBus;
+    private Bus musicBus;
+
     private EventInstance backgroundMusicInstance;
     private int lastTrackIndex = -1;
     private bool isPlaylistRunning;
@@ -54,6 +59,10 @@ public class AudioManager : MonoBehaviour
             Debug.LogError("Больше одного AudioManager o_0");
         }
         Instance = this;
+
+        masterBus = RuntimeManager.GetBus("bus:/");
+        musicBus = RuntimeManager.GetBus("bus:/Music");
+        SFXBus = RuntimeManager.GetBus("bus:/SFX");
     }
 
     private void Start()
