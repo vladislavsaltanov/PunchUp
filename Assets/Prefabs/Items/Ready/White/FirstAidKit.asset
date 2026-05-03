@@ -22,5 +22,5 @@ MonoBehaviour:
     \u0443\u0440\u043E\u043D\u0430."
   icon: {fileID: 6099581493293703690, guid: 582eac6b44b9ae9428fe9f4297a4a1ea, type: 3}
   rarity: 0
-  price: 15
+  price: 340
   effect: {fileID: 11400000, guid: b5a41044ecf9c2840b514ec4914b976e, type: 2}

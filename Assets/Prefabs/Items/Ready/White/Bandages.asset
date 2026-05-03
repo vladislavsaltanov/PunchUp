@@ -18,7 +18,7 @@ MonoBehaviour:
     +8% \u043A \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044E."
   icon: {fileID: -5229125744465068697, guid: 183a9bb158c16af44ba347ef3e3d50b1, type: 3}
   rarity: 0
-  price: 12
+  price: 230
   modifiers:
   - statType: 3
     valueType: 1
