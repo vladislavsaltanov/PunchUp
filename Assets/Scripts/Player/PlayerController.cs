@@ -241,8 +241,11 @@ public class PlayerController : BaseEntity
         shopMenu.SetActive(false);
         Time.timeScale = 1f;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!UIManager.Instance.isPaused)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void RefreshShopUI()
