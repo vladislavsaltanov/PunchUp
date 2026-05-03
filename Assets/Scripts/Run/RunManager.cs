@@ -1,8 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public class RunManager : MonoBehaviour
 {
-    #region Singleton (i dont like this too trust me)
+    #region Singleton
     public static RunManager Instance { get; private set; }
     private void Awake()
     {
@@ -16,10 +19,69 @@ public class RunManager : MonoBehaviour
     }
     #endregion
 
+    [Header("Settings")]
+    [SerializeField] LevelNameHandler levelNameHandler;
+    [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private string _mainMenuSceneName = "MainMenu";
+
+    public PlayerController Player { get; private set; }
     public int CurrentFloor { get; private set; } = 1;
     public bool IsRunActive { get; private set; }
-
     public StatisticData LastResult { get; private set; }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == _mainMenuSceneName)
+        {
+            CleanupRun();
+            return;
+        }
+
+        ResetEventSystem();
+        BindCanvasesToCamera();
+
+        if (IsRunActive && Player == null)
+        {
+            SpawnPlayer();
+        }
+    }
+
+    private void BindCanvasesToCamera()
+    {
+        Camera mainCam = Camera.main;
+        if (mainCam == null) return;
+
+        Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+        foreach (var canvas in canvases)
+        {
+            if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
+            {
+                canvas.worldCamera = mainCam;
+            }
+        }
+    }
+
+    private void ResetEventSystem()
+    {
+        var es = EventSystem.current;
+        if (es != null)
+        {
+            Destroy(es.gameObject);
+        }
+
+        GameObject newEsGo = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+        DontDestroyOnLoad(newEsGo);
+    }
 
     public void StartRun()
     {
@@ -32,11 +94,21 @@ public class RunManager : MonoBehaviour
         {
             run_number = (uint)(PlayerPrefs.GetInt("totalRuns", 0))
         };
-
         s.StartTimer();
+
+        SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
-    public async Awaitable EndRun(string cause = "unknown")
+    private void SpawnPlayer()
+    {
+        if (Player != null) return;
+        
+        GameObject playerGo = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+        Player = playerGo.GetComponent<PlayerController>();
+        DontDestroyOnLoad(playerGo);
+    }
+
+    public async System.Threading.Tasks.ValueTask EndRun(string cause = "unknown")
     {
         if (!IsRunActive) return;
         IsRunActive = false;
@@ -49,7 +121,6 @@ public class RunManager : MonoBehaviour
         data.floor_of_death = (uint)CurrentFloor;
 
         LastResult = new StatisticData(data); 
-
         s.FinalSave();
         await EndScreenController.Instance.Show(cause != "end");
 
@@ -64,22 +135,43 @@ public class RunManager : MonoBehaviour
 
     public async void RestartRun()
     {
-        // NOTE: EndRun shows the end screen. For restart we typically don't want that.
-        // If you want a silent restart, consider adding an overload/flag to EndRun.
         if (IsRunActive)
             await EndRun("restart");
 
-        // Start a fresh run using the canonical path.
+        CleanupRun();
         StartRun();
-
-        SceneTransitionManager.Instance.ReloadCurrentScene();
+        SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
     public void OnFloorCleared()
     {
         StatisticsHandler.Instance.statisticData.floors_cleared++;
-        // perhaps saving data? 
-
         CurrentFloor++;
+
+        if (CurrentFloor % 5 == 0)
+            SceneTransitionManager.SwitchScene("BossFloor");
+        else
+            SceneTransitionManager.SwitchScene(GetRandomLevel());
+    }
+
+    public string GetRandomLevel()
+    {
+        if (levelNameHandler == null || levelNameHandler.levelNames.Length == 0)
+        {
+            Debug.LogError("LevelNameHandler is not set up correctly.");
+            return "MainMenu";
+        }
+
+        return levelNameHandler.levelNames[Random.Range(0, levelNameHandler.levelNames.Length)];
+    }
+
+    public void CleanupRun()
+    {
+        if (Player != null)
+        {
+            Destroy(Player.gameObject);
+            Player = null;
+        }
+        IsRunActive = false;
     }
 }

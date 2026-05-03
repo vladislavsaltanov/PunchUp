@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,13 +32,16 @@ public class SceneTransitionManager : MonoBehaviour
     public static void SwitchScene(int sceneIndex, float duration = 1f)
     {
         if (Instance != null)
-        {
             _ = Instance.TransitionRoutine(sceneIndex, duration);
-        }
         else
-        {
             SceneManager.LoadScene(sceneIndex);
-        }
+    }
+    public static void SwitchScene(string sceneID, float duration = 1f)
+    {
+        if (Instance != null)
+            _ = Instance.TransitionRoutine(sceneID, duration);
+        else
+            SceneManager.LoadScene(sceneID);
     }
 
     private async Awaitable TransitionRoutine(int sceneIndex, float duration)
@@ -47,6 +50,23 @@ public class SceneTransitionManager : MonoBehaviour
         await Fade(0f, 1f, duration);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while (!operation.isDone)
+        {
+            await Awaitable.NextFrameAsync();
+        }
+
+        await Awaitable.WaitForSecondsAsync(0.5f);
+
+        await Fade(1f, 0f, duration);
+        loadingScreenObject.SetActive(false);
+    }
+    private async Awaitable TransitionRoutine(string stringID, float duration)
+    {
+        loadingScreenObject.SetActive(true);
+        await Fade(0f, 1f, duration);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(stringID);
 
         while (!operation.isDone)
         {

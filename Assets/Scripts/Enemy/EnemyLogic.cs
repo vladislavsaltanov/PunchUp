@@ -1,22 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Threading;
 using UnityEngine;
 
 public class EnemyLogic : BaseEntity
 {
     [Header("Modules")]
-    [SerializeField] EnemyMovementBaseSO movement;
-    [SerializeField] EnemyPlayerDetectionSO detection;
-    [SerializeField] CombatHandler combatHandler;
-    [SerializeField] DoctorAudio doctorAudio;
+    [SerializeField] protected EnemyMovementBaseSO movement;
+    [SerializeField] protected EnemyPlayerDetectionSO detection;
+    [SerializeField] protected CombatHandler combatHandler;
+    [SerializeField] protected DoctorAudio doctorAudio;
 
     [Header("AI Settings")]
     [SerializeField] float abilityChance = 0.3f;
     [SerializeField] float agroTimeout = 5f;
     [SerializeField] float searchDuration = 2f;
 
-    CancellationTokenSource actionCts;
-    CancellationTokenSource waitCts;
+    protected CancellationTokenSource actionCts;
+    protected CancellationTokenSource waitCts;
 
     public float EffectiveAttackReach
     {
@@ -55,7 +55,7 @@ public class EnemyLogic : BaseEntity
         EnterWait(1f);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (CurrentHealth <= 0) return;
 

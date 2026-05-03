@@ -1,4 +1,4 @@
-using TMPro;
+п»їusing TMPro;
 using UnityEngine;
 
 public class EndScreenController : MonoBehaviour
@@ -32,6 +32,8 @@ public class EndScreenController : MonoBehaviour
 
     public async Awaitable Show(bool died = false)
     {
+        InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
+
         canvasGroup.gameObject.SetActive(true);
         canvasGroup.alpha = 0;
 
@@ -44,18 +46,18 @@ public class EndScreenController : MonoBehaviour
         var runManager = RunManager.Instance;
         var lastResult = runManager.LastResult;
 
-        titleText.text = died ? "вы умерли :(" : "ран завершен!";
-        runNumber.text = $"забег {lastResult.run_number}";
+        titleText.text = died ? "РІС‹ СѓРјРµСЂР»Рё :(" : "СЂР°РЅ Р·Р°РІРµСЂС€РµРЅ!";
+        runNumber.text = $"Р·Р°Р±РµРі {lastResult.run_number}";
 
         if (died)
-            AddText($"причина смерти: {lastResult.cause_of_death}");
+            AddText($"РїСЂРёС‡РёРЅР° СЃРјРµСЂС‚Рё: {lastResult.cause_of_death}");
 
-        AddText($"пройдено этажей: {lastResult.floors_cleared}");
-        AddText($"пробирок собрано: {lastResult.flasks_picked}");
-        AddText($"предметов собрано: {lastResult.items_picked}");
-        AddText($"врагов уничтожено: {lastResult.kills}");
+        AddText($"РїСЂРѕР№РґРµРЅРѕ СЌС‚Р°Р¶РµР№: {lastResult.floors_cleared}");
+        AddText($"РїСЂРѕР±РёСЂРѕРє СЃРѕР±СЂР°РЅРѕ: {lastResult.flasks_picked}");
+        AddText($"РїСЂРµРґРјРµС‚РѕРІ СЃРѕР±СЂР°РЅРѕ: {lastResult.items_picked}");
+        AddText($"РІСЂР°РіРѕРІ СѓРЅРёС‡С‚РѕР¶РµРЅРѕ: {lastResult.kills}");
 
-        timeText.text = $"время: {FormatTime(lastResult.total_playtime)}";
+        timeText.text = $"РІСЂРµРјСЏ: {FormatTime(lastResult.total_playtime)}";
 
         await FadeTo(1);
     }

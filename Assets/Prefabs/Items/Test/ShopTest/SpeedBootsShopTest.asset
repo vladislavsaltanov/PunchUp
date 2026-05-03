@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 007fa4f1ea7cfea47a5afba269fb3bba, type: 3}
-  m_Name: New Stun Effect
-  m_EditorClassIdentifier: Assembly-CSharp::StunEffect
-  effectName: 
-  description: 
-  icon: {fileID: 0}
-  duration: 5
+  m_Script: {fileID: 11500000, guid: 71583bab98d5a3d438a307008ce3fecd, type: 3}
+  m_Name: SpeedBootsShopTest
+  m_EditorClassIdentifier: Assembly-CSharp::ShopItem
+  item: {fileID: 11400000, guid: cc0b1cc0b281ce44a8519dcae5441b7f, type: 2}
+  price: 50
+  isSold: 0

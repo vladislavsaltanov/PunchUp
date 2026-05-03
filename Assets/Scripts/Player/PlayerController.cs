@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,65 +23,91 @@ public class PlayerController : BaseEntity
     #region Modules
     [Header("Modules")]
     [SerializeField] CombatHandler combatHandler;
-    [SerializeField] isGroundedHandler groundedHandler; 
+    [SerializeField] isGroundedHandler groundedHandler;
+
+    [SerializeField] private GameObject shopMenu;
+    public bool isShopOpen;
+    private bool movementPressed;
     #endregion
+
+    [Header("GODMODE")]
+    [SerializeField] public bool GodModeBool;
     public bool IsActionLocked => combatHandler != null && combatHandler.IsBusy;
 
     #region Cached
     InputManager inputManager;
     #endregion
-    IInteractable activeInteractable;
+
+    #region Interactables
+    List<IInteractable> nearbyInteractables = new();
+    IInteractable activeInteractable =>
+        nearbyInteractables.Count > 0 ? nearbyInteractables[^1] : null;
+    #endregion
 
     void Start()
     {
         Time.timeScale = 1f;
         inputManager = InputManager.Instance;
+        inputManager.RegisterPlayer(GetComponent<PlayerInput>());
 
         if (inputManager != null)
         {
-            inputManager.attackAction.action.performed += OnAttack;
-            inputManager.specialAbilityAction.action.performed += OnAbility;
-            inputManager.interactAction.action.performed += OnInteract;
+            inputManager.GetAction("Attack").performed += OnAttack;
+            inputManager.GetAction("SpecialAbility").performed += OnAbility;
+            inputManager.GetAction("Interact").performed += OnInteract;
+            inputManager.GetAction("Move").performed += OnMovePerformed;
         }
 
         if (groundedHandler == null) groundedHandler = isGroundedHandler.Instance;
         if (groundedHandler != null) groundedHandler.hasGrounded += hasGroundedEventHandler;
         if (combatHandler == null)   combatHandler = GetComponent<CombatHandler>();
-    }
-    void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        if (activeInteractable != null)
-        {
-            activeInteractable.Interact(this);
-        }
+
+        GodModeBool = UIManager.Instance.godmode;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         var interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            activeInteractable = interactable;
-            activeInteractable.ShowPrompt(true);
-        }
+        if (interactable == null) return;
+
+        nearbyInteractables.Add(interactable);
+
+        // скрыть prompt у предыдущего
+        if (nearbyInteractables.Count > 1)
+            nearbyInteractables[^2].ShowPrompt(false);
+
+        interactable.ShowPrompt(true);
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         var interactable = other.GetComponent<IInteractable>();
-        if (interactable != null && activeInteractable == interactable)
-        {
-            activeInteractable.ShowPrompt(false);
-            activeInteractable = null;
-        }
+        if (interactable == null) return;
+
+        interactable.ShowPrompt(false);
+        nearbyInteractables.Remove(interactable);
+
+        // показать prompt у следующего в очереди
+        if (nearbyInteractables.Count > 0)
+            nearbyInteractables[^1].ShowPrompt(true);
+    }
+
+    void OnInteract(InputAction.CallbackContext ctx)
+    {
+        activeInteractable?.Interact(this);
     }
     void OnDestroy()
     {
+        foreach (var i in nearbyInteractables)
+            i?.ShowPrompt(false);
+        nearbyInteractables.Clear();
+
         if (instance == this) instance = null;
 
         if (inputManager != null)
         {
-            inputManager.attackAction.action.performed -= OnAttack;
-            inputManager.specialAbilityAction.action.performed -= OnAbility;
+            inputManager.GetAction("Attack").performed -= OnAttack;
+            inputManager.GetAction("SpecialAbility").performed -= OnAbility;
+            inputManager.GetAction("Move").performed -= OnMovePerformed;
         }
 
         if (groundedHandler != null)
@@ -88,7 +115,7 @@ public class PlayerController : BaseEntity
             groundedHandler.hasGrounded -= hasGroundedEventHandler;
         }
 
-        inputManager.interactAction.action.performed -= OnInteract;
+        inputManager.GetAction("Interact").performed -= OnInteract;
     }
 
     void Update()
@@ -99,6 +126,22 @@ public class PlayerController : BaseEntity
 
         if (IsActionLocked) return;
 
+        if (isShopOpen)
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                CloseShop();
+                return;
+            }
+
+            if (IsMovementInputPressed())
+            {
+                CloseShop();
+                return;
+            }
+            return;
+        }
+
         UpdateDirection();
     }
 
@@ -106,7 +149,7 @@ public class PlayerController : BaseEntity
     {
         if (inputManager == null) return;
 
-        float inputX = inputManager.moveAction.action.ReadValue<Vector2>().x;
+        float inputX = inputManager.GetAction("Move").ReadValue<Vector2>().x;
 
         if (Mathf.Abs(inputX) > 0.1f)
         {
@@ -164,5 +207,61 @@ public class PlayerController : BaseEntity
 
         base.OnDeath();
     }
+
+    public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
+    {
+        if (GodModeBool) return;
+        else base.TakeDamage(amount,attacker,cause);
+    }
     #endregion
+    //SHSHOP
+
+    public void OpenShop(ShopKeeper shop, ShopSlotRuntime[] slots)
+    {
+        isShopOpen = true;
+
+        shopMenu.SetActive(true);
+        Time.timeScale = 0f;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        var shopUI = shopMenu.GetComponent<ShopUI>();
+        shopUI.Setup(shop, slots, this);
+    }
+
+    public void CloseShop()
+    {
+        if (!isShopOpen) return;
+
+        isShopOpen = false;
+
+        shopMenu.SetActive(false);
+        Time.timeScale = 1f;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void RefreshShopUI()
+    {
+        var shopUI = shopMenu.GetComponent<ShopUI>();
+        shopUI.Refresh();
+    }
+
+    private bool IsMovementInputPressed()
+    {
+        if (inputManager == null) return false;
+
+        Vector2 moveInput = inputManager.GetAction("Move").ReadValue<Vector2>();
+        return moveInput != Vector2.zero;
+    }
+
+    void OnMovePerformed(InputAction.CallbackContext ctx)
+    {
+        if (isShopOpen)
+        {
+            CloseShop();
+        }
+    }
 }

@@ -1,6 +1,8 @@
-using System.Threading;
+п»їusing System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,36 +11,33 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     public bool isPaused;
 
+
     [Space(10)]
     [Header("Notification System")]
     [SerializeField] GameObject notificationPanel;
     [SerializeField] TMP_Text notificationTitle;
     [SerializeField] TMP_Text notificationDesc;
     [SerializeField] float notificationDuration = 3f;
-    [SerializeField] TMP_Text gameVersionText;
+    [SerializeField] GameObject uiFocusGameobject;
 
     CancellationTokenSource notificationCts;
 
+    public bool godmode = false;
     private void Awake()
     {
-        if (gameVersionText != null)
-            gameVersionText.text = Application.version;
+        if (Instance == null)
+            Instance = this;
     }
 
     private void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
-        {
+        { 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         } else
         {
-            Cursor.visible = true;
+            Cursor.visible = true; 
             Cursor.lockState = CursorLockMode.None;
         }
 
@@ -48,7 +47,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed += OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered += OnPauseButtonPressed;
     }
     public void ShowItemNotification(ItemData item)
     {
@@ -83,13 +82,16 @@ public class UIManager : MonoBehaviour
         notificationCts = null;
     }
 
-    private void OnPauseButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void OnPauseButtonPressed(InputAction.CallbackContext context)
     {
-        SwitchPause();
+        if (context.action.name == "Pause" && context.performed)
+            SwitchPause();
     }
 
     public void SwitchPause()
     {
+        CloseSettings();
+
         if (RunManager.Instance != null && !RunManager.Instance.IsRunActive)
             return;
 
@@ -98,6 +100,9 @@ public class UIManager : MonoBehaviour
 
         if (pauseMenu != null)
             pauseMenu.SetActive(isPaused);
+
+        if (InputManager.Instance != null)
+            InputManager.Instance.SwitchScenario(isPaused ? InputManager.ActionScenario.UI : InputManager.ActionScenario.Game);
 
         if (!isPaused)
         {
@@ -111,6 +116,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // helper method for settings menu to retract attention to pause screen buttons
+    public void FocusUI()
+    {
+        if (uiFocusGameobject == null) return;
+
+        uiFocusGameobject.SetActive(false);
+        uiFocusGameobject.SetActive(true);
+    }
+
+    public void SwitchGodMode(bool value)
+    {
+        godmode = value;
+        Debug.Log("Godmode is " + value);
+    }
+    public bool GetGodMode()
+    {
+        return godmode;
+    }
+
     private void OnDisable()
     {
         notificationCts?.Cancel();
@@ -120,7 +144,7 @@ public class UIManager : MonoBehaviour
         if (InputManager.Instance == null)
             return;
 
-        InputManager.Instance.pauseAction.action.performed -= OnPauseButtonPressed;
+        GetComponent<PlayerInput>().onActionTriggered -= OnPauseButtonPressed;
     }
 
     public void SwitchScene(int id)
@@ -142,14 +166,22 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // Убиваем игрока "легальным" путем, чтобы отработал OnDeath().
-        // cause важно: PlayerController.OnDeath() прочитает lastDamageCause = "surrender".
-        player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
+        player.TakeDamage(ushort.MaxValue, null, "РІРѕС‚ С‚Р°Рє РІРѕС‚ РїРѕР»СѓС‡РёР»РѕСЃСЊ");
 
-        // На всякий случай даем кадр, чтобы OnDeath успел стартовать EndRun.
         await Awaitable.NextFrameAsync();
     }
 
+    public void OpenSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
+        SettingsManager.Instance.Open();
+    }
+
+    public void CloseSettings()
+    {
+        if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
+        SettingsManager.Instance.Close();
+    }
     public void Exit()
     {
         PlayerPrefs.Save();
