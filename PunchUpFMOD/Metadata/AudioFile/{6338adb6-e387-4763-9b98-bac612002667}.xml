@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{2c2a639d-323a-4c20-bda7-4d1588f8f5d3}">
+	<object class="AudioFile" id="{6338adb6-e387-4763-9b98-bac612002667}">
 		<property name="assetPath">
-			<value>Music/MainMenu/MainMenu_1.wav</value>
+			<value>Music/Section1/Section1_calm_1.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
@@ -14,7 +14,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>103.38462585034014</value>
+			<value>248.47058956916101</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{bd32502d-ad33-42da-a859-5ae13da5bdee}</destination>

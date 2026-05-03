@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.SceneManagement;
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
@@ -34,12 +36,23 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference batAttackEvent;
     [SerializeField] private EventReference batIdleEvent;
 
+    [Header("Scene Playlists")]
+    [SerializeField] private ScenePlaylist[] scenePlaylists;
+
     [Header("Bus")]
     private Bus masterBus;
     private Bus SFXBus;
     private Bus musicBus;
 
+    [System.Serializable]
+    public class ScenePlaylist
+    {
+        public string sceneName;
+        public EventReference[] tracks;
+    }
+
     private EventInstance backgroundMusicInstance;
+    private EventReference[] currentPlaylist;
     private int lastTrackIndex = -1;
     private bool isPlaylistRunning;
 
@@ -65,11 +78,18 @@ public class AudioManager : MonoBehaviour
         masterBus = RuntimeManager.GetBus("bus:/");
         musicBus = RuntimeManager.GetBus("bus:/Music");
         SFXBus = RuntimeManager.GetBus("bus:/SFX");
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
-        StartBackgroundPlaylist();
+        //StartBackgroundPlaylist();
         StartAmbient(ambientEvent);
     }
 
@@ -87,32 +107,32 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    //Фижма
+    // Фижма
     public void StartAmbient(EventReference sound)
     {
         ambientEventInstance = RuntimeManager.CreateInstance(sound);
         ambientEventInstance.start();
     }
 
-    //Ты в лифте родился
+    // Ты в лифте родился
     public void StartElevatorAmbient()
     {
         StartAmbient(ElevatorAmbientEvent);
     }
 
-    //Ты в открытом лифте родился
+    // Ты в открытом лифте родился
     public void PlayOpenElevator()
     {
         if (ElevatorOpenEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(ElevatorOpenEvent);
     }
 
-
-    //Йоу печенье - програмное обеспечение >_<
+    // Йоу печенье - програмное обеспечение >_<
     public void StartBackgroundPlaylist()
     {
-        if (backgroundMusicPlaylist == null || backgroundMusicPlaylist.Length == 0)
+        currentPlaylist = backgroundMusicPlaylist;
+
+        if (currentPlaylist == null || currentPlaylist.Length == 0)
         {
             Debug.LogWarning("AudioManager: backgroundMusicPlaylist is empty");
             return;
@@ -122,25 +142,25 @@ public class AudioManager : MonoBehaviour
         PlayNextPlaylistTrack();
     }
 
-    //Эй диджей
+    // Эй диджей
     private void PlayNextPlaylistTrack()
     {
-        if (backgroundMusicPlaylist == null || backgroundMusicPlaylist.Length == 0)
+        if (currentPlaylist == null || currentPlaylist.Length == 0)
             return;
 
-        int nextIndex = Random.Range(0, backgroundMusicPlaylist.Length);
+        int nextIndex = Random.Range(0, currentPlaylist.Length);
 
-        if (backgroundMusicPlaylist.Length > 1)
+        if (currentPlaylist.Length > 1)
         {
             while (nextIndex == lastTrackIndex)
             {
-                nextIndex = Random.Range(0, backgroundMusicPlaylist.Length);
+                nextIndex = Random.Range(0, currentPlaylist.Length);
             }
         }
 
         lastTrackIndex = nextIndex;
 
-        EventReference nextTrack = backgroundMusicPlaylist[nextIndex];
+        EventReference nextTrack = currentPlaylist[nextIndex];
 
         if (nextTrack.IsNull)
         {
@@ -154,9 +174,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"AudioManager: playing playlist track index {nextIndex}");
     }
 
-
-
-    //Конец йоу-йоу
+    // Конец йоу-йоу
     public void StopBackgroundMusic()
     {
         isPlaylistRunning = false;
@@ -168,33 +186,46 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    //Беги Фо-ватафо шнейне-пепе
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        foreach (var playlist in scenePlaylists)
+        {
+            if (playlist.sceneName == scene.name)
+            {
+                currentPlaylist = playlist.tracks;
+                StopBackgroundMusic();
+                isPlaylistRunning = true;
+                PlayNextPlaylistTrack();
+                return;
+            }
+        }
+
+        // если сцена не найдена в списке — используем дефолт
+        StartBackgroundPlaylist();
+    }
+
+    // Беги Фо-ватафо шнейне-пепе
     public void PlayFootstep(Vector2 worldPosition)
     {
         if (footstepEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(footstepEvent, worldPosition);
     }
 
     public void PlayDoctorFootstep(Vector2 worldPosition)
     {
         if (doctorFootstepEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
     public void BatFly(Vector2 worldPosition)
     {
         if (batFlyEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(batFlyEvent, worldPosition);
     }
 
-
-    //Прыг-скок-скок-скок-скок
+    // Прыг-скок-скок-скок-скок
     public void PlayJumpLand(Vector2 position, JumpLandAction action)
     {
-
         if (jumpLandEvent.IsNull)
         {
             Debug.LogError("AudioManager: jumpLandEvent is null");
@@ -203,75 +234,66 @@ public class AudioManager : MonoBehaviour
 
         EventInstance instance = RuntimeManager.CreateInstance(jumpLandEvent);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
-        FMOD.RESULT paramResult = instance.setParameterByName("Action", (float)action);
-        FMOD.RESULT startResult = instance.start();
+        instance.setParameterByName("Action", (float)action);
+        instance.start();
         instance.release();
     }
 
-    //Звуки дешдя
+    // Звуки дешдя
     public void PlayDashSound(Vector2 position)
     {
         if (dashEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(dashEvent, position);
     }
 
-    //Ай боль в ноге!
+    // Ай боль в ноге!
     public void PlayerTakeDamage(Vector2 position)
     {
         if (playerTakeDamageEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(playerTakeDamageEvent, position);
     }
 
     public void DoctorTakeDamage(Vector2 position)
     {
         if (doctorTakeDamageEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(doctorTakeDamageEvent, position);
     }
 
     public void BatTakeDamage(Vector2 position)
     {
         if (batTakeDamageEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(batTakeDamageEvent, position);
     }
 
-    //Ломай меня полностью
+    // Ломай меня полностью
     public void PlayerAttack(Vector2 position)
     {
         if (playerAttackEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(playerAttackEvent, position);
     }
 
     public void DoctorAttack(Vector2 position)
     {
         if (doctorAttackEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(doctorAttackEvent, position);
     }
 
     public void BatAttack(Vector2 position)
     {
         if (batAttackEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(batAttackEvent, position);
     }
 
-    //Неловие звуки работы
+    // Неловие звуки работы
     public void PlayDoctorIdle(Vector2 position)
     {
         if (doctorIdleEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(doctorIdleEvent, position);
     }
 
     public void PlayBatIdle(Vector2 position)
     {
         if (batIdleEvent.IsNull) return;
-
         RuntimeManager.PlayOneShot(batIdleEvent, position);
     }
 }
