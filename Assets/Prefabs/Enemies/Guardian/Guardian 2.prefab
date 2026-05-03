@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 8035146353440101681}
   - component: {fileID: 8992552085031312827}
   - component: {fileID: 8582908603988456745}
+  - component: {fileID: 3314479407794621507}
   m_Layer: 8
   m_Name: Guardian 2
   m_TagString: Enemy
@@ -305,3 +306,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3314479407794621507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218390483890331503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.8

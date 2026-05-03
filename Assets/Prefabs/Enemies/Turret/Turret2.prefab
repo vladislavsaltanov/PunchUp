@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 2771890332057106777}
   - component: {fileID: 7387194896204248767}
   - component: {fileID: 7054248196473635976}
+  - component: {fileID: 6872957221938231285}
   m_Layer: 8
   m_Name: Turret2
   m_TagString: Enemy
@@ -381,3 +382,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &6872957221938231285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078101317640805166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.8
