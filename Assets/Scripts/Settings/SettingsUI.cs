@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,23 +68,35 @@ public class SettingsUI : MonoBehaviour
 
     private void SetupResolutionDropdown()
     {
-        Resolution[] resolutions = Screen.resolutions;
+        Resolution[] uniqueResolutions = Screen.resolutions
+            .GroupBy(res => new { res.width, res.height })
+            .Select(g => g.Last())
+            .ToArray();
+
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
         int currentIdx = 0;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < uniqueResolutions.Length; i++)
         {
-            string opt = $"{resolutions[i].width} x {resolutions[i].height}";
+            string opt = $"{uniqueResolutions[i].width} x {uniqueResolutions[i].height}";
             options.Add(opt);
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+
+            if (uniqueResolutions[i].width == Screen.currentResolution.width &&
+                uniqueResolutions[i].height == Screen.currentResolution.height)
+            {
                 currentIdx = i;
+            }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = SettingsManager.Instance.Data.resolutionIndex != 0 ? SettingsManager.Instance.Data.resolutionIndex : currentIdx;
+
+        resolutionDropdown.value = SettingsManager.Instance.Data.resolutionIndex != 0
+            ? SettingsManager.Instance.Data.resolutionIndex
+            : currentIdx;
+
         resolutionDropdown.onValueChanged.AddListener(val => {
-            Resolution res = Screen.resolutions[val];
+            Resolution res = uniqueResolutions[val];
             Screen.SetResolution(res.width, res.height, Screen.fullScreen);
             SettingsManager.Instance.Data.resolutionIndex = val;
         });

@@ -16,8 +16,9 @@ MonoBehaviour:
   description: "\u041C\u0435\u0434\u0438\u0446\u0438\u043D\u0441\u043A\u0438\u0439
     \u0431\u0438\u043D\u0442, \u0432\u0441\u0451 \u043F\u043E \u0413\u041E\u0421\u0422\u0443.
     +8% \u043A \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044E."
-  icon: {fileID: 0}
+  icon: {fileID: -5229125744465068697, guid: 183a9bb158c16af44ba347ef3e3d50b1, type: 3}
   rarity: 0
+  price: 12
   modifiers:
   - statType: 3
     valueType: 1

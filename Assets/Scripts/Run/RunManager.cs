@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -20,6 +20,7 @@ public class RunManager : MonoBehaviour
     #endregion
 
     [Header("Settings")]
+    [SerializeField] LevelNameHandler levelNameHandler;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private string _mainMenuSceneName = "MainMenu";
 
@@ -94,6 +95,8 @@ public class RunManager : MonoBehaviour
             run_number = (uint)(PlayerPrefs.GetInt("totalRuns", 0))
         };
         s.StartTimer();
+
+        SceneTransitionManager.SwitchScene(GetRandomLevel(levelNameHandler));
     }
 
     private void SpawnPlayer()
@@ -137,13 +140,24 @@ public class RunManager : MonoBehaviour
 
         CleanupRun();
         StartRun();
-        SceneTransitionManager.Instance.ReloadCurrentScene();
+        SceneTransitionManager.SwitchScene(GetRandomLevel(levelNameHandler));
     }
 
     public void OnFloorCleared()
     {
         StatisticsHandler.Instance.statisticData.floors_cleared++;
         CurrentFloor++;
+    }
+
+    string GetRandomLevel(LevelNameHandler handler)
+    {
+        if (handler == null || handler.levelNames.Length == 0)
+        {
+            Debug.LogError("LevelNameHandler is not set up correctly.");
+            return "MainMenu";
+        }
+
+        return handler.levelNames[Random.Range(0, handler.levelNames.Length)];
     }
 
     public void CleanupRun()

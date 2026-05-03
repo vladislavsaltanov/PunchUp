@@ -20,7 +20,7 @@ MonoBehaviour:
     \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F \u043F\u043E\u0441\u043B\u0435
     10 \u0441\u0435\u043A\u0443\u043D\u0434 \u0431\u0435\u0437 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
     \u0443\u0440\u043E\u043D\u0430."
-  icon: {fileID: 0}
+  icon: {fileID: -5428206428529569624, guid: 582eac6b44b9ae9428fe9f4297a4a1ea, type: 3}
   duration: 999999
   healPerTick: 5
   tickInterval: 1

@@ -52,7 +52,9 @@ MonoBehaviour:
   effectName: 
   description: 
   effectSprite: {fileID: 0}
+  defaultSprite: {fileID: 21300000, guid: 4ff1457c62fa68442a86f6f107cb0cb6, type: 3}
   isFull: 0
+  duration: 0
   effectImage: {fileID: 363444318778642176}
   effectImageObject: {fileID: 5132347156860686190}
 --- !u!1 &5132347156860686190
@@ -90,7 +92,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1927824230365462563
 CanvasRenderer:

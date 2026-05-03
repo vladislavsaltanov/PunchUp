@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -17,6 +18,7 @@ public class SettingsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Load();
+        ApplyAllSettings();
     }
     #endregion
 
@@ -47,7 +49,19 @@ public class SettingsManager : MonoBehaviour
     public void ApplyVideoSettings()
     {
         QualitySettings.vSyncCount = Data.vsync ? 1 : 0;
-        Screen.fullScreen = Data.isFullscreen;
+
+        Resolution[] uniqueResolutions = Screen.resolutions
+                    .GroupBy(res => new { res.width, res.height })
+                    .Select(g => g.Last())
+                    .ToArray();
+
+        if (Data.resolutionIndex >= 0 && Data.resolutionIndex < uniqueResolutions.Length)
+        {
+            Resolution res = uniqueResolutions[Data.resolutionIndex];
+            Screen.SetResolution(res.width, res.height, Data.isFullscreen);
+        }
+        else
+            Screen.fullScreen = Data.isFullscreen;
 
         if (Data.fpsCap == 0)
             Application.targetFrameRate = -1;
