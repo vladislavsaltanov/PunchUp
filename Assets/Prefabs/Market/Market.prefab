@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e3fcf1ad7a519488490d3f0c55ce40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopKeeper
-  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  dropConfig: {fileID: 11400000, guid: 05c3b852375ec7049bc5d2f8cc1a4c2f, type: 2}
   itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
   shopSize: 3
   promptUI: {fileID: 6954418181147519732}
