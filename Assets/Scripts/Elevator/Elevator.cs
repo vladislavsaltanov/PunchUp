@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Elevator : MonoBehaviour, IInteractable
@@ -21,7 +21,7 @@ public class Elevator : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        SceneTransitionManager.SwitchScene(sceneBuildIndex);
+        RunManager.Instance.OnFloorCleared();
     }
 
     public void ShowPrompt(bool show)
