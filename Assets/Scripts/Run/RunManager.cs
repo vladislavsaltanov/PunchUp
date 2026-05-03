@@ -96,7 +96,7 @@ public class RunManager : MonoBehaviour
         };
         s.StartTimer();
 
-        SceneTransitionManager.SwitchScene(GetRandomLevel(levelNameHandler));
+        SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
     private void SpawnPlayer()
@@ -140,24 +140,29 @@ public class RunManager : MonoBehaviour
 
         CleanupRun();
         StartRun();
-        SceneTransitionManager.SwitchScene(GetRandomLevel(levelNameHandler));
+        SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
     public void OnFloorCleared()
     {
         StatisticsHandler.Instance.statisticData.floors_cleared++;
         CurrentFloor++;
+
+        if (CurrentFloor % 5 == 0)
+            SceneTransitionManager.SwitchScene("BossFloor");
+        else
+            SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
-    string GetRandomLevel(LevelNameHandler handler)
+    public string GetRandomLevel()
     {
-        if (handler == null || handler.levelNames.Length == 0)
+        if (levelNameHandler == null || levelNameHandler.levelNames.Length == 0)
         {
             Debug.LogError("LevelNameHandler is not set up correctly.");
             return "MainMenu";
         }
 
-        return handler.levelNames[Random.Range(0, handler.levelNames.Length)];
+        return levelNameHandler.levelNames[Random.Range(0, levelNameHandler.levelNames.Length)];
     }
 
     public void CleanupRun()
