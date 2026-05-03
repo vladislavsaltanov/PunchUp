@@ -13045,6 +13045,10 @@ MonoBehaviour:
   - {fileID: 4467919977850602321}
   inventory: {fileID: 2633023578081427226}
   defaultSprite: {fileID: 21300000, guid: 9b0a6bc822a2af5479e829d7a6d68a2a, type: 3}
+  noItemsSprite: {fileID: -3264436395472436212, guid: 77f8dafa4c8a96944abceeff635f3731, type: 3}
+  emptyInventoryText: "\u0423 \u0432\u0430\u0441 \u043F\u043E\u043A\u0430 \u043D\u0435\u0442
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432."
+  emptyInventoryTitle: "\u041F\u0443\u0441\u0442\u043E"
 --- !u!1 &6781729438379492772
 GameObject:
   m_ObjectHideFlags: 0
