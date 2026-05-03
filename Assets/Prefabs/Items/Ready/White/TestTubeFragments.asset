@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e79f46bc00b9a74f957d857bdc25cab, type: 3}
+  m_Name: TestTubeFragments
+  m_EditorClassIdentifier: Assembly-CSharp::StatItemData
+  itemName: "\u041E\u0441\u043A\u043E\u043B\u043A\u0438 \u043F\u0440\u043E\u0431\u0438\u0440\u043A\u0438"
+  description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u0443\u0440\u043E\u043D \u043D\u0430 7%."
+  icon: {fileID: -2369851597093126980, guid: f8927cf0602005b409585bcafbec0755, type: 3}
+  rarity: 0
+  price: 280
+  modifiers:
+  - statType: 1
+    valueType: 1
+    value: 7
+    stackType: 1
+    coefficient: 0.1

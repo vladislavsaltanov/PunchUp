@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: "\u0414\u044D\u0448"
   description: "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 <\u041F\u041A\u041C>,
     \u0447\u0442\u043E\u0431\u044B \u0431\u044B\u0441\u0442\u0440\u043E \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C\u0441\u044F."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9b0a6bc822a2af5479e829d7a6d68a2a, type: 3}
   ability: {fileID: 11400000, guid: 477f9225e3106994dab90760dea2a74c, type: 2}
