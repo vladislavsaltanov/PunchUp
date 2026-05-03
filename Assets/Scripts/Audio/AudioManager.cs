@@ -54,11 +54,13 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
+            Destroy(gameObject);
             Debug.LogError("Больше одного AudioManager o_0");
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         masterBus = RuntimeManager.GetBus("bus:/");
         musicBus = RuntimeManager.GetBus("bus:/Music");
