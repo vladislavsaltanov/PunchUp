@@ -17,7 +17,12 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     public float LastDamageTime { get; private set; } = -999f;
     public ushort CurrentHealth { get; protected set; }
     protected string lastDamageCause;
-    public void SetHealth(ushort value) => CurrentHealth = value;
+    public void SetHealth(ushort value)
+    {
+        CurrentHealth = value;
+        onHealthChanged?.Invoke(CurrentHealth, maxHealth, value);
+    }
+    public Action<ushort, ushort, ushort> onHealthChanged;
 
     [Space(10)]
     [Header("Movement")]
@@ -117,6 +122,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         ushort finalDamage = (ushort)reduced;
 
         CurrentHealth = finalDamage >= CurrentHealth ? (ushort)0 : (ushort)(CurrentHealth - finalDamage);
+        onHealthChanged?.Invoke(CurrentHealth, maxHealth, finalDamage);
 
         if (finalDamage > 0 && CurrentHealth > 0 && !isDying)
             _ = ImpactRoutine(impactSeconds);
@@ -133,9 +139,6 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
             if (TryRevive()) return;
             OnDeath();
         }
-
-        if (this is PlayerController)
-            PlayerHealthBarUIManager.Instance.UpdateHealth(CurrentHealth, maxHealth);
     }
 
     bool TryRevive()
@@ -158,6 +161,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
     {
         if (CurrentHealth == 0) return;
         CurrentHealth = (ushort)Mathf.Min(CurrentHealth + amount, maxHealth);
+        onHealthChanged?.Invoke(CurrentHealth, maxHealth, amount);
     }
 
     protected virtual void OnDamageReceived(ushort amount, Transform attacker = null)

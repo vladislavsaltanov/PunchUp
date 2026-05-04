@@ -174,13 +174,13 @@ public class UIManager : MonoBehaviour
     public void OpenSettings()
     {
         if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
-        SettingsManager.Instance.Open();
+        SettingsManager.Instance?.Open();
     }
 
     public void CloseSettings()
     {
         if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
-        SettingsManager.Instance.Close();
+        SettingsManager.Instance?.Close();
     }
     public void Exit()
     {

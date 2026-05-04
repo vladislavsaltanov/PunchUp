@@ -8,6 +8,7 @@ TagManager:
   - Bouncy
   - Testing
   - CameraBounds
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Ground
   - Player
   - Enemy
-  - 
+  - Boss
   - 
   - 
   - 
