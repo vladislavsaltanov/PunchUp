@@ -1230,8 +1230,8 @@ MonoBehaviour:
     speed: 5
     attackPower: 1
     defense: 0
-    maxHealth: 100
-    healthRegenRate: 0
+    maxHealth: 200
+    healthRegenRate: 1
     critChance: 0
     critMultiplier: 1.5
     knockbackMultiplier: 1
@@ -1260,24 +1260,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   projectilePrefab: {fileID: 4752440206259838812, guid: c18aa9016815cb44dac6262ada5ac831, type: 3}
-  arenaHalfWidth: 25
+  arenaHalfWidth: 35
   arenaCenterX: 0
-  shakeMagnitude: 0.1
+  shakeMagnitude: 0.2
   shakeFrequency: 100
   debrisTexture: {fileID: 0}
   phase1Cooldown: 1.5
-  phase1VulnerableDuration: 1.5
+  phase1VulnerableDuration: 1
   phase2Cooldown: 1
-  phase2VulnerableDuration: 1
+  phase2VulnerableDuration: 0.5
   dashSpeed: 30
-  dashDamage: 5
-  jumpHeight: 15
+  dashDamage: 15
+  jumpHeight: 12
   apexHangDuration: 0
-  slamDamage: 10
+  slamDamage: 20
   projectileSpeed: 20
-  projectileDamage: 3
-  comboPauseBetweenHits: 0.5
-  comboDamage: 12
+  projectileDamage: 9
+  comboPauseBetweenHits: 0.35
+  comboDamage: 20
   transitionDuration: 5
   bounceForceX: 20
   bounceForceY: 5
@@ -1286,7 +1286,7 @@ MonoBehaviour:
   parryWindowDuration: 0.25
   maxPoise: 100
   currentPoise: 0
-  poiseDamageFromAttack: 25
+  poiseDamageFromAttack: 15
   poiseDamageFromParry: 100
   poiseRegenRate: 30
   nonVulnerableDamageMultiplier: 0.2

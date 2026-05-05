@@ -11,7 +11,6 @@ public class BossIdleState : IEnemyState
     {
         _boss.ConsecutiveJumps = 0;
         _boss.CanDealDamage = true;
-        _boss.IsVulnerable = true;
         _boss.rb.linearVelocity = Vector2.zero;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _timer = _boss.GetCooldown();

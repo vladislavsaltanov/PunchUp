@@ -12,7 +12,6 @@ public class BossJumpSlamState : IEnemyState
 
     public void Enter()
     {
-        _boss.IsVulnerable = true;
         _boss.IsParryable = false;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
