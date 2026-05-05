@@ -15,6 +15,7 @@ public class BossComboState : IEnemyState
     public void Enter()
     {
         _boss.IsVulnerable = false;
+        _boss.IsParryable = true;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
         _done = false;
@@ -80,6 +81,7 @@ public class BossComboState : IEnemyState
     {
         _active = false;
         _boss.rb.linearVelocityX = 0f;
+        _boss.IsParryable = false;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
     }
 }

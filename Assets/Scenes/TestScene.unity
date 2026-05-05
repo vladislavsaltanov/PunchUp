@@ -1015,6 +1015,7 @@ MonoBehaviour:
   impactSeconds: 0.1
   deathProgressSeconds: 1.5
   deactivateOnDeath: 1
+  _currentStateName: 
   detectionRange: 6
   playerLayer:
     serializedVersion: 2
@@ -4409,7 +4410,7 @@ Transform:
   m_GameObject: {fileID: 871514479}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 123.6, y: 8.96, z: -10}
+  m_LocalPosition: {x: 5.5, y: 8.96, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10571,7 +10572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 123.6
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11059,10 +11060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2d69e2a5bdc564499ee05f7f9703b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
-  defaultCamera: {fileID: 0}
-  allCameras: []
-  currentCamera: {fileID: 0}
-  player: {fileID: 0}
 --- !u!114 &4214717406839767300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11251,7 +11248,7 @@ Transform:
   m_GameObject: {fileID: 4692331386342586150}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 124.26797, y: 7.15092, z: -10}
+  m_LocalPosition: {x: 6.1679697, y: 7.15092, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11301,7 +11298,7 @@ Transform:
   m_GameObject: {fileID: 3875130198895299988}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 124.26797, y: 7.15092, z: -10}
+  m_LocalPosition: {x: 6.1679697, y: 7.15092, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

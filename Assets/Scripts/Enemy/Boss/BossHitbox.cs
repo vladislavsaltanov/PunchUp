@@ -1,21 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 public class BossHitbox : MonoBehaviour
 {
-    [SerializeField] LayerMask playerLayer;
-    [SerializeField] float damageCooldown = 0.4f;
+    [SerializeField] LayerMask playerBodyLayer;
+    [SerializeField] LayerMask playerAttackLayer;
 
     public ushort damage;
-    float _lastHitTime;
 
-    void OnTriggerStay2D(Collider2D other)
+    EnemyAIBoss _boss;
+
+    readonly HashSet<Collider2D> _overlappingBodies = new HashSet<Collider2D>();
+
+    public void Init(EnemyAIBoss boss) => _boss = boss;
+
+    void OnDisable()
     {
-        if (Time.time < _lastHitTime + damageCooldown) return;
-        if (((1 << other.gameObject.layer) & playerLayer.value) == 0) return;
+        _overlappingBodies.Clear();
+    }
 
-        var entity = other.GetComponentInParent<BaseEntity>();
-        if (entity == null) return;
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!_boss.CanDealDamage) return;
 
-        _lastHitTime = Time.time;
-        entity.TakeDamage(damage, transform, "Тесей");
+        int layer = 1 << other.gameObject.layer;
+
+        if ((layer & playerAttackLayer.value) != 0)
+        {
+            _boss.GoToVulnerable();
+            return;
+        }
+
+        if ((layer & playerBodyLayer.value) != 0)
+        {
+            _overlappingBodies.Add(other);
+            _ = HandleCollisionWithGracePeriod(other);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        _overlappingBodies.Remove(other);
+    }
+
+    async Awaitable HandleCollisionWithGracePeriod(Collider2D other)
+    {
+        float graceTime = _boss.IsParryable ? 0.35f : 0f;
+        float elapsed = 0f;
+
+        while (elapsed < graceTime && _boss.CanDealDamage && _overlappingBodies.Contains(other))
+        {
+            elapsed += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+
+        if (_boss != null && _boss.CanDealDamage && _overlappingBodies.Contains(other))
+        {
+            var entity = other.GetComponentInParent<BaseEntity>();
+            if (entity != null && entity.CurrentHealth > 0)
+            {
+                entity.TakeDamage(damage, transform, "Тесей");
+                _boss.OnPlayerHitByAttack();
+            }
+        }
     }
 }

@@ -166,6 +166,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        player.GodModeBool = false;
         player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
 
         await Awaitable.NextFrameAsync();

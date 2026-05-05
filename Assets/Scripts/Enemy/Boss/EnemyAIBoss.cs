@@ -32,7 +32,7 @@ public class EnemyAIBoss : EnemyAI
 
     [Header("Jump Slam")]
     public float jumpHeight = 8f;
-    public float slamWindupDuration = 0.7f;
+    public float apexHangDuration = 0f;
     public ushort slamDamage = 25;
 
     [Header("Projectile")]
@@ -49,8 +49,12 @@ public class EnemyAIBoss : EnemyAI
     [Header("Bounce on hit")]
     public float bounceForceX = 6f;
     public float bounceForceY = 4f;
+    public float counterAttackDistance = 3.5f;
+    public ushort counterAttackDamage = 15;
 
-    // States
+    [Header("Parry Window")]
+    public float parryWindowDuration = 0.5f;
+
     public BossIdleState IdleState { get; private set; }
     public BossDashState DashState { get; private set; }
     public BossJumpSlamState JumpSlamState { get; private set; }
@@ -62,7 +66,20 @@ public class EnemyAIBoss : EnemyAI
     public PlayerController Player { get; private set; }
     public int CurrentPhase { get; private set; } = 1;
     public bool IsVulnerable { get; set; }
-
+    bool _isParryable;
+    public bool IsParryable
+    {
+        get => _isParryable;
+        set
+        {
+            _isParryable = value;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = _isParryable ? new Color(1f, 0.8f, 0f) : Color.white;
+            }
+        }
+    }
+    public bool CanDealDamage { get; set; } = true;
     bool _phaseTransitionTriggered;
     public CancellationTokenSource ShakeCts { get; private set; }
 
@@ -79,7 +96,11 @@ public class EnemyAIBoss : EnemyAI
         VulnerableState = new BossVulnerableState(this);
         PhaseTransitionState = new BossPhaseTransitionState(this);
 
-        if (hitbox != null) hitbox.gameObject.SetActive(false);
+        if (hitbox != null)
+        {
+            hitbox.Init(this);
+            hitbox.gameObject.SetActive(false);
+        }
         ChangeState(IdleState);
     }
 
@@ -92,23 +113,111 @@ public class EnemyAIBoss : EnemyAI
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
-        if (!IsVulnerable) return;
+        bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
-        base.TakeDamage(amount, attacker, cause);
+        // Entirely ignore incoming attacks if not vulnerable and not parrying
+        if (!IsVulnerable && !isParrying) return;
 
-        if (attacker != null)
+        if (isParrying)
         {
-            float dir = Mathf.Sign(transform.position.x - attacker.position.x);
-            rb.linearVelocity = new Vector2(dir * bounceForceX, bounceForceY);
+            // PARRY SUCCESS
+            try
+            {
+                VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f);
+            }
+            catch { }
+
+            IsParryable = false;
+            CanDealDamage = false;
+
+            // Interrupt current attack and transition into vulnerable state
+            GoToVulnerable();
+            return; // Return early, don't take damage from the parrying blow
         }
+
+        // REGULAR DAMAGE ON VULNERABLE BOSS
+        base.TakeDamage(amount, attacker, cause);
+        try
+        {
+            VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f);
+        }
+        catch { }
 
         if (CurrentHealth <= 0) return;
 
-        if (!_phaseTransitionTriggered && CurrentPhase == 1 &&
-            CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f)
+        // Reset states
+        IsVulnerable = false;
+        IsParryable = false;
+
+        // Check for phase transition
+        if (!_phaseTransitionTriggered && CurrentPhase == 1 && CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f)
         {
             _phaseTransitionTriggered = true;
             GoToPhaseTransition();
+            _ = HandlePhysicsDelayed(attacker, bounceBoss: false);
+        }
+        else
+        {
+            // Boss retreats and waits for Cooldown internally inside IdleState
+            GoToIdle();
+            _ = HandlePhysicsDelayed(attacker, bounceBoss: true);
+        }
+    }
+
+    public void OnPlayerHitByAttack()
+    {
+        if (_currentState == DashState || _currentState == ComboState || _currentState == JumpSlamState)
+        {
+            IsParryable = false;
+            IsVulnerable = false;
+            CanDealDamage = false;
+
+            GoToIdle();
+            _ = HandlePhysicsDelayed(Player != null ? Player.transform : null, bounceBoss: true);
+        }
+    }
+
+    async Awaitable HandlePhysicsDelayed(Transform attacker, bool bounceBoss)
+    {
+        await Awaitable.NextFrameAsync();
+        if (this == null || CurrentHealth <= 0) return;
+
+        ClearVelocityOverride();
+
+        if (attacker != null)
+        {
+            var p = attacker.GetComponent<PlayerController>();
+            if (p != null)
+            {
+                float pushDir = Mathf.Sign(p.transform.position.x - transform.position.x);
+                p.ApplyVelocityOverride(new Vector2(pushDir * 8f, 3f), 0.2f);
+            }
+        }
+
+        if (bounceBoss)
+        {
+            float dx = arenaCenterX - transform.position.x;
+            float dir = Mathf.Abs(dx) > 0.5f
+                ? Mathf.Sign(dx)
+                : (attacker != null ? Mathf.Sign(transform.position.x - attacker.position.x) : direction);
+
+            rb.linearVelocity = new Vector2(dir * bounceForceX, bounceForceY);
+        }
+
+        await Awaitable.WaitForSecondsAsync(0.45f);
+
+        if (this == null || Player == null || CurrentHealth <= 0 || IsVulnerable) return;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
+        if (distanceToPlayer <= counterAttackDistance)
+        {
+            float repelDir = Mathf.Sign(Player.transform.position.x - transform.position.x);
+
+            // Only powerfully repel the player to prevent spam, no damage dealt
+            Player.ApplyVelocityOverride(new Vector2(repelDir * 20f, 6f), 0.4f);
+
+            direction = (sbyte)repelDir;
+            UpdateVisualDirection();
         }
     }
 
@@ -144,7 +253,6 @@ public class EnemyAIBoss : EnemyAI
     public float GetCooldown() => CurrentPhase == 1 ? phase1Cooldown : phase2Cooldown;
     public float GetVulnerableDuration() => CurrentPhase == 1 ? phase1VulnerableDuration : phase2VulnerableDuration;
     public void EnterPhase2() => CurrentPhase = 2;
-
 
     public void GoToIdle() => ChangeState(IdleState);
     public void GoToDash() => ChangeState(DashState);

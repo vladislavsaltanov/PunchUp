@@ -9,7 +9,8 @@ public class BossIdleState : IEnemyState
 
     public void Enter()
     {
-        _boss.IsVulnerable = false;
+        _boss.CanDealDamage = true;
+        _boss.IsVulnerable = true;
         _boss.rb.linearVelocity = Vector2.zero;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _timer = _boss.GetCooldown();
@@ -45,5 +46,8 @@ public class BossIdleState : IEnemyState
         }
     }
 
-    public void Exit() { }
+    public void Exit()
+    {
+        _boss.IsVulnerable = false;
+    }
 }

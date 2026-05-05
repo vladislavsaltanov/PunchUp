@@ -10,7 +10,7 @@ public class BossVulnerableState : IEnemyState
     public void Enter()
     {
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
-        _boss.rb.linearVelocity = Vector2.zero;
+        //_boss.rb.linearVelocity = Vector2.zero;
         _boss.IsVulnerable = true;
         _boss.StartShake();
         _timer = _boss.GetVulnerableDuration();
@@ -19,6 +19,7 @@ public class BossVulnerableState : IEnemyState
     public void Update()
     {
         _timer -= Time.deltaTime;
+        _boss.rb.linearVelocity = Vector2.Lerp(_boss.rb.linearVelocity, Vector2.zero, Time.deltaTime * 25f);
         if (_timer <= 0f) _boss.GoToIdle();
     }
 

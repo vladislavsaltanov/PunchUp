@@ -40,4 +40,39 @@ public class VisualEffectsManager : MonoBehaviour
         
         Object.Destroy(effect, ps.main.duration + ps.main.startLifetime.constantMax);
     }
+    public static void SpawnDebris(Texture2D texture, Vector3 position, Color color, short amount = 20, float scale = 1f)
+    {
+        if (_cachedPrefab == null)
+        {
+            _cachedPrefab = Resources.Load<GameObject>(PrefabPath);
+
+            if (_cachedPrefab == null)
+            {
+                Debug.LogError($"Prefab was not found: Resources/{PrefabPath}");
+                return;
+            }
+        }
+
+        GameObject effect = Object.Instantiate(_cachedPrefab, position, Quaternion.identity);
+        var ps = effect.GetComponent<ParticleSystem>();
+        ParticleSystemRenderer psRenderer = effect.GetComponent<ParticleSystemRenderer>();
+
+        var emission = ps.emission;
+        var burst = new ParticleSystem.Burst(0f, amount);
+        emission.SetBursts(new ParticleSystem.Burst[] { burst });
+
+        var main = ps.main;
+        var startSize = main.startSize;
+        startSize.constantMin *= scale;
+        startSize.constantMax *= scale;
+        main.startSize = startSize;
+        main.startColor = color;
+
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
+        block.SetTexture(TexturePropID, texture);
+        psRenderer.SetPropertyBlock(block);
+
+
+        Object.Destroy(effect, ps.main.duration + ps.main.startLifetime.constantMax);
+    }
 }
