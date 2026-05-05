@@ -164,6 +164,15 @@ public class EnemyAIBoss : EnemyAI
         }
     }
 
+    public float GetCurrentGracePeriod()
+    {
+        if (!IsParryable) return 0f;
+
+        if (_currentState == JumpSlamState) return 0.7f;
+
+        return 0.35f;
+    }
+
     public void OnPlayerHitByAttack()
     {
         if (_currentState == DashState || _currentState == ComboState || _currentState == JumpSlamState)

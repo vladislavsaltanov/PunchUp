@@ -45,7 +45,7 @@ public class BossHitbox : MonoBehaviour
 
     async Awaitable HandleCollisionWithGracePeriod(Collider2D other)
     {
-        float graceTime = _boss.IsParryable ? 0.35f : 0f;
+        float graceTime = _boss.GetCurrentGracePeriod();
         float elapsed = 0f;
 
         while (elapsed < graceTime && _boss.CanDealDamage && _overlappingBodies.Contains(other))

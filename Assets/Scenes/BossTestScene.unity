@@ -1224,8 +1224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e79f6d52a2bd942920b91397ede48c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIBoss
-  _name: Entity
-  EntityCost: 10
+  _name: "\u0422\u0435\u0441\u0435\u0439"
+  EntityCost: 6767
   stats:
     speed: 5
     attackPower: 1
