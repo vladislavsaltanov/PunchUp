@@ -54,16 +54,14 @@ public class BossJumpSlamState : IEnemyState
             if (!_active) return;
         }
 
+        // Start descent: Open parry window
         _boss.IsParryable = true;
-
         _boss.rb.gravityScale = _savedGravityScale;
         _boss.rb.linearVelocity = new Vector2(0f, -_boss.jumpHeight * 5f);
 
         // Wait for landing
         while (_active)
         {
-            _boss.IsParryable = true;
-
             Vector2 origin = _boss.entityCollider != null
                 ? (Vector2)_boss.entityCollider.bounds.center
                   - new Vector2(0f, _boss.entityCollider.bounds.extents.y)
@@ -77,10 +75,10 @@ public class BossJumpSlamState : IEnemyState
             await Awaitable.NextFrameAsync();
         }
 
+        // CRITICAL: Check if we were parried/interrupted during the fall
         if (!_active) return;
-        _boss.IsParryable = false;
 
-        // Execute slam
+        // Execute slam: Keep IsParryable = true to allow parrying the impact itself
         if (_boss.hitbox != null)
         {
             _boss.hitbox.damage = _boss.slamDamage;
@@ -88,11 +86,13 @@ public class BossJumpSlamState : IEnemyState
 
             // Allow the hitbox to persist briefly
             await Awaitable.WaitForSecondsAsync(0.15f);
-            if (!_active) return;
-
-            _boss.hitbox.gameObject.SetActive(false);
+            
+            // Ensure we cleanup even if the state changed during the 0.15s wait
+            if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         }
 
+        if (!_active) return;
+        _boss.IsParryable = false;
         _done = true;
     }
 

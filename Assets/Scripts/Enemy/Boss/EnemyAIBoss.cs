@@ -168,9 +168,9 @@ public class EnemyAIBoss : EnemyAI
     {
         if (!IsParryable) return 0f;
 
-        if (_currentState == JumpSlamState) return 0.7f;
+        if (_currentState == JumpSlamState) return 0.1f;
 
-        return 0.35f;
+        return 0.15f;
     }
 
     public void OnPlayerHitByAttack()
