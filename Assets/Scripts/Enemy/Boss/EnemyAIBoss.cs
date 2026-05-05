@@ -55,6 +55,15 @@ public class EnemyAIBoss : EnemyAI
     [Header("Parry Window")]
     public float parryWindowDuration = 0.5f;
 
+    [Header("Poise System")]
+    public float maxPoise = 300f;
+    public float currentPoise;
+    public float poiseDamageFromAttack = 100f;
+    public float poiseDamageFromParry = 300f;
+    public float poiseRegenRate = 30f;
+    [Range(0f, 1f)]
+    public float nonVulnerableDamageMultiplier = 0f;
+
     public BossIdleState IdleState { get; private set; }
     public BossDashState DashState { get; private set; }
     public BossJumpSlamState JumpSlamState { get; private set; }
@@ -87,6 +96,7 @@ public class EnemyAIBoss : EnemyAI
     protected override void Awake()
     {
         base.Awake();
+        currentPoise = maxPoise;
         Player = PlayerController.instance;
 
         IdleState = new BossIdleState(this);
@@ -109,55 +119,75 @@ public class EnemyAIBoss : EnemyAI
     {
         if (Player == null) Player = PlayerController.instance;
         if (CurrentHealth <= 0) return;
+        
+        // Poise regeneration when not vulnerable
+        if (!IsVulnerable)
+        {
+            currentPoise = Mathf.MoveTowards(currentPoise, maxPoise, poiseRegenRate * Time.deltaTime);
+        }
+
         base.Update();
+    }
+
+    public void RepelPlayer(Transform attacker)
+    {
+        if (Player == null) return;
+        
+        float pushDir = Mathf.Sign(Player.transform.position.x - transform.position.x);
+        // Strong, short impulse to break attack sequences
+        Player.ApplyVelocityOverride(new Vector2(pushDir * 12f, 2f), 0.1f);
     }
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
-        // Entirely ignore incoming attacks if not vulnerable and not parrying
-        if (!IsVulnerable && !isParrying) return;
-
         if (isParrying)
         {
-            // PARRY SUCCESS
-            try
-            {
-                VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f);
-            }
+            currentPoise -= poiseDamageFromParry;
+            
+            try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f); }
             catch { }
 
             IsParryable = false;
             CanDealDamage = false;
 
-            // Phase 2: If parried during jump, plan a follow-up jump
             if (CurrentPhase == 2 && _currentState == JumpSlamState && ConsecutiveJumps < 3)
             {
                 ConsecutiveJumps++;
                 ShouldJumpAfterVulnerable = true;
             }
 
-            // Interrupt current attack and transition into vulnerable state
-            GoToVulnerable();
-            return; // Return early, don't take damage from the parrying blow
+            if (currentPoise <= 0) GoToVulnerable();
+            return; 
         }
 
-        // REGULAR DAMAGE ON VULNERABLE BOSS
-        base.TakeDamage(amount, attacker, cause);
-        try
+        if (!IsVulnerable)
         {
-            VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f);
+            // ATTACK WHILE NOT VULNERABLE: 
+            // 1. Reduce Poise
+            currentPoise -= poiseDamageFromAttack;
+            
+            // 2. Repel the player immediately to break spam
+            RepelPlayer(attacker);
+            
+            // 3. Deal ZERO damage (True HyperArmor)
+            base.TakeDamage(0, attacker, cause);
+
+            if (currentPoise <= 0) GoToVulnerable();
+            return;
         }
+
+        // ATTACK WHILE VULNERABLE: Full damage
+        base.TakeDamage(amount, attacker, cause);
+        try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f); }
         catch { }
 
         if (CurrentHealth <= 0) return;
 
-        // Reset states
         IsVulnerable = false;
         IsParryable = false;
 
-        // Check for phase transition
         if (!_phaseTransitionTriggered && CurrentPhase == 1 && CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f)
         {
             _phaseTransitionTriggered = true;
@@ -166,7 +196,6 @@ public class EnemyAIBoss : EnemyAI
         }
         else
         {
-            // Boss retreats and waits for Cooldown internally inside IdleState
             GoToIdle();
             _ = HandlePhysicsDelayed(attacker, bounceBoss: true);
         }

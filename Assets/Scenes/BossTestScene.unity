@@ -1266,12 +1266,12 @@ MonoBehaviour:
   shakeFrequency: 100
   debrisTexture: {fileID: 0}
   phase1Cooldown: 1.5
-  phase1VulnerableDuration: 3
+  phase1VulnerableDuration: 1.5
   phase2Cooldown: 1
-  phase2VulnerableDuration: 2.5
+  phase2VulnerableDuration: 1
   dashSpeed: 30
   dashDamage: 5
-  jumpHeight: 10
+  jumpHeight: 15
   apexHangDuration: 0
   slamDamage: 10
   projectileSpeed: 20
@@ -1279,11 +1279,17 @@ MonoBehaviour:
   comboPauseBetweenHits: 0.5
   comboDamage: 12
   transitionDuration: 5
-  bounceForceX: 15
+  bounceForceX: 20
   bounceForceY: 5
-  counterAttackDistance: 2
+  counterAttackDistance: 3
   counterAttackDamage: 15
-  parryWindowDuration: 0.5
+  parryWindowDuration: 0.25
+  maxPoise: 100
+  currentPoise: 0
+  poiseDamageFromAttack: 25
+  poiseDamageFromParry: 100
+  poiseRegenRate: 30
+  nonVulnerableDamageMultiplier: 0.2
 --- !u!114 &784996073
 MonoBehaviour:
   m_ObjectHideFlags: 0
