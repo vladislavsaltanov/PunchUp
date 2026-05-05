@@ -9,6 +9,7 @@ public class BossVulnerableState : IEnemyState
 
     public void Enter()
     {
+        _boss.ConsecutiveJumps = 0;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         //_boss.rb.linearVelocity = Vector2.zero;
         _boss.IsVulnerable = true;
@@ -20,8 +21,19 @@ public class BossVulnerableState : IEnemyState
     {
         _timer -= Time.deltaTime;
         _boss.rb.linearVelocity = Vector2.Lerp(_boss.rb.linearVelocity, Vector2.zero, Time.deltaTime * 25f);
-        if (_timer <= 0f) _boss.GoToIdle();
-    }
+        if (_timer <= 0f)
+        {
+            if (_boss.CurrentPhase == 2 && _boss.ShouldJumpAfterVulnerable)
+            {
+                _boss.ShouldJumpAfterVulnerable = false;
+                _boss.GoToJumpSlam();
+            }
+            else
+            {
+                _boss.GoToIdle();
+            }
+        }
+    } 
 
     public void Exit()
     {

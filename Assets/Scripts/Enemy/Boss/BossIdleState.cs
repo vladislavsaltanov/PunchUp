@@ -9,6 +9,7 @@ public class BossIdleState : IEnemyState
 
     public void Enter()
     {
+        _boss.ConsecutiveJumps = 0;
         _boss.CanDealDamage = true;
         _boss.IsVulnerable = true;
         _boss.rb.linearVelocity = Vector2.zero;

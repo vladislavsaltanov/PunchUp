@@ -6,6 +6,7 @@ public class BossJumpSlamState : IEnemyState
     bool _active;
     bool _done;
     float _savedGravityScale;
+    bool _hitRegistered;
 
     public BossJumpSlamState(EnemyAIBoss boss) => _boss = boss;
 
@@ -16,9 +17,13 @@ public class BossJumpSlamState : IEnemyState
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
         _done = false;
+        _hitRegistered = false;
         _savedGravityScale = _boss.rb.gravityScale;
         _ = RunSequence();
     }
+
+    public void RegisterHit() => _hitRegistered = true;
+
 
     async Awaitable RunSequence()
     {
@@ -26,14 +31,22 @@ public class BossJumpSlamState : IEnemyState
 
         _boss.IsParryable = false;
 
-        // Jump calculation
+        // Jump calculation: Beautiful Curve
         if (_boss.Player != null)
         {
             float dx = _boss.Player.transform.position.x - _boss.transform.position.x;
             float g = Mathf.Abs(Physics2D.gravity.y) * _boss.rb.gravityScale;
+            
+            // Vertical velocity to reach jumpHeight
             float vy = Mathf.Sqrt(2f * g * _boss.jumpHeight);
+            
+            // Total time in air: t_up + t_down. 
+            // Assuming landing height approx equals starting height.
             float tApex = vy / g;
-            float vx = dx / tApex;
+            float tTotal = tApex * 2f; 
+            
+            // Horizontal velocity to reach player at the moment of impact
+            float vx = dx / tTotal;
 
             _boss.rb.linearVelocity = new Vector2(vx, vy);
             _boss.direction = (sbyte)Mathf.Sign(dx);
@@ -57,17 +70,23 @@ public class BossJumpSlamState : IEnemyState
         // Start descent: Open parry window
         _boss.IsParryable = true;
         _boss.rb.gravityScale = _savedGravityScale;
-        _boss.rb.linearVelocity = new Vector2(0f, -_boss.jumpHeight * 5f);
+        
+        // PRESERVE Vx: Add downward boost instead of resetting to zero
+        float currentVx = _boss.rb.linearVelocityX;
+        _boss.rb.linearVelocity = new Vector2(currentVx, -_boss.jumpHeight * 2f);
 
         // Wait for landing
-        while (_active)
+        float fallTimeout = 2.0f; 
+        float fallTimer = 0f;
+        while (_active && fallTimer < fallTimeout)
         {
+            fallTimer += Time.deltaTime;
             Vector2 origin = _boss.entityCollider != null
                 ? (Vector2)_boss.entityCollider.bounds.center
                   - new Vector2(0f, _boss.entityCollider.bounds.extents.y)
                 : (Vector2)_boss.transform.position;
              
-            if (Physics2D.Raycast(origin, Vector2.down, 0.25f, _boss.groundLayer).collider != null)
+            if (Physics2D.Raycast(origin, Vector2.down, 0.3f, _boss.groundLayer).collider != null)
             {
                 _boss.rb.linearVelocity = Vector2.zero;
                 break;
@@ -100,6 +119,15 @@ public class BossJumpSlamState : IEnemyState
     {
         if (!_done) return;
         _done = false;
+
+        // Phase 2: Aggressive chase - jump again if missed
+        if (_boss.CurrentPhase == 2 && !_hitRegistered && _boss.ConsecutiveJumps < 3)
+        {
+            _boss.ConsecutiveJumps++;
+            _boss.GoToJumpSlam();
+            return;
+        }
+
         _boss.GoToVulnerable();
     } 
 

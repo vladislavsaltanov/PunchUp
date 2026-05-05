@@ -80,6 +80,7 @@ public class EnemyAIBoss : EnemyAI
         }
     }
     public bool CanDealDamage { get; set; } = true;
+    public bool ShouldJumpAfterVulnerable { get; set; }
     bool _phaseTransitionTriggered;
     public CancellationTokenSource ShakeCts { get; private set; }
 
@@ -130,6 +131,13 @@ public class EnemyAIBoss : EnemyAI
             IsParryable = false;
             CanDealDamage = false;
 
+            // Phase 2: If parried during jump, plan a follow-up jump
+            if (CurrentPhase == 2 && _currentState == JumpSlamState && ConsecutiveJumps < 3)
+            {
+                ConsecutiveJumps++;
+                ShouldJumpAfterVulnerable = true;
+            }
+
             // Interrupt current attack and transition into vulnerable state
             GoToVulnerable();
             return; // Return early, don't take damage from the parrying blow
@@ -173,10 +181,19 @@ public class EnemyAIBoss : EnemyAI
         return 0.15f;
     }
 
+    public int ConsecutiveJumps { get; set; }
+
     public void OnPlayerHitByAttack()
     {
+        ConsecutiveJumps = 0; // Reset sequence on hit
+
         if (_currentState == DashState || _currentState == ComboState || _currentState == JumpSlamState)
         {
+            // Register hit in the state if possible
+            if (_currentState is BossDashState dash) dash.RegisterHit();
+            if (_currentState is BossJumpSlamState jump) jump.RegisterHit();
+            if (_currentState is BossComboState combo) combo.RegisterHit();
+
             IsParryable = false;
             IsVulnerable = false;
             CanDealDamage = false;

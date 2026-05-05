@@ -6,6 +6,7 @@ public class BossDashState : IEnemyState
     float _targetX;
     bool _active;
     bool _done;
+    bool _hitRegistered;
 
     public BossDashState(EnemyAIBoss boss) => _boss = boss;
 
@@ -16,6 +17,7 @@ public class BossDashState : IEnemyState
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
         _done = false;
+        _hitRegistered = false;
 
         float dir = _boss.Player != null
             ? Mathf.Sign(_boss.Player.transform.position.x - _boss.transform.position.x)
@@ -113,10 +115,19 @@ public class BossDashState : IEnemyState
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
     }
 
+    public void RegisterHit() => _hitRegistered = true;
+
     public void Update()
     {
         if (!_done) return;
         _done = false;
+
+        // Phase 2: If dash missed, immediately jump
+        if (_boss.CurrentPhase == 2 && !_hitRegistered)
+        {
+            _boss.GoToJumpSlam();
+            return;
+        }
 
         _boss.GoToVulnerable();
     }

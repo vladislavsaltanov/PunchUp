@@ -5,8 +5,10 @@ public class BossComboState : IEnemyState
     readonly EnemyAIBoss _boss;
     bool _active;
     bool _done;
+    bool _hitRegistered;
 
     const int HitCount = 3;
+
     const float DashSpeed = 22f;
     const float DashFraction = 0.5f;
 
@@ -19,6 +21,7 @@ public class BossComboState : IEnemyState
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
         _done = false;
+        _hitRegistered = false;
         _ = RunCombo();
     }
 
@@ -70,12 +73,14 @@ public class BossComboState : IEnemyState
         _done = true;
     }
 
+    public void RegisterHit() => _hitRegistered = true;
+
     public void Update()
     {
         if (!_done) return;
         _done = false;
         _boss.GoToVulnerable();
-    }
+    } 
 
     public void Exit()
     {
