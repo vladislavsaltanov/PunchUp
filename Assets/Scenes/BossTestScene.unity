@@ -1231,7 +1231,7 @@ MonoBehaviour:
     attackPower: 1
     defense: 0
     maxHealth: 200
-    healthRegenRate: 1
+    healthRegenRate: 0.2
     critChance: 0
     critMultiplier: 1.5
     knockbackMultiplier: 1

@@ -307,7 +307,11 @@ public class EnemyAIBoss : EnemyAI
 
     public float GetCooldown() => CurrentPhase == 1 ? phase1Cooldown : phase2Cooldown;
     public float GetVulnerableDuration() => CurrentPhase == 1 ? phase1VulnerableDuration : phase2VulnerableDuration;
-    public void EnterPhase2() => CurrentPhase = 2;
+    public void EnterPhase2()
+    {
+        stats.AddModifier(StatType.HealthRegenRate, percent: -100f, source: this);
+        CurrentPhase = 2;
+    }
 
     public void GoToIdle() => ChangeState(IdleState);
     public void GoToDash() => ChangeState(DashState);
