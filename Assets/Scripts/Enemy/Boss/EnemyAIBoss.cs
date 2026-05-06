@@ -89,7 +89,8 @@ public class EnemyAIBoss : EnemyAI
             
             if (_isParryable)
             {
-                _ = ShowHint(Color.yellow, parryWindowDuration);
+                // Use float.MaxValue to keep the hint visible until IsParryable becomes false
+                _ = ShowHint(Color.yellow, float.MaxValue);
             }
             else
             {
@@ -187,8 +188,8 @@ public class EnemyAIBoss : EnemyAI
             RepelPlayer(attacker);
             
             float multiplier = 0f;
-            if (hitsSinceLastVulnerable <= 10) multiplier = 0.1f;
-            else if (hitsSinceLastVulnerable % 5 == 0) multiplier = 0.5f;
+            if (hitsSinceLastVulnerable <= 10) multiplier = 0.05f;
+            else if (hitsSinceLastVulnerable % 5 == 0) multiplier = 0.2f;
 
             base.TakeDamage((ushort)(amount * multiplier), attacker, cause);
 

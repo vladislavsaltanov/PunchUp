@@ -1514,9 +1514,9 @@ MonoBehaviour:
   hintBackground: {fileID: 749771499}
   maxPoise: 100
   currentPoise: 0
-  poiseDamageFromAttack: 15
+  poiseDamageFromAttack: 5
   poiseDamageFromParry: 100
-  poiseRegenRate: 30
+  poiseRegenRate: 50
   nonVulnerableDamageMultiplier: 0.2
   hitsSinceLastVulnerable: 0
 --- !u!114 &784996073
