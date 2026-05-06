@@ -54,6 +54,8 @@ public class EnemyAIBoss : EnemyAI
 
     [Header("Parry Window")]
     public float parryWindowDuration = 0.5f;
+    public CanvasGroup hintCanvasGroup;
+    public UnityEngine.UI.Image hintBackground;
 
     [Header("Poise System")]
     public float maxPoise = 300f;
@@ -71,6 +73,7 @@ public class EnemyAIBoss : EnemyAI
     public BossComboState ComboState { get; private set; }
     public BossVulnerableState VulnerableState { get; private set; }
     public BossPhaseTransitionState PhaseTransitionState { get; private set; }
+    public BossGroundSlamState GroundSlamState { get; private set; }
 
     public PlayerController Player { get; private set; }
     public int CurrentPhase { get; private set; } = 1;
@@ -81,17 +84,28 @@ public class EnemyAIBoss : EnemyAI
         get => _isParryable;
         set
         {
+            if (_isParryable == value) return;
             _isParryable = value;
-            if (spriteRenderer != null)
+            
+            if (_isParryable)
             {
-                spriteRenderer.color = _isParryable ? new Color(1f, 0.8f, 0f) : Color.white;
+                _ = ShowHint(Color.yellow, parryWindowDuration);
+            }
+            else
+            {
+                // Cancel the hint immediately when parry window closes
+                _hintCts?.Cancel();
+                _hintCts?.Dispose();
+                _hintCts = null;
             }
         }
     }
     public bool CanDealDamage { get; set; } = true;
     public bool ShouldJumpAfterVulnerable { get; set; }
+    public int hitsSinceLastVulnerable;
     bool _phaseTransitionTriggered;
     public CancellationTokenSource ShakeCts { get; private set; }
+    CancellationTokenSource _hintCts;
 
     protected override void Awake()
     {
@@ -106,6 +120,7 @@ public class EnemyAIBoss : EnemyAI
         ComboState = new BossComboState(this);
         VulnerableState = new BossVulnerableState(this);
         PhaseTransitionState = new BossPhaseTransitionState(this);
+        GroundSlamState = new BossGroundSlamState(this);
 
         if (hitbox != null)
         {
@@ -159,32 +174,35 @@ public class EnemyAIBoss : EnemyAI
             }
 
             if (currentPoise <= 0) GoToVulnerable();
+            
+            // SUCCESSFUL PARRY: 200% Damage
+            base.TakeDamage((ushort)(amount * 2.0f), attacker, cause);
             return; 
         }
 
         if (!IsVulnerable)
         {
-            // ATTACK WHILE NOT VULNERABLE: 
-            // 1. Reduce Poise
+            hitsSinceLastVulnerable++;
             currentPoise -= poiseDamageFromAttack;
-            
-            // 2. Repel the player immediately to break spam
             RepelPlayer(attacker);
             
-            // 3. Deal ZERO damage (True HyperArmor)
-            base.TakeDamage(0, attacker, cause);
+            float multiplier = 0f;
+            if (hitsSinceLastVulnerable <= 10) multiplier = 0.1f;
+            else if (hitsSinceLastVulnerable % 5 == 0) multiplier = 0.5f;
+
+            base.TakeDamage((ushort)(amount * multiplier), attacker, cause);
 
             if (currentPoise <= 0) GoToVulnerable();
             return;
         }
 
-        // ATTACK WHILE VULNERABLE: Full damage
         base.TakeDamage(amount, attacker, cause);
         try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f); }
         catch { }
 
         if (CurrentHealth <= 0) return;
 
+        hitsSinceLastVulnerable = 0;
         IsVulnerable = false;
         IsParryable = false;
 
@@ -320,6 +338,54 @@ public class EnemyAIBoss : EnemyAI
     public void GoToCombo() => ChangeState(ComboState);
     public void GoToVulnerable() => ChangeState(VulnerableState);
     public void GoToPhaseTransition() => ChangeState(PhaseTransitionState);
+
+    public async Awaitable ShowHint(Color color, float duration)
+    {
+        if (hintCanvasGroup == null || hintBackground == null) return;
+        
+        // Cancel previous hint task
+        _hintCts?.Cancel();
+        _hintCts?.Dispose();
+        _hintCts = new CancellationTokenSource();
+        var token = _hintCts.Token;
+
+        try
+        {
+            hintBackground.color = color;
+            
+            // Smooth Fade In
+            float fadeTime = 0.15f;
+            float elapsed = 0f;
+            while (elapsed < fadeTime)
+            {
+                if (token.IsCancellationRequested) return;
+                elapsed += Time.deltaTime;
+                hintCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / fadeTime);
+                await Awaitable.NextFrameAsync();
+            }
+            hintCanvasGroup.alpha = 1f;
+
+            // Hold
+            await Awaitable.WaitForSecondsAsync(duration, token);
+
+            // Smooth Fade Out
+            elapsed = 0f;
+            while (elapsed < fadeTime)
+            {
+                if (token.IsCancellationRequested) return;
+                elapsed += Time.deltaTime;
+                hintCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / fadeTime);
+                await Awaitable.NextFrameAsync();
+            }
+        }
+        catch (System.OperationCanceledException) { }
+        catch (System.Exception) { }
+        finally
+        {
+            // Guaranteed reset regardless of how the method ended
+            hintCanvasGroup.alpha = 0f;
+        }
+    }
 
     void OnDrawGizmosSelected()
     {
