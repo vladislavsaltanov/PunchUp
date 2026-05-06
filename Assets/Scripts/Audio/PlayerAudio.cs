@@ -185,4 +185,13 @@ public class PlayerAudio : MonoBehaviour
         }
         else return;
     }
+    public void HandlePunch()
+    {
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool && !isMarketBool)
+        {
+            AudioManager.Instance.PlayerPunch(transform.position);
+        }
+        else return;
+    }
 }

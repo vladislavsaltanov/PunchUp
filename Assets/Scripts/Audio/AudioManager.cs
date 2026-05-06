@@ -23,6 +23,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference dashEvent;
     [SerializeField] private EventReference playerTakeDamageEvent;
     [SerializeField] private EventReference playerAttackEvent;
+    [SerializeField] private EventReference playerPunchEvent;
 
     [Header("Doctor")]
     [SerializeField] private EventReference doctorFootstepEvent;
@@ -270,6 +271,12 @@ public class AudioManager : MonoBehaviour
     {
         if (playerAttackEvent.IsNull) return;
         RuntimeManager.PlayOneShot(playerAttackEvent, position);
+    }
+
+    public void PlayerPunch(Vector2 position)
+    {
+        if (playerPunchEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(playerPunchEvent, position);
     }
 
     public void DoctorAttack(Vector2 position)

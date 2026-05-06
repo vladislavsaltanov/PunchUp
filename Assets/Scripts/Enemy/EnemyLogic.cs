@@ -222,6 +222,7 @@ public class EnemyLogic : BaseEntity
             currentState = EnemyState.WalkingTowardsPlayer;
 
             doctorAudio.HandleDamage();
+            PlayerAudio.Instance.HandlePunch();
         }
     }
 

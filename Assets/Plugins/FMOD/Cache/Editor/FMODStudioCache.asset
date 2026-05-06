@@ -357,11 +357,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639134383789453721
+  lastModified: 639136928692972171
   FileSizes:
   - Name: Desktop
-    Value: 212672
+    Value: 223456
   Exists: 1
+--- !u!114 &-4732571373947568141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/PlayerPunch
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/PlayerPunch
+  Guid:
+    Data1: -512379223
+    Data2: 1281638985
+    Data3: -1891769963
+    Data4: -1693305433
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
 --- !u!114 &-4027563520712342830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,13 +819,14 @@ MonoBehaviour:
   - {fileID: -3236812783196061591}
   - {fileID: 2125984800916890144}
   - {fileID: -6012460426877719112}
+  - {fileID: -4732571373947568141}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639134465669334513
+  cacheTime: 639136928692972171
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -836,6 +864,12 @@ MonoBehaviour:
     index: 16
   - key: event:/Music/MainMenu/MainMenuTrack
     index: 17
+  - key: event:/Music/Floor 2/LevelTrack1
+    index: 18
+  - key: event:/Music/Floor 2/LevelTrack2
+    index: 19
+  - key: event:/Player/PlayerPunch
+    index: 20
 --- !u!114 &256050263783390188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,10 +1233,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639134465636400641
+  lastModified: 639136923328887839
   FileSizes:
   - Name: Desktop
-    Value: 2126
+    Value: 2162
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1219,7 +1253,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639134465636390587
+  lastModified: 639136923328870416
   FileSizes:
   - Name: Desktop
     Value: 1962

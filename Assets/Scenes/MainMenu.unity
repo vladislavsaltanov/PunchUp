@@ -6650,6 +6650,13 @@ MonoBehaviour:
       Data3: 640275334
       Data4: 595975080
     Path: "event:/Player/PlayerAtta\u0441k"
+  playerPunchEvent:
+    Guid:
+      Data1: -512379223
+      Data2: 1281638985
+      Data3: -1891769963
+      Data4: -1693305433
+    Path: event:/Player/PlayerPunch
   doctorFootstepEvent:
     Guid:
       Data1: 1210354899
