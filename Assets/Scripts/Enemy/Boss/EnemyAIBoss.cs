@@ -108,6 +108,8 @@ public class EnemyAIBoss : EnemyAI
     public CancellationTokenSource ShakeCts { get; private set; }
     CancellationTokenSource _hintCts;
 
+    [SerializeField] AnimationTrigger doorTrigger;
+
     protected override void Awake()
     {
         base.Awake();
@@ -128,7 +130,7 @@ public class EnemyAIBoss : EnemyAI
             hitbox.Init(this);
             hitbox.gameObject.SetActive(false);
         }
-        ChangeState(IdleState);
+        doorTrigger.animationTriggered += () => ChangeState(IdleState);
     }
 
     protected override void Update()
