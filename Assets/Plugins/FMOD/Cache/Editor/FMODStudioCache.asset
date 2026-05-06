@@ -357,10 +357,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639136928692972171
+  lastModified: 639136980151940034
   FileSizes:
   - Name: Desktop
-    Value: 223456
+    Value: 275648
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -389,6 +389,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &-4572516058127036388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/StartMoving
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/StartMoving
+  Guid:
+    Data1: 958727013
+    Data2: 1159524846
+    Data3: 543587505
+    Data4: 1043644250
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-4027563520712342830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,13 +847,15 @@ MonoBehaviour:
   - {fileID: 2125984800916890144}
   - {fileID: -6012460426877719112}
   - {fileID: -4732571373947568141}
+  - {fileID: 200192421659027726}
+  - {fileID: -4572516058127036388}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639136928692972171
+  cacheTime: 639136980413088135
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -870,6 +899,37 @@ MonoBehaviour:
     index: 19
   - key: event:/Player/PlayerPunch
     index: 20
+  - key: event:/Elevator/Ring
+    index: 21
+  - key: event:/Elevator/StartMoving
+    index: 22
+--- !u!114 &200192421659027726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elevator/Ring
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Elevator/Ring
+  Guid:
+    Data1: -823772091
+    Data2: 1234180612
+    Data3: -1951132266
+    Data4: -135857865
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &256050263783390188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,7 +1246,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639120515703296693
+  lastModified: 639136980413088135
   FileSizes:
   - Name: Desktop
     Value: 969344
@@ -1233,10 +1293,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639136923328887839
+  lastModified: 639136980151629486
   FileSizes:
   - Name: Desktop
-    Value: 2162
+    Value: 2278
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1253,10 +1313,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639136923328870416
+  lastModified: 639136980151619547
   FileSizes:
   - Name: Desktop
-    Value: 1962
+    Value: 2108
   Exists: 1
 --- !u!114 &9220659935962306198
 MonoBehaviour:

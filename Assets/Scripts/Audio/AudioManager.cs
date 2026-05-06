@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     [Header("Elevator")]
     [SerializeField] private EventReference ElevatorAmbientEvent;
     [SerializeField] private EventReference ElevatorOpenEvent;
+    [SerializeField] private EventReference ElevatorRingEvent;
+    [SerializeField] private EventReference ElevatorStartMovingEvent;
 
     [Header("Player")]
     [SerializeField] private EventReference footstepEvent;
@@ -126,6 +128,16 @@ public class AudioManager : MonoBehaviour
     {
         if (ElevatorOpenEvent.IsNull) return;
         RuntimeManager.PlayOneShot(ElevatorOpenEvent);
+    }
+    public void PlayRingElevator()
+    {
+        if (ElevatorRingEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(ElevatorRingEvent);
+    }
+    public void PlayStartMovingElevator()
+    {
+        if (ElevatorStartMovingEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(ElevatorStartMovingEvent);
     }
 
     // Йоу печенье - програмное обеспечение >_<

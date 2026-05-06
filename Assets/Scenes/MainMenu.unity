@@ -6615,6 +6615,20 @@ MonoBehaviour:
       Data3: -1676817004
       Data4: -460798617
     Path: event:/Elevator/DoorOpen
+  ElevatorRingEvent:
+    Guid:
+      Data1: -823772091
+      Data2: 1234180612
+      Data3: -1951132266
+      Data4: -135857865
+    Path: event:/Elevator/Ring
+  ElevatorStartMovingEvent:
+    Guid:
+      Data1: 958727013
+      Data2: 1159524846
+      Data3: 543587505
+      Data4: 1043644250
+    Path: event:/Elevator/StartMoving
   footstepEvent:
     Guid:
       Data1: 838722172

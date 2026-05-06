@@ -10,6 +10,9 @@ public class Elevator : MonoBehaviour, IInteractable
     [Header("Visuals")]
     [SerializeField] GameObject promptUI;
 
+    [Header("Audio")]
+    [SerializeField] ElevatorAudio elevatorAudio;
+
     private void Start()
     {
         if (promptUI != null)
@@ -21,6 +24,8 @@ public class Elevator : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
+        elevatorAudio.ElevatorOpenHandle();
+        elevatorAudio.ElevatorStartMovingHandle();
         RunManager.Instance.OnFloorCleared();
     }
 
