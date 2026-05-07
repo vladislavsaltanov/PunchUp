@@ -90,8 +90,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     protected virtual void Awake()
     {
-        maxHealth = (ushort)(Stats[StatType.MaxHealth] * DifficultyManager.Instance.DifficultyMultiplier);
-        CurrentHealth = (ushort)(Stats[StatType.MaxHealth] * DifficultyManager.Instance.DifficultyMultiplier);
+        maxHealth = (ushort)(Stats[StatType.MaxHealth] * (_name == "Игрок" ? 1 : DifficultyManager.Instance.DifficultyMultiplier));
+        CurrentHealth = (ushort)(Stats[StatType.MaxHealth] * (_name == "Игрок" ? 1 : DifficultyManager.Instance.DifficultyMultiplier));
         mpb ??= new MaterialPropertyBlock();
 
         // initial gather
