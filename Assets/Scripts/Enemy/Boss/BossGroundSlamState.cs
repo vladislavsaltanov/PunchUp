@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BossGroundSlamState : IEnemyState
 {
@@ -39,7 +39,7 @@ public class BossGroundSlamState : IEnemyState
             // Only damage if player is NOT jumping (simplified check)
             if (Mathf.Abs(_boss.Player.rb.linearVelocityY) < 0.1f)
             {
-                _boss.Player.TakeDamage(_boss.slamDamage, _boss.transform, "Ground Slam");
+                _boss.Player.TakeDamage(_boss.slamDamage, _boss.transform, "Тесей");
                 _boss.Player.ApplyVelocityOverride(new Vector2(0, 10f), 0.2f);
                 hitPlayer = true;
             }
