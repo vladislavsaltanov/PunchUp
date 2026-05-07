@@ -90,8 +90,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
 
     protected virtual void Awake()
     {
-        maxHealth = (ushort)Stats[StatType.MaxHealth];
-        CurrentHealth = (ushort)Stats[StatType.MaxHealth];
+        maxHealth = (ushort)(Stats[StatType.MaxHealth] * (_name == "Игрок" ? 1 : DifficultyManager.Instance.DifficultyMultiplier));
+        CurrentHealth = (ushort)(Stats[StatType.MaxHealth] * (_name == "Игрок" ? 1 : DifficultyManager.Instance.DifficultyMultiplier));
         mpb ??= new MaterialPropertyBlock();
 
         // initial gather
@@ -119,7 +119,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         lastDamageCause = cause ?? "unknown";
 
         float reduced = Mathf.Max(1, amount - Stats[StatType.Defense]);
-        ushort finalDamage = (ushort)reduced;
+        ushort finalDamage = (ushort)(reduced * (_name == "Игрок" ? DifficultyManager.Instance.DifficultyMultiplier : 1));
 
         CurrentHealth = finalDamage >= CurrentHealth ? (ushort)0 : (ushort)(CurrentHealth - finalDamage);
         onHealthChanged?.Invoke(CurrentHealth, maxHealth, finalDamage);
@@ -131,6 +131,7 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         if (finalDamage > 0)
         {
             LastDamageTime = Time.time;
+            DamageNumberPool.ShowDamage(transform.position + new Vector3(0f, 1f, 0f), finalDamage.ToString(), Color.softRed);
             OnDamageEvent?.Invoke();
         }
 
@@ -194,7 +195,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         RefreshShaderTargets();
 
         OnDeathEvent?.Invoke();
-        PlayerWallet.Instance.AddGold(EntityCost);
+        if (_name != "Игрок")
+            PlayerWallet.Instance.AddGold(EntityCost);
 
         _ = DeathProgressRoutine(deathProgressSeconds);
     }

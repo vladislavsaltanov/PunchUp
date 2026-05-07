@@ -174,6 +174,8 @@ public class EnemyAIBoss : EnemyAI
 
         if (isParrying)
         {
+            DamageNumberPool.ShowDamage(transform.position, "Парирование!", Color.yellowNice);
+
             currentPoise -= poiseDamageFromParry;
             try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f); } catch { }
             IsParryable = false;
