@@ -14,7 +14,8 @@ public class DamageText : MonoBehaviour
     }
     void LateUpdate()
     {
-        transform.forward = Camera.main.transform.forward;
+        if (Camera.main != null)
+            transform.forward = Camera.main.transform.forward;
     }
     public async Awaitable AnimateAndDisable(
         string amount,

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public static class InputTooltipFormatter
 {
@@ -19,89 +20,116 @@ public static class InputTooltipFormatter
         return TokenRegex.Replace(text, match =>
         {
             string actionName = match.Groups[1].Value;
-
             return GetBindingName(actionName, scheme);
         });
     }
 
-    private static string GetBindingName(
-    string actionName,
-    string scheme)
+    private static string GetBindingName(string actionName, string scheme)
     {
-        InputAction action =
-            InputManager.Instance.GetAction(actionName);
+        InputAction action = InputManager.Instance.GetAction(actionName);
 
         if (action == null)
             return "?";
 
         var bindings = action.bindings;
 
+        bool isGamepad = scheme.Contains("Gamepad");
+
+        List<string> results = new();
+        string fallback = null;
+
         for (int i = 0; i < bindings.Count; i++)
         {
             var binding = bindings[i];
 
-            // Composite root
+            if (binding.isPartOfComposite)
+                continue;
+
+            // Composite (WASD etc.)
             if (binding.isComposite)
             {
-                return GetCompositeDisplayString(
-                    action,
-                    i,
-                    scheme);
-            }
+                bool hasValidPart = false;
 
-            // Regular binding
-            if (!binding.isPartOfComposite)
-            {
-                if (!InputBinding.MaskByGroup(scheme)
-                    .Matches(binding))
+                for (int j = i + 1;
+                     j < bindings.Count && bindings[j].isPartOfComposite;
+                     j++)
                 {
-                    continue;
+                    var part = bindings[j];
+
+                    bool isKeyboardPart =
+                        part.effectivePath.StartsWith("<Keyboard>") ||
+                        part.effectivePath.StartsWith("<Mouse>");
+
+                    bool isGamepadPart =
+                        part.effectivePath.StartsWith("<Gamepad>");
+
+                    if ((isGamepad && isGamepadPart) ||
+                        (!isGamepad && isKeyboardPart))
+                    {
+                        hasValidPart = true;
+                        break;
+                    }
                 }
 
-                return GetReadableBindingName(
-                    action,
-                    i);
+                if (hasValidPart)
+                {
+                    string composite = GetCompositeDisplayString(action, i);
+                    results.Add(composite);
+                }
+
+                continue;
+            }
+
+            string display = GetReadableBindingName(action, i);
+
+            if (string.IsNullOrEmpty(display))
+                continue;
+
+            fallback ??= display;
+
+            bool isBindingGamepad =
+                binding.effectivePath.StartsWith("<Gamepad>");
+
+            bool isBindingKeyboard =
+                binding.effectivePath.StartsWith("<Keyboard>") ||
+                binding.effectivePath.StartsWith("<Mouse>");
+
+            bool matchesDevice =
+                (isGamepad && isBindingGamepad) ||
+                (!isGamepad && isBindingKeyboard);
+
+            if (matchesDevice)
+            {
+                results.Add(display);
             }
         }
 
-        return "?";
+        if (results.Count > 0)
+            return string.Join(" / ", results);
+
+        return fallback ?? "?";
     }
 
-    private static string GetCompositeDisplayString(
-        InputAction action,
-        int compositeIndex,
-        string scheme)
+    private static string GetCompositeDisplayString(InputAction action, int compositeIndex)
     {
         var bindings = action.bindings;
 
         List<string> parts = new();
 
         for (int i = compositeIndex + 1;
-             i < bindings.Count &&
-             bindings[i].isPartOfComposite;
+             i < bindings.Count && bindings[i].isPartOfComposite;
              i++)
         {
-            var binding = bindings[i];
+            string display = GetReadableBindingName(action, i);
 
-            if (!InputBinding.MaskByGroup(scheme)
-                .Matches(binding))
-            {
-                continue;
-            }
-
-            string display =
-                GetReadableBindingName(action, i);
-
-            if (string.IsNullOrEmpty(display))
-                continue;
-
-            if (!parts.Contains(display))
+            if (!string.IsNullOrEmpty(display) &&
+                !parts.Contains(display))
             {
                 parts.Add(display);
             }
         }
 
-        // WASD
+        // WASD (English + Russian fallback)
         if (parts.Count == 4 &&
             parts.Contains("W") &&
             parts.Contains("A") &&
@@ -111,9 +139,17 @@ public static class InputTooltipFormatter
             return "WASD";
         }
 
-        // Arrow keys
         if (parts.Count == 4 &&
-            parts.Exists(x => x.Contains("Arrow")))
+            parts.Contains("Ц") &&
+            parts.Contains("Ы") &&
+            parts.Contains("Ф") &&
+            parts.Contains("В"))
+        {
+            return "WASD";
+        }
+
+        // Arrows
+        if (parts.Exists(p => p.Contains("Arrow")))
         {
             return "Arrow Keys";
         }
@@ -121,12 +157,9 @@ public static class InputTooltipFormatter
         return string.Join(" / ", parts);
     }
 
-    private static string GetReadableBindingName(
-        InputAction action,
-        int bindingIndex)
+    private static string GetReadableBindingName(InputAction action, int bindingIndex)
     {
-        string path =
-            action.bindings[bindingIndex].effectivePath;
+        string path = action.bindings[bindingIndex].effectivePath;
 
         return path switch
         {
@@ -141,6 +174,7 @@ public static class InputTooltipFormatter
 
             "<Keyboard>/leftShift" => "Shift",
             "<Keyboard>/rightShift" => "Shift",
+            "<Keyboard>/shift" => "Shift",
 
             "<Keyboard>/leftCtrl" => "Ctrl",
             "<Keyboard>/rightCtrl" => "Ctrl",
@@ -153,7 +187,7 @@ public static class InputTooltipFormatter
             "<Keyboard>/leftArrow" => "←",
             "<Keyboard>/rightArrow" => "→",
 
-            // Xbox gamepad
+            // Gamepad
             "<Gamepad>/buttonSouth" => "A",
             "<Gamepad>/buttonEast" => "B",
             "<Gamepad>/buttonWest" => "X",
@@ -176,8 +210,11 @@ public static class InputTooltipFormatter
 
             "<Gamepad>/dpad" => "D-Pad",
 
-            // Fallback
-            _ => action.GetBindingDisplayString(bindingIndex)
+            _ => InputControlPath.ToHumanReadableString(
+                path,
+                InputControlPath.HumanReadableStringOptions.OmitDevice |
+                InputControlPath.HumanReadableStringOptions.UseShortNames
+            )
         };
     }
 }
