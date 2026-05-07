@@ -2166,7 +2166,7 @@ MonoBehaviour:
   bounceForceY: 5
   counterAttackDistance: 3
   counterAttackDamage: 10
-  parryWindowDuration: 0.18
+  parryWindowDuration: 0.25
   hintCanvasGroup: {fileID: 1195556178}
   hintBackground: {fileID: 749771499}
   maxPoise: 100
