@@ -45,7 +45,7 @@ public class DamageNumberPool : MonoBehaviour
         DamageText dt = pool.Count > 0 ? pool.Dequeue() : CreateNewObject();
 
         dt.transform.position = position;
-        dt.transform.parent.gameObject.SetActive(true);
+        dt.gameObject.SetActive(true);
 
         await dt.AnimateAndDisable(amount, color, destroyCancellationToken);
 
