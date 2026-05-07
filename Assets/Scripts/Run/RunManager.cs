@@ -143,13 +143,14 @@ public class RunManager : MonoBehaviour
         SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
 
-    public void OnFloorCleared()
+    public void OnFloorCleared(bool bossBattle = false)
     {
         StatisticsHandler.Instance.statisticData.floors_cleared++;
         CurrentFloor++;
+        Time.timeScale = 1f;
 
-        if (CurrentFloor % 5 == 0)
-            SceneTransitionManager.SwitchScene("BossFloor");
+        if (CurrentFloor % 5 == 0 || bossBattle)
+            SceneTransitionManager.SwitchScene("BossBattle");
         else
             SceneTransitionManager.SwitchScene(GetRandomLevel());
     }
