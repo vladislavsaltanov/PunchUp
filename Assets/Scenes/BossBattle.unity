@@ -976,7 +976,6 @@ GameObject:
   - component: {fileID: 378203482}
   - component: {fileID: 378203485}
   - component: {fileID: 378203484}
-  - component: {fileID: 378203483}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1003,20 +1002,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &378203483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378203481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3a689af813d90458a333562994528d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputBindingLabel
-  _actionName: Interact
-  _labelText: {fileID: 378203484}
 --- !u!114 &378203484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4575,7 +4560,6 @@ GameObject:
   - component: {fileID: 1796706325367986595}
   - component: {fileID: 5670550073241941507}
   - component: {fileID: 5495740154670492840}
-  - component: {fileID: 5208231230720641155}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4583,20 +4567,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5208231230720641155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4467582616914155426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3a689af813d90458a333562994528d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputBindingLabel
-  _actionName: Interact
-  _labelText: {fileID: 5495740154670492840}
 --- !u!4 &5401645634145891586
 Transform:
   m_ObjectHideFlags: 0
