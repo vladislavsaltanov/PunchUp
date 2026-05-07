@@ -46,7 +46,7 @@ public class EndScreenController : MonoBehaviour
         var runManager = RunManager.Instance;
         var lastResult = runManager.LastResult;
 
-        titleText.text = died ? "вы умерли :(" : "ран завершен!";
+        titleText.text = died ? "вы умерли :(" : "вы победили!";
         runNumber.text = $"забег {lastResult.run_number}";
 
         if (died)
