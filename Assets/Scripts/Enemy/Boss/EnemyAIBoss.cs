@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyAIBoss : EnemyAI
@@ -32,6 +33,7 @@ public class EnemyAIBoss : EnemyAI
 
     [Header("Jump Slam")]
     public float jumpHeight = 8f;
+    public float jumpSpeedMultiplier = 1f;
     public float apexHangDuration = 0f;
     public ushort slamDamage = 25;
 
@@ -45,6 +47,7 @@ public class EnemyAIBoss : EnemyAI
 
     [Header("Phase Transition")]
     public float transitionDuration = 3f;
+    public float deathDuration = 5f;
 
     [Header("Bounce on hit")]
     public float bounceForceX = 6f;
@@ -65,6 +68,7 @@ public class EnemyAIBoss : EnemyAI
     public float poiseRegenRate = 30f;
     [Range(0f, 1f)]
     public float nonVulnerableDamageMultiplier = 0f;
+    public float invulnerabilityDuration = 0.2f;
 
     public BossIdleState IdleState { get; private set; }
     public BossDashState DashState { get; private set; }
@@ -105,6 +109,7 @@ public class EnemyAIBoss : EnemyAI
     public bool ShouldJumpAfterVulnerable { get; set; }
     public int hitsSinceLastVulnerable;
     bool _phaseTransitionTriggered;
+    private float _invulnerabilityTimer; // i-frames to prevent damage spam
     public CancellationTokenSource ShakeCts { get; private set; }
     CancellationTokenSource _hintCts;
 
@@ -137,7 +142,11 @@ public class EnemyAIBoss : EnemyAI
     {
         if (Player == null) Player = PlayerController.instance;
         if (CurrentHealth <= 0) return;
+        if (_isDead) return;
         
+        if (_invulnerabilityTimer > 0)
+            _invulnerabilityTimer -= Time.deltaTime;
+
         // Poise regeneration when not vulnerable
         if (!IsVulnerable)
         {
@@ -158,6 +167,8 @@ public class EnemyAIBoss : EnemyAI
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
+        if (_invulnerabilityTimer > 0) return;
+
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
         if (isParrying)
@@ -180,6 +191,9 @@ public class EnemyAIBoss : EnemyAI
             
             // SUCCESSFUL PARRY: 200% Damage
             base.TakeDamage((ushort)(amount * 2.0f), attacker, cause);
+            
+            // Trigger short i-frames after a big hit/parry to prevent state-chaining spam
+            _invulnerabilityTimer = invulnerabilityDuration;
             return; 
         }
 
@@ -203,11 +217,16 @@ public class EnemyAIBoss : EnemyAI
         try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f); }
         catch { }
 
-        if (CurrentHealth <= 0) return;
+        if (CurrentHealth <= 0)
+        {
+            _ = Die();
+            return;
+        }
 
         hitsSinceLastVulnerable = 0;
         IsVulnerable = false;
         IsParryable = false;
+        _invulnerabilityTimer = invulnerabilityDuration; // Protect transition to Idle/PhaseTransition
 
         if (!_phaseTransitionTriggered && CurrentPhase == 1 && CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f)
         {
@@ -232,6 +251,10 @@ public class EnemyAIBoss : EnemyAI
     }
 
     public int ConsecutiveJumps { get; set; }
+    private bool _isDead;
+
+    public event Action OnDeathStarted;
+    public event Action OnDeathEnded;
 
     public void OnPlayerHitByAttack()
     {
@@ -341,6 +364,31 @@ public class EnemyAIBoss : EnemyAI
     public void GoToCombo() => ChangeState(ComboState);
     public void GoToVulnerable() => ChangeState(VulnerableState);
     public void GoToPhaseTransition() => ChangeState(PhaseTransitionState);
+    public void GoToGroundSlam() => ChangeState(GroundSlamState);
+
+    public async Awaitable Die()
+    {
+        if (_isDead) return;
+        _isDead = true;
+
+        // 1. Start of death
+        OnDeathStarted?.Invoke();
+        
+        // Stop all AI state updates
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        
+        // 2. Shake during the whole death sequence
+        StartShake();
+
+        // 3. Duration
+        await Awaitable.WaitForSecondsAsync(deathDuration);
+
+        // 4. End of death
+        StopShake();
+        VisualEffectsManager.SpawnExplosion(spriteRenderer.sprite.texture, transform.position, Color.white, 50);
+        OnDeathEnded?.Invoke();
+    }
 
     public async Awaitable ShowHint(Color color, float duration)
     {

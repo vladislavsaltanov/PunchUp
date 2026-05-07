@@ -36,13 +36,14 @@ public class BossIdleState : IEnemyState
 
     void PickAttack()
     {
-        int pool = _boss.CurrentPhase == 1 ? 3 : 4;
+        int pool = _boss.CurrentPhase == 1 ? 3 : 5;
         switch (Random.Range(0, pool))
         {
             case 0: _boss.GoToDash(); break;
             case 1: _boss.GoToJumpSlam(); break;
             case 2: _boss.GoToProjectile(); break;
             case 3: _boss.GoToCombo(); break;
+            case 4: _boss.GoToGroundSlam(); break;
         }
     }
 

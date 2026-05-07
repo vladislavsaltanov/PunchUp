@@ -31,6 +31,8 @@ public class BossComboState : IEnemyState
             ? Mathf.Sign(_boss.Player.transform.position.x - _boss.transform.position.x)
             : _boss.direction;
 
+        const float PlayerOffset = 2.5f; // Distance to dash past the player
+
         for (int i = 0; i < HitCount; i++)
         {
             if (!_active) return;
@@ -38,10 +40,19 @@ public class BossComboState : IEnemyState
             await Awaitable.WaitForSecondsAsync(_boss.comboPauseBetweenHits);
             if (!_active) return;
 
-            float targetX = Mathf.Clamp(
-                _boss.transform.position.x + dir * _boss.arenaHalfWidth * DashFraction,
-                _boss.arenaCenterX - _boss.arenaHalfWidth,
-                _boss.arenaCenterX + _boss.arenaHalfWidth);
+            // TARGETING: Dash to a point relative to the player's CURRENT position
+            float targetX = float.NaN;
+            if (_boss.Player != null)
+            {
+                targetX = _boss.Player.transform.position.x + dir * PlayerOffset;
+            }
+            else
+            {
+                targetX = _boss.transform.position.x + dir * _boss.arenaHalfWidth * DashFraction;
+            }
+
+            // Clamp to arena bounds
+            targetX = Mathf.Clamp(targetX, _boss.arenaCenterX - _boss.arenaHalfWidth, _boss.arenaCenterX + _boss.arenaHalfWidth);
 
             _boss.direction = (sbyte)dir;
             _boss.UpdateVisualDirection();

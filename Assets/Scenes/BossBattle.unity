@@ -683,7 +683,7 @@ Transform:
   m_GameObject: {fileID: 184631122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.26717, y: 0.40853453, z: 0}
+  m_LocalPosition: {x: -43.5, y: 0.40853453, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2337,7 +2337,7 @@ MonoBehaviour:
   entityCollider: {fileID: 1157908252}
   isWaiting: 0
   impactSeconds: 0.1
-  deathProgressSeconds: 1.5
+  deathProgressSeconds: 5
   deactivateOnDeath: 1
   _currentStateName: 
   hitbox: {fileID: 93444784}
@@ -2358,6 +2358,7 @@ MonoBehaviour:
   dashSpeed: 30
   dashDamage: 8
   jumpHeight: 12
+  jumpSpeedMultiplier: 1.25
   apexHangDuration: 0
   slamDamage: 11
   projectileSpeed: 20
@@ -2365,11 +2366,12 @@ MonoBehaviour:
   comboPauseBetweenHits: 0.35
   comboDamage: 13
   transitionDuration: 5
+  deathDuration: 5
   bounceForceX: 20
   bounceForceY: 5
   counterAttackDistance: 3
   counterAttackDamage: 10
-  parryWindowDuration: 0.25
+  parryWindowDuration: 0.18
   hintCanvasGroup: {fileID: 1195556178}
   hintBackground: {fileID: 749771499}
   maxPoise: 100
@@ -2378,6 +2380,7 @@ MonoBehaviour:
   poiseDamageFromParry: 100
   poiseRegenRate: 30
   nonVulnerableDamageMultiplier: 0.2
+  invulnerabilityDuration: 0.35
   hitsSinceLastVulnerable: 0
   doorTrigger: {fileID: 365769751}
 --- !u!114 &784996073
@@ -3823,7 +3826,7 @@ Transform:
   m_GameObject: {fileID: 1561868581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.71, y: 0.40853453, z: 0}
+  m_LocalPosition: {x: -39.75, y: 0.40853453, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5172,7 +5175,7 @@ Transform:
   m_GameObject: {fileID: 2202064871407390659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.23, y: 0.40853453, z: 0}
+  m_LocalPosition: {x: -47.25, y: 0.40853453, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

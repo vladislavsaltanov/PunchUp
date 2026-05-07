@@ -34,17 +34,27 @@ public class BossJumpSlamState : IEnemyState
         if (_boss.Player != null)
         {
             float dx = _boss.Player.transform.position.x - _boss.transform.position.x;
-            float g = Mathf.Abs(Physics2D.gravity.y) * _boss.rb.gravityScale;
             
-            // Vertical velocity to reach jumpHeight
+            // 1. Calculate the speed multiplier (k)
+            float phaseMultiplier = _boss.CurrentPhase == 2 ? 1.25f : 1f;
+            float k = _boss.jumpSpeedMultiplier * phaseMultiplier;
+
+            // 2. Adjust gravity to maintain height while changing speed
+            // g_new = g_old * k^2
+            float originalGravityScale = _savedGravityScale;
+            float modifiedGravityScale = originalGravityScale * (k * k);
+            _boss.rb.gravityScale = modifiedGravityScale;
+
+            float g = Mathf.Abs(Physics2D.gravity.y) * modifiedGravityScale;
+            
+            // 3. Calculate vy for the fixed jumpHeight using the new gravity
             float vy = Mathf.Sqrt(2f * g * _boss.jumpHeight);
             
-            // Total time in air: t_up + t_down. 
-            // Assuming landing height approx equals starting height.
+            // 4. Recalculate total time in air for the new gravity
             float tApex = vy / g;
             float tTotal = tApex * 2f; 
             
-            // Horizontal velocity to reach player at the moment of impact
+            // 5. Horizontal velocity to reach player exactly at impact
             float vx = dx / tTotal;
 
             _boss.rb.linearVelocity = new Vector2(vx, vy);
