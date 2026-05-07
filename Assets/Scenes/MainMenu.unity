@@ -10550,7 +10550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e82e172ceba3d24486e593b9a548554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageNumberPool
-  textPrefab: {fileID: 545700469544732292, guid: 2ced7fb2c4d34dc4299bd9d2ffb10704, type: 3}
+  textPrefab: {fileID: 4254351092096668964, guid: 2ced7fb2c4d34dc4299bd9d2ffb10704, type: 3}
   initialPoolSize: 20
 --- !u!4 &1835260571
 Transform:
