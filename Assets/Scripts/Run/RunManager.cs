@@ -117,7 +117,8 @@ public class RunManager : MonoBehaviour
         s.StopTimer();
 
         var data = s.statisticData;
-        data.cause_of_death = cause;
+        if (cause != "end")
+            data.cause_of_death = cause;
         data.floor_of_death = (uint)CurrentFloor;
 
         LastResult = new StatisticData(data); 
@@ -166,6 +167,17 @@ public class RunManager : MonoBehaviour
 
         return levelNameHandler.levelNames[Random.Range(0, levelNameHandler.levelNames.Length)];
     }
+
+    public void OnBossDeath()
+    {
+        System.Threading.Tasks.ValueTask valueTask = EndRun("end");
+
+        InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
+        Time.timeScale = 1f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
 
     public void CleanupRun()
     {

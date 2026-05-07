@@ -133,6 +133,7 @@ public class EnemyAIBoss : EnemyAI
             hitbox.gameObject.SetActive(false);
         }
         doorTrigger.animationTriggered += () => ChangeState(IdleState);
+        OnDeathEnded += RunManager.Instance.OnBossDeath;
     }
 
     protected override void Update()
