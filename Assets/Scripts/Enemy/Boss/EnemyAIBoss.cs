@@ -79,6 +79,7 @@ public class EnemyAIBoss : EnemyAI
     public BossVulnerableState VulnerableState { get; private set; }
     public BossPhaseTransitionState PhaseTransitionState { get; private set; }
     public BossGroundSlamState GroundSlamState { get; private set; }
+    public BossDeathState DeathState { get; private set; }
 
     public PlayerController Player { get; private set; }
     public int CurrentPhase { get; private set; } = 1;
@@ -91,15 +92,9 @@ public class EnemyAIBoss : EnemyAI
         {
             if (_isParryable == value) return;
             _isParryable = value;
-            
-            if (_isParryable)
-            {
-                // Use float.MaxValue to keep the hint visible until IsParryable becomes false
-                _ = ShowHint(Color.yellow, float.MaxValue);
-            }
+            if (_isParryable) _ = ShowHint(Color.yellow, float.MaxValue);
             else
             {
-                // Cancel the hint immediately when parry window closes
                 _hintCts?.Cancel();
                 _hintCts?.Dispose();
                 _hintCts = null;
@@ -110,7 +105,7 @@ public class EnemyAIBoss : EnemyAI
     public bool ShouldJumpAfterVulnerable { get; set; }
     public int hitsSinceLastVulnerable;
     bool _phaseTransitionTriggered;
-    private float _invulnerabilityTimer; // i-frames to prevent damage spam
+    private float _invulnerabilityTimer; 
     public CancellationTokenSource ShakeCts { get; private set; }
     CancellationTokenSource _hintCts;
 
@@ -130,6 +125,7 @@ public class EnemyAIBoss : EnemyAI
         VulnerableState = new BossVulnerableState(this);
         PhaseTransitionState = new BossPhaseTransitionState(this);
         GroundSlamState = new BossGroundSlamState(this);
+        DeathState = new BossDeathState(this);
 
         if (hitbox != null)
         {
@@ -142,13 +138,18 @@ public class EnemyAIBoss : EnemyAI
     protected override void Update()
     {
         if (Player == null) Player = PlayerController.instance;
-        if (CurrentHealth <= 0) return;
-        if (_isDead) return;
         
+        // If dead, we still allow the state machine to update (for DeathState sequence)
+        // but we skip the AI poise regen and other logic.
+        if (_isDead) 
+        {
+            base.Update(); 
+            return;
+        }
+
         if (_invulnerabilityTimer > 0)
             _invulnerabilityTimer -= Time.deltaTime;
 
-        // Poise regeneration when not vulnerable
         if (!IsVulnerable)
         {
             currentPoise = Mathf.MoveTowards(currentPoise, maxPoise, poiseRegenRate * Time.deltaTime);
@@ -160,25 +161,20 @@ public class EnemyAIBoss : EnemyAI
     public void RepelPlayer(Transform attacker)
     {
         if (Player == null) return;
-        
         float pushDir = Mathf.Sign(Player.transform.position.x - transform.position.x);
-        // Strong, short impulse to break attack sequences
         Player.ApplyVelocityOverride(new Vector2(pushDir * 12f, 2f), 0.1f);
     }
 
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
-        if (_invulnerabilityTimer > 0) return;
+        if (_isDead || _invulnerabilityTimer > 0) return;
 
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
         if (isParrying)
         {
             currentPoise -= poiseDamageFromParry;
-            
-            try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f); }
-            catch { }
-
+            try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.lightSlateGray, 5, 0.5f); } catch { }
             IsParryable = false;
             CanDealDamage = false;
 
@@ -189,56 +185,40 @@ public class EnemyAIBoss : EnemyAI
             }
 
             if (currentPoise <= 0) GoToVulnerable();
-            
-            // SUCCESSFUL PARRY: 200% Damage
             base.TakeDamage((ushort)(amount * 2.0f), attacker, cause);
-            
-            // Trigger short i-frames after a big hit/parry to prevent state-chaining spam
             _invulnerabilityTimer = invulnerabilityDuration;
-            return; 
         }
-
-        if (!IsVulnerable)
+        else if (!IsVulnerable)
         {
             hitsSinceLastVulnerable++;
             currentPoise -= poiseDamageFromAttack;
             RepelPlayer(attacker);
-            
-            float multiplier = 0f;
-            if (hitsSinceLastVulnerable <= 10) multiplier = 0.05f;
-            else if (hitsSinceLastVulnerable % 5 == 0) multiplier = 0.2f;
-
+            float multiplier = (hitsSinceLastVulnerable <= 10) ? 0.05f : (hitsSinceLastVulnerable % 5 == 0 ? 0.2f : 0f);
             base.TakeDamage((ushort)(amount * multiplier), attacker, cause);
-
             if (currentPoise <= 0) GoToVulnerable();
-            return;
+        }
+        else
+        {
+            base.TakeDamage(amount, attacker, cause);
+            try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f); } catch { }
         }
 
-        base.TakeDamage(amount, attacker, cause);
-        try { VisualEffectsManager.SpawnDebris(spriteRenderer.sprite.texture, transform.position, Color.darkRed, 10, 0.75f); }
-        catch { }
-
+        // GLOBAL DEATH CHECK: Now it runs regardless of vulnerability state
         if (CurrentHealth <= 0)
         {
-            _ = Die();
+            GoToDeath();
             return;
         }
 
-        // Feature: Interrupt projectile state on damage
-        if (_currentState == ProjectileState)
-        {
-            JumpToCenter();
-            return;
-        }
+        if (!IsVulnerable) return; // If we reached here and are not vulnerable, we already handled it in the else-if
 
         hitsSinceLastVulnerable = 0;
         IsVulnerable = false;
         IsParryable = false;
-        _invulnerabilityTimer = invulnerabilityDuration; // Protect transition to Idle/PhaseTransition
+        _invulnerabilityTimer = invulnerabilityDuration;
 
-        if (!_phaseTransitionTriggered && CurrentPhase == 1 && CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f)
+        if (!_phaseTransitionTriggered && CurrentPhase == 1 && CurrentHealth <= Stats[StatType.MaxHealth] * 0.5f && _currentState != PhaseTransitionState)
         {
-            _phaseTransitionTriggered = true;
             GoToPhaseTransition();
             _ = HandlePhysicsDelayed(attacker, bounceBoss: false);
         }
@@ -252,33 +232,32 @@ public class EnemyAIBoss : EnemyAI
     public float GetCurrentGracePeriod()
     {
         if (!IsParryable) return 0f;
-
-        if (_currentState == JumpSlamState) return 0.1f;
-
-        return 0.15f;
+        return (_currentState == JumpSlamState) ? 0.1f : 0.15f;
     }
 
     public int ConsecutiveJumps { get; set; }
     private bool _isDead;
+    private bool _preventVelocityReset;
+    public bool PreventVelocityReset 
+    { 
+        get => _preventVelocityReset; 
+        set => _preventVelocityReset = value; 
+    }
 
-    public event Action OnDeathStarted;
-    public event Action OnDeathEnded;
+    public Action OnDeathStarted;
+    public Action OnDeathEnded;
 
     public void OnPlayerHitByAttack()
     {
-        ConsecutiveJumps = 0; // Reset sequence on hit
-
+        ConsecutiveJumps = 0;
         if (_currentState == DashState || _currentState == ComboState || _currentState == JumpSlamState)
         {
-            // Register hit in the state if possible
             if (_currentState is BossDashState dash) dash.RegisterHit();
             if (_currentState is BossJumpSlamState jump) jump.RegisterHit();
             if (_currentState is BossComboState combo) combo.RegisterHit();
-
             IsParryable = false;
             IsVulnerable = false;
             CanDealDamage = false;
-
             GoToIdle();
             _ = HandlePhysicsDelayed(Player != null ? Player.transform : null, bounceBoss: true);
         }
@@ -287,10 +266,8 @@ public class EnemyAIBoss : EnemyAI
     async Awaitable HandlePhysicsDelayed(Transform attacker, bool bounceBoss)
     {
         await Awaitable.NextFrameAsync();
-        if (this == null || CurrentHealth <= 0) return;
-
+        if (this == null || CurrentHealth <= 0 || _isDead) return;
         ClearVelocityOverride();
-
         if (attacker != null)
         {
             var p = attacker.GetComponent<PlayerController>();
@@ -300,34 +277,27 @@ public class EnemyAIBoss : EnemyAI
                 p.ApplyVelocityOverride(new Vector2(pushDir * 8f, 3f), 0.2f);
             }
         }
-
         if (bounceBoss)
         {
             float dx = arenaCenterX - transform.position.x;
-            float dir = Mathf.Abs(dx) > 0.5f
-                ? Mathf.Sign(dx)
-                : (attacker != null ? Mathf.Sign(transform.position.x - attacker.position.x) : direction);
-
+            float dir = Mathf.Abs(dx) > 0.5f ? Mathf.Sign(dx) : (attacker != null ? Mathf.Sign(transform.position.x - attacker.position.x) : direction);
             rb.linearVelocity = new Vector2(dir * bounceForceX, bounceForceY);
         }
-
         await Awaitable.WaitForSecondsAsync(0.45f);
-
-        if (this == null || Player == null || CurrentHealth <= 0 || IsVulnerable) return;
-
+        if (this == null || Player == null || CurrentHealth <= 0 || IsVulnerable || _isDead) return;
         float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer <= counterAttackDistance)
         {
             float repelDir = Mathf.Sign(Player.transform.position.x - transform.position.x);
-
-            // Only powerfully repel the player to prevent spam, no damage dealt
             Player.ApplyVelocityOverride(new Vector2(repelDir * 20f, 6f), 0.4f);
-
             direction = (sbyte)repelDir;
             UpdateVisualDirection();
         }
     }
-
+    protected override void OnDeath()
+    {
+        OnDeathEnded += () => base.OnDeath();
+    }
     public void StartShake()
     {
         StopShake();
@@ -340,8 +310,7 @@ public class EnemyAIBoss : EnemyAI
         ShakeCts?.Cancel();
         ShakeCts?.Dispose();
         ShakeCts = null;
-        if (bodyTransform != null)
-            bodyTransform.localPosition = Vector3.zero;
+        if (bodyTransform != null) bodyTransform.localPosition = Vector3.zero;
     }
 
     async Awaitable ShakeLoop(CancellationToken token)
@@ -351,18 +320,18 @@ public class EnemyAIBoss : EnemyAI
         {
             t += Time.deltaTime;
             float x = Mathf.Sin(t * shakeFrequency) * shakeMagnitude;
-            if (bodyTransform != null)
-                bodyTransform.localPosition = new Vector3(x, 0f, 0f);
+            if (bodyTransform != null) bodyTransform.localPosition = new Vector3(x, 0f, 0f);
             await Awaitable.NextFrameAsync(token);
         }
     }
 
     public float GetCooldown() => CurrentPhase == 1 ? phase1Cooldown : phase2Cooldown;
     public float GetVulnerableDuration() => CurrentPhase == 1 ? phase1VulnerableDuration : phase2VulnerableDuration;
+    
     public void EnterPhase2()
     {
-        stats.AddModifier(StatType.HealthRegenRate, percent: -100f, source: this);
         CurrentPhase = 2;
+        _phaseTransitionTriggered = true;
     }
 
     public void GoToIdle() => ChangeState(IdleState);
@@ -371,58 +340,30 @@ public class EnemyAIBoss : EnemyAI
     public void GoToProjectile() => ChangeState(ProjectileState);
     public void GoToCombo() => ChangeState(ComboState);
     public void GoToVulnerable() => ChangeState(VulnerableState);
-    public void GoToPhaseTransition() => ChangeState(PhaseTransitionState);
+    public void GoToPhaseTransition() { stats.AddModifier(StatType.HealthRegenRate, percent: -100f, source: this); ChangeState(PhaseTransitionState); }
     public void GoToGroundSlam() => ChangeState(GroundSlamState);
+    public void GoToDeath() { _isDead = true; ChangeState(DeathState); }
 
     public void JumpToCenter()
     {
         float dx = arenaCenterX - transform.position.x;
         float dir = Mathf.Sign(dx);
         
-        // Quick jump/dash to center
+        _preventVelocityReset = true;
         rb.linearVelocity = new Vector2(dir * 15f, 5f);
         GoToIdle();
-    }
-
-    public async Awaitable Die()
-    {
-        if (_isDead) return;
-        _isDead = true;
-
-        // 1. Start of death
-        OnDeathStarted?.Invoke();
-        
-        // Stop all AI state updates
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Kinematic; 
-        
-        // 2. Shake during the whole death sequence
-        StartShake();
-
-        // 3. Duration
-        await Awaitable.WaitForSecondsAsync(deathDuration);
-
-        // 4. End of death
-        StopShake();
-        VisualEffectsManager.SpawnExplosion(spriteRenderer.sprite.texture, transform.position, Color.white, 50);
-        OnDeathEnded?.Invoke();
     }
 
     public async Awaitable ShowHint(Color color, float duration)
     {
         if (hintCanvasGroup == null || hintBackground == null) return;
-        
-        // Cancel previous hint task
         _hintCts?.Cancel();
         _hintCts?.Dispose();
         _hintCts = new CancellationTokenSource();
         var token = _hintCts.Token;
-
         try
         {
             hintBackground.color = color;
-            
-            // Smooth Fade In
             float fadeTime = 0.15f;
             float elapsed = 0f;
             while (elapsed < fadeTime)
@@ -433,11 +374,7 @@ public class EnemyAIBoss : EnemyAI
                 await Awaitable.NextFrameAsync();
             }
             hintCanvasGroup.alpha = 1f;
-
-            // Hold
             await Awaitable.WaitForSecondsAsync(duration, token);
-
-            // Smooth Fade Out
             elapsed = 0f;
             while (elapsed < fadeTime)
             {
@@ -447,13 +384,8 @@ public class EnemyAIBoss : EnemyAI
                 await Awaitable.NextFrameAsync();
             }
         }
-        catch (System.OperationCanceledException) { }
-        catch (System.Exception) { }
-        finally
-        {
-            // Guaranteed reset regardless of how the method ended
-            hintCanvasGroup.alpha = 0f;
-        }
+        catch { }
+        finally { hintCanvasGroup.alpha = 0f; }
     }
 
     void OnDrawGizmosSelected()

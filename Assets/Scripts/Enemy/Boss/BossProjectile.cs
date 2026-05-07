@@ -21,6 +21,9 @@ public class BossProjectile : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & playerLayer.value) != 0)
             other.GetComponentInParent<BaseEntity>()?.TakeDamage(_damage, transform, "снаряд Тесея");
-        Destroy(gameObject);
+
+        // ignore Default layer 
+        if (other.gameObject.layer != LayerMask.NameToLayer("Default"))
+            Destroy(gameObject);
     }
 }
