@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
-  EntityCost: 31
+  EntityCost: 41
   stats:
     speed: 1.2
     attackPower: 1

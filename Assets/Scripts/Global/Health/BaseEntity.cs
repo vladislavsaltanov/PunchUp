@@ -195,7 +195,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         RefreshShaderTargets();
 
         OnDeathEvent?.Invoke();
-        PlayerWallet.Instance.AddGold(EntityCost);
+        if (_name != "Игрок")
+            PlayerWallet.Instance.AddGold(EntityCost);
 
         _ = DeathProgressRoutine(deathProgressSeconds);
     }
