@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,8 +10,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [SerializeField] GameObject pauseMenu;
-    public bool isPaused;
+    [HideInInspector] public bool isPaused;
 
+    public Action<bool> onPause; 
 
     [Space(10)]
     [Header("Notification System")]
@@ -85,7 +87,10 @@ public class UIManager : MonoBehaviour
     private void OnPauseButtonPressed(InputAction.CallbackContext context)
     {
         if (context.action.name == "Pause" && context.performed)
+        {
             SwitchPause();
+            onPause?.Invoke(!isPaused);
+        }
     }
 
     public void SwitchPause()
@@ -166,6 +171,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        player.GodModeBool = false;
         player.TakeDamage(ushort.MaxValue, null, "вот так вот получилось");
 
         await Awaitable.NextFrameAsync();
@@ -174,13 +180,13 @@ public class UIManager : MonoBehaviour
     public void OpenSettings()
     {
         if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.UI);
-        SettingsManager.Instance.Open();
+        SettingsManager.Instance?.Open();
     }
 
     public void CloseSettings()
     {
         if (InputManager.Instance != null) InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
-        SettingsManager.Instance.Close();
+        SettingsManager.Instance?.Close();
     }
     public void Exit()
     {

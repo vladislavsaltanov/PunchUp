@@ -17,5 +17,5 @@ MonoBehaviour:
     \u041E\u043D\u0438 \u043F\u043E\u0434\u043E\u0448\u043B\u0438. +1 \u043F\u0440\u044B\u0436\u043E\u043A."
   icon: {fileID: 1455726138768352611, guid: 183a9bb158c16af44ba347ef3e3d50b1, type: 3}
   rarity: 1
-  price: 670
+  price: 297
   effect: {fileID: 11400000, guid: 2bd90fb1ab3b9804a923693fc6d4b9a1, type: 2}

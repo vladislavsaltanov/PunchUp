@@ -2,6 +2,7 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class SettingsUI : MonoBehaviour
@@ -45,6 +46,25 @@ public class SettingsUI : MonoBehaviour
         fullscreenToggle.isOn = data.isFullscreen;
         vsyncToggle.onValueChanged.AddListener(val => { SettingsManager.Instance.Data.vsync = val; SettingsManager.Instance.ApplyVideoSettings(); });
         fullscreenToggle.onValueChanged.AddListener(val => { SettingsManager.Instance.Data.isFullscreen = val; SettingsManager.Instance.ApplyVideoSettings(); });
+
+        bloomToggle.isOn = data.bloomActive;
+        chromaticToggle.isOn = data.chromaticActive;
+        lensDistortionToggle.isOn = data.lensDistortionActive;
+
+        bloomToggle.onValueChanged.AddListener(val => {
+            SettingsManager.Instance.Data.bloomActive = val;
+            SettingsManager.Instance.SetEffectActive<Bloom>(val);
+        });
+
+        chromaticToggle.onValueChanged.AddListener(val => {
+            SettingsManager.Instance.Data.chromaticActive = val;
+            SettingsManager.Instance.SetEffectActive<ChromaticAberration>(val);
+        });
+
+        lensDistortionToggle.onValueChanged.AddListener(val => {
+            SettingsManager.Instance.Data.lensDistortionActive = val;
+            SettingsManager.Instance.SetEffectActive<LensDistortion>(val);
+        });
 
         SetupFPSDropdown();
         SetupResolutionDropdown();
@@ -90,7 +110,7 @@ public class SettingsUI : MonoBehaviour
         }
 
         resolutionDropdown.AddOptions(options);
-
+         
         resolutionDropdown.value = SettingsManager.Instance.Data.resolutionIndex != 0
             ? SettingsManager.Instance.Data.resolutionIndex
             : currentIdx;
@@ -106,6 +126,5 @@ public class SettingsUI : MonoBehaviour
     {
         SettingsManager.Instance.Save();
         SettingsManager.Instance.ApplyAllSettings();
-        // Call UIManager to close screen or similar
     }
 }

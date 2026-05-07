@@ -2088,17 +2088,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 20
+    m_Right: 20
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 1
+  m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
 --- !u!1 &1094336731316594563
@@ -3333,10 +3333,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8430428112875326363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.8998703, y: 0.9051689}
-  m_AnchorMax: {x: 0.9791667, y: 0.9768519}
+  m_AnchorMin: {x: 0.8998703, y: 0.83348554}
+  m_AnchorMax: {x: 0.9791667, y: 0.90516853}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.000019073486, y: -0.0000009536743}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7642078755308218439
 CanvasRenderer:
@@ -3431,7 +3431,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 10, y: 5, z: 10, w: 5}
+  m_margin: {x: 10, y: 0, z: 10, w: 5}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3523,6 +3523,7 @@ GameObject:
   - component: {fileID: 4587605183565476859}
   - component: {fileID: 2490159091415060751}
   - component: {fileID: 7121181662587962804}
+  - component: {fileID: 2383963121709521598}
   m_Layer: 7
   m_Name: Health
   m_TagString: Untagged
@@ -3587,6 +3588,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2383963121709521598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810556679663039674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92baba7bdfe8224fbe70561284bac12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityHealthDisplay
+  entity: {fileID: 3450894756909812398}
+  fillImage: {fileID: 7121181662587962804}
 --- !u!1 &1919703277980945897
 GameObject:
   m_ObjectHideFlags: 0
@@ -4466,7 +4481,7 @@ MonoBehaviour:
     knockbackResistance: 0
     damageBlockChance: 0
     cooldownReduction: 0
-    dashCooldown: 2.5
+    dashCooldown: 1
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 6821972033225363592}
@@ -4559,6 +4574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   pauseMenu: {fileID: 2058986287719295864}
+  isPaused: 0
   notificationPanel: {fileID: 2444405873806064545}
   notificationTitle: {fileID: 9009807129639321049}
   notificationDesc: {fileID: 1766468397583324635}
@@ -4591,7 +4607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08865fd534a315e4ba0c97eba0b6bfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  dashSpeed: 4
+  dashSpeed: 5
   dashDuration: 0.1
   controller: {fileID: 3450894756909812398}
   inputManager: {fileID: 758176366677849531}
@@ -4617,10 +4633,10 @@ MonoBehaviour:
   _collider: {fileID: 7923158709754533670}
   controller: {fileID: 3450894756909812398}
   inputManager: {fileID: 758176366677849531}
-  climbSpeed: 9
+  climbSpeed: 12
   nudgeDuration: 0.08
-  nudgeSpeedX: 20
-  nudgeSpeedY: 12
+  nudgeSpeedX: 7
+  nudgeSpeedY: 4
   footBoxWidth: 0.18
   climbTimeout: 0.1
   cancelInputDuration: 0.5
@@ -4694,23 +4710,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialHandler
   tooltips:
-  - "<color=#C7C7C7>WASD</color> - \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435\\n<color=#C7C7C7>\u041B\u0435\u0432\u0430\u044F
-    \u043A\u043D\u043E\u043F\u043A\u0430 \u043C\u044B\u0448\u0438 | \u041B</color>
-    - \u0430\u0442\u0430\u043A\u0430\\n<color=#C7C7C7>\u041F\u0440\u0430\u0432\u0430\u044F
-    \u043A\u043D\u043E\u043F\u043A\u0430 \u043C\u044B\u0448\u0438 | \u0414</color>
-    - \u0441\u043F\u0435\u0446. \u0430\u0442\u0430\u043A\u0430\\n<color=#C7C7C7>\u0428\u0438\u0444\u0442</color>
-    - \u0434\u044D\u0448\\n<color=#C7C7C7>\u041F\u0440\u043E\u0431\u0435\u043B</color>
-    - \u043F\u0440\u044B\u0436\u043E\u043A\\n<color=#C7C7C7>Tab</color> - \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044C\\n<color=#C7C7C7>Esc</color>
-    - \u043F\u0430\u0443\u0437\u0430\\n"
+  - "<color=#f5c96c>{Move}</color> - \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435\n<color=#f5c96c>{Attack}</color>
+    - \u0430\u0442\u0430\u043A\u0430\n<color=#f5c96c>{Dash}</color> - \u0434\u044D\u0448\n<color=#f5c96c>{Jump}</color>
+    - \u043F\u0440\u044B\u0436\u043E\u043A\n<color=#f5c96c>{Pause}</color> - \u043F\u0430\u0443\u0437\u0430"
   - "\u0421\u043E\u0431\u0438\u0440\u0430\u0439 \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B
-    \u043D\u0430 <color=#C7C7C7>E</color>, \u043F\u0440\u043E\u043A\u0430\u0447\u0438\u0432\u0430\u0439
-    \u0441\u0432\u043E\u0438 \u043D\u0430\u0432\u044B\u043A\u0438."
-  - "\u041D\u0430\u0439\u0434\u0438\u0442\u0435 <color=#C7C7C7>\u043B\u0438\u0444\u0442</color>
+    \u043D\u0430 <color=#f5c96c>{Interact}</color>, \u043E\u043D\u0438 \u0440\u0430\u0431\u043E\u0442\u0430\u044E\u0442
+    \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438.
+    \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0441\u0432\u043E\u0438
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B \u043C\u043E\u0436\u043D\u043E
+    \u0432 \u043C\u0435\u043D\u044E <color=#f5c96c>\u043F\u0430\u0443\u0437\u044B</color>."
+  - "\u041D\u0430\u0439\u0434\u0438\u0442\u0435 <color=#f5ae6c>\u043B\u0438\u0444\u0442</color>
     \u0438 \u0434\u043E\u0431\u0435\u0440\u0438\u0442\u0435\u0441\u044C \u0434\u043E
-    \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0433\u043E <color=#C7C7C7>\u044D\u0442\u0430\u0436\u0430</color>."
-  - "<color=#858585>\u0423\u0434\u0430\u0447\u0438 :)</color> "
-  delay: 2
-  tooltipDuration: 5
+    \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0433\u043E <color=#f5ae6c>\u044D\u0442\u0430\u0436\u0430</color>
+    \u0438\u043B\u0438 \u0441\u0440\u0430\u0437\u0443 \u0441\u0440\u0430\u0437\u0438\u0442\u0435\u0441\u044C
+    \u0441 \u0433\u043B\u0430\u0432\u043D\u044B\u043C \u0431\u043E\u0441\u0441\u043E\u043C
+    - <color=#f54c54>\u0422\u0435\u0441\u0435\u0435\u043C</color>."
+  - "<color=#e02626>\u0423\u0434\u0430\u0447\u0438 :)</color> "
+  startDelay: 2
+  tooltipDuration: 10
 --- !u!114 &1260510123541039760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5606,6 +5623,156 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2685669064649078790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824238534586201461}
+  - component: {fileID: 484073818544367498}
+  - component: {fileID: 3916632056470994681}
+  - component: {fileID: 6092248745489243474}
+  m_Layer: 7
+  m_Name: TimerText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &824238534586201461
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685669064649078790}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1383910119266901982}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.7984827, y: 0.9051689}
+  m_AnchorMax: {x: 0.9791667, y: 0.9768519}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.000038146973, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &484073818544367498
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685669064649078790}
+  m_CullTransparentMesh: 1
+--- !u!114 &3916632056470994681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685669064649078790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '<color=grey>32:44</color> '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: b2e0b1e04f2e77949bcef028e569e8c7, type: 2}
+  m_sharedMaterial: {fileID: -5864056129040440635, guid: b2e0b1e04f2e77949bcef028e569e8c7, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 67.4
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 22
+  m_fontSizeMax: 75
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 20
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 10, y: 5, z: 10, w: 5}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6092248745489243474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685669064649078790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d14c79d855b4ef4ba3062b8c64d1c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunTimer
+  timerText: {fileID: 3916632056470994681}
 --- !u!1 &2701128363219560480
 GameObject:
   m_ObjectHideFlags: 0
@@ -10913,7 +11080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -11036,10 +11203,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8430428112875326363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.47395834, y: 0.4537037}
+  m_AnchorMax: {x: 0.5260417, y: 0.5462963}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5012360992693066566
 MonoBehaviour:
@@ -11055,6 +11222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WalletUI
   goldText: {fileID: 6589652476651455791}
   wallet: {fileID: 8366908560678742274}
+  shakeDuration: 0.35
+  shakeMagnitude: 8
 --- !u!1 &5409943367268458450
 GameObject:
   m_ObjectHideFlags: 0
@@ -12582,7 +12751,6 @@ GameObject:
   - component: {fileID: 832903409480483416}
   - component: {fileID: 6367534073418429562}
   - component: {fileID: 4483573251679819395}
-  - component: {fileID: 1524804395792556951}
   - component: {fileID: 4148472361955459758}
   m_Layer: 7
   m_Name: GUI
@@ -12605,6 +12773,7 @@ RectTransform:
   m_Children:
   - {fileID: 3762366487432557229}
   - {fileID: 4587605183565476859}
+  - {fileID: 824238534586201461}
   - {fileID: 8430428112875326363}
   - {fileID: 2515826158878343298}
   m_Father: {fileID: 5252948213629827692}
@@ -12635,7 +12804,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!114 &6367534073418429562
 MonoBehaviour:
@@ -12677,19 +12846,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1524804395792556951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6552820909361513446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf8e971916c279a499ee566e6484aad5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBarUIManager
-  fillImage: {fileID: 7121181662587962804}
 --- !u!114 &4148472361955459758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16286,14 +16442,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=grey>WASD</color> - \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435\\n<color=grey>\u041B\u0435\u0432\u0430\u044F
-    \u043A\u043D\u043E\u043F\u043A\u0430 \u043C\u044B\u0448\u0438 | \u041B</color>
-    - \u0430\u0442\u0430\u043A\u0430\\n<color=grey>\u041F\u0440\u0430\u0432\u0430\u044F
-    \u043A\u043D\u043E\u043F\u043A\u0430 \u043C\u044B\u0448\u0438 | \u0414</color>
-    - \u0441\u043F\u0435\u0446. \u0430\u0442\u0430\u043A\u0430\\n<color=grey>\u0428\u0438\u0444\u0442</color>
-    - \u0434\u044D\u0448\\n<color=grey>\u041F\u0440\u043E\u0431\u0435\u043B</color>
-    - \u043F\u0440\u044B\u0436\u043E\u043A\\n<color=grey>Tab</color> - \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044C\\n<color=grey>Esc</color>
-    - \u043F\u0430\u0443\u0437\u0430\\n"
+  m_text: "\u0421\u043E\u0431\u0438\u0440\u0430\u0439 \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B
+    \u043D\u0430 <color=#f5c96c>E</color>, \u043E\u043D\u0438 \u0440\u0430\u0431\u043E\u0442\u0430\u044E\u0442
+    \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438.
+    \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0441\u0432\u043E\u0438
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B \u043C\u043E\u0436\u043D\u043E
+    \u0432 \u043C\u0435\u043D\u044E <color=#f5c96c>\u043F\u0430\u0443\u0437\u044B</color>."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b2e0b1e04f2e77949bcef028e569e8c7, type: 2}
   m_sharedMaterial: {fileID: -5864056129040440635, guid: b2e0b1e04f2e77949bcef028e569e8c7, type: 2}
@@ -17619,7 +17773,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 71
   m_TargetDisplay: 0
 --- !u!114 &4041120962802809441
 MonoBehaviour:

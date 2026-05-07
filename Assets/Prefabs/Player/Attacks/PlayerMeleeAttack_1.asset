@@ -24,4 +24,4 @@ MonoBehaviour:
   hitboxOffset: {x: 0.5, y: 0}
   targetLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768

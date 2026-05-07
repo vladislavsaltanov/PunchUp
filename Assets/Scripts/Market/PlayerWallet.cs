@@ -10,6 +10,7 @@ public class PlayerWallet : MonoBehaviour
     public int Gold { get; private set; }
 
     public event Action<int> OnGoldChanged;
+    public event Action OnSpendFailed;
 
     private void Awake()
     {
@@ -40,7 +41,10 @@ public class PlayerWallet : MonoBehaviour
         if (amount <= 0) return true;
 
         if (Gold < amount)
+        {
+            OnSpendFailed?.Invoke();
             return false;
+        }    
 
         Gold -= amount;
         OnGoldChanged?.Invoke(Gold);

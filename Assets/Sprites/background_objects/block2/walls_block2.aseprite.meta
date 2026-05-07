@@ -783,13 +783,13 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1990254877
+      value0: 1810982098
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: walls_block2
-    layerFlags: 0
+    name: "\xD0\xA1\xD0\xBB\xD0\xBE\xD0\xB9 1"
+    layerFlags: 3
     layerType: 0
     blendMode: 0
     cells:
@@ -801,7 +801,7 @@ ScriptedImporter:
         y: 2
         width: 309
         height: 143
-      spriteId: b33e1049a972f9449a64dc5b0891c323
+      spriteId: 1a7ebbb1830233c4dba527d5d6f8e753
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
