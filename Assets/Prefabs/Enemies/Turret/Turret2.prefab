@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogicTurret
   _name: "\u0442\u0443\u0440\u0435\u043B\u044C"
-  EntityCost: 14
+  EntityCost: 21
   stats:
     speed: 5
     attackPower: 4

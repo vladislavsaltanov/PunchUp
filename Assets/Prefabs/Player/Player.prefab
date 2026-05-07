@@ -11221,6 +11221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WalletUI
   goldText: {fileID: 6589652476651455791}
   wallet: {fileID: 8366908560678742274}
+  shakeDuration: 0.35
+  shakeMagnitude: 8
 --- !u!1 &5409943367268458450
 GameObject:
   m_ObjectHideFlags: 0

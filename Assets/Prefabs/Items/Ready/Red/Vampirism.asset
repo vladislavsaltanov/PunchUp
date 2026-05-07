@@ -17,5 +17,5 @@ MonoBehaviour:
     \u0438 \u043C\u043D\u0435."
   icon: {fileID: 5860025163644826426, guid: 582eac6b44b9ae9428fe9f4297a4a1ea, type: 3}
   rarity: 2
-  price: 730
+  price: 973
   effect: {fileID: 11400000, guid: 87c7b235f1e2ff247831d74a5a69f95d, type: 2}

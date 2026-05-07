@@ -19,7 +19,7 @@ MonoBehaviour:
     \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F."
   icon: {fileID: 2614870373251885436, guid: 582eac6b44b9ae9428fe9f4297a4a1ea, type: 3}
   rarity: 0
-  price: 106
+  price: 141
   modifiers:
   - statType: 0
     valueType: 1
