@@ -44,9 +44,6 @@ public class Elevator : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        elevatorAudio.ElevatorOpenHandle();
-        elevatorAudio.ElevatorStartMovingHandle();
-        RunManager.Instance.OnFloorCleared();
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -62,6 +59,9 @@ public class Elevator : MonoBehaviour, IInteractable
     public void Decision(int option)
     {
         InputManager.Instance.SwitchScenario(InputManager.ActionScenario.Game);
+
+        elevatorAudio.ElevatorOpenHandle();
+        elevatorAudio.ElevatorStartMovingHandle();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

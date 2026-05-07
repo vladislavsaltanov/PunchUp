@@ -73,7 +73,8 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-            Debug.LogError("Больше одного AudioManager o_0");
+            if (SceneManager.GetActiveScene().name != "MainMenu")
+                Debug.LogError("Больше одного AudioManager o_0 - Сцена: " + SceneManager.GetActiveScene().name);
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);

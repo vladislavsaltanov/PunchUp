@@ -1575,6 +1575,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7981208786059498401, guid: 5003418397a33e14198c0bc11b3457b5, type: 3}
+      propertyPath: OverrideMaxDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3857873957464126525, guid: 5003418397a33e14198c0bc11b3457b5, type: 3}
       propertyPath: m_Name
       value: EnterElevator

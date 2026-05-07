@@ -1212,6 +1212,7 @@ MonoBehaviour:
   sceneBuildIndex: 1
   promptUI: {fileID: 510848683914311000}
   decisionUI: {fileID: 121111603301335474}
+  elevatorAudio: {fileID: 4776601906185170543}
 --- !u!61 &6536770724743704795
 BoxCollider2D:
   m_ObjectHideFlags: 0
