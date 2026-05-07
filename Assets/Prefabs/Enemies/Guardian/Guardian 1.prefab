@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIShooter
   _name: "\u043E\u0445\u0440\u0430\u043D\u043D\u0438\u043A"
-  EntityCost: 22
+  EntityCost: 33
   stats:
     speed: 5
     attackPower: 1

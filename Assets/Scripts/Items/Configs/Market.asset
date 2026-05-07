@@ -28,7 +28,7 @@ MonoBehaviour:
   yellowItems:
   - {fileID: 11400000, guid: 54b0f3210cb3e1b44aab89fc05e0173b, type: 2}
   - {fileID: 11400000, guid: 023d1050317a4264a815c07474527f0f, type: 2}
-  whiteWeight: 60
+  whiteWeight: 45
   greenWeight: 35
-  redWeight: 5
-  yellowWeight: 2
+  redWeight: 15
+  yellowWeight: 8

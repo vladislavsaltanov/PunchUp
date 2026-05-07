@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogicRat
   _name: "\u043A\u0440\u044B\u0441\u0430"
-  EntityCost: 15
+  EntityCost: 22
   stats:
     speed: 5
     attackPower: 1

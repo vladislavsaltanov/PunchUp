@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIThrower
   _name: "\u0443\u0447\u0451\u043D\u044B\u0439-\u043C\u0435\u0442\u0430\u0442\u0435\u043B\u044C"
-  EntityCost: 13
+  EntityCost: 41
   stats:
     speed: 5
     attackPower: 1
