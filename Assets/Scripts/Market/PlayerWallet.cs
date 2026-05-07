@@ -40,7 +40,10 @@ public class PlayerWallet : MonoBehaviour
         if (amount <= 0) return true;
 
         if (Gold < amount)
+        {
+
             return false;
+        }    
 
         Gold -= amount;
         OnGoldChanged?.Invoke(Gold);
