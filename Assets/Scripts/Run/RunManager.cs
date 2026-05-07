@@ -148,6 +148,7 @@ public class RunManager : MonoBehaviour
         StatisticsHandler.Instance.statisticData.floors_cleared++;
         CurrentFloor++;
         Time.timeScale = 1f;
+        UIManager.Instance.isPaused = false;
 
         if (CurrentFloor % 5 == 0 || bossBattle)
             SceneTransitionManager.SwitchScene("BossBattle");
