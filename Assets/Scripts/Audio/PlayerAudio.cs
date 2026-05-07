@@ -1,4 +1,4 @@
-using Lean.Transition;
+п»їusing Lean.Transition;
 using UnityEngine;
 
 public class PlayerAudio : MonoBehaviour
@@ -37,12 +37,14 @@ public class PlayerAudio : MonoBehaviour
     private float footstepBlockedUntil;
     private float xPosLastFrame;
     private bool wasMovingLastFrame;
+    private bool isPausedBool = false;
+    public bool isMarketBool = false;
 
     private void Awake()
     {
         if (Instance != null)
         {
-            Debug.LogError("Больше одного PlayerAudio o_0");
+            Debug.LogError("Р‘РѕР»СЊС€Рµ РѕРґРЅРѕРіРѕ PlayerAudio o_0");
         }
         Instance = this;
 
@@ -64,7 +66,7 @@ public class PlayerAudio : MonoBehaviour
         HandleFootsteps();
     }
 
-    //О песочек горячо горяченьки - ай ой ай бж бжж ай шшж
+    //Рћ РїРµСЃРѕС‡РµРє РіРѕСЂСЏС‡Рѕ РіРѕСЂСЏС‡РµРЅСЊРєРё - Р°Р№ РѕР№ Р°Р№ Р±Р¶ Р±Р¶Р¶ Р°Р№ С€С€Р¶
     private void HandleFootsteps()
     {
         if (rb == null)
@@ -127,15 +129,20 @@ public class PlayerAudio : MonoBehaviour
         }
     }
 
-    //Прыг
+    //РџСЂС‹Рі
     public void HandleJump()
     {
         footstepBlockedUntil = Time.time + footstepDelayAfterJump;
         jumpTime = PlayerController.instance.currentTime;
-        AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Jump);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool && !isMarketBool)
+        {
+            AudioManager.Instance.PlayJumpLand(transform.position, AudioManager.JumpLandAction.Jump);
+        }
+        else return;
     }
 
-    //Скок
+    //РЎРєРѕРє
     private void HandleLand(bool hasGrounded, float time)
     {
         if (hasGrounded)
@@ -151,21 +158,40 @@ public class PlayerAudio : MonoBehaviour
         }
     }
 
-    //Деш
+    //Р”РµС€
     public void HandleDash()
     {
-        AudioManager.Instance.PlayDashSound(transform.position);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool && !isMarketBool)
+        {
+            AudioManager.Instance.PlayDashSound(transform.position);
+        }
+        else return;
     }
     
-    //Ай
+    //РђР№
     public void HandleDamage()
     {
         AudioManager.Instance.PlayerTakeDamage(transform.position);
     }
 
-    //Бамс
+    //Р‘Р°РјСЃ
     public void HandleAttack()
     {
-        AudioManager.Instance.PlayerAttack(transform.position);
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool && !isMarketBool)
+        {
+            AudioManager.Instance.PlayerAttack(transform.position);
+        }
+        else return;
+    }
+    public void HandlePunch()
+    {
+        isPausedBool = UIManager.Instance.isPaused;
+        if (!isPausedBool && !isMarketBool)
+        {
+            AudioManager.Instance.PlayerPunch(transform.position);
+        }
+        else return;
     }
 }

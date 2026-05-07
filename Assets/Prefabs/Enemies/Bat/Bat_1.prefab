@@ -259,7 +259,7 @@ MonoBehaviour:
     m_Bits: 0
   maxRoamDistanceFromSpawn: 18
   leashReturnMargin: 1
-  batAudio: {fileID: 0}
+  batAudio: {fileID: 1833444578074242281}
 --- !u!114 &2986937477780424829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,8 +315,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BatAudio
   enemyLogic: {fileID: 0}
   minVelocityToPlay: 1
-  walkSpeed: 2
-  runSpeed: 6
   minIdleSoundDelay: 5
   maxIdleSoundDelay: 10
   enableLogs: 0

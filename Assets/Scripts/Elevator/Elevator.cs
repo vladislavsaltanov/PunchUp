@@ -13,6 +13,9 @@ public class Elevator : MonoBehaviour, IInteractable
     [SerializeField] GameObject decisionUI;
     bool decisionOpen;
 
+    [Header("Audio")]
+    [SerializeField] ElevatorAudio elevatorAudio;
+
     private void Start()
     {
         if (promptUI != null)
@@ -41,6 +44,9 @@ public class Elevator : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
+        elevatorAudio.ElevatorOpenHandle();
+        elevatorAudio.ElevatorStartMovingHandle();
+        RunManager.Instance.OnFloorCleared();
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
