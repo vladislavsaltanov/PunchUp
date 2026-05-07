@@ -19,29 +19,63 @@ public class BossGroundSlamState : IEnemyState
 
     async Awaitable RunSlam()
     {
-        // 1. Warning Phase: Red "!"
-        _ = _boss.ShowHint(Color.red, 2.5f);
-        await Awaitable.WaitForSecondsAsync(2.5f);
-        if (!_active) return;
-
-        // 2. Attack Phase: Ground Slam
-        bool hitPlayer = false;
-        
-        // Check for player on ground across the arena
-        // Creating a large area check at ground level
-        Vector2 slamAreaCenter = new Vector2(_boss.arenaCenterX, _boss.transform.position.y - 1f);
-        Vector2 slamAreaSize = new Vector2(_boss.arenaHalfWidth * 2f, 2.5f);
-        
-        Collider2D playerCol = Physics2D.OverlapBox(slamAreaCenter, slamAreaSize, 0f, 1 << _boss.Player.gameObject.layer);
-        
-        if (playerCol != null)
+        if (_boss.groundSlamIndicator == null)
         {
-            // Only damage if player is NOT jumping (simplified check)
-            if (Mathf.Abs(_boss.Player.rb.linearVelocityY) < 0.1f)
+            UnityEngine.Debug.LogWarning("Ground Slam Indicator not assigned in EnemyAIBoss!");
+            _done = true;
+            return;
+        }
+
+        // 1. Warning Phase: Flashing Indicator
+        var indicator = _boss.groundSlamIndicator;
+        indicator.SetActive(true);
+        
+        SpriteRenderer sr = indicator.GetComponent<SpriteRenderer>();
+        Collider2D col = indicator.GetComponent<Collider2D>();
+
+        float warningDuration = 2.5f;
+        float elapsed = 0f;
+        while (elapsed < warningDuration)
+        {
+            if (!_active) break;
+            
+            // Flash effect: Sine wave for alpha
+            if (sr != null)
             {
-                _boss.Player.TakeDamage(_boss.slamDamage, _boss.transform, "Тесей");
-                _boss.Player.ApplyVelocityOverride(new Vector2(0, 10f), 0.2f);
-                hitPlayer = true;
+                float alpha = 0.4f + Mathf.Sin(Time.time * 10f) * 0.2f;
+                sr.color = new Color(1f, 0f, 0f, alpha);
+            }
+            
+            elapsed += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+
+        if (!_active) 
+        {
+            indicator.SetActive(false);
+            return;
+        }
+
+        // 2. Attack Phase: Solid Red + Damage
+        if (sr != null) sr.color = Color.red;
+        
+        bool hitPlayer = false;
+        if (col != null)
+        {
+            // Check all colliders inside the trigger
+            Collider2D[] hits = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.size, 0f);
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Player"))
+                {
+                    var player = hit.GetComponent<PlayerController>();
+                    if (player != null && Mathf.Abs(player.rb.linearVelocityY) < 0.1f)
+                    {
+                        player.TakeDamage(_boss.slamDamage, _boss.transform, "Тесей");
+                        player.ApplyVelocityOverride(new Vector2(0, 10f), 0.2f);
+                        hitPlayer = true;
+                    }
+                }
             }
         }
 
@@ -49,6 +83,8 @@ public class BossGroundSlamState : IEnemyState
         _boss.StartShake();
         await Awaitable.WaitForSecondsAsync(0.5f);
         _boss.StopShake();
+
+        indicator.SetActive(false);
 
         if (!_active) return;
 

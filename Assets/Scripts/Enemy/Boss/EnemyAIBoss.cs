@@ -48,6 +48,7 @@ public class EnemyAIBoss : EnemyAI
     [Header("Phase Transition")]
     public float transitionDuration = 3f;
     public float deathDuration = 5f;
+    public GameObject groundSlamIndicator;
 
     [Header("Bounce on hit")]
     public float bounceForceX = 6f;
@@ -223,6 +224,13 @@ public class EnemyAIBoss : EnemyAI
             return;
         }
 
+        // Feature: Interrupt projectile state on damage
+        if (_currentState == ProjectileState)
+        {
+            JumpToCenter();
+            return;
+        }
+
         hitsSinceLastVulnerable = 0;
         IsVulnerable = false;
         IsParryable = false;
@@ -365,6 +373,16 @@ public class EnemyAIBoss : EnemyAI
     public void GoToVulnerable() => ChangeState(VulnerableState);
     public void GoToPhaseTransition() => ChangeState(PhaseTransitionState);
     public void GoToGroundSlam() => ChangeState(GroundSlamState);
+
+    public void JumpToCenter()
+    {
+        float dx = arenaCenterX - transform.position.x;
+        float dir = Mathf.Sign(dx);
+        
+        // Quick jump/dash to center
+        rb.linearVelocity = new Vector2(dir * 15f, 5f);
+        GoToIdle();
+    }
 
     public async Awaitable Die()
     {
