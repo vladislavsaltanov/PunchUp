@@ -21,6 +21,6 @@ MonoBehaviour:
   modifiers:
   - statType: 1
     valueType: 1
-    value: 5
+    value: 30
     stackType: 1
     coefficient: 0.1

@@ -21,16 +21,16 @@ MonoBehaviour:
   modifiers:
   - statType: 0
     valueType: 1
-    value: 10
+    value: 30
     stackType: 1
-    coefficient: 0.4
+    coefficient: 1.4
   - statType: 1
     valueType: 1
-    value: 15
+    value: 35
     stackType: 1
-    coefficient: 0.3
+    coefficient: 1.402
   - statType: 3
     valueType: 1
-    value: 20
+    value: 40
     stackType: 1
-    coefficient: 0.3
+    coefficient: 1.252
