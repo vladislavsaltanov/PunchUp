@@ -47,6 +47,12 @@ public class DifficultyManager : MonoBehaviour
             }
         }
     }
+    public void Reset()
+    {
+        _wasRunActive = false;
+        _timer = 0f;
+        DifficultyMultiplier = 1.0f;
+    }
 
     private void ResetDifficulty()
     {
