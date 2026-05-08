@@ -9,9 +9,12 @@ public interface IEnemyState
     void Exit();
 }
 
-public abstract class EnemyAI : BaseEntity 
+public abstract class EnemyAI : BaseEntity  
 {
     protected IEnemyState _currentState;
+    [Space(15)]
+    [Header(" >>> Debug <<< ")]
+    [SerializeField] protected string _currentStateName;
 
     protected virtual void Update() 
     {
@@ -20,10 +23,10 @@ public abstract class EnemyAI : BaseEntity
 
     public void ChangeState(IEnemyState newState) 
     {
-        if (_currentState == newState) return;
-        
         _currentState?.Exit();
         _currentState = newState;
         _currentState?.Enter();
+
+        _currentStateName = _currentState?.GetType().Name ?? "None";
     }
 }

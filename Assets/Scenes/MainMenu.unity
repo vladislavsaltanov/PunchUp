@@ -1895,7 +1895,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v0.3.0-pre2
+  m_text: v0.3.0-pre4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a887ea893664dfc4b801693fc001f2e4, type: 2}
   m_sharedMaterial: {fileID: -2149906920255986728, guid: a887ea893664dfc4b801693fc001f2e4, type: 2}
@@ -4163,6 +4163,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774518837}
   m_CullTransparentMesh: 1
+--- !u!1 &776451921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776451923}
+  - component: {fileID: 776451922}
+  m_Layer: 0
+  m_Name: DifficultyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &776451922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776451921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add5a2c656437cf4ab26c2c1b7e8254b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DifficultyManager
+  <DifficultyMultiplier>k__BackingField: 1
+  IntervalSeconds: 150
+  MultiplierIncrease: 0.15
+--- !u!4 &776451923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776451921}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &787606876
 GameObject:
   m_ObjectHideFlags: 0
@@ -6552,6 +6599,233 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272085641}
   m_CullTransparentMesh: 1
+--- !u!1 &1320478511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1320478513}
+  - component: {fileID: 1320478512}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1320478512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320478511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c70b47312bc5c4b8d54647f67c7b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  backgroundMusicPlaylist:
+  - Guid:
+      Data1: 156431545
+      Data2: 1150085496
+      Data3: 1101736110
+      Data4: 1926479426
+    Path: event:/Music/LevelTrack1
+  - Guid:
+      Data1: 1685236137
+      Data2: 1180557189
+      Data3: 2036288643
+      Data4: 231707184
+    Path: event:/Music/LevelTrack2
+  ambientEvent:
+    Guid:
+      Data1: -1118531006
+      Data2: 1264467471
+      Data3: -1402622557
+      Data4: -607689263
+    Path: event:/Ambient/Ambient1
+  ElevatorAmbientEvent:
+    Guid:
+      Data1: -66592438
+      Data2: 1165212975
+      Data3: -474763388
+      Data4: -1089807001
+    Path: event:/Elevator/ElevatorAmb
+  ElevatorOpenEvent:
+    Guid:
+      Data1: 1107750847
+      Data2: 1335377952
+      Data3: -1676817004
+      Data4: -460798617
+    Path: event:/Elevator/DoorOpen
+  ElevatorRingEvent:
+    Guid:
+      Data1: -823772091
+      Data2: 1234180612
+      Data3: -1951132266
+      Data4: -135857865
+    Path: event:/Elevator/Ring
+  ElevatorStartMovingEvent:
+    Guid:
+      Data1: 958727013
+      Data2: 1159524846
+      Data3: 543587505
+      Data4: 1043644250
+    Path: event:/Elevator/StartMoving
+  footstepEvent:
+    Guid:
+      Data1: 838722172
+      Data2: 1225101137
+      Data3: -1980554097
+      Data4: -1412477336
+    Path: event:/Player/PlayerFootsteps
+  jumpLandEvent:
+    Guid:
+      Data1: -1418682405
+      Data2: 1316274333
+      Data3: 707374476
+      Data4: 890176727
+    Path: event:/Player/JumpLand
+  dashEvent:
+    Guid:
+      Data1: -220328532
+      Data2: 1218212715
+      Data3: 171741594
+      Data4: 1209077618
+    Path: event:/Player/Dash
+  playerTakeDamageEvent:
+    Guid:
+      Data1: 1799236220
+      Data2: 1074446924
+      Data3: 339106238
+      Data4: 1061020778
+    Path: event:/Player/PlayerTakeDamage
+  playerAttackEvent:
+    Guid:
+      Data1: 1225387186
+      Data2: 1187468322
+      Data3: 640275334
+      Data4: 595975080
+    Path: "event:/Player/PlayerAtta\u0441k"
+  playerPunchEvent:
+    Guid:
+      Data1: -512379223
+      Data2: 1281638985
+      Data3: -1891769963
+      Data4: -1693305433
+    Path: event:/Player/PlayerPunch
+  doctorFootstepEvent:
+    Guid:
+      Data1: 1210354899
+      Data2: 1281391265
+      Data3: 2027727786
+      Data4: -1453107460
+    Path: event:/Doctor/DoctorFootsteps
+  doctorTakeDamageEvent:
+    Guid:
+      Data1: 1625922570
+      Data2: 1143898690
+      Data3: -1507598424
+      Data4: 1388544781
+    Path: event:/Doctor/DoctorTakeDamage
+  doctorAttackEvent:
+    Guid:
+      Data1: -575175514
+      Data2: 1173829810
+      Data3: 1309711027
+      Data4: -796035169
+    Path: event:/Doctor/DoctorAttack
+  doctorIdleEvent:
+    Guid:
+      Data1: -275774054
+      Data2: 1307728897
+      Data3: -341171064
+      Data4: 808730391
+    Path: event:/Doctor/DoctorIdle
+  batFlyEvent:
+    Guid:
+      Data1: -1596256942
+      Data2: 1316362937
+      Data3: 466448023
+      Data4: -1888349835
+    Path: event:/Bat/BatFly
+  batTakeDamageEvent:
+    Guid:
+      Data1: 1622415761
+      Data2: 1200280268
+      Data3: -1436550985
+      Data4: 1517957654
+    Path: event:/Bat/BatTakeDamage
+  batAttackEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  batIdleEvent:
+    Guid:
+      Data1: -438365424
+      Data2: 1193690249
+      Data3: -121648200
+      Data4: 1785489045
+    Path: event:/Bat/BatIdle
+  scenePlaylists:
+  - sceneName: MainMenu
+    tracks:
+    - Guid:
+        Data1: -1988704543
+        Data2: 1192462039
+        Data3: -1847584871
+        Data4: 1159312187
+      Path: event:/Music/MainMenu/MainMenuTrack
+  - sceneName: Floor 1
+    tracks:
+    - Guid:
+        Data1: 156431545
+        Data2: 1150085496
+        Data3: 1101736110
+        Data4: 1926479426
+      Path: event:/Music/Floor 1/LevelTrack1
+    - Guid:
+        Data1: 1685236137
+        Data2: 1180557189
+        Data3: 2036288643
+        Data4: 231707184
+      Path: event:/Music/Floor 1/LevelTrack2
+  - sceneName: Floor 2
+    tracks:
+    - Guid:
+        Data1: -190733454
+        Data2: 1076636824
+        Data3: 1575706811
+        Data4: -49711755
+      Path: event:/Music/Floor 2/LevelTrack1
+    - Guid:
+        Data1: -1658287237
+        Data2: 1141914417
+        Data3: 26972814
+        Data4: 2066112634
+      Path: event:/Music/Floor 2/LevelTrack2
+--- !u!4 &1320478513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320478511}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1348952842
 GameObject:
   m_ObjectHideFlags: 0
@@ -10474,6 +10748,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1835260569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835260571}
+  - component: {fileID: 1835260570}
+  m_Layer: 0
+  m_Name: DamageNumberPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1835260570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835260569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e82e172ceba3d24486e593b9a548554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageNumberPool
+  textPrefab: {fileID: 4254351092096668964, guid: 2ced7fb2c4d34dc4299bd9d2ffb10704, type: 3}
+  initialPoolSize: 20
+--- !u!4 &1835260571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835260569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1837874487
 GameObject:
   m_ObjectHideFlags: 0
@@ -12902,3 +13222,6 @@ SceneRoots:
   - {fileID: 1904016613}
   - {fileID: 1062591374}
   - {fileID: 2090215064}
+  - {fileID: 1320478513}
+  - {fileID: 776451923}
+  - {fileID: 1835260571}

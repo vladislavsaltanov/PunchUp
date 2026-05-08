@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
-  EntityCost: 8
+  EntityCost: 38
   stats:
     speed: 2
     attackPower: 1
@@ -196,7 +196,7 @@ MonoBehaviour:
   movement: {fileID: 11400000, guid: 9f4fa7ddb29ec2f47a38d741293a5925, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 5066113996724530292}
-  doctorAudio: {fileID: 0}
+  doctorAudio: {fileID: 3196997662404516153}
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
@@ -223,10 +223,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 12
   m_LinearDamping: 6
   m_AngularDamping: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 7
   m_Material: {fileID: 6200000, guid: 2add441002e21994fb349a50e3c88fa1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

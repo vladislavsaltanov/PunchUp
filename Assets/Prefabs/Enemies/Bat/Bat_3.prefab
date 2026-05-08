@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogicBat
   _name: "\u043B\u0435\u0442\u0443\u0447\u0430\u044F \u043C\u044B\u0448\u044C"
-  EntityCost: 14
+  EntityCost: 42
   stats:
     speed: 5
     attackPower: 1
@@ -259,7 +259,7 @@ MonoBehaviour:
     m_Bits: 0
   maxRoamDistanceFromSpawn: 18
   leashReturnMargin: 1
-  batAudio: {fileID: 0}
+  batAudio: {fileID: 8494767211267583048}
 --- !u!114 &2986937477780424829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,8 +361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BatAudio
   enemyLogic: {fileID: 0}
   minVelocityToPlay: 1
-  walkSpeed: 2
-  runSpeed: 6
   minIdleSoundDelay: 5
   maxIdleSoundDelay: 10
   enableLogs: 0

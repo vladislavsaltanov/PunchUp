@@ -175,7 +175,7 @@ public class EnemyLogic : BaseEntity
             return;
         }
 
-        combatHandler.TryPrimaryAttack();
+         if (combatHandler.TryPrimaryAttack()) doctorAudio.HandleAttack();
     }
 
     public void EnterWait(float duration)
@@ -222,6 +222,7 @@ public class EnemyLogic : BaseEntity
             currentState = EnemyState.WalkingTowardsPlayer;
 
             doctorAudio.HandleDamage();
+            PlayerAudio.Instance.HandlePunch();
         }
     }
 

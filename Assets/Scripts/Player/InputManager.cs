@@ -37,7 +37,12 @@ public class InputManager : MonoBehaviour
             _playerInput.SwitchCurrentActionMap(mapName);
         }
     }
-
+    public string GetCurrentDeviceLayout()
+    {
+        if (_playerInput == null || _playerInput.devices.Count == 0)
+            return "Keyboard";
+        return _playerInput.devices[0].layout;
+    }
     public InputAction GetAction(string actionName)
     {
         if (_playerInput == null) return null;

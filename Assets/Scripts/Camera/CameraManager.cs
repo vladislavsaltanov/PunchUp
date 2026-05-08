@@ -215,6 +215,11 @@ public class CameraManager : MonoBehaviour
     {
         // if current scene's name is MainMenu, don't update cameras
         if (SceneManager.GetActiveScene().name == "MainMenu") return;
+        if (SceneManager.GetActiveScene().name == "BossBattle")
+        {
+            FindFirstObjectByType<CinemachineCamera>().Follow = PlayerController.instance.transform;
+            return;
+        }
 
         CinemachineCamera[] cameras = GameObject.Find("Cameras").GetComponentsInChildren<CinemachineCamera>();
         allCameras.Clear();

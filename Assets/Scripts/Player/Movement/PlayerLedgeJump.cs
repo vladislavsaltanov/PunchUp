@@ -238,7 +238,11 @@ public class PlayerLedgeClimb : MonoBehaviour
             if (!FootBoxHit())
                 break;
 
-            await Awaitable.NextFrameAsync(ct);
+            try
+            {
+                await Awaitable.NextFrameAsync(ct);
+            }
+            catch { }
         }
 
         if (!earlyJumped && !ct.IsCancellationRequested)

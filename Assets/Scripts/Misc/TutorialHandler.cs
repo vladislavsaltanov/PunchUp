@@ -1,21 +1,38 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TutorialHandler : MonoBehaviour
 {
-    [SerializeField] string[] tooltips;
-    [SerializeField] float delay = 2f, tooltipDuration = 5f;
+    [TextArea(3, 10)]
+    [SerializeField] private string[] tooltips;
 
-    private void Start()
+    [SerializeField] private float startDelay = 2f;
+    [SerializeField] private float tooltipDuration = 5f;
+
+    private async void Start()
     {
-        if (PlayerPrefs.GetInt("tutorial_passed", 0) == 0)
-            _ = delayedStart();
+        if (PlayerPrefs.GetInt("tutorial_passed", 0) == 1)
+            return;
+
+        await RunTutorialAsync();
     }
 
-    async Awaitable delayedStart()
+    [ContextMenu("RunTutorial")]
+    private async Awaitable RunTutorialAsync()
     {
-        await Awaitable.WaitForSecondsAsync(delay);
-        InfoPopUpScreenController.Instance.ShowMultiple(tooltips, tooltipDuration);
-        await Awaitable.WaitForSecondsAsync(delay + tooltips.Length * tooltipDuration);
+        if (InfoPopUpScreenController.Instance == null)
+        {
+            Debug.LogWarning(
+                "InfoPopUpScreenController.Instance not found.");
+            return;
+        }
+
+        await Awaitable.WaitForSecondsAsync(startDelay);
+
+        await InfoPopUpScreenController.Instance.ShowMultiple(
+            tooltips,
+            tooltipDuration
+        );
+
         PlayerPrefs.SetInt("tutorial_passed", 1);
         PlayerPrefs.Save();
     }

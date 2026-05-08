@@ -219,6 +219,7 @@ public class PlayerController : BaseEntity
     public void OpenShop(ShopKeeper shop, ShopSlotRuntime[] slots)
     {
         isShopOpen = true;
+        PlayerAudio.Instance.isMarketBool = isShopOpen;
 
         shopMenu.SetActive(true);
         Time.timeScale = 0f;
@@ -235,12 +236,16 @@ public class PlayerController : BaseEntity
         if (!isShopOpen) return;
 
         isShopOpen = false;
+        PlayerAudio.Instance.isMarketBool = isShopOpen;
 
         shopMenu.SetActive(false);
         Time.timeScale = 1f;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!UIManager.Instance.isPaused)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void RefreshShopUI()

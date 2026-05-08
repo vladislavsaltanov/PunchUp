@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StatisticsHandler : MonoBehaviour
 {
@@ -22,10 +22,18 @@ public class StatisticsHandler : MonoBehaviour
 
     float _runStartTime;
 
-    public void StartTimer() => _runStartTime = Time.realtimeSinceStartup;
+    public void StartTimer() => _runStartTime = Time.time;
 
     public void StopTimer() =>
-        statisticData.total_playtime = (uint)(Time.realtimeSinceStartup - _runStartTime);
+        statisticData.total_playtime = (uint)(Time.time - _runStartTime);
+
+    public float GetElapsedRunTime()
+    {
+        if (RunManager.Instance != null && RunManager.Instance.IsRunActive)
+            return Time.time - _runStartTime;
+
+        return statisticData.total_playtime;
+    }
 
     // should be called first as we check for player id
     void TutorialPolicyCheck()
