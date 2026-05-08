@@ -12276,7 +12276,7 @@ MonoBehaviour:
   poiseRegenRate: 45
   nonVulnerableDamageMultiplier: 0.2
   invulnerabilityDuration: 0.35
-  idleSprite: {fileID: -3032607661387810071, guid: ab7a3bb2e2037b44a8c9f427466340eb, type: 3}
+  idleSprite: {fileID: -3032607661387810071, guid: 8e54c9225285d6b4b94f22436c5b40c4, type: 3}
   jumpingSprite1: {fileID: -4991470673503483115, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
   jumpingSprite2: {fileID: 421741868837848560, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
   jumpingSprite3: {fileID: 1709309192152186707, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
@@ -14204,7 +14204,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 30b387bfc9e709a45ba2abc981fec405, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14226,12 +14226,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: -3032607661387810071, guid: ab7a3bb2e2037b44a8c9f427466340eb, type: 3}
+  m_Sprite: {fileID: -3032607661387810071, guid: 8e54c9225285d6b4b94f22436c5b40c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.2, y: 1.19}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -14276,7 +14276,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.2, y: 1.19}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 1.2, y: 1.19}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

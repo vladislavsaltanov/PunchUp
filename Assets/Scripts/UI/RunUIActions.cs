@@ -5,6 +5,7 @@ public class RunUIActions : MonoBehaviour
 {
     private void Start()
     {
+        PlayerPrefs.SetInt("GODMODE", 0);
     }
 
     public void StartRun()

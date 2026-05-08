@@ -942,15 +942,15 @@ MonoBehaviour:
   currentRoom: {fileID: 0}
   cameraBounds: {fileID: 0}
   enemyPrefabs:
-  - {fileID: 8116590055214077004, guid: 5120dd2805b361945b6cb06f35b09e23, type: 3}
-  - {fileID: 7593945755005346331, guid: fb0223faaa38bf547aaa2b9ce01f5673, type: 3}
-  - {fileID: 4469383118799625817, guid: 9bc8a2e96896cb447b7b1d78d184362d, type: 3}
+  - {fileID: 1769681605450153020, guid: 7d3c4bc855a3bd048b3614066562620f, type: 3}
+  - {fileID: 1769681605450153020, guid: ebbe4487532d9604582584ede62d8702, type: 3}
+  - {fileID: 1769681605450153020, guid: ec79b2b00cdb1074baa7061a07139144, type: 3}
   - {fileID: 3304388756238957270, guid: 7f2d92893f12a7947b98fc722ec81b33, type: 3}
   - {fileID: 3304388756238957270, guid: 319203a222b13f249a35880fc4745981, type: 3}
   - {fileID: 3304388756238957270, guid: 0734ca9d24d59774aa3c6fb9de41fca2, type: 3}
-  - {fileID: 8489702331292420881, guid: 4e453dec992625749a7139e228387e93, type: 3}
-  - {fileID: 8489702331292420881, guid: 48161c3edfac43642aed9646cae1a73f, type: 3}
-  - {fileID: 8489702331292420881, guid: 9aad2e72459cbd4478a4ad3dc47f3e67, type: 3}
+  - {fileID: 8116590055214077004, guid: 5120dd2805b361945b6cb06f35b09e23, type: 3}
+  - {fileID: 7593945755005346331, guid: fb0223faaa38bf547aaa2b9ce01f5673, type: 3}
+  - {fileID: 4469383118799625817, guid: 9bc8a2e96896cb447b7b1d78d184362d, type: 3}
   EnterInd: 0
   ExitInd: 0
   MarketInd: 0
