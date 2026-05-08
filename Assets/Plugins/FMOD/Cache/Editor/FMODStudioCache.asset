@@ -492,10 +492,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639138508088208464
+  lastModified: 639138572762740937
   FileSizes:
   - Name: Desktop
-    Value: 693280
+    Value: 695040
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -1157,7 +1157,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 334
+  Length: 535
 --- !u!114 &-119815189034582722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,7 +1249,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639138508100779454
+  cacheTime: 639138572762740937
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -1317,6 +1317,18 @@ MonoBehaviour:
     index: 31
   - key: event:/UI/Decline
     index: 32
+  - key: event:/Boss/Idle
+    index: 33
+  - key: event:/Boss/Dash
+    index: 34
+  - key: event:/Boss/Land
+    index: 35
+  - key: event:/Boss/DamageTaken
+    index: 36
+  - key: event:/Boss/Jump
+    index: 37
+  - key: event:/Boss/Death
+    index: 38
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0

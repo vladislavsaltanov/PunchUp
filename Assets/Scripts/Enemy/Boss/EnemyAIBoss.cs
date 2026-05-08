@@ -170,6 +170,7 @@ public class EnemyAIBoss : EnemyAI
     {
         if (_isDead || _invulnerabilityTimer > 0) return;
         BossAudio.Instance.HandleDamage();
+        PlayerAudio.Instance.HandlePunch();
 
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 

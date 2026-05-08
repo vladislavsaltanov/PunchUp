@@ -13,7 +13,7 @@ public class BossJumpSlamState : IEnemyState
 
     public void Enter()
     {
-        //BossAudio.Instance.HandleJump();
+        BossAudio.Instance.HandleJump();
         _landSoundPlayed = false;
         _boss.IsParryable = false;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);

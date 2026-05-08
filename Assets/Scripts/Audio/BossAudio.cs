@@ -29,13 +29,13 @@ public class BossAudio : MonoBehaviour
     public void HandleLand()
     {
         AudioManager.Instance?.PlayBossLand(transform.position);
-        Debug.Log("Land");
     }
 
     // Прыжок
     public void HandleJump()
     {
         AudioManager.Instance?.PlayBossJump(transform.position);
+        Debug.Log("Jump");
     }
 
     // Idle
