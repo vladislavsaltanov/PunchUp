@@ -53,6 +53,11 @@ public class AudioManager : MonoBehaviour
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
 
+    [Header("UI")]
+    [SerializeField] private EventReference uiClickEvent;
+    [SerializeField] private EventReference uiHoverEvent;
+    [SerializeField] private EventReference uiErrorEvent;
+
     [Header("Bus")]
     private Bus masterBus;
     private Bus SFXBus;
@@ -368,5 +373,23 @@ public class AudioManager : MonoBehaviour
     {
         if (shopEnteringEvent.IsNull) return;
         RuntimeManager.PlayOneShot(shopEnteringEvent, position);
+    }
+
+    //UI
+
+    public void PlayUIClick()
+    {
+        if (uiClickEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiClickEvent);
+    }
+    public void PlayUIHover()
+    {
+        if (uiHoverEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiHoverEvent);
+    }
+    public void PlayUIError()
+    {
+        if (uiErrorEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiErrorEvent);
     }
 }

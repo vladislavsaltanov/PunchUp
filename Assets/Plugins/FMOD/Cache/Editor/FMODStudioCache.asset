@@ -48,6 +48,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1816
   Exists: 1
+--- !u!114 &-8405882636948307356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Click
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Click
+  Guid:
+    Data1: 1600034749
+    Data2: 1125169727
+    Data3: -1552524628
+    Data4: 1098829379
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 214
 --- !u!114 &-8156635227392469984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +369,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &-5765906336473355872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Hower
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Hower
+  Guid:
+    Data1: -992518426
+    Data2: 1147358756
+    Data3: 1185150854
+    Data4: 98541437
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 58
 --- !u!114 &-5669655837188053053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,10 +465,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639138470859697048
+  lastModified: 639138494430082730
   FileSizes:
   - Name: Desktop
-    Value: 496064
+    Value: 505696
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -1018,13 +1072,16 @@ MonoBehaviour:
   - {fileID: 7959469953115727940}
   - {fileID: -2928192425105070387}
   - {fileID: -5669655837188053053}
+  - {fileID: -8405882636948307356}
+  - {fileID: -5765906336473355872}
+  - {fileID: 7536994238193203852}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639138470859697048
+  cacheTime: 639138494430082730
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -1086,6 +1143,12 @@ MonoBehaviour:
     index: 28
   - key: event:/Market/MarketEnter
     index: 29
+  - key: event:/UI/Click
+    index: 30
+  - key: event:/UI/Hower
+    index: 31
+  - key: event:/UI/Decline
+    index: 32
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,6 +1497,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 816640
   Exists: 1
+--- !u!114 &7536994238193203852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Decline
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Decline
+  Guid:
+    Data1: 1218128122
+    Data2: 1193380307
+    Data3: 71288496
+    Data4: 1864089984
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 48
 --- !u!114 &7959469953115727940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,10 +1593,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639138470859116734
+  lastModified: 639138491981504212
   FileSizes:
   - Name: Desktop
-    Value: 2606
+    Value: 2804
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1523,10 +1613,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639138470859106776
+  lastModified: 639138491981489035
   FileSizes:
   - Name: Desktop
-    Value: 2386
+    Value: 2678
   Exists: 1
 --- !u!114 &9220659935962306198
 MonoBehaviour:
