@@ -20,6 +20,7 @@ public class BossProjectileState : IEnemyState
         await Awaitable.WaitForSecondsAsync(0.4f);
         if (!_active) return;
 
+        BossAudio.Instance.HandleThrown();
         if (_boss.projectilePrefab != null && _boss.Player != null)
         {
             Vector2 dir = (_boss.Player.transform.position - _boss.transform.position).normalized;

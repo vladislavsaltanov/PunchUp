@@ -179,8 +179,10 @@ GameObject:
   - component: {fileID: 5913137484058043050}
   - component: {fileID: 8035146353440101681}
   - component: {fileID: 8992552085031312827}
+  - component: {fileID: 4618683468687025703}
   - component: {fileID: 8582908603988456745}
   - component: {fileID: -8239700778869917339}
+  - component: {fileID: 7420626664578995543}
   m_Layer: 8
   m_Name: Guardian 1
   m_TagString: Enemy
@@ -197,7 +199,7 @@ Transform:
   m_GameObject: {fileID: 7218390483890331503}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 102.56, y: 5.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -280,6 +282,30 @@ MonoBehaviour:
   bulletDamage: 5
   aggroSearchDuration: 3
   stunDurationRange: {x: 1.5, y: 4}
+  guardionAudio: {fileID: 4618683468687025703}
+--- !u!114 &4618683468687025703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218390483890331503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 749ca9d83476ec445b011b9af3c34914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardianAudio
+  rb: {fileID: 8582908603988456745}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  enableLogs: 0
 --- !u!50 &8582908603988456745
 Rigidbody2D:
   serializedVersion: 5
@@ -322,3 +348,34 @@ MonoBehaviour:
   dropConfig: {fileID: 11400000, guid: dcc4aee42a49d0c4e87a80f3883d461e, type: 2}
   itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
   dropChance: 0.8
+--- !u!114 &7420626664578995543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218390483890331503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1895713157
+      Data2: 1131592438
+      Data3: -2029395034
+      Data4: 513195723
+    Path: event:/Guardian/GuardianFootsteps
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10

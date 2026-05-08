@@ -52,7 +52,10 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
         var wallet = PlayerWallet.Instance;
         if (!wallet.TrySpend(slot.item.price))
+        {
+            AudioManager.Instance?.PlayUIError();
             return;
+        }
 
         Vector3 spawnPos = PlayerController.instance.transform.position + Vector3.up * 0.5f;
 

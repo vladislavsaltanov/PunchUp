@@ -220,6 +220,7 @@ public class PlayerController : BaseEntity
     {
         isShopOpen = true;
         PlayerAudio.Instance.isMarketBool = isShopOpen;
+        AudioManager.Instance.PlayMarketEnter(transform.position);
 
         shopMenu.SetActive(true);
         Time.timeScale = 0f;
@@ -237,6 +238,7 @@ public class PlayerController : BaseEntity
 
         isShopOpen = false;
         PlayerAudio.Instance.isMarketBool = isShopOpen;
+        AudioManager.Instance.PlayUIHover();
 
         shopMenu.SetActive(false);
         Time.timeScale = 1f;

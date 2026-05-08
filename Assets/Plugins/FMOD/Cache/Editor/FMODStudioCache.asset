@@ -48,6 +48,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1816
   Exists: 1
+--- !u!114 &-8405882636948307356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Click
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Click
+  Guid:
+    Data1: 1600034749
+    Data2: 1125169727
+    Data3: -1552524628
+    Data4: 1098829379
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 214
 --- !u!114 &-8156635227392469984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +102,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &-7803023928570796995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/Land
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/Land
+  Guid:
+    Data1: 357354916
+    Data2: 1085756144
+    Data3: 1261556405
+    Data4: 1081111382
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &-7678872411690224762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +207,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-6768307847499496420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianFootsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianFootsteps
+  Guid:
+    Data1: -1895713157
+    Data2: 1131592438
+    Data3: -2029395034
+    Data4: 513195723
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 440
 --- !u!114 &-6765602747716523290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +253,7 @@ MonoBehaviour:
     Data3: -474763388
     Data4: -1089807001
   Banks:
-  - {fileID: 7488664137384926780}
+  - {fileID: -4886796401435363651}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -315,6 +396,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &-5765906336473355872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Hower
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Hower
+  Guid:
+    Data1: -992518426
+    Data2: 1147358756
+    Data3: 1185150854
+    Data4: 98541437
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 58
+--- !u!114 &-5669655837188053053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Market/MarketEnter
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Market/MarketEnter
+  Guid:
+    Data1: 1349248655
+    Data2: 1112129262
+    Data3: 332950415
+    Data4: -627373938
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1071
 --- !u!114 &-5243980414943897962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,10 +492,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639137968842774457
+  lastModified: 639138603715040854
   FileSizes:
   - Name: Desktop
-    Value: 275648
+    Value: 697824
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -497,6 +632,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 103384
+--- !u!114 &-3032118985179113707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/Dash
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/Dash
+  Guid:
+    Data1: -1354449790
+    Data2: 1121982344
+    Data3: -2085912663
+    Data4: -1625803510
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-2928192425105070387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorBreakGlass
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorBreakGlass
+  Guid:
+    Data1: -2131637032
+    Data2: 1275068818
+    Data3: 161346433
+    Data4: 1457250076
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 732
 --- !u!114 &-2786122615725439810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +740,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 440
+--- !u!114 &-2748607677088513996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianReload
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianReload
+  Guid:
+    Data1: 1355296493
+    Data2: 1167681150
+    Data3: 1701810105
+    Data4: 127471540
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 857
+--- !u!114 &-2357057540142226998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianTakeDamage
+  Guid:
+    Data1: -785578612
+    Data2: 1246268344
+    Data3: 2058285954
+    Data4: -1999012281
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 435
 --- !u!114 &-2240859130052689921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +848,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 635
+--- !u!114 &-2060553436225527731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/Death
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/Death
+  Guid:
+    Data1: 402719996
+    Data2: 1079943009
+    Data3: -52495454
+    Data4: -1317408486
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5142
 --- !u!114 &-1951601841409260423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,6 +902,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &-1733776494656359302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/Jump
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/Jump
+  Guid:
+    Data1: 354271453
+    Data2: 1097805336
+    Data3: -259411804
+    Data4: 1639034110
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &-1685621484718853644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,6 +1077,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &-645332121320349726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/Idle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/Idle
+  Guid:
+    Data1: -1323413946
+    Data2: 1298018286
+    Data3: -1796239736
+    Data4: 422856465
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &-449447542167164542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +1131,87 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 18687
+--- !u!114 &-326161256586092181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/BossThrow
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/BossThrow
+  Guid:
+    Data1: 32123523
+    Data2: 1074917541
+    Data3: 1741441678
+    Data4: 316953539
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 223
+--- !u!114 &-256627151024376751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianAttack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianAttack
+  Guid:
+    Data1: 1375870386
+    Data2: 1191375635
+    Data3: 173214611
+    Data4: -1552682894
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 535
+--- !u!114 &-119815189034582722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/DamageTaken
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/DamageTaken
+  Guid:
+    Data1: -2027561257
+    Data2: 1175562073
+    Data3: -1458390349
+    Data4: -1144877437
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -849,13 +1254,33 @@ MonoBehaviour:
   - {fileID: -4732571373947568141}
   - {fileID: 200192421659027726}
   - {fileID: -4572516058127036388}
+  - {fileID: -6768307847499496420}
+  - {fileID: -2357057540142226998}
+  - {fileID: -256627151024376751}
+  - {fileID: -2748607677088513996}
+  - {fileID: 7959469953115727940}
+  - {fileID: -2928192425105070387}
+  - {fileID: -5669655837188053053}
+  - {fileID: -8405882636948307356}
+  - {fileID: -5765906336473355872}
+  - {fileID: 7536994238193203852}
+  - {fileID: -645332121320349726}
+  - {fileID: -3032118985179113707}
+  - {fileID: -7803023928570796995}
+  - {fileID: -119815189034582722}
+  - {fileID: -1733776494656359302}
+  - {fileID: -2060553436225527731}
+  - {fileID: -326161256586092181}
+  - {fileID: 7743484903182043458}
+  - {fileID: 8837740107898160058}
+  - {fileID: 5641519520970063511}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639137968842874407
+  cacheTime: 639138637355482779
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -903,6 +1328,46 @@ MonoBehaviour:
     index: 21
   - key: event:/Elevator/StartMoving
     index: 22
+  - key: event:/Guardian/GuardianFootsteps
+    index: 23
+  - key: event:/Guardian/GuardianTakeDamage
+    index: 24
+  - key: event:/Guardian/GuardianAttack
+    index: 25
+  - key: event:/Guardian/GuardianReload
+    index: 26
+  - key: event:/Doctor/DoctorAttack 2
+    index: 27
+  - key: event:/Doctor/DoctorBreakGlass
+    index: 28
+  - key: event:/Market/MarketEnter
+    index: 29
+  - key: event:/UI/Click
+    index: 30
+  - key: event:/UI/Hower
+    index: 31
+  - key: event:/UI/Decline
+    index: 32
+  - key: event:/Boss/Idle
+    index: 33
+  - key: event:/Boss/Dash
+    index: 34
+  - key: event:/Boss/Land
+    index: 35
+  - key: event:/Boss/DamageTaken
+    index: 36
+  - key: event:/Boss/Jump
+    index: 37
+  - key: event:/Boss/Death
+    index: 38
+  - key: event:/Boss/BossThrow
+    index: 39
+  - key: event:/Boss/BossBreakGlass
+    index: 40
+  - key: event:/Music/BossBattle/BossBattle
+    index: 41
+  - key: event:/Music/BossBattle/BossBattle 2
+    index: 42
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,6 +1575,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 128000
+--- !u!114 &5641519520970063511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/BossBattle/BossBattle 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/BossBattle/BossBattle 2
+  Guid:
+    Data1: 1825156539
+    Data2: 1144251028
+    Data3: 947119266
+    Data4: -1665927349
+  Banks:
+  - {fileID: 6260322411612239502}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 21426
 --- !u!114 &5845961012792075146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,10 +1671,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SoundTrack.bank
   Name: SoundTrack
   StudioPath: bank:/SoundTrack
-  lastModified: 639137968842874407
+  lastModified: 639138637355482779
   FileSizes:
   - Name: Desktop
-    Value: 9299808
+    Value: 11025056
   Exists: 1
 --- !u!114 &7026963062129422614
 MonoBehaviour:
@@ -1246,11 +1738,92 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639137968842754400
+  lastModified: 639138508086535375
   FileSizes:
   - Name: Desktop
-    Value: 969344
+    Value: 816640
   Exists: 1
+--- !u!114 &7536994238193203852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Decline
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Decline
+  Guid:
+    Data1: 1218128122
+    Data2: 1193380307
+    Data3: 71288496
+    Data4: 1864089984
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 48
+--- !u!114 &7743484903182043458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/BossBreakGlass
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/BossBreakGlass
+  Guid:
+    Data1: 55266501
+    Data2: 1199312160
+    Data3: -806877261
+    Data4: 1925096270
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 732
+--- !u!114 &7959469953115727940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorAttack 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorAttack 2
+  Guid:
+    Data1: 1527255153
+    Data2: 1265593088
+    Data3: 1272741275
+    Data4: -1345682827
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 223
 --- !u!114 &8464158387682816289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,11 +1866,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639137968842764485
+  lastModified: 639138636985703672
   FileSizes:
   - Name: Desktop
-    Value: 2278
+    Value: 3294
   Exists: 1
+--- !u!114 &8837740107898160058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/BossBattle/BossBattle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/BossBattle/BossBattle
+  Guid:
+    Data1: 310310941
+    Data2: 1262779311
+    Data3: 285343419
+    Data4: -995240823
+  Banks:
+  - {fileID: 6260322411612239502}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 25852
 --- !u!114 &8878473299908868025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,10 +1913,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639137968842764485
+  lastModified: 639138636985688343
   FileSizes:
   - Name: Desktop
-    Value: 2108
+    Value: 3046
   Exists: 1
 --- !u!114 &9220659935962306198
 MonoBehaviour:

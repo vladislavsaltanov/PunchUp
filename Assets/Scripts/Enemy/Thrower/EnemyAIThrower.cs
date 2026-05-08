@@ -26,6 +26,9 @@ public class EnemyAIThrower : EnemyAI
     [Header("Thrower: Stun")]
     public Vector2 stunDurationRange = new Vector2(0.5f, 1.5f);
 
+    [Header("Audio")]
+    public DoctorAudio doctorAudio;
+
     public ThrowerPatrolState PatrolState { get; private set; }
     public ThrowerAggroState AggroState { get; private set; }
     public ThrowerFleeState FleeState { get; private set; }
@@ -131,9 +134,14 @@ public class EnemyAIThrower : EnemyAI
         float vy = (dy + 0.5f * g * flightTime * flightTime) / flightTime;
 
         var go = Instantiate(vialPrefab, from, Quaternion.identity);
+        doctorAudio.HandleAttack2();
         var vial = go.GetComponent<Vial>();
         if (vial != null)
+        {
             vial.Init(new Vector2(vx, vy), vialDamage, this);
+            //doctorAudio.HandleBreak();
+        }
+            
 
         LastThrowTime = Time.time;
     }
@@ -160,7 +168,7 @@ public class EnemyAIThrower : EnemyAI
     {
         if (attacker != null)
             direction = (sbyte)Mathf.Sign(attacker.position.x - transform.position.x);
-
+        doctorAudio.HandleDamage();
         float duration = Random.Range(stunDurationRange.x, stunDurationRange.y);
         ((ThrowerStunState)StunState).SetDuration(duration);
         ChangeState(StunState);

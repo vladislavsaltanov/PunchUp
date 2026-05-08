@@ -4013,6 +4013,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0256167a2d0a4d0419c7d39dcc605168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIAutoScroll
+--- !u!1 &745243101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 745243103}
+  - component: {fileID: 745243102}
+  m_Layer: 0
+  m_Name: UIAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &745243102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745243101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00af3fd14d19d1741a37ae4508b01852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIAudioManager
+--- !u!4 &745243103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745243101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 54.01194, y: -25.11389, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &763990895
 GameObject:
   m_ObjectHideFlags: 0
@@ -6739,6 +6783,20 @@ MonoBehaviour:
       Data3: 1309711027
       Data4: -796035169
     Path: event:/Doctor/DoctorAttack
+  doctorAttack2Event:
+    Guid:
+      Data1: 1527255153
+      Data2: 1265593088
+      Data3: 1272741275
+      Data4: -1345682827
+    Path: event:/Doctor/DoctorAttack 2
+  doctorBreakGlassEvent:
+    Guid:
+      Data1: -2131637032
+      Data2: 1275068818
+      Data3: 161346433
+      Data4: 1457250076
+    Path: event:/Doctor/DoctorBreakGlass
   doctorIdleEvent:
     Guid:
       Data1: -275774054
@@ -6746,6 +6804,34 @@ MonoBehaviour:
       Data3: -341171064
       Data4: 808730391
     Path: event:/Doctor/DoctorIdle
+  guardianFootstepEvent:
+    Guid:
+      Data1: -1895713157
+      Data2: 1131592438
+      Data3: -2029395034
+      Data4: 513195723
+    Path: event:/Guardian/GuardianFootsteps
+  guardianTakeDamageEvent:
+    Guid:
+      Data1: -785578612
+      Data2: 1246268344
+      Data3: 2058285954
+      Data4: -1999012281
+    Path: event:/Guardian/GuardianTakeDamage
+  guardianAttackEvent:
+    Guid:
+      Data1: 1375870386
+      Data2: 1191375635
+      Data3: 173214611
+      Data4: -1552682894
+    Path: event:/Guardian/GuardianAttack
+  guardianReloadEvent:
+    Guid:
+      Data1: 1355296493
+      Data2: 1167681150
+      Data3: 1701810105
+      Data4: 127471540
+    Path: event:/Guardian/GuardianReload
   batFlyEvent:
     Guid:
       Data1: -1596256942
@@ -6774,6 +6860,69 @@ MonoBehaviour:
       Data3: -121648200
       Data4: 1785489045
     Path: event:/Bat/BatIdle
+  shopEnteringEvent:
+    Guid:
+      Data1: 1349248655
+      Data2: 1112129262
+      Data3: 332950415
+      Data4: -627373938
+    Path: event:/Market/MarketEnter
+  bossDeathEvent:
+    Guid:
+      Data1: 402719996
+      Data2: 1079943009
+      Data3: -52495454
+      Data4: -1317408486
+    Path: event:/Boss/Death
+  bossDashEvent:
+    Guid:
+      Data1: -1354449790
+      Data2: 1121982344
+      Data3: -2085912663
+      Data4: -1625803510
+    Path: event:/Boss/Dash
+  bossLandEvent:
+    Guid:
+      Data1: 357354916
+      Data2: 1085756144
+      Data3: 1261556405
+      Data4: 1081111382
+    Path: event:/Boss/Land
+  bossJumpEvent:
+    Guid:
+      Data1: 354271453
+      Data2: 1097805336
+      Data3: -259411804
+      Data4: 1639034110
+    Path: event:/Boss/Jump
+  bossIdleEvent:
+    Guid:
+      Data1: -1323413946
+      Data2: 1298018286
+      Data3: -1796239736
+      Data4: 422856465
+    Path: event:/Boss/Idle
+  bossDamageTakenEvent:
+    Guid:
+      Data1: -2027561257
+      Data2: 1175562073
+      Data3: -1458390349
+      Data4: -1144877437
+    Path: event:/Boss/DamageTaken
+  bossThrownEvent:
+    Guid:
+      Data1: 32123523
+      Data2: 1074917541
+      Data3: 1741441678
+      Data4: 316953539
+    Path: event:/Boss/BossThrow
+  bossBreakEvent:
+    Guid:
+      Data1: 55266501
+      Data2: 1199312160
+      Data3: -806877261
+      Data4: 1925096270
+    Path: event:/Boss/BossBreakGlass
   scenePlaylists:
   - sceneName: MainMenu
     tracks:
@@ -6811,6 +6960,40 @@ MonoBehaviour:
         Data3: 26972814
         Data4: 2066112634
       Path: event:/Music/Floor 2/LevelTrack2
+  bossPhaseEvents:
+  - Guid:
+      Data1: 310310941
+      Data2: 1262779311
+      Data3: 285343419
+      Data4: -995240823
+    Path: event:/Music/BossBattle/BossBattle
+  - Guid:
+      Data1: 1825156539
+      Data2: 1144251028
+      Data3: 947119266
+      Data4: -1665927349
+    Path: event:/Music/BossBattle/BossBattle 2
+  uiClickEvent:
+    Guid:
+      Data1: 1600034749
+      Data2: 1125169727
+      Data3: -1552524628
+      Data4: 1098829379
+    Path: event:/UI/Click
+  uiHoverEvent:
+    Guid:
+      Data1: -992518426
+      Data2: 1147358756
+      Data3: 1185150854
+      Data4: 98541437
+    Path: event:/UI/Hower
+  uiErrorEvent:
+    Guid:
+      Data1: 1218128122
+      Data2: 1193380307
+      Data3: 71288496
+      Data4: 1864089984
+    Path: event:/UI/Decline
 --- !u!4 &1320478513
 Transform:
   m_ObjectHideFlags: 0
@@ -12368,7 +12551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13225,3 +13408,4 @@ SceneRoots:
   - {fileID: 1320478513}
   - {fileID: 776451923}
   - {fileID: 1835260571}
+  - {fileID: 745243103}
