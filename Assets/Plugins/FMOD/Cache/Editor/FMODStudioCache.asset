@@ -153,6 +153,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-6768307847499496420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianFootsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianFootsteps
+  Guid:
+    Data1: -1895713157
+    Data2: 1131592438
+    Data3: -2029395034
+    Data4: 513195723
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 440
 --- !u!114 &-6765602747716523290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,10 +384,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639137979978823971
+  lastModified: 639138361653231369
   FileSizes:
   - Name: Desktop
-    Value: 428352
+    Value: 471360
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -551,6 +578,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 440
+--- !u!114 &-2748607677088513996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianReload
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianReload
+  Guid:
+    Data1: 1355296493
+    Data2: 1167681150
+    Data3: 1701810105
+    Data4: 127471540
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 857
+--- !u!114 &-2357057540142226998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianTakeDamage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianTakeDamage
+  Guid:
+    Data1: -785578612
+    Data2: 1246268344
+    Data3: 2058285954
+    Data4: -1999012281
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 435
 --- !u!114 &-2240859130052689921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +888,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 18687
+--- !u!114 &-256627151024376751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Guardian/GuardianAttack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Guardian/GuardianAttack
+  Guid:
+    Data1: 1375870386
+    Data2: 1191375635
+    Data3: 173214611
+    Data4: -1552682894
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 334
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -849,13 +957,17 @@ MonoBehaviour:
   - {fileID: -4732571373947568141}
   - {fileID: 200192421659027726}
   - {fileID: -4572516058127036388}
+  - {fileID: -6768307847499496420}
+  - {fileID: -2357057540142226998}
+  - {fileID: -256627151024376751}
+  - {fileID: -2748607677088513996}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639137979991064829
+  cacheTime: 639138361653231369
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -903,6 +1015,14 @@ MonoBehaviour:
     index: 21
   - key: event:/Elevator/StartMoving
     index: 22
+  - key: event:/Guardian/GuardianFootsteps
+    index: 23
+  - key: event:/Guardian/GuardianTakeDamage
+    index: 24
+  - key: event:/Guardian/GuardianAttack
+    index: 25
+  - key: event:/Guardian/GuardianReload
+    index: 26
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,10 +1413,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639137979977256223
+  lastModified: 639138361652667087
   FileSizes:
   - Name: Desktop
-    Value: 2278
+    Value: 2462
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1313,10 +1433,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639137979977250916
+  lastModified: 639138361652656302
   FileSizes:
   - Name: Desktop
-    Value: 2108
+    Value: 2386
   Exists: 1
 --- !u!114 &9220659935962306198
 MonoBehaviour:

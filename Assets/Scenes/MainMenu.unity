@@ -6746,6 +6746,34 @@ MonoBehaviour:
       Data3: -341171064
       Data4: 808730391
     Path: event:/Doctor/DoctorIdle
+  guardianFootstepEvent:
+    Guid:
+      Data1: -1895713157
+      Data2: 1131592438
+      Data3: -2029395034
+      Data4: 513195723
+    Path: event:/Guardian/GuardianFootsteps
+  guardianTakeDamageEvent:
+    Guid:
+      Data1: -785578612
+      Data2: 1246268344
+      Data3: 2058285954
+      Data4: -1999012281
+    Path: event:/Guardian/GuardianTakeDamage
+  guardianAttackEvent:
+    Guid:
+      Data1: 1375870386
+      Data2: 1191375635
+      Data3: 173214611
+      Data4: -1552682894
+    Path: event:/Guardian/GuardianAttack
+  guardianReloadEvent:
+    Guid:
+      Data1: 1355296493
+      Data2: 1167681150
+      Data3: 1701810105
+      Data4: 127471540
+    Path: event:/Guardian/GuardianReload
   batFlyEvent:
     Guid:
       Data1: -1596256942

@@ -33,6 +33,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference doctorAttackEvent;
     [SerializeField] private EventReference doctorIdleEvent;
 
+    [Header("Guardian")]
+    [SerializeField] private EventReference guardianFootstepEvent;
+    [SerializeField] private EventReference guardianTakeDamageEvent;
+    [SerializeField] private EventReference guardianAttackEvent;
+    [SerializeField] private EventReference guardianReloadEvent;
+
     [Header("Bat")]
     [SerializeField] private EventReference batFlyEvent;
     [SerializeField] private EventReference batTakeDamageEvent;
@@ -231,6 +237,13 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
+
+    public void PlayGuardianFootstep(Vector2 worldPosition)
+    {
+        if (guardianFootstepEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianFootstepEvent, worldPosition);
+    }
+
     public void BatFly(Vector2 worldPosition)
     {
         if (batFlyEvent.IsNull) return;
@@ -272,6 +285,11 @@ public class AudioManager : MonoBehaviour
         if (doctorTakeDamageEvent.IsNull) return;
         RuntimeManager.PlayOneShot(doctorTakeDamageEvent, position);
     }
+    public void GuardianTakeDamage(Vector2 position)
+    {
+        if (guardianTakeDamageEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianTakeDamageEvent, position);
+    }
 
     public void BatTakeDamage(Vector2 position)
     {
@@ -296,6 +314,18 @@ public class AudioManager : MonoBehaviour
     {
         if (doctorAttackEvent.IsNull) return;
         RuntimeManager.PlayOneShot(doctorAttackEvent, position);
+    }
+
+    public void GuardianAttack(Vector2 position)
+    {
+        if (guardianAttackEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianAttackEvent, position);
+    }
+
+    public void GuardianReload(Vector2 position)
+    {
+        if (guardianReloadEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianReloadEvent, position);
     }
 
     public void BatAttack(Vector2 position)
