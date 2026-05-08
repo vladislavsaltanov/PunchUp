@@ -52,7 +52,8 @@ public class BossGroundSlamState : IEnemyState
 
             // 2. Attack Phase: Solid Red + Damage
             if (sr != null) sr.color = Color.red;
-            
+            BossAudio.Instance.HandleLand();
+
             bool hitPlayer = false;
             if (col != null && _boss.Player != null)
             {

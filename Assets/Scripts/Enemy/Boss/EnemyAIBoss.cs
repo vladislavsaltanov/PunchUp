@@ -174,6 +174,8 @@ public class EnemyAIBoss : EnemyAI
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (_isDead || _invulnerabilityTimer > 0) return;
+        BossAudio.Instance.HandleDamage();
+        PlayerAudio.Instance.HandlePunch();
 
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
@@ -304,7 +306,10 @@ public class EnemyAIBoss : EnemyAI
     }
     protected override void OnDeath()
     {
+        BossAudio.Instance.HandleDeath();
         OnDeathEnded += () => base.OnDeath();
+
+        AudioManager.Instance.StopBossMusic();
     }
     public void StartShake()
     {
@@ -340,6 +345,8 @@ public class EnemyAIBoss : EnemyAI
     {
         CurrentPhase = 2;
         _phaseTransitionTriggered = true;
+
+        AudioManager.Instance.SwitchToBossPhase2();
     }
 
     public void GoToIdle() { spriteRenderer.sprite = idleSprite; ChangeState(IdleState); }

@@ -12,6 +12,8 @@ public class BossDashState : IEnemyState
 
     public void Enter()
     {
+        BossAudio.Instance.HandleDash();
+
         _boss.IsParryable = false;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;

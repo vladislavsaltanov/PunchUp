@@ -47,6 +47,11 @@ public class RunManager : MonoBehaviour
             return;
         }
 
+        if (scene.name == "BossBattle")
+        {
+            AudioManager.Instance.StartBossPhase1();
+        }
+
         ResetEventSystem();
         BindCanvasesToCamera();
 

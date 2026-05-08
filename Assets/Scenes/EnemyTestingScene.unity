@@ -127,9 +127,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 558524974610237900, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 558524974610237900, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2111059313018016631, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136766730545456011, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136766730545456011, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136766730545456011, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136766730545456011, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136766730545456011, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5252948213629827692, guid: c6a623186afd74940b7a0c38060086f8, type: 3}
       propertyPath: m_LocalPosition.x

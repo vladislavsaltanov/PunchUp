@@ -948,6 +948,9 @@ MonoBehaviour:
   - {fileID: 3304388756238957270, guid: 7f2d92893f12a7947b98fc722ec81b33, type: 3}
   - {fileID: 3304388756238957270, guid: 319203a222b13f249a35880fc4745981, type: 3}
   - {fileID: 3304388756238957270, guid: 0734ca9d24d59774aa3c6fb9de41fca2, type: 3}
+  - {fileID: 8489702331292420881, guid: 4e453dec992625749a7139e228387e93, type: 3}
+  - {fileID: 8489702331292420881, guid: 48161c3edfac43642aed9646cae1a73f, type: 3}
+  - {fileID: 8489702331292420881, guid: 9aad2e72459cbd4478a4ad3dc47f3e67, type: 3}
   EnterInd: 0
   ExitInd: 0
   MarketInd: 0

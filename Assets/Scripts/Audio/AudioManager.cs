@@ -31,7 +31,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference doctorFootstepEvent;
     [SerializeField] private EventReference doctorTakeDamageEvent;
     [SerializeField] private EventReference doctorAttackEvent;
+    [SerializeField] private EventReference doctorAttack2Event;
+    [SerializeField] private EventReference doctorBreakGlassEvent;
     [SerializeField] private EventReference doctorIdleEvent;
+
+    [Header("Guardian")]
+    [SerializeField] private EventReference guardianFootstepEvent;
+    [SerializeField] private EventReference guardianTakeDamageEvent;
+    [SerializeField] private EventReference guardianAttackEvent;
+    [SerializeField] private EventReference guardianReloadEvent;
 
     [Header("Bat")]
     [SerializeField] private EventReference batFlyEvent;
@@ -39,8 +47,32 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference batAttackEvent;
     [SerializeField] private EventReference batIdleEvent;
 
+    [Header("Shop")]
+    [SerializeField] private EventReference shopEnteringEvent;
+
+    [Header("Boss")]
+    [SerializeField] private EventReference bossDeathEvent;
+    [SerializeField] private EventReference bossDashEvent;
+    [SerializeField] private EventReference bossLandEvent;
+    [SerializeField] private EventReference bossJumpEvent;
+    [SerializeField] private EventReference bossIdleEvent;
+    [SerializeField] private EventReference bossDamageTakenEvent;
+    [SerializeField] private EventReference bossThrownEvent;
+    [SerializeField] private EventReference bossBreakEvent;
+
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
+
+    [Header("Boss Music")]
+    [SerializeField] private EventReference[] bossPhaseEvents; // [0] = Phase1, [1] = Phase2
+
+    private EventInstance bossMusicInstance;
+    private bool isBossMusicActive;
+
+    [Header("UI")]
+    [SerializeField] private EventReference uiClickEvent;
+    [SerializeField] private EventReference uiHoverEvent;
+    [SerializeField] private EventReference uiErrorEvent;
 
     [Header("Bus")]
     private Bus masterBus;
@@ -231,6 +263,12 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
+    public void PlayGuardianFootstep(Vector2 worldPosition)
+    {
+        if (guardianFootstepEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianFootstepEvent, worldPosition);
+    }
+
     public void BatFly(Vector2 worldPosition)
     {
         if (batFlyEvent.IsNull) return;
@@ -272,6 +310,11 @@ public class AudioManager : MonoBehaviour
         if (doctorTakeDamageEvent.IsNull) return;
         RuntimeManager.PlayOneShot(doctorTakeDamageEvent, position);
     }
+    public void GuardianTakeDamage(Vector2 position)
+    {
+        if (guardianTakeDamageEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianTakeDamageEvent, position);
+    }
 
     public void BatTakeDamage(Vector2 position)
     {
@@ -298,6 +341,29 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorAttackEvent, position);
     }
 
+    public void DoctorAttack2(Vector2 position)
+    {
+        if (doctorAttack2Event.IsNull) return;
+        RuntimeManager.PlayOneShot(doctorAttack2Event, position);
+    }
+    public void DoctorBreak(Vector2 position)
+    {
+        if (doctorBreakGlassEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(doctorBreakGlassEvent, position);
+    }
+
+    public void GuardianAttack(Vector2 position)
+    {
+        if (guardianAttackEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianAttackEvent, position);
+    }
+
+    public void GuardianReload(Vector2 position)
+    {
+        if (guardianReloadEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(guardianReloadEvent, position);
+    }
+
     public void BatAttack(Vector2 position)
     {
         if (batAttackEvent.IsNull) return;
@@ -315,5 +381,138 @@ public class AudioManager : MonoBehaviour
     {
         if (batIdleEvent.IsNull) return;
         RuntimeManager.PlayOneShot(batIdleEvent, position);
+    }
+
+    //Магазинчик
+
+    public void PlayMarketEnter(Vector2 position)
+    {
+        if (shopEnteringEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(shopEnteringEvent, position);
+    }
+
+    //UI
+
+    public void PlayUIClick()
+    {
+        if (uiClickEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiClickEvent);
+    }
+    public void PlayUIHover()
+    {
+        if (uiHoverEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiHoverEvent);
+    }
+    public void PlayUIError()
+    {
+        if (uiErrorEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(uiErrorEvent);
+    }
+    /////////////////////
+    //Boss
+    /////////////////////
+    
+    ///// Босс умер
+    public void PlayBossDeath(Vector2 position)
+    {
+        if (bossDeathEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDeathEvent, position);
+    }
+
+    // Босс рывок
+    public void PlayBossDash(Vector2 position)
+    {
+        if (bossDashEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDashEvent, position);
+    }
+
+    // Босс приземление
+    public void PlayBossLand(Vector2 position)
+    {
+        if (bossLandEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossLandEvent, position);
+    }
+
+    // Босс прыжок
+    public void PlayBossJump(Vector2 position)
+    {
+        if (bossJumpEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossJumpEvent, position);
+    }
+
+    // Босс idle
+    public void PlayBossIdle(Vector2 position)
+    {
+        if (bossIdleEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossIdleEvent, position);
+    }
+
+    // Босс получил урон
+    public void PlayBossDamage(Vector2 position)
+    {
+        if (bossDamageTakenEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDamageTakenEvent, position);
+    }
+    public void PlayBossThrown(Vector2 position)
+    {
+        if (bossThrownEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossThrownEvent, position);
+    }
+    public void PlayBossBreak(Vector2 position)
+    {
+        if (bossBreakEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossBreakEvent, position);
+    }
+
+    //Музыка босса
+    public void StartBossPhase1()
+    {
+        // ✅ Полностью остановить обычную музыку
+        StopBackgroundMusic();
+        isPlaylistRunning = false;
+
+        if (bossPhaseEvents == null || bossPhaseEvents.Length == 0)
+            return;
+
+        if (bossPhaseEvents[0].IsNull)
+            return;
+
+        bossMusicInstance = RuntimeManager.CreateInstance(bossPhaseEvents[0]);
+        bossMusicInstance.start();
+
+        isBossMusicActive = true;
+    }
+    public void SwitchToBossPhase2()
+    {
+        if (!isBossMusicActive)
+            return;
+
+        if (bossMusicInstance.isValid())
+        {
+            bossMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bossMusicInstance.release();
+        }
+
+        if (bossPhaseEvents.Length < 2)
+            return;
+
+        if (bossPhaseEvents[1].IsNull)
+            return;
+
+        bossMusicInstance = RuntimeManager.CreateInstance(bossPhaseEvents[1]);
+        bossMusicInstance.start();
+    }
+    public void StopBossMusic()
+    {
+        if (!isBossMusicActive)
+            return;
+
+        if (bossMusicInstance.isValid())
+        {
+            bossMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bossMusicInstance.release();
+        }
+
+        isBossMusicActive = false;
     }
 }

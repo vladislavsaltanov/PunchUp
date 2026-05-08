@@ -42,8 +42,10 @@ GameObject:
   - component: {fileID: 4079947550034871183}
   - component: {fileID: 6375099463966968370}
   - component: {fileID: 4777407432644456642}
+  - component: {fileID: 2952360899388615259}
   - component: {fileID: 1570559111686864609}
   - component: {fileID: -3783789481684065188}
+  - component: {fileID: 4801978128654848289}
   m_Layer: 8
   m_Name: Thrower 2
   m_TagString: Enemy
@@ -60,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 8489702331292420881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 136.4, y: 5.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -144,6 +146,32 @@ MonoBehaviour:
   vialPrefab: {fileID: 2872018664669102525, guid: 8e1f174b7761f0245a1a5cd25e41d270, type: 3}
   throwPoint: {fileID: 8900194152741057811}
   stunDurationRange: {x: 1, y: 2}
+  doctorAudio: {fileID: 2952360899388615259}
+--- !u!114 &2952360899388615259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489702331292420881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a192bfa6553b649b79b94b8901633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoctorAudio
+  rb: {fileID: 1570559111686864609}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  minIdleSoundDelay: 5
+  maxIdleSoundDelay: 10
+  enableLogs: 0
 --- !u!50 &1570559111686864609
 Rigidbody2D:
   serializedVersion: 5
@@ -186,6 +214,37 @@ MonoBehaviour:
   dropConfig: {fileID: 11400000, guid: cbd88c1922afc314e9a7a37f995d2c8f, type: 2}
   itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
   dropChance: 0.5
+--- !u!114 &4801978128654848289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489702331292420881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1210354899
+      Data2: 1281391265
+      Data3: 2027727786
+      Data4: -1453107460
+    Path: event:/Doctor/DoctorFootsteps
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10
 --- !u!1 &8801237359478094425
 GameObject:
   m_ObjectHideFlags: 0

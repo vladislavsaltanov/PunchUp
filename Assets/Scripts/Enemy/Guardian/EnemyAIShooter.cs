@@ -25,6 +25,9 @@ public class EnemyAIShooter : EnemyAI
     public float aggroSearchDuration = 3f;
     public Vector2 stunDurationRange = new Vector2(0.5f, 1.5f);
 
+    [Header("Audio")]
+    public GuardianAudio guardionAudio;
+
     // Cached states
     public ShooterPatrolState PatrolState { get; private set; }
     public ShooterAggroState AggroState { get; private set; }
@@ -106,7 +109,11 @@ public class EnemyAIShooter : EnemyAI
         var go = Object.Instantiate(bulletPrefab, muzzlePoint.position, Quaternion.identity);
         var bullet = go.GetComponent<Bullet>();
         if (bullet != null)
+        {
             bullet.Init(direction, bulletSpeed, bulletDamage, this);
+            guardionAudio.HandleAttack();
+            Debug.Log("Пах");
+        }      
     }
 
     public void SetAnimation(ShooterAnimState anim)
@@ -118,7 +125,11 @@ public class EnemyAIShooter : EnemyAI
     }
 
     public void GoToPatrol() => ChangeState(PatrolState);
-    public void GoToAggro() => ChangeState(AggroState);
+    public void GoToAggro()
+    {
+        guardionAudio.HandleReload();
+        ChangeState(AggroState);
+    }
 
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
@@ -128,6 +139,8 @@ public class EnemyAIShooter : EnemyAI
         float duration = Random.Range(stunDurationRange.x, stunDurationRange.y);
         ((ShooterStunState)StunState).SetDuration(duration);
         ChangeState(StunState);
+        PlayerAudio.Instance.HandlePunch();
+        guardionAudio.HandleDamage();
     }
 
     protected override void OnDeath() => base.OnDeath();
