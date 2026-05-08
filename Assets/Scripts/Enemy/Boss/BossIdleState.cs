@@ -9,6 +9,8 @@ public class BossIdleState : IEnemyState
 
     public void Enter()
     {
+        BossAudio.Instance.HandleIdle();
+
         _boss.ConsecutiveJumps = 0;
         _boss.CanDealDamage = true;
         

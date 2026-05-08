@@ -7,11 +7,14 @@ public class BossJumpSlamState : IEnemyState
     bool _done;
     float _savedGravityScale;
     bool _hitRegistered;
+    bool _landSoundPlayed;
 
     public BossJumpSlamState(EnemyAIBoss boss) => _boss = boss;
 
     public void Enter()
     {
+        //BossAudio.Instance.HandleJump();
+        _landSoundPlayed = false;
         _boss.IsParryable = false;
         if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
         _active = true;
@@ -94,9 +97,15 @@ public class BossJumpSlamState : IEnemyState
                 ? (Vector2)_boss.entityCollider.bounds.center
                   - new Vector2(0f, _boss.entityCollider.bounds.extents.y)
                 : (Vector2)_boss.transform.position;
-             
+
             if (Physics2D.Raycast(origin, Vector2.down, 0.3f, _boss.groundLayer).collider != null)
             {
+                if (!_landSoundPlayed)
+                {
+                    BossAudio.Instance.HandleLand();
+                    _landSoundPlayed = true;
+                }
+
                 _boss.rb.linearVelocity = Vector2.zero;
                 break;
             }

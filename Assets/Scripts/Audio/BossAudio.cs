@@ -1,7 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossAudio : MonoBehaviour
 {
+    public static BossAudio Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        Instance = this;
+    }
     // Смерть
     public void HandleDeath()
     {
@@ -18,6 +29,7 @@ public class BossAudio : MonoBehaviour
     public void HandleLand()
     {
         AudioManager.Instance?.PlayBossLand(transform.position);
+        Debug.Log("Land");
     }
 
     // Прыжок

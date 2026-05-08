@@ -169,6 +169,7 @@ public class EnemyAIBoss : EnemyAI
     public override void TakeDamage(ushort amount, Transform attacker = null, string cause = null)
     {
         if (_isDead || _invulnerabilityTimer > 0) return;
+        BossAudio.Instance.HandleDamage();
 
         bool isParrying = IsParryable && attacker != null && attacker.GetComponent<PlayerController>() != null;
 
@@ -299,6 +300,7 @@ public class EnemyAIBoss : EnemyAI
     }
     protected override void OnDeath()
     {
+        BossAudio.Instance.HandleDeath();
         OnDeathEnded += () => base.OnDeath();
     }
     public void StartShake()

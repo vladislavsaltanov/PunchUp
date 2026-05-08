@@ -6867,6 +6867,48 @@ MonoBehaviour:
       Data3: 332950415
       Data4: -627373938
     Path: event:/Market/MarketEnter
+  bossDeathEvent:
+    Guid:
+      Data1: 402719996
+      Data2: 1079943009
+      Data3: -52495454
+      Data4: -1317408486
+    Path: event:/Boss/Death
+  bossDashEvent:
+    Guid:
+      Data1: -1354449790
+      Data2: 1121982344
+      Data3: -2085912663
+      Data4: -1625803510
+    Path: event:/Boss/Dash
+  bossLandEvent:
+    Guid:
+      Data1: 357354916
+      Data2: 1085756144
+      Data3: 1261556405
+      Data4: 1081111382
+    Path: event:/Boss/Land
+  bossJumpEvent:
+    Guid:
+      Data1: 354271453
+      Data2: 1097805336
+      Data3: -259411804
+      Data4: 1639034110
+    Path: event:/Boss/Jump
+  bossIdleEvent:
+    Guid:
+      Data1: -1323413946
+      Data2: 1298018286
+      Data3: -1796239736
+      Data4: 422856465
+    Path: event:/Boss/Idle
+  bossDamageTakenEvent:
+    Guid:
+      Data1: -2027561257
+      Data2: 1175562073
+      Data3: -1458390349
+      Data4: -1144877437
+    Path: event:/Boss/DamageTaken
   scenePlaylists:
   - sceneName: MainMenu
     tracks:
