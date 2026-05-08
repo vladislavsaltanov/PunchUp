@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     public BaseEntity owner;
-    [SerializeField] List<ItemData> items = new();
-
+    [SerializeField] public List<ItemData> items = new();
+    [SerializeField] private InventoryManager inventoryManager;
     Dictionary<ItemData, int> stackCounts = new();
     Dictionary<ItemData, List<(StatType type, StatModifier mod)>> activeModifiers = new();
 
@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
         if (item == null) return false;
 
         if (!stackCounts.ContainsKey(item))
-            stackCounts[item] = 0;
+            stackCounts[item] = 1;
         stackCounts[item]++;
 
         if (item is StatItemData statItem)
@@ -28,8 +28,14 @@ public class Inventory : MonoBehaviour
             if (abilityItem.ability != null)
                 owner.SetSpecialAbility(abilityItem.ability);
         }
+        else if (item is EffectItemData effectItem)
+        {
+            if (effectItem.effect != null)
+                owner.GetComponent<EntityEffectsSystem>().ApplyEffect(effectItem.effect);
+        }
 
         items.Add(item);
+        inventoryManager.AddItem(item);
         StatisticsHandler.Instance.statisticData.items_picked++;
         return true;
     }
@@ -62,7 +68,13 @@ public class Inventory : MonoBehaviour
             owner.SetSpecialAbility(null);
             stackCounts.Remove(item);
         }
-
+        else if (item is EffectItemData effectItem && stackCounts[item] <= 0)
+        {
+            if (effectItem.effect != null)
+                owner.GetComponent<EntityEffectsSystem>().RemoveEffect(effectItem.effect);
+            stackCounts.Remove(item);
+        }
+        inventoryManager.RemoveItem(item);
         return true;
     }
 
@@ -73,6 +85,7 @@ public class Inventory : MonoBehaviour
         foreach (var data in statItem.modifiers)
         {
             float calculatedValue = data.CalculateValue(stacks);
+            var previousMaxHealth = owner.Stats[StatType.MaxHealth];
 
             var mod = owner.Stats.AddModifier(
                 data.statType,
@@ -81,6 +94,11 @@ public class Inventory : MonoBehaviour
                 source: statItem
             );
 
+            if (data.statType == StatType.MaxHealth)
+            {
+                float diff = owner.Stats[StatType.MaxHealth] - previousMaxHealth;
+                if (diff > 0) owner.Heal((ushort)diff);
+            }
             appliedMods.Add((data.statType, mod));
         }
 

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PrivacyScreenManager : MonoBehaviour
@@ -9,6 +9,7 @@ public class PrivacyScreenManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Toggle consentToggle;
+    [SerializeField] private GameObject UIMenuFocus, MainMenuScreen;
 
     [Header("Links")]
     [SerializeField] private string privacyPolicyUrl = "https://punchup.madebykowie.ru/privacy";
@@ -35,6 +36,8 @@ public class PrivacyScreenManager : MonoBehaviour
     public void Show()
     {
         if (canvasGroup == null) return;
+        UIMenuFocus.SetActive(true);
+        MainMenuScreen.SetActive(false);
 
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
@@ -48,6 +51,8 @@ public class PrivacyScreenManager : MonoBehaviour
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+
+        MainMenuScreen.SetActive(true);
     }
 
     public void OpenPrivacyPolicySite()

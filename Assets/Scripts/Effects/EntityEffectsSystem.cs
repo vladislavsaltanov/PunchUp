@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +15,9 @@ public class EntityEffectsSystem : MonoBehaviour
 
     public IReadOnlyDictionary<EntityEffectData, ActiveEffect> ActiveEffects => activeEffects;
 
+    [SerializeField] EffectSlotManager effectSlotManager;
+    float _regenBuffer;
+
     void Awake()
     {
         if (entity == null)
@@ -24,11 +27,31 @@ public class EntityEffectsSystem : MonoBehaviour
     void Update()
     {
         TickEffects(Time.deltaTime);
+        HandleBaseRegeneration(Time.deltaTime);
+    }
+
+    void HandleBaseRegeneration(float deltaTime)
+    {
+        if (entity == null || entity.CurrentHealth <= 0) return;
+
+        float regenRate = entity.Stats[StatType.HealthRegenRate];
+        if (regenRate <= 0) return;
+
+        _regenBuffer += regenRate * deltaTime;
+
+        while (_regenBuffer >= 1f)
+        {
+            entity.Heal(1);
+            _regenBuffer -= 1f;
+        }
     }
 
     public void ApplyEffect(EntityEffectData effectData)
     {
         if (effectData == null) return;
+
+        if (entity.CompareTag("Player"))
+            effectSlotManager.AddEffect(effectData);
 
         if (activeEffects.TryGetValue(effectData, out var existing))
         {
@@ -48,6 +71,9 @@ public class EntityEffectsSystem : MonoBehaviour
     {
         if (!activeEffects.TryGetValue(effectData, out var effect))
             return;
+
+        if (entity.CompareTag("Player"))
+            effectSlotManager.RemoveEffect(effectData);
 
         effect.Remove();
         activeEffects.Remove(effectData);

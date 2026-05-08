@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class InfoPopUpScreenController : MonoBehaviour
 
     private const float HideAnimDuration = 0.4f;
     private const float HideImmediateDuration = 0.2f;
+
     private const string ShowTrigger = "ShowPopUp";
     private const string HideTrigger = "HidePopUp";
     private const string ShowStateName = "Show";
@@ -25,7 +26,9 @@ public class InfoPopUpScreenController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -35,67 +38,150 @@ public class InfoPopUpScreenController : MonoBehaviour
         _cts?.Dispose();
     }
 
-    public void Show(string message, float duration, float delay = 0f, Action onComplete = null)
+    public Awaitable Show(
+        string message,
+        float duration,
+        float delay = 0f,
+        Action onComplete = null)
     {
         var token = ResetCancellation();
-        ShowAsync(message, duration, delay, onComplete, token).IgnoreExceptions();
+
+        return ShowAsync(
+            message,
+            duration,
+            delay,
+            onComplete,
+            token);
     }
 
-    public void ShowMultiple(string[] messages, float duration, float delay = 0f)
+    public Awaitable ShowMultiple(
+        string[] messages,
+        float duration,
+        float delay = 0f)
     {
-        if (messages == null || messages.Length == 0) return;
+        if (messages == null || messages.Length == 0)
+            return Awaitable.NextFrameAsync();
 
         var token = ResetCancellation();
-        ShowMultipleAsync(messages, duration, delay, token).IgnoreExceptions();
+
+        return ShowMultipleAsync(
+            messages,
+            duration,
+            delay,
+            token);
     }
 
-    public void HidePopUpImmediately(Action onComplete = null)
+    public Awaitable HidePopUpImmediately(
+        Action onComplete = null)
     {
         var token = ResetCancellation();
-        HideImmediateAsync(onComplete, token).IgnoreExceptions();
+
+        return HideImmediateAsync(
+            onComplete,
+            token);
     }
 
     private async Awaitable ShowAsync(
-        string message, float duration, float delay,
-        Action onComplete, CancellationToken token)
+        string message,
+        float duration,
+        float delay,
+        Action onComplete,
+        CancellationToken token)
     {
         if (delay > 0f)
-            await Awaitable.WaitForSecondsAsync(delay, token);
-
-        // Если уже показывается - скрыть и подождать анимацию
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(ShowStateName))
         {
-            _animator.SetTrigger(HideTrigger);
-            await Awaitable.WaitForSecondsAsync(HideAnimDuration, token);
+            await Awaitable.WaitForSecondsAsync(
+                delay,
+                token);
         }
 
-        _text.text = message;
+        if (_animator
+            .GetCurrentAnimatorStateInfo(0)
+            .IsName(ShowStateName))
+        {
+            _animator.ResetTrigger(ShowTrigger);
+            _animator.SetTrigger(HideTrigger);
+
+            await Awaitable.WaitForSecondsAsync(
+                HideAnimDuration,
+                token);
+        }
+
+        _animator.ResetTrigger(HideTrigger);
+
+        string formatted =
+            InputTooltipFormatter.Format(message);
+
+        _text.text = formatted;
+
         _animator.SetTrigger(ShowTrigger);
 
-        await Awaitable.WaitForSecondsAsync(duration, token);
+        float elapsed = 0f;
 
+        while (elapsed < duration)
+        {
+            token.ThrowIfCancellationRequested();
+
+            string updated =
+                InputTooltipFormatter.Format(message);
+
+            if (_text.text != updated)
+            {
+                _text.text = updated;
+            }
+
+            elapsed += Time.deltaTime;
+
+            await Awaitable.NextFrameAsync(token);
+        }
+
+        _animator.ResetTrigger(ShowTrigger);
         _animator.SetTrigger(HideTrigger);
+
+        await Awaitable.WaitForSecondsAsync(
+            HideAnimDuration,
+            token);
+
         onComplete?.Invoke();
     }
 
     private async Awaitable ShowMultipleAsync(
-        string[] messages, float duration,
-        float delay, CancellationToken token)
+        string[] messages,
+        float duration,
+        float delay,
+        CancellationToken token)
     {
         if (delay > 0f)
-            await Awaitable.WaitForSecondsAsync(delay, token);
+        {
+            await Awaitable.WaitForSecondsAsync(
+                delay,
+                token);
+        }
 
         foreach (var message in messages)
         {
-            await ShowAsync(message, duration, 0f, null, token);
-            await Awaitable.WaitForSecondsAsync(HideAnimDuration, token);
+            token.ThrowIfCancellationRequested();
+
+            await ShowAsync(
+                message,
+                duration,
+                0f,
+                null,
+                token);
         }
     }
 
-    private async Awaitable HideImmediateAsync(Action onComplete, CancellationToken token)
+    private async Awaitable HideImmediateAsync(
+        Action onComplete,
+        CancellationToken token)
     {
+        _animator.ResetTrigger(ShowTrigger);
         _animator.SetTrigger(HideTrigger);
-        await Awaitable.WaitForSecondsAsync(HideImmediateDuration, token);
+
+        await Awaitable.WaitForSecondsAsync(
+            HideImmediateDuration,
+            token);
+
         onComplete?.Invoke();
     }
 
@@ -103,16 +189,9 @@ public class InfoPopUpScreenController : MonoBehaviour
     {
         _cts?.Cancel();
         _cts?.Dispose();
+
         _cts = new CancellationTokenSource();
+
         return _cts.Token;
-    }
-}
-internal static class AwaitableExtensions
-{
-    public static async void IgnoreExceptions(this Awaitable awaitable)
-    {
-        try { await awaitable; }
-        catch (OperationCanceledException) {}
-        catch (Exception e) { Debug.LogException(e); }
     }
 }
