@@ -1,4 +1,4 @@
-using System.Threading;
+п»їusing System.Threading;
 using UnityEngine;
 
 public class CombatHandler : MonoBehaviour
@@ -68,6 +68,9 @@ public class CombatHandler : MonoBehaviour
 
         _ = ExecuteRoutine(action, setCooldownCallback, cts.Token);
 
+        if (owner._name == "РРіСЂРѕРє")
+            PlayerController.instance.animator.SetTrigger("Attack");
+
         return true;
     }
 
@@ -82,7 +85,7 @@ public class CombatHandler : MonoBehaviour
         }
         finally
         {
-            // всегда сбрасываем busy, даже если было исключение/отмена
+            // РІСЃРµРіРґР° СЃР±СЂР°СЃС‹РІР°РµРј busy, РґР°Р¶Рµ РµСЃР»Рё Р±С‹Р»Рѕ РёСЃРєР»СЋС‡РµРЅРёРµ/РѕС‚РјРµРЅР°
             IsBusy = false;
             busySinceTime = -1f;
         }

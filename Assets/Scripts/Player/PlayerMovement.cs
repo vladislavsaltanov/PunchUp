@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,7 +25,9 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector]
         float movementDirection;
+    bool isJumping;
 
+    float previousY = 0f;
     public void AddJump(byte amount = 1) => chars.maxJumps += amount;
     public void RemoveJump(byte amount = 1) => chars.maxJumps = (byte)Mathf.Max(1, chars.maxJumps - amount);
 
@@ -45,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleJumpTimers();
+
+        PlayerController.instance.animator.SetBool("Falling", (transform.position.y - previousY) > 0.3f);
+        previousY = transform.position.y;
 
         if (controller.HasVelocityOverride)
         {
@@ -100,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (callback.performed && jumpsRemaining > 0)
         {
+            PlayerController.instance.animator.SetTrigger("Jump");
+
             bufferedJumpTimerCurrent = chars.bufferedJumpTimer;
             jumpCooldown = chars.jumpCooldown;
             jumpsRemaining--;
@@ -113,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocityY = 0;
         rb.AddForce(Vector2.up * chars.jumpForce, ForceMode2D.Impulse);
+
         PlayerAudio.Instance.HandleJump();
     }
 }
