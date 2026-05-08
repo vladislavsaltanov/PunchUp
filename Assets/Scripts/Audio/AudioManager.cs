@@ -50,6 +50,14 @@ public class AudioManager : MonoBehaviour
     [Header("Shop")]
     [SerializeField] private EventReference shopEnteringEvent;
 
+    [Header("Boss")]
+    [SerializeField] private EventReference bossDeathEvent;
+    [SerializeField] private EventReference bossDashEvent;
+    [SerializeField] private EventReference bossLandEvent;
+    [SerializeField] private EventReference bossJumpEvent;
+    [SerializeField] private EventReference bossIdleEvent;
+    [SerializeField] private EventReference bossDamageTakenEvent;
+
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
 
@@ -391,5 +399,50 @@ public class AudioManager : MonoBehaviour
     {
         if (uiErrorEvent.IsNull) return;
         RuntimeManager.PlayOneShot(uiErrorEvent);
+    }
+    /////////////////////
+    //Boss
+    /////////////////////
+    
+    ///// Босс умер
+    public void PlayBossDeath(Vector2 position)
+    {
+        if (bossDeathEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDeathEvent, position);
+    }
+
+    // Босс рывок
+    public void PlayBossDash(Vector2 position)
+    {
+        if (bossDashEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDashEvent, position);
+    }
+
+    // Босс приземление
+    public void PlayBossLand(Vector2 position)
+    {
+        if (bossLandEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossLandEvent, position);
+    }
+
+    // Босс прыжок
+    public void PlayBossJump(Vector2 position)
+    {
+        if (bossJumpEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossJumpEvent, position);
+    }
+
+    // Босс idle
+    public void PlayBossIdle(Vector2 position)
+    {
+        if (bossIdleEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossIdleEvent, position);
+    }
+
+    // Босс получил урон
+    public void PlayBossDamage(Vector2 position)
+    {
+        if (bossDamageTakenEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossDamageTakenEvent, position);
     }
 }
