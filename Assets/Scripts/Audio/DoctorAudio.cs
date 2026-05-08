@@ -151,4 +151,13 @@ public class DoctorAudio : MonoBehaviour
     {
         AudioManager.Instance.DoctorAttack(transform.position);
     }
+
+    public void HandleAttack2()
+    {
+        AudioManager.Instance.DoctorAttack2(transform.position);
+    }
+    public void HandleBreak()
+    {
+        AudioManager.Instance.DoctorBreak(transform.position);
+    }
 }
