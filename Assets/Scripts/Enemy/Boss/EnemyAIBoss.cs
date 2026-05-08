@@ -303,6 +303,8 @@ public class EnemyAIBoss : EnemyAI
     {
         BossAudio.Instance.HandleDeath();
         OnDeathEnded += () => base.OnDeath();
+
+        AudioManager.Instance.StopBossMusic();
     }
     public void StartShake()
     {
@@ -338,6 +340,8 @@ public class EnemyAIBoss : EnemyAI
     {
         CurrentPhase = 2;
         _phaseTransitionTriggered = true;
+
+        AudioManager.Instance.SwitchToBossPhase2();
     }
 
     public void GoToIdle() => ChangeState(IdleState);

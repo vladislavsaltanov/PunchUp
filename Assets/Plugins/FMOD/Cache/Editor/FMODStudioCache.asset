@@ -1272,13 +1272,15 @@ MonoBehaviour:
   - {fileID: -2060553436225527731}
   - {fileID: -326161256586092181}
   - {fileID: 7743484903182043458}
+  - {fileID: 8837740107898160058}
+  - {fileID: 5641519520970063511}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639138603715040854
+  cacheTime: 639138637355482779
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -1362,6 +1364,10 @@ MonoBehaviour:
     index: 39
   - key: event:/Boss/BossBreakGlass
     index: 40
+  - key: event:/Music/BossBattle/BossBattle
+    index: 41
+  - key: event:/Music/BossBattle/BossBattle 2
+    index: 42
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1569,6 +1575,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 128000
+--- !u!114 &5641519520970063511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/BossBattle/BossBattle 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/BossBattle/BossBattle 2
+  Guid:
+    Data1: 1825156539
+    Data2: 1144251028
+    Data3: 947119266
+    Data4: -1665927349
+  Banks:
+  - {fileID: 6260322411612239502}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 21426
 --- !u!114 &5845961012792075146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,10 +1671,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SoundTrack.bank
   Name: SoundTrack
   StudioPath: bank:/SoundTrack
-  lastModified: 639138508100779454
+  lastModified: 639138637355482779
   FileSizes:
   - Name: Desktop
-    Value: 9299808
+    Value: 11025056
   Exists: 1
 --- !u!114 &7026963062129422614
 MonoBehaviour:
@@ -1833,11 +1866,38 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639138587855346993
+  lastModified: 639138636985703672
   FileSizes:
   - Name: Desktop
-    Value: 3198
+    Value: 3294
   Exists: 1
+--- !u!114 &8837740107898160058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/BossBattle/BossBattle
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/BossBattle/BossBattle
+  Guid:
+    Data1: 310310941
+    Data2: 1262779311
+    Data3: 285343419
+    Data4: -995240823
+  Banks:
+  - {fileID: 6260322411612239502}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 25852
 --- !u!114 &8878473299908868025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1853,7 +1913,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639138587855336173
+  lastModified: 639138636985688343
   FileSizes:
   - Name: Desktop
     Value: 3046

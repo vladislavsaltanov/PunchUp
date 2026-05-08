@@ -63,6 +63,12 @@ public class AudioManager : MonoBehaviour
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
 
+    [Header("Boss Music")]
+    [SerializeField] private EventReference[] bossPhaseEvents; // [0] = Phase1, [1] = Phase2
+
+    private EventInstance bossMusicInstance;
+    private bool isBossMusicActive;
+
     [Header("UI")]
     [SerializeField] private EventReference uiClickEvent;
     [SerializeField] private EventReference uiHoverEvent;
@@ -456,5 +462,57 @@ public class AudioManager : MonoBehaviour
     {
         if (bossBreakEvent.IsNull) return;
         RuntimeManager.PlayOneShot(bossBreakEvent, position);
+    }
+
+    //Музыка босса
+    public void StartBossPhase1()
+    {
+        // ✅ Полностью остановить обычную музыку
+        StopBackgroundMusic();
+        isPlaylistRunning = false;
+
+        if (bossPhaseEvents == null || bossPhaseEvents.Length == 0)
+            return;
+
+        if (bossPhaseEvents[0].IsNull)
+            return;
+
+        bossMusicInstance = RuntimeManager.CreateInstance(bossPhaseEvents[0]);
+        bossMusicInstance.start();
+
+        isBossMusicActive = true;
+    }
+    public void SwitchToBossPhase2()
+    {
+        if (!isBossMusicActive)
+            return;
+
+        if (bossMusicInstance.isValid())
+        {
+            bossMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bossMusicInstance.release();
+        }
+
+        if (bossPhaseEvents.Length < 2)
+            return;
+
+        if (bossPhaseEvents[1].IsNull)
+            return;
+
+        bossMusicInstance = RuntimeManager.CreateInstance(bossPhaseEvents[1]);
+        bossMusicInstance.start();
+    }
+    public void StopBossMusic()
+    {
+        if (!isBossMusicActive)
+            return;
+
+        if (bossMusicInstance.isValid())
+        {
+            bossMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bossMusicInstance.release();
+        }
+
+        isBossMusicActive = false;
     }
 }

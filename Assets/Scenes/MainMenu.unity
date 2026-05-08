@@ -6960,6 +6960,19 @@ MonoBehaviour:
         Data3: 26972814
         Data4: 2066112634
       Path: event:/Music/Floor 2/LevelTrack2
+  bossPhaseEvents:
+  - Guid:
+      Data1: 310310941
+      Data2: 1262779311
+      Data3: 285343419
+      Data4: -995240823
+    Path: event:/Music/BossBattle/BossBattle
+  - Guid:
+      Data1: 1825156539
+      Data2: 1144251028
+      Data3: 947119266
+      Data4: -1665927349
+    Path: event:/Music/BossBattle/BossBattle 2
   uiClickEvent:
     Guid:
       Data1: 1600034749
