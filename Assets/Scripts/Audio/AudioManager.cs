@@ -47,6 +47,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference batAttackEvent;
     [SerializeField] private EventReference batIdleEvent;
 
+    [Header("Shop")]
+    [SerializeField] private EventReference shopEnteringEvent;
+
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
 
@@ -357,5 +360,13 @@ public class AudioManager : MonoBehaviour
     {
         if (batIdleEvent.IsNull) return;
         RuntimeManager.PlayOneShot(batIdleEvent, position);
+    }
+
+    //Магазинчик
+
+    public void PlayMarketEnter(Vector2 position)
+    {
+        if (shopEnteringEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(shopEnteringEvent, position);
     }
 }

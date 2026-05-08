@@ -6816,6 +6816,13 @@ MonoBehaviour:
       Data3: -121648200
       Data4: 1785489045
     Path: event:/Bat/BatIdle
+  shopEnteringEvent:
+    Guid:
+      Data1: 1349248655
+      Data2: 1112129262
+      Data3: 332950415
+      Data4: -627373938
+    Path: event:/Market/MarketEnter
   scenePlaylists:
   - sceneName: MainMenu
     tracks:
