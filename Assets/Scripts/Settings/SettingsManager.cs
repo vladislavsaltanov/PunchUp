@@ -50,23 +50,26 @@ public class SettingsManager : MonoBehaviour
     {
         QualitySettings.vSyncCount = Data.vsync ? 1 : 0;
 
-        Resolution[] uniqueResolutions = Screen.resolutions
-                    .GroupBy(res => new { res.width, res.height })
-                    .Select(g => g.Last())
-                    .ToArray();
+        Resolution[] uniqueResolutions = GetUniqueResolutions();
 
-        if (Data.resolutionIndex >= 0 && Data.resolutionIndex < uniqueResolutions.Length)
+        if (Data.resolutionIndex >= 0 &&
+            Data.resolutionIndex < uniqueResolutions.Length)
         {
             Resolution res = uniqueResolutions[Data.resolutionIndex];
-            Screen.SetResolution(res.width, res.height, Data.isFullscreen);
+
+            Screen.SetResolution(
+                res.width,
+                res.height,
+                Data.isFullscreen
+            );
         }
         else
+        {
             Screen.fullScreen = Data.isFullscreen;
+        }
 
-        if (Data.fpsCap == 0)
-            Application.targetFrameRate = -1;
-        else
-            Application.targetFrameRate = Data.fpsCap;
+        Application.targetFrameRate =
+            Data.fpsCap == 0 ? -1 : Data.fpsCap;
     }
 
     public void SetVolume(VolumeSetting type, float value)
@@ -122,7 +125,16 @@ public class SettingsManager : MonoBehaviour
         if (File.Exists(SavePath))
         {
             string json = File.ReadAllText(SavePath);
+
             Data = JsonUtility.FromJson<GameSettingsData>(json);
+        }
+        else
+        {
+            Resolution[] uniqueResolutions =
+                GetUniqueResolutions();
+
+            Data.resolutionIndex =
+                uniqueResolutions.Length - 1;
         }
     }
 
@@ -157,6 +169,13 @@ public class SettingsManager : MonoBehaviour
             }
         }
         return null;
+    }
+    private Resolution[] GetUniqueResolutions()
+    {
+        return Screen.resolutions
+            .GroupBy(res => new { res.width, res.height })
+            .Select(g => g.Last())
+            .ToArray();
     }
 }
 
