@@ -12019,6 +12019,10 @@ MonoBehaviour:
   poiseRegenRate: 45
   nonVulnerableDamageMultiplier: 0.2
   invulnerabilityDuration: 0.35
+  idleSprite: {fileID: -3032607661387810071, guid: ab7a3bb2e2037b44a8c9f427466340eb, type: 3}
+  jumpingSprite1: {fileID: -4991470673503483115, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
+  jumpingSprite2: {fileID: 421741868837848560, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
+  jumpingSprite3: {fileID: 1709309192152186707, guid: 8f3a97c4088597f4a95fc33dc7ca39dd, type: 3}
   hitsSinceLastVulnerable: 0
   doorTrigger: {fileID: 365769751}
 --- !u!114 &784996073

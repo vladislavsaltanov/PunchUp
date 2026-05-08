@@ -71,6 +71,11 @@ public class EnemyAIBoss : EnemyAI
     public float nonVulnerableDamageMultiplier = 0f;
     public float invulnerabilityDuration = 0.2f;
 
+    [Space(15)]
+    [Header("Animations")]
+    [SerializeField] Sprite idleSprite;
+    [SerializeField] Sprite jumpingSprite1, jumpingSprite2, jumpingSprite3;
+
     public BossIdleState IdleState { get; private set; }
     public BossDashState DashState { get; private set; }
     public BossJumpSlamState JumpSlamState { get; private set; }
@@ -337,15 +342,24 @@ public class EnemyAIBoss : EnemyAI
         _phaseTransitionTriggered = true;
     }
 
-    public void GoToIdle() => ChangeState(IdleState);
+    public void GoToIdle() { spriteRenderer.sprite = idleSprite; ChangeState(IdleState); }
     public void GoToDash() => ChangeState(DashState);
-    public void GoToJumpSlam() => ChangeState(JumpSlamState);
+    public void GoToJumpSlam() { _ = jumpingSequence(); ChangeState(JumpSlamState); }
     public void GoToProjectile() => ChangeState(ProjectileState);
     public void GoToCombo() => ChangeState(ComboState);
     public void GoToVulnerable() => ChangeState(VulnerableState);
     public void GoToPhaseTransition() { stats.AddModifier(StatType.HealthRegenRate, percent: -100f, source: this); ChangeState(PhaseTransitionState); }
     public void GoToGroundSlam() => ChangeState(GroundSlamState);
     public void GoToDeath() { _isDead = true; ChangeState(DeathState); }
+
+    async Awaitable jumpingSequence()
+    {
+        spriteRenderer.sprite = jumpingSprite1;
+        await Awaitable.WaitForSecondsAsync(0.15f);
+        spriteRenderer.sprite = jumpingSprite2;
+        await Awaitable.WaitForSecondsAsync(0.15f);
+        spriteRenderer.sprite = jumpingSprite3;
+    }
 
     public void JumpToCenter()
     {
