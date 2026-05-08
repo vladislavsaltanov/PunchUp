@@ -105,12 +105,15 @@ public class EnemyAIShooter : EnemyAI
 
     public void Shoot()
     {
-        guardionAudio.HandleAttack();
         if (bulletPrefab == null || muzzlePoint == null) return;
         var go = Object.Instantiate(bulletPrefab, muzzlePoint.position, Quaternion.identity);
         var bullet = go.GetComponent<Bullet>();
         if (bullet != null)
+        {
             bullet.Init(direction, bulletSpeed, bulletDamage, this);
+            guardionAudio.HandleAttack();
+            Debug.Log("Пах");
+        }      
     }
 
     public void SetAnimation(ShooterAnimState anim)
@@ -130,13 +133,14 @@ public class EnemyAIShooter : EnemyAI
 
     protected override void OnDamageReceived(ushort amount, Transform attacker = null)
     {
-        guardionAudio.HandleDamage();
         if (attacker != null)
             direction = (sbyte)Mathf.Sign(attacker.position.x - transform.position.x);
 
         float duration = Random.Range(stunDurationRange.x, stunDurationRange.y);
         ((ShooterStunState)StunState).SetDuration(duration);
         ChangeState(StunState);
+        PlayerAudio.Instance.HandlePunch();
+        guardionAudio.HandleDamage();
     }
 
     protected override void OnDeath() => base.OnDeath();

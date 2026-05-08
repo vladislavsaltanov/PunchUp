@@ -101,9 +101,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{26971770-fb11-4122-ba8e-c84045c961cb}">
-		<property name="volume">
-			<value>-10</value>
-		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -151,6 +148,9 @@
 	<object class="MixerBusPanner" id="{154b6043-fdc6-4a93-87c7-fe17837dd5b9}" />
 	<object class="MixerBusFader" id="{5b780a33-13e3-44d2-8b33-ce3359758ec6}" />
 	<object class="SpatialiserEffect" id="{ec8f6b04-c2df-45d3-8776-f30da24fed2b}">
+		<property name="distanceRolloffType">
+			<value>1</value>
+		</property>
 		<property name="userStereoSeparation">
 			<value>-60</value>
 		</property>

@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 8854536776568011140}
   - component: {fileID: 8582908603988456745}
   - component: {fileID: 3314479407794621507}
+  - component: {fileID: -5151018865354566989}
   m_Layer: 8
   m_Name: Guardian 2
   m_TagString: Enemy
@@ -294,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749ca9d83476ec445b011b9af3c34914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardianAudio
-  rb: {fileID: 0}
+  rb: {fileID: 8582908603988456745}
   enemyLogic: {fileID: 0}
   minVelocityToPlay: 1
   footstepDelayAfterJump: 0.5
@@ -347,3 +348,34 @@ MonoBehaviour:
   dropConfig: {fileID: 11400000, guid: dcc4aee42a49d0c4e87a80f3883d461e, type: 2}
   itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
   dropChance: 0.8
+--- !u!114 &-5151018865354566989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218390483890331503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1895713157
+      Data2: 1131592438
+      Data3: -2029395034
+      Data4: 513195723
+    Path: event:/Guardian/GuardianFootsteps
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10

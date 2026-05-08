@@ -65,8 +65,8 @@ public class GuardianAudio : MonoBehaviour
 
         float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
 
-        bool shouldPlay = enemyLogic.currentState == EnemyState.Walking && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
-
+        bool shouldPlay = Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
+        //enemyLogic.currentState == EnemyState.Walking &&
         if (Time.time < footstepBlockedUntil)
         {
             stepTimer = 0f;
