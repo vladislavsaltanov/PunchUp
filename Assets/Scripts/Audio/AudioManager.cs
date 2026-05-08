@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference doctorFootstepEvent;
     [SerializeField] private EventReference doctorTakeDamageEvent;
     [SerializeField] private EventReference doctorAttackEvent;
+    [SerializeField] private EventReference doctorAttack2Event;
+    [SerializeField] private EventReference doctorBreakGlassEvent;
     [SerializeField] private EventReference doctorIdleEvent;
 
     [Header("Guardian")]
@@ -237,7 +239,6 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(doctorFootstepEvent, worldPosition);
     }
 
-
     public void PlayGuardianFootstep(Vector2 worldPosition)
     {
         if (guardianFootstepEvent.IsNull) return;
@@ -314,6 +315,17 @@ public class AudioManager : MonoBehaviour
     {
         if (doctorAttackEvent.IsNull) return;
         RuntimeManager.PlayOneShot(doctorAttackEvent, position);
+    }
+
+    public void DoctorAttack2(Vector2 position)
+    {
+        if (doctorAttack2Event.IsNull) return;
+        RuntimeManager.PlayOneShot(doctorAttack2Event, position);
+    }
+    public void DoctorBreak(Vector2 position)
+    {
+        if (doctorBreakGlassEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(doctorBreakGlassEvent, position);
     }
 
     public void GuardianAttack(Vector2 position)

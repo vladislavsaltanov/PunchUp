@@ -384,10 +384,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639138380666523680
+  lastModified: 639138433601207042
   FileSizes:
   - Name: Desktop
-    Value: 471360
+    Value: 483552
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -524,6 +524,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 103384
+--- !u!114 &-2928192425105070387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorBreakGlass
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorBreakGlass
+  Guid:
+    Data1: -2131637032
+    Data2: 1275068818
+    Data3: 161346433
+    Data4: 1457250076
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 732
 --- !u!114 &-2786122615725439810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,13 +988,15 @@ MonoBehaviour:
   - {fileID: -2357057540142226998}
   - {fileID: -256627151024376751}
   - {fileID: -2748607677088513996}
+  - {fileID: 7959469953115727940}
+  - {fileID: -2928192425105070387}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639138380666523680
+  cacheTime: 639138433601207042
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -1023,6 +1052,10 @@ MonoBehaviour:
     index: 25
   - key: event:/Guardian/GuardianReload
     index: 26
+  - key: event:/Doctor/DoctorAttack 2
+    index: 27
+  - key: event:/Doctor/DoctorBreakGlass
+    index: 28
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,6 +1404,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 816640
   Exists: 1
+--- !u!114 &7959469953115727940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Doctor/DoctorAttack 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Doctor/DoctorAttack 2
+  Guid:
+    Data1: 1527255153
+    Data2: 1265593088
+    Data3: 1272741275
+    Data4: -1345682827
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 223
 --- !u!114 &8464158387682816289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,10 +1473,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639138361652667087
+  lastModified: 639138433600394333
   FileSizes:
   - Name: Desktop
-    Value: 2462
+    Value: 2546
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1433,7 +1493,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639138361652656302
+  lastModified: 639138433600381361
   FileSizes:
   - Name: Desktop
     Value: 2386

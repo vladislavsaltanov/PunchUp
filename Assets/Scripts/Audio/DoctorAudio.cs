@@ -1,9 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DoctorAudio : MonoBehaviour
 {
-    //public static DoctorAudio Instance { get; private set; }
-
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private EnemyLogic enemyLogic;
@@ -37,19 +35,25 @@ public class DoctorAudio : MonoBehaviour
     private float xPosLastFrame;
     private bool wasMovingLastFrame;
 
+    private bool enemyLogicUse = true;
+
     private void Awake()
     {
-        //if (Instance != null)
-        //{
-        //    Debug.LogError("Больше одного PlayerAudio o_0");
-        //}
-        //Instance = this;
 
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();
 
         if (enemyLogic == null)
-            enemyLogic = GetComponent<EnemyLogic>();
+        {
+            try
+            {
+                enemyLogic = GetComponent<EnemyLogic>();
+            }
+            catch
+            {
+                enemyLogicUse=false;
+            }
+        }
 
         xPosLastFrame = transform.position.x;
         ResetIdleSoundTimer();
@@ -78,7 +82,7 @@ public class DoctorAudio : MonoBehaviour
 
         float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
 
-        bool shouldPlay = enemyLogic.currentState == EnemyState.Walking && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
+        bool shouldPlay = (enemyLogicUse?enemyLogic.currentState == EnemyState.Walking:true) && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
 
         if (Time.time < footstepBlockedUntil)
         {
