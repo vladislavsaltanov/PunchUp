@@ -492,10 +492,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639138572762740937
+  lastModified: 639138603715040854
   FileSizes:
   - Name: Desktop
-    Value: 695040
+    Value: 697824
   Exists: 1
 --- !u!114 &-4732571373947568141
 MonoBehaviour:
@@ -1131,6 +1131,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 18687
+--- !u!114 &-326161256586092181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/BossThrow
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/BossThrow
+  Guid:
+    Data1: 32123523
+    Data2: 1074917541
+    Data3: 1741441678
+    Data4: 316953539
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 223
 --- !u!114 &-256627151024376751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1243,13 +1270,15 @@ MonoBehaviour:
   - {fileID: -119815189034582722}
   - {fileID: -1733776494656359302}
   - {fileID: -2060553436225527731}
+  - {fileID: -326161256586092181}
+  - {fileID: 7743484903182043458}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8878473299908868025}
   StringsBanks:
   - {fileID: 8789690730055704209}
   cacheVersion: 131858
-  cacheTime: 639138572762740937
+  cacheTime: 639138603715040854
   SerializableEventsDict:
   - key: event:/Ambient/Ambient1
     index: 0
@@ -1329,6 +1358,10 @@ MonoBehaviour:
     index: 37
   - key: event:/Boss/Death
     index: 38
+  - key: event:/Boss/BossThrow
+    index: 39
+  - key: event:/Boss/BossBreakGlass
+    index: 40
 --- !u!114 &200192421659027726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1704,6 +1737,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 48
+--- !u!114 &7743484903182043458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss/BossBreakGlass
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Boss/BossBreakGlass
+  Guid:
+    Data1: 55266501
+    Data2: 1199312160
+    Data3: -806877261
+    Data4: 1925096270
+  Banks:
+  - {fileID: -4886796401435363651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 732
 --- !u!114 &7959469953115727940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,10 +1833,10 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639138508086624055
+  lastModified: 639138587855346993
   FileSizes:
   - Name: Desktop
-    Value: 3106
+    Value: 3198
   Exists: 1
 --- !u!114 &8878473299908868025
 MonoBehaviour:
@@ -1793,7 +1853,7 @@ MonoBehaviour:
   Path: PunchUpFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639138508086610930
+  lastModified: 639138587855336173
   FileSizes:
   - Name: Desktop
     Value: 3046

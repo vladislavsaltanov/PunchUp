@@ -6909,6 +6909,20 @@ MonoBehaviour:
       Data3: -1458390349
       Data4: -1144877437
     Path: event:/Boss/DamageTaken
+  bossThrownEvent:
+    Guid:
+      Data1: 32123523
+      Data2: 1074917541
+      Data3: 1741441678
+      Data4: 316953539
+    Path: event:/Boss/BossThrow
+  bossBreakEvent:
+    Guid:
+      Data1: 55266501
+      Data2: 1199312160
+      Data3: -806877261
+      Data4: 1925096270
+    Path: event:/Boss/BossBreakGlass
   scenePlaylists:
   - sceneName: MainMenu
     tracks:

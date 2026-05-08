@@ -35,7 +35,6 @@ public class BossAudio : MonoBehaviour
     public void HandleJump()
     {
         AudioManager.Instance?.PlayBossJump(transform.position);
-        Debug.Log("Jump");
     }
 
     // Idle
@@ -48,5 +47,17 @@ public class BossAudio : MonoBehaviour
     public void HandleDamage()
     {
         AudioManager.Instance?.PlayBossDamage(transform.position);
+    }
+
+    // Idle
+    public void HandleThrown()
+    {
+        AudioManager.Instance?.PlayBossThrown(transform.position);
+    }
+
+    // Получение урона
+    public void HandleBreak()
+    {
+        AudioManager.Instance?.PlayBossBreak(transform.position);
     }
 }

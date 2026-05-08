@@ -19,6 +19,7 @@ public class BossProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        BossAudio.Instance.HandleBreak();
         if (((1 << other.gameObject.layer) & playerLayer.value) != 0)
             other.GetComponentInParent<BaseEntity>()?.TakeDamage(_damage, transform, "снаряд Тесея");
 

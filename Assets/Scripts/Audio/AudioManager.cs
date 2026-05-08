@@ -57,6 +57,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference bossJumpEvent;
     [SerializeField] private EventReference bossIdleEvent;
     [SerializeField] private EventReference bossDamageTakenEvent;
+    [SerializeField] private EventReference bossThrownEvent;
+    [SerializeField] private EventReference bossBreakEvent;
 
     [Header("Scene Playlists")]
     [SerializeField] private ScenePlaylist[] scenePlaylists;
@@ -444,5 +446,15 @@ public class AudioManager : MonoBehaviour
     {
         if (bossDamageTakenEvent.IsNull) return;
         RuntimeManager.PlayOneShot(bossDamageTakenEvent, position);
+    }
+    public void PlayBossThrown(Vector2 position)
+    {
+        if (bossThrownEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossThrownEvent, position);
+    }
+    public void PlayBossBreak(Vector2 position)
+    {
+        if (bossBreakEvent.IsNull) return;
+        RuntimeManager.PlayOneShot(bossBreakEvent, position);
     }
 }
