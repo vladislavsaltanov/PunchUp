@@ -6739,6 +6739,20 @@ MonoBehaviour:
       Data3: 1309711027
       Data4: -796035169
     Path: event:/Doctor/DoctorAttack
+  doctorAttack2Event:
+    Guid:
+      Data1: 1527255153
+      Data2: 1265593088
+      Data3: 1272741275
+      Data4: -1345682827
+    Path: event:/Doctor/DoctorAttack 2
+  doctorBreakGlassEvent:
+    Guid:
+      Data1: -2131637032
+      Data2: 1275068818
+      Data3: 161346433
+      Data4: 1457250076
+    Path: event:/Doctor/DoctorBreakGlass
   doctorIdleEvent:
     Guid:
       Data1: -275774054

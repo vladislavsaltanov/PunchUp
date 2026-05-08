@@ -139,7 +139,7 @@ public class EnemyAIThrower : EnemyAI
         if (vial != null)
         {
             vial.Init(new Vector2(vx, vy), vialDamage, this);
-            doctorAudio.HandleBreak();
+            //doctorAudio.HandleBreak();
         }
             
 
@@ -168,7 +168,7 @@ public class EnemyAIThrower : EnemyAI
     {
         if (attacker != null)
             direction = (sbyte)Mathf.Sign(attacker.position.x - transform.position.x);
-
+        doctorAudio.HandleDamage();
         float duration = Random.Range(stunDurationRange.x, stunDurationRange.y);
         ((ThrowerStunState)StunState).SetDuration(duration);
         ChangeState(StunState);

@@ -146,6 +146,7 @@ MonoBehaviour:
   vialPrefab: {fileID: 2872018664669102525, guid: 8e1f174b7761f0245a1a5cd25e41d270, type: 3}
   throwPoint: {fileID: 8900194152741057811}
   stunDurationRange: {x: 1, y: 2}
+  doctorAudio: {fileID: 3710117285349812577}
 --- !u!114 &3710117285349812577
 MonoBehaviour:
   m_ObjectHideFlags: 0

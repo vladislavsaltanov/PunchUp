@@ -82,8 +82,8 @@ public class DoctorAudio : MonoBehaviour
 
         float linearVelocityX = Mathf.Abs(rb.linearVelocityX);
 
-        bool shouldPlay = (enemyLogicUse?enemyLogic.currentState == EnemyState.Walking:true) && Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
-
+        bool shouldPlay = Mathf.Abs(xPosLastFrame - transform.position.x) > 0;
+        //(enemyLogicUse?enemyLogic.currentState == EnemyState.Walking:true)
         if (Time.time < footstepBlockedUntil)
         {
             stepTimer = 0f;
@@ -155,9 +155,5 @@ public class DoctorAudio : MonoBehaviour
     public void HandleAttack2()
     {
         AudioManager.Instance.DoctorAttack2(transform.position);
-    }
-    public void HandleBreak()
-    {
-        AudioManager.Instance.DoctorBreak(transform.position);
     }
 }

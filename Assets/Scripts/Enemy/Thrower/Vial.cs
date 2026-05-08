@@ -22,8 +22,10 @@ public class Vial : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        
         if (((1 << col.gameObject.layer) & groundLayer.value) != 0)
         {
+            AudioManager.Instance.DoctorBreak(rb.transform.position);
             SpawnDebris(col.contacts[0].point);
             Destroy(gameObject);
             return;
@@ -38,6 +40,7 @@ public class Vial : MonoBehaviour
         }
         catch
         {
+            AudioManager.Instance.DoctorBreak(rb.transform.position);
             SpawnDebris(transform.position);
             Destroy(gameObject);
         }
