@@ -32,7 +32,7 @@
 			<destination>{58b6f0e3-3fe0-41e3-b04c-b93e317920a0}</destination>
 		</relationship>
 		<relationship name="banks">
-			<destination>{4fc36de4-470a-4ea6-9171-1f03ee16b0b5}</destination>
+			<destination>{7e07f2b7-a396-45ca-8d3a-cce1fcd7653b}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{41f335c8-1cda-411d-bf0e-84d509930869}">
@@ -53,7 +53,7 @@
 			<destination>{84decb8f-745e-4f4f-9858-e4271198ccdc}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{371bc019-1c91-4162-ac22-1df530f20406}</destination>
+			<destination>{96fba8d6-2c1b-49e7-a91f-8ce92a9a610c}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{22fa7a82-a5b2-4e53-9214-57698829e43a}" />
@@ -101,7 +101,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{6d3081c6-202d-4ea9-936a-27eda6c1666b}">
 		<property name="volume">
-			<value>-3</value>
+			<value>-4.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -138,8 +138,11 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{f96bee43-285d-4128-b57a-21dc5abc90a5}">
+		<property name="surroundPanDirection">
+			<value>110</value>
+		</property>
 		<property name="disabledSpeakers">
-			<value>3</value>
+			<value>2</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{617f3028-1aad-4ea1-96b2-94758c581ade}" />
@@ -151,11 +154,20 @@
 	<object class="MixerBusPanner" id="{49b9997f-00fd-4186-987a-3bce1560c284}" />
 	<object class="MixerBusFader" id="{2726f048-57af-4247-ad8b-ca52ad232197}" />
 	<object class="SpatialiserEffect" id="{b10f70aa-89f7-4051-950e-e3ab60a05641}">
+		<property name="distanceRolloffType">
+			<value>1</value>
+		</property>
 		<property name="maximumDistance">
-			<value>15</value>
+			<value>5</value>
 		</property>
 		<property name="overrideRange">
 			<value>true</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>10000</value>
 		</property>
 	</object>
 	<object class="SFXReverbEffect" id="{c5f1655e-caf8-46f4-b73b-fb442c9ed028}">

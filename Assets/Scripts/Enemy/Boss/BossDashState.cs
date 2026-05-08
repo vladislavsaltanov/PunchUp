@@ -1,0 +1,135 @@
+﻿using UnityEngine;
+
+public class BossDashState : IEnemyState
+{
+    readonly EnemyAIBoss _boss;
+    float _targetX;
+    bool _active;
+    bool _done;
+    bool _hitRegistered;
+
+    public BossDashState(EnemyAIBoss boss) => _boss = boss;
+
+    public void Enter()
+    {
+        BossAudio.Instance.HandleDash();
+
+        _boss.IsParryable = false;
+        if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
+        _active = true;
+        _done = false;
+        _hitRegistered = false;
+
+        float dir = _boss.Player != null
+            ? Mathf.Sign(_boss.Player.transform.position.x - _boss.transform.position.x)
+            : _boss.direction;
+
+        _targetX = _boss.arenaCenterX + dir * _boss.arenaHalfWidth;
+        _boss.direction = (sbyte)dir;
+        _boss.UpdateVisualDirection();
+
+        _boss.rb.linearVelocity = Vector2.zero;
+
+        _ = RunDashSequence(dir);
+    }
+
+    async Awaitable RunDashSequence(float dir)
+    {
+        _boss.IsParryable = true;
+
+        // FEATURE: Punish player if already inside hitbox area before movement
+        if (CheckPlayerInHitboxArea())
+        {
+            ExecuteRepelAndDamage();
+            return;
+        }
+
+        await Awaitable.WaitForSecondsAsync(_boss.parryWindowDuration);
+        if (!_active) return;
+
+        if (_boss.hitbox != null)
+        {
+            _boss.hitbox.damage = _boss.dashDamage;
+            _boss.hitbox.gameObject.SetActive(true);
+        }
+
+        _boss.rb.linearVelocity = new Vector2(dir * _boss.dashSpeed, 0f);
+
+        float maxDashTime = (_boss.arenaHalfWidth * 2f) / _boss.dashSpeed + 0.5f;
+        float elapsed = 0f;
+
+        while (_active)
+        {
+            elapsed += Time.deltaTime;
+
+            bool reached = dir > 0
+                ? _boss.transform.position.x >= _targetX
+                : _boss.transform.position.x <= _targetX;
+
+            if (reached || elapsed >= maxDashTime) break;
+            await Awaitable.NextFrameAsync();
+        }
+
+        if (!_active) return;
+
+        _done = true;
+    }
+
+    bool CheckPlayerInHitboxArea()
+    {
+        if (_boss.hitbox == null || _boss.Player == null) return false;
+
+        var col = _boss.hitbox.GetComponent<Collider2D>();
+        if (col == null) return false;
+
+        // Use OverlapBox to check if player is within the hitbox's bounds
+        Bounds b = col.bounds;
+        Collider2D hit = Physics2D.OverlapBox(b.center, b.size, 0f, 1 << _boss.Player.gameObject.layer);
+        
+        return hit != null && hit.gameObject == _boss.Player.gameObject;
+    }
+
+    void ExecuteRepelAndDamage()
+    {
+        if (_boss.Player == null) return;
+
+        // Calculate direction to arena center
+        float pushX = _boss.arenaCenterX - _boss.transform.position.x;
+        float pushDir = Mathf.Abs(pushX) < 0.1f ? -_boss.direction : Mathf.Sign(pushX);
+
+        // Strong repel
+        _boss.Player.ApplyVelocityOverride(new Vector2(pushDir * 25f, 8f), 0.4f);
+
+        // Deal dash damage
+        _boss.Player.TakeDamage(_boss.dashDamage, _boss.transform, "Boss Dash Repel");
+
+        // Interrupt dash and recover
+        _done = true;
+        _boss.GoToVulnerable();
+    }
+
+    public void Exit()
+    {
+        _active = false;
+        _boss.rb.linearVelocityX = 0f;
+        _boss.IsParryable = false;
+        if (_boss.hitbox != null) _boss.hitbox.gameObject.SetActive(false);
+    }
+
+    public void RegisterHit() => _hitRegistered = true;
+
+    public void Update()
+    {
+        if (!_done) return;
+        _done = false;
+
+        // Phase 2: If dash missed, immediately jump
+        if (_boss.CurrentPhase == 2 && !_hitRegistered)
+        {
+            _boss.GoToJumpSlam();
+            return;
+        }
+
+        _boss.GoToVulnerable();
+    }
+}

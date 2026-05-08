@@ -16,12 +16,12 @@ public class PlayerDash : MonoBehaviour
 
     void Start()
     {
-        inputManager.dashAction.action.performed += OnDash;
+        InputManager.Instance.GetAction("Dash").performed += OnDash;
     }
 
     void OnDestroy()
     {
-        inputManager.dashAction.action.performed -= OnDash;
+        InputManager.Instance.GetAction("Dash").performed -= OnDash;
     }
 
     void Update()

@@ -42,12 +42,12 @@ public class PlayerLedgeClimb : MonoBehaviour
 
     private void Start()
     {
-        inputManager.jumpAction.action.performed += OnJump;
+        InputManager.Instance.GetAction("Jump").performed += OnJump;
     }
 
     void OnDestroy()
     {
-        inputManager.jumpAction.action.performed -= OnJump;
+        InputManager.Instance.GetAction("Jump").performed -= OnJump;
     }
 
     // early jump out of climb if progress >= 0.8
@@ -66,7 +66,7 @@ public class PlayerLedgeClimb : MonoBehaviour
 
         if (!isInHangingAction && canHang && climbCooldownTimer <= 0f && controller.rb.linearVelocityY != 0f)
         {
-            float input = inputManager.moveAction.action.ReadValue<Vector2>().x;
+            float input = InputManager.Instance.GetAction("Move").ReadValue<Vector2>().x;
             bool pressingTowardWall = input != 0 && Mathf.Sign(input) == Mathf.Sign(controller.direction);
             if (!pressingTowardWall)
                 return;
@@ -86,7 +86,7 @@ public class PlayerLedgeClimb : MonoBehaviour
             }
 
             // cancel only after holding opposite direction long enough
-            float input = inputManager.moveAction.action.ReadValue<Vector2>().x;
+            float input = InputManager.Instance.GetAction("Move").ReadValue<Vector2>().x;
             if (input != 0 && Mathf.Sign(input) != Mathf.Sign(controller.direction))
             {
                 oppositeInputTimer += Time.deltaTime;
@@ -238,7 +238,11 @@ public class PlayerLedgeClimb : MonoBehaviour
             if (!FootBoxHit())
                 break;
 
-            await Awaitable.NextFrameAsync(ct);
+            try
+            {
+                await Awaitable.NextFrameAsync(ct);
+            }
+            catch { }
         }
 
         if (!earlyJumped && !ct.IsCancellationRequested)
@@ -275,9 +279,16 @@ public class PlayerLedgeClimb : MonoBehaviour
     {
         if (climbCts != null)
         {
-            climbCts.Cancel();
-            climbCts.Dispose();
-            climbCts = null;
+            try
+            {
+                climbCts?.Cancel();
+                climbCts?.Dispose();
+                climbCts = null;
+            }
+            finally
+            {
+                climbCts = null;
+            }
         }
 
         controller.ClearVelocityOverride();

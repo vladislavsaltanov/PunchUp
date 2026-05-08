@@ -238,6 +238,9 @@ MonoBehaviour:
   _yOffset: -0.15
   _updateShadowSize: 1
   _shadowSizeMultiplier: 1
+  _alphaSmoothTime: 0.08
+  _groundSnapThreshold: 0.15
+  _snapAlphaZeroSeconds: 0.05
   _entityToFollow: {fileID: 6497281321143207380}
   _entitySpriteRenderer: {fileID: 2483328308904730475}
 --- !u!1 &4469383118799625817
@@ -256,6 +259,7 @@ GameObject:
   - component: {fileID: 2102286169141601891}
   - component: {fileID: -3246496676660420553}
   - component: {fileID: 3085631679967859142}
+  - component: {fileID: -8796664312605323811}
   m_Layer: 8
   m_Name: Scientist 3
   m_TagString: Enemy
@@ -293,11 +297,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLogic
   _name: "\u0423\u0447\u0451\u043D\u044B\u0439"
+  EntityCost: 44
   stats:
     speed: 1.5
     attackPower: 1
     defense: 0
-    maxHealth: 100
+    maxHealth: 17
     healthRegenRate: 0
     critChance: 0
     critMultiplier: 1.5
@@ -309,7 +314,6 @@ MonoBehaviour:
     ledgeClimbDuration: 0.2
     luck: 0
     entityEffectsSystem: {fileID: 1836772869112097381}
-  maxHealth: 12
   direction: 0
   primaryAttack: {fileID: 11400000, guid: 8eabb65ba64ed7d499fc82fb0c4db92c, type: 2}
   specialAbility: {fileID: 0}
@@ -324,7 +328,7 @@ MonoBehaviour:
   movement: {fileID: 11400000, guid: 67b70460b9f449243b4bc0dcae21cb00, type: 2}
   detection: {fileID: 11400000, guid: 7302908cfe18afb4187dc3ec8d07025b, type: 2}
   combatHandler: {fileID: 7236936652644260688}
-  doctorAudio: {fileID: 0}
+  doctorAudio: {fileID: 2102286169141601891}
   abilityChance: 0.3
   agroTimeout: 5
   searchDuration: 2
@@ -351,10 +355,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 12
   m_LinearDamping: 6
   m_AngularDamping: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 7
   m_Material: {fileID: 6200000, guid: 2add441002e21994fb349a50e3c88fa1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -393,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityEffectsSystem
   entity: {fileID: 940216376729311550}
+  effectSlotManager: {fileID: 0}
 --- !u!114 &2102286169141601891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +485,21 @@ MonoBehaviour:
   OverrideAttenuation: 1
   OverrideMinDistance: 1
   OverrideMaxDistance: 5
+--- !u!114 &-8796664312605323811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469383118799625817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4752bbcec42df1b46966be8d574653db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityItemDropController
+  dropConfig: {fileID: 11400000, guid: 1c160eec805aa2743b66502f91a898bd, type: 2}
+  itemPickupPrefab: {fileID: 6286728296311827303, guid: cad36ec3e785ac042ae7d1c1b7b899ad, type: 3}
+  dropChance: 0.5
 --- !u!1 &7405638993240219033
 GameObject:
   m_ObjectHideFlags: 0

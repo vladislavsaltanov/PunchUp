@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using System;
+using System.Threading;
+
+public interface IEnemyState 
+{
+    void Enter();
+    void Update();
+    void Exit();
+}
+
+public abstract class EnemyAI : BaseEntity  
+{
+    protected IEnemyState _currentState;
+    [Space(15)]
+    [Header(" >>> Debug <<< ")]
+    [SerializeField] protected string _currentStateName;
+
+    protected virtual void Update() 
+    {
+        _currentState?.Update();
+    }
+
+    public void ChangeState(IEnemyState newState) 
+    {
+        _currentState?.Exit();
+        _currentState = newState;
+        _currentState?.Enter();
+
+        _currentStateName = _currentState?.GetType().Name ?? "None";
+    }
+}

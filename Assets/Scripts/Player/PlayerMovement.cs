@@ -1,5 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,25 +25,33 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector]
         float movementDirection;
+    bool isJumping;
 
-    
+    float previousY = 0f;
+    public void AddJump(byte amount = 1) => chars.maxJumps += amount;
+    public void RemoveJump(byte amount = 1) => chars.maxJumps = (byte)Mathf.Max(1, chars.maxJumps - amount);
 
     private void Start()
-    {
+    { 
         rb = PlayerController.instance.rb;
+        inputManager = InputManager.Instance;
+        inputManager.RegisterPlayer(GetComponent<PlayerInput>());
 
-        inputManager.jumpAction.action.performed += JumpAction;
+        inputManager.GetAction("Jump").performed += JumpAction;
         coyoteTimeTimerCurrent = chars.coyoteTime;
     }
 
     private void OnDestroy()
     {
-        inputManager.jumpAction.action.performed -= JumpAction;
+        inputManager.GetAction("Jump").performed -= JumpAction;
     }
 
     private void Update()
     {
         HandleJumpTimers();
+
+        PlayerController.instance.animator.SetBool("Falling", (transform.position.y - previousY) > 0.3f);
+        previousY = transform.position.y;
 
         if (controller.HasVelocityOverride)
         {
@@ -55,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector2 inputVector = inputManager.moveAction.action.ReadValue<Vector2>();
+        Vector2 inputVector = inputManager.GetAction("Move").ReadValue<Vector2>();
         movementDirection = inputVector.x == 0f ? 0 : inputVector.x > 0.15f ? 1 : -1;
 
         float targetSpeed = movementDirection * controller.Stats[StatType.Speed];
@@ -97,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (callback.performed && jumpsRemaining > 0)
         {
+            PlayerController.instance.animator.SetTrigger("Jump");
+
             bufferedJumpTimerCurrent = chars.bufferedJumpTimer;
             jumpCooldown = chars.jumpCooldown;
             jumpsRemaining--;
@@ -110,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocityY = 0;
         rb.AddForce(Vector2.up * chars.jumpForce, ForceMode2D.Impulse);
+
         PlayerAudio.Instance.HandleJump();
     }
 }

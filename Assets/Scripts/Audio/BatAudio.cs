@@ -2,18 +2,11 @@ using UnityEngine;
 
 public class BatAudio : MonoBehaviour
 {
-    //public static DoctorAudio Instance { get; private set; }
-
     [Header("References")]
     [SerializeField] private EnemyLogic enemyLogic;
 
     [Header("Movement Threshold")]
     [SerializeField] private float minVelocityToPlay = 1.0f;
-
-
-    [Header("Speed Mapping")]
-    [SerializeField] private float walkSpeed = 2f;
-    [SerializeField] private float runSpeed = 6f;
 
     [Header("Idle Voice")]
     [SerializeField] private float minIdleSoundDelay = 5f;
@@ -38,10 +31,10 @@ public class BatAudio : MonoBehaviour
         HandleIdleSound();
     }
 
-    //Доктор, всё будет хорошо?
     public void HandleFly()
     {
-            AudioManager.Instance.PlayDoctorFootstep(transform.position);
+        Debug.Log("Взмах");
+            AudioManager.Instance.BatFly(transform.position);
     }
 
     //Вау-Вау
