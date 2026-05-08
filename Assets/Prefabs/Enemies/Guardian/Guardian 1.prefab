@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 5913137484058043050}
   - component: {fileID: 8035146353440101681}
   - component: {fileID: 8992552085031312827}
+  - component: {fileID: 4618683468687025703}
   - component: {fileID: 8582908603988456745}
   - component: {fileID: -8239700778869917339}
   m_Layer: 8
@@ -280,6 +281,30 @@ MonoBehaviour:
   bulletDamage: 5
   aggroSearchDuration: 3
   stunDurationRange: {x: 1.5, y: 4}
+  guardionAudio: {fileID: 4618683468687025703}
+--- !u!114 &4618683468687025703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218390483890331503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 749ca9d83476ec445b011b9af3c34914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardianAudio
+  rb: {fileID: 0}
+  enemyLogic: {fileID: 0}
+  minVelocityToPlay: 1
+  footstepDelayAfterJump: 0.5
+  footstepDelayAfterLand: 0.5
+  footstepStartDelay: 0.2
+  walkSpeed: 2
+  runSpeed: 6
+  maxStepInterval: 0.5
+  minStepInterval: 0.25
+  enableLogs: 0
 --- !u!50 &8582908603988456745
 Rigidbody2D:
   serializedVersion: 5

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GuardionAudio : MonoBehaviour
+public class GuardianAudio : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
