@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 [Serializable]
@@ -19,7 +19,7 @@ public struct StatModifierData
     public StackType stackType;
 
     [Tooltip("Только для Hyperbolic: скорость роста")]
-    [Range(0.05f, 0.5f)]
+    [Range(1.25f, 2f)]
     public float coefficient;
 
     public float CalculateValue(int stacks)
@@ -45,7 +45,7 @@ public struct StatModifierData
 
     float Hyperbolic(int stacks)
     {
-        float c = coefficient > 0f ? coefficient : 0.15f;
+        float c = coefficient > 0f ? coefficient * 1.5f : 0.15f;
         float cx = c * stacks;
         float ratio = cx / (cx + 1f);
         return value * ratio;

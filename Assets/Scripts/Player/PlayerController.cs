@@ -62,7 +62,7 @@ public class PlayerController : BaseEntity
         if (groundedHandler != null) groundedHandler.hasGrounded += hasGroundedEventHandler;
         if (combatHandler == null)   combatHandler = GetComponent<CombatHandler>();
 
-        GodModeBool = UIManager.Instance.godmode;
+        GodModeBool = PlayerPrefs.GetInt("GODMODE") == 1;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -123,6 +123,10 @@ public class PlayerController : BaseEntity
         currentTime += Time.deltaTime;
 
         if (HasVelocityOverride) return;
+
+        float inputX = inputManager.GetAction("Move").ReadValue<Vector2>().x;
+
+        animator.SetBool("Running", groundedHandler.IsGrounded && Mathf.Abs(inputX) > 0.1f);
 
         if (IsActionLocked) return;
 
@@ -271,4 +275,5 @@ public class PlayerController : BaseEntity
             CloseShop();
         }
     }
+
 }

@@ -12622,10 +12622,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: SwitchGodMode
-        m_Mode: 0
+      - m_Target: {fileID: 1062591373}
+        m_TargetAssemblyTypeName: RunUIActions, Assembly-CSharp
+        m_MethodName: SwitchGodmode
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

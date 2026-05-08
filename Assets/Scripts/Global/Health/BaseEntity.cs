@@ -131,7 +131,8 @@ public abstract class BaseEntity : MonoBehaviour, IHealth
         if (finalDamage > 0)
         {
             LastDamageTime = Time.time;
-            DamageNumberPool.ShowDamage(transform.position + new Vector3(0f, 1f, 0f), finalDamage.ToString(), Color.softRed);
+            if (amount != ushort.MaxValue)
+                DamageNumberPool.ShowDamage(transform.position + new Vector3(0f, 1f, 0f), finalDamage.ToString(), Color.softRed);
             OnDamageEvent?.Invoke();
         }
 

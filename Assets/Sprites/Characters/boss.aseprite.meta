@@ -129,8 +129,8 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: boss
     originalName: 
-    pivot: {x: 0.52500004, y: -0.008403362}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 120
       height: 119
-    spriteID: 63adfee45c6cc8245a3832f21566f02a
+    spriteID: b579129348c116e40914c573a3428bf3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -171,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 128
         height: 128
-      spriteId: 63adfee45c6cc8245a3832f21566f02a
+      spriteId: b579129348c116e40914c573a3428bf3
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

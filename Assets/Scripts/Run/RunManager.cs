@@ -186,6 +186,7 @@ public class RunManager : MonoBehaviour
 
     public void CleanupRun()
     {
+        DifficultyManager.Instance.Reset();
         if (Player != null)
         {
             Destroy(Player.gameObject);
